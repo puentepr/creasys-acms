@@ -1,0 +1,93 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="stylesheet" type="text/css" href="Scripts/jqueryslidemenu.css" />
+    <!--[if lte IE 7]>
+<style type="text/css">
+html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
+</style>
+<![endif]-->
+    <script type="text/javascript" src="/ACMS/Scripts/jquery-1.4.1.min.js"></script>
+    <script type="text/javascript" src="/ACMS/Scripts/jqueryslidemenu.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <div id="main_container">
+        <div id="header">
+            <div id="logo">
+                <a href="/ACMS/Default.aspx">
+                    <img src="/ACMS/images/logo.gif" alt="" title="" border="0" style="width: 373px" /></a>
+                <span id="login">登入者資訊:
+                    <asp:Label ID="Label1" runat="server" Text="Label" />
+                </span>
+            </div>
+            <div id="myslidemenu" class="jqueryslidemenu">
+                <ul>
+                    <li><a href="/ACMS/Default.aspx">首頁</a></li>
+                    <li><a href="#">活動資料管理</a>
+                        <ul>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityManagementQuery.aspx">活動紀錄查詢</a></li>
+                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivityQuery.aspx">活動報名</a></li>
+                            <li><a href="#">報名登錄狀態管理</a></li>
+                            <li><a href="#">歷史資料查詢</a></li>
+                            <li><a href="#">活動管理</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">系統管理</a>
+                        <ul>
+                            <li><a href="#">公佈欄管理</a></li>
+                            <li><a href="#">架構參數管理</a>
+                        </ul>
+                    </li>
+                    <li><a href="#">權限管理</a>
+                        <ul>
+                            <li><a href="WebForm/ManageRole/ManageRole.aspx">角色功能管理</a></li>
+                            <li><a href="#">人員角色管理</a></li>
+                        </ul>
+                    </li>
+                    <li></li>
+                </ul>
+                <br style="clear: left" />
+            </div>
+        </div>
+        <div id="MyContentPlaceHolder">
+            <table width="100%">
+                <tr>
+                    <td valign="top">
+                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
+                                <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                                </asp:ContentPlaceHolder>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                    </td>
+                    <td valign="top" width="20%">
+                        <asp:Panel ID="Panel3" runat="server" GroupingText="日曆及熱門連結">
+                            <div class="MyDiv">
+                                <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
+                            </div>
+                        </asp:Panel>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="copyright">
+                &nbsp;</div>
+            <div class="footer_links">
+                <a href="#">Contact us </a>
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

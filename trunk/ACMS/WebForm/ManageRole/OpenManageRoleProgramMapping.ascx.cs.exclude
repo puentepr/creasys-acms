@@ -1,0 +1,107 @@
+﻿using System;
+using System.Data;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+
+public partial class WebForm_ManageRole_OpenManageRoleProgramMapping : System.Web.UI.UserControl
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (!IsPostBack)
+        {
+            
+            
+        }
+
+    }
+
+    protected void ddlProgramGroup_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.mpSearch.Show();
+        this.ObjectDataSource1.SelectParameters["Parent"].DefaultValue = ((DropDownList)sender).SelectedValue;
+        //TGridView1.DataBind();
+    }
+
+
+    protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
+    {
+        string ProgramID = TGridView1.DataKeys[((GridViewRow)((CheckBox)sender).NamingContainer).RowIndex].Value.ToString();
+
+        if (((CheckBox)sender).Checked == true)
+        {
+            this.ObjectDataSource1.InsertParameters["RoleID"].DefaultValue = RoleID.ToString();
+            this.ObjectDataSource1.InsertParameters["ProgramID"].DefaultValue = ProgramID;
+            this.ObjectDataSource1.Insert();
+        }
+        else
+        {
+            this.ObjectDataSource1.DeleteParameters["original_RoleID"].DefaultValue = RoleID.ToString();
+            this.ObjectDataSource1.DeleteParameters["original_ProgramID"].DefaultValue = ProgramID;
+            this.ObjectDataSource1.Delete();
+        }
+
+        this.mpSearch.Show();
+    }
+
+    protected void TGridView1_PageIndexChanged(object sender, EventArgs e)
+    {
+        this.mpSearch.Show();
+    }
+
+
+    protected void TGridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        { 
+            DataRowView drv = (DataRowView)(e.Row.DataItem);
+
+            if (drv["Parent"].ToString() == "0")
+            {
+                e.Row.Cells[0].Font.Bold = true ;
+            
+            }          
+        }
+
+    }
+}
+
+
+
+public partial class WebForm_ManageRole_OpenManageRoleProgramMapping
+{
+
+    public void InitDataAndShow()
+    {
+        this.mpSearch.Show();
+        ddlProgramGroup.SelectedIndex = -1;
+        this.ObjectDataSource1.SelectParameters["RoleID"].DefaultValue = RoleID.ToString();
+        this.ObjectDataSource1.SelectParameters["Parent"].DefaultValue = ddlProgramGroup.SelectedValue;
+        TGridView1.DataSourceID = "ObjectDataSource1";
+        TGridView1.PageIndex = 0;        
+        TGridView1.DataBind();
+
+    }
+
+    protected bool BooleanConverter(object strTMP)
+    {
+        return (strTMP.ToString() == "1" ? true : false);
+    }
+
+
+    public int RoleID
+    {
+        get
+        {
+            return (int)ViewState["RoleID"];
+        }
+        set
+        {
+            ViewState["RoleID"] = value;
+        }
+    }
+
+
+}
+
