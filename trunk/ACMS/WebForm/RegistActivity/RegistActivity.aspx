@@ -52,7 +52,7 @@
     <div align="right"> <asp:LinkButton ID="LinkButton1" runat="server" 
             onclick="LinkButton1_Click">新增代報人員</asp:LinkButton></div>
        
-        <TServerControl:TGridView ID="TGridView2" runat="server" 
+        <TServerControl:TGridView ID="GridView2" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" AutoGenerateColumns="False" 
             DataKeyNames="activity_id" DataSourceID="SqlDataSource1" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 

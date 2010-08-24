@@ -13,11 +13,28 @@ public partial class WebForm_RegistActivityQuery : System.Web.UI.Page
 
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
-        OpenRegistedEmployeeSelector1.InitDataAndShow();
+
+        if (((sender as LinkButton).NamingContainer as GridViewRow).RowIndex == 0)
+        {
+            OpenRegistedEmployeeSelector1.InitDataAndShow();
+        }
+        else
+        {
+            OpenRegistedTeamSelector1.InitDataAndShow();
+        }
+
     }
     protected void LinkButton1_Click1(object sender, EventArgs e)
     {
-    Response.Redirect("RegistActivity.aspx");
-        
+        if (((sender as LinkButton).NamingContainer as GridViewRow).RowIndex == 0)
+        {
+            Response.Redirect("RegistActivity.aspx");
+        }
+        else
+        {
+            Response.Redirect("RegistActivityTeam.aspx");
+        }
+
+
     }
 }

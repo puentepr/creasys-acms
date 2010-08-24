@@ -22,11 +22,11 @@
                     <td>
                         活動類型</td>
                     <td>
-                        <TServerControl:TDropDownList ID="TDropDownList1" runat="server" 
+                        <asp:DropDownList ID="DropDownList1" runat="server" 
                             SelectedValue='<%# Bind("activity_type") %>'>
                             <asp:ListItem>個人</asp:ListItem>
                             <asp:ListItem>團體</asp:ListItem>
-                        </TServerControl:TDropDownList>
+                        </asp:DropDownList>
                     </td>
                 </tr>
                 <tr>
@@ -121,11 +121,11 @@
                     <td>
                         是否顯示族群限定</td>
                     <td>
-                        <TServerControl:TDropDownList ID="TDropDownList2" runat="server" 
+                        <asp:DropDownList ID="DropDownList2" runat="server" 
                             SelectedValue='<%# Bind("grouplimit") %>'>
                             <asp:ListItem Value="N">否</asp:ListItem>
                             <asp:ListItem Value="Y">是</asp:ListItem>
-                        </TServerControl:TDropDownList>
+                        </asp:DropDownList>
                     </td>
                 </tr>
                 <tr>
@@ -167,7 +167,7 @@
                             <asp:Button ID="Button1" runat="server" Text="上傳" />
                             &nbsp;&nbsp;&nbsp;
                             <asp:Button ID="Button3" runat="server" Text="新增族群" onclick="Button3_Click" />
-                            <TServerControl:TGridView ID="TGridView2" runat="server" 
+                            <TServerControl:TGridView ID="GridView2" runat="server" 
                                 AllowHoverEffect="True" AllowHoverSelect="True" AutoGenerateColumns="False" 
                                 DataKeyNames="emp_id" DataSourceID="SqlDataSource1" 
                                 EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 

@@ -37,7 +37,7 @@
         </tr>
         <tr>
             <td align="center">
-                <TServerControl:TGridView ID="TGridView1" runat="server" AllowHoverEffect="True"
+                <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
                     ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="emp_id"
                     SkinID="pager" DataSourceID="SqlDataSource2" 

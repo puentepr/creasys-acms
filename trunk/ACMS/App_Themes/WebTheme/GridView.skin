@@ -1,5 +1,5 @@
 ﻿<%@ Register Src="~/WebForm/MyPager.ascx" TagPrefix="My" TagName="MyPager" %>
-<TserverControl:TGridView SkinID="pager" runat="server"  CellPadding="4" ForeColor="#333333" Font-Names="Arial,新細明體" Font-Size="12px" PagerHelpText="Page：<b>{0}/{1}</b>, totally {2} records" PagerEmptyText="No record found">
+<TServerControl:TGridView SkinID="pager" runat="server"  CellPadding="4" ForeColor="#333333" Font-Names="Arial,新細明體" Font-Size="12px" PagerHelpText="Page：<b>{0}/{1}</b>, totally {2} records" PagerEmptyText="No record found">
 <PagerTemplate><My:MyPager runat="server" /></PagerTemplate>
 <PagerStyle HorizontalAlign="left" />
 <PagerSettings Position="TopAndBottom" />
@@ -10,4 +10,4 @@
 <HeaderStyle  BackColor="#293955" Wrap="False" ForeColor="White" Font-Size="Small" Font-Bold="False" />
 <EditRowStyle BackColor="#999999" />
 <AlternatingRowStyle BackColor="White" />
-</TserverControl:TGridView>
+</TServerControl:TGridView>

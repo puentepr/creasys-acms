@@ -60,7 +60,7 @@
                             </td>
                         </tr>
                     </table>
-                    <TServerControl:TGridView ID="TGridView1" runat="server" 
+                    <TServerControl:TGridView ID="GridView1" runat="server" 
                         AllowHoverEffect="True" AllowHoverSelect="True" AutoGenerateColumns="False" 
                         DataKeyNames="emp_id" DataSourceID="SqlDataSource2" 
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" 

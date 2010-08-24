@@ -39,7 +39,7 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                             <li><a href="/ACMS/WebForm/RegistActivity/RegistActivityQuery.aspx">活動報名</a></li>
                             <li><a href="#">報名登錄狀態管理</a></li>
                             <li><a href="#">歷史資料查詢</a></li>
-                            <li><a href="#">活動管理</a></li>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityManagementQuery.aspx">活動管理</a></li>
                         </ul>
                     </li>
                     <li><a href="#">系統管理</a>

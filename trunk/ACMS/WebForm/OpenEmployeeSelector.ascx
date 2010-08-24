@@ -14,10 +14,10 @@
                             <asp:Label ID="lblProgramGroup" runat="server" Text="部門"></asp:Label>
                         </td>
                         <td>
-                            <TServerControl:TDropDownList ID="ddlProgramGroup" runat="server" 
+                            <asp:DropDownList ID="ddlProgramGroup" runat="server" 
                                 AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="dept_name" 
                                 DataValueField="dept_id">
-                            </TServerControl:TDropDownList>
+                            </asp:DropDownList>
                             <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                                 ConnectionString="<%$ ConnectionStrings:connStr %>" 
                                 SelectCommand="SELECT * FROM [DeptList]"></asp:SqlDataSource>
@@ -51,7 +51,7 @@
         </tr>
         <tr>
             <td align="center">
-                <TServerControl:TGridView ID="TGridView1" runat="server" AllowHoverEffect="True"
+                <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
                     ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="emp_id"
                     SkinID="pager" DataSourceID="SqlDataSource2" 

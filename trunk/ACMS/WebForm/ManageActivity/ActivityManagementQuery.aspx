@@ -34,7 +34,7 @@
             </tr>
         </table>
         <br />
-        <TServerControl:TGridView ID="TGridView2" runat="server" 
+        <TServerControl:TGridView ID="GridView2" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
             AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource2" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 

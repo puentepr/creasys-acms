@@ -15,10 +15,10 @@
                                     <asp:Label ID="lblParent" runat="server" Text="<%$ Resources:Parent %>"></asp:Label>
                                 </td>
                                 <td width="20%">
-                                    <TServerControl:TDropDownList ID="ddlParent" runat="server" DataSourceID="ObjectDataSource_SelectAllPapas"
+                                    <asp:DropDownList ID="ddlParent" runat="server" DataSourceID="ObjectDataSource_SelectAllPapas"
                                 DataTextField="role_name" DataValueField="role_id" AutoPostBack="True" 
                                         onselectedindexchanged="ddlRolePapas_SelectedIndexChanged">
-                                    </TServerControl:TDropDownList>
+                                    </asp:DropDownList>
                                     <asp:ObjectDataSource ID="ObjectDataSource_SelectAllPapas" runat="server" 
                                         OldValuesParameterFormatString="original_{0}" SelectMethod="BLL_SelectAllRoles" 
                                         TypeName="BLL_ManageRole"></asp:ObjectDataSource>
@@ -52,11 +52,11 @@
                     </insertitemtemplate>
         </asp:FormView>
     </asp:Panel>
-    <TServerControl:TGridView ID="TGridView1" runat="server" AllowHoverEffect="True"
+    <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
         AllowHoverSelect="True" DataSourceID="ObjectDataSource_ManageRole" ShowFooterWhenEmpty="False"
         ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="role_id"
-        SkinID="pager" OnRowUpdating="TGridView1_RowUpdating" OnRowDataBound="TGridView1_RowDataBound"
-        OnRowUpdated="TGridView1_RowUpdated" EnableModelValidation="True" 
+        SkinID="pager" OnRowUpdating="GridView1_RowUpdating" OnRowDataBound="GridView1_RowDataBound"
+        OnRowUpdated="GridView1_RowUpdated" EnableModelValidation="True" 
         AllowPaging="True" PageSize="2">
         <Columns>
             <asp:TemplateField>

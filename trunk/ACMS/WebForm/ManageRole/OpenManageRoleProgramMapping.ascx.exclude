@@ -10,10 +10,10 @@
         <tr>
             <td>
                 <asp:Label ID="lblProgramGroup" runat="server" Text="<%$ Resources:ProgramGroup%>"></asp:Label>
-                <TServerControl:TDropDownList ID="ddlProgramGroup" runat="server" 
+                <asp:DropDownList ID="ddlProgramGroup" runat="server" 
                     AutoPostBack="True" DataSourceID="SqlDataSource_ProgramGroup"
                     DataTextField="ProgramName" DataValueField="ProgramID" 
-                    OnSelectedIndexChanged="ddlProgramGroup_SelectedIndexChanged"></TServerControl:TDropDownList>
+                    OnSelectedIndexChanged="ddlProgramGroup_SelectedIndexChanged"></asp:DropDownList>
                 <asp:SqlDataSource ID="SqlDataSource_ProgramGroup" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
                     SelectCommand="SELECT 0 as ProgramID,'全部' as ProgramName,0 as Sequence
 UNION
@@ -25,11 +25,11 @@ ORDER BY ProgramID"></asp:SqlDataSource>
         </tr>
         <tr>
             <td>
-                <TServerControl:TGridView ID="TGridView1" runat="server" AllowHoverEffect="True"
+                <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
                     ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ProgramID"
-                    SkinID="pager" OnPageIndexChanged="TGridView1_PageIndexChanged" 
-                    onrowdatabound="TGridView1_RowDataBound"><Columns><asp:BoundField DataField="ProgramName" HeaderText="<%$ Resources:ProgramName %>"
+                    SkinID="pager" OnPageIndexChanged="GridView1_PageIndexChanged" 
+                    onrowdatabound="GridView1_RowDataBound"><Columns><asp:BoundField DataField="ProgramName" HeaderText="<%$ Resources:ProgramName %>"
                             SortExpression="ProgramName" /><asp:TemplateField HeaderText="<%$ Resources:CanAccess %>"><ItemTemplate><asp:CheckBox ID="CheckBox1" runat="server" Enabled='<%# BooleanConverter(Eval("IsInherits")) %>'  Checked='<%# BooleanConverter(Eval("CanAccess")) %>'
                                     OnCheckedChanged="CheckBox1_CheckedChanged" AutoPostBack="True" /></ItemTemplate><ItemStyle HorizontalAlign="Center" /></asp:TemplateField></Columns></TServerControl:TGridView>
                 <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" DeleteMethod="BLL_Delete"

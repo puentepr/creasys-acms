@@ -5,7 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:Panel ID="Panel1" runat="server" GroupingText="公佈欄">
     <div class="MyDiv">
-        <TServerControl:TGridView ID="TGridView1" runat="server" 
+        <TServerControl:TGridView ID="GridView1" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
             AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource1" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 
@@ -22,7 +22,7 @@
                </div> </asp:Panel>
     <asp:Panel ID="Panel2" runat="server" GroupingText="最新活動">
      <div class="MyDiv">
-        <TServerControl:TGridView ID="TGridView2" runat="server" 
+        <TServerControl:TGridView ID="GridView2" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
             AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource2" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 

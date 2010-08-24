@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
-using TServerControl.Web;
+using TServerControl;
 
 public partial class MyPager : System.Web.UI.UserControl
 {
@@ -32,7 +32,7 @@ public partial class MyPager : System.Web.UI.UserControl
 
     protected void gv_DataBound(object sender, System.EventArgs e)
     {
-        GridView gv = (GridView)sender;
+        TGridView gv = (TGridView)sender;
 
         this.BindddlCurrentPage(gv.PageIndex);
         this.BindPageButton();

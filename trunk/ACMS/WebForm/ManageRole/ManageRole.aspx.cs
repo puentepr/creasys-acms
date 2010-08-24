@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using TServerControl.Web;
 
 public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
 {
@@ -14,20 +13,20 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
         {
             //((Literal)this.Page.Master.FindControl("Literal1")).Text = this.GetLocalResourceObject("ManageRole").ToString();
 
-            ObjectDataSource_ManageRole.SelectParameters["role_id"].DefaultValue = ((TDropDownList)FormView1.FindControl("ddlParent")).SelectedValue;
+            ObjectDataSource_ManageRole.SelectParameters["role_id"].DefaultValue = ((DropDownList)FormView1.FindControl("ddlParent")).SelectedValue;
         }
 
     }
 
     protected void ddlRolePapas_SelectedIndexChanged(object sender, EventArgs e)
     {
-        TGridView1_DataBind();
+        GridView1_DataBind();
     }
 
     //新增
     protected void btnAdd_Click(object sender, EventArgs e)
     {
-        TDropDownList ddlParent = (TDropDownList)this.FormView1.FindControl("ddlParent");
+        DropDownList ddlParent = (DropDownList)this.FormView1.FindControl("ddlParent");
         TextBox txtRoleName = (TextBox)this.FormView1.FindControl("txtRoleName");
         TextBox txtRoleDescription = (TextBox)this.FormView1.FindControl("txtRoleDescription");
 
@@ -42,7 +41,7 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
             txtRoleName.Text = string.Empty;
             txtRoleDescription.Text = string.Empty;
 
-            TGridView1_DataBind();
+            GridView1_DataBind();
 
         }
         catch (Exception ex)
@@ -65,9 +64,9 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
     }
 
     //編輯-RowUpdating
-    protected void TGridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
+    protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
-        e.NewValues["active"] = ((CheckBox)TGridView1.Rows[e.RowIndex].FindControl("chkActive")).Checked == true ? "Y" : "N";
+        e.NewValues["active"] = ((CheckBox)GridView1.Rows[e.RowIndex].FindControl("chkActive")).Checked == true ? "Y" : "N";
     }
 
 
@@ -89,8 +88,8 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
 
     }
 
-    //TGridView1 RowDataBound
-    protected void TGridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    //GridView1 RowDataBound
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
@@ -105,25 +104,25 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
 
 
 
-    //TGridView1 執行DataBind
-    protected void TGridView1_DataBind()
+    //GridView1 執行DataBind
+    protected void GridView1_DataBind()
     {
         ObjectDataSource_ManageRole.SelectParameters["role_id"].DefaultValue = ((DropDownList)this.FormView1.FindControl("ddlParent")).SelectedValue;
-        TGridView1.DataBind();
+        GridView1.DataBind();
     }
 
-    //TGridView1 RowUpdated後要更新ddlParent
-    protected void TGridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
+    //GridView1 RowUpdated後要更新ddlParent
+    protected void GridView1_RowUpdated(object sender, GridViewUpdatedEventArgs e)
     {
-        ((TDropDownList)FormView1.FindControl("ddlParent")).DataBind();
+        ((DropDownList)FormView1.FindControl("ddlParent")).DataBind();
     }
 
 
     //開窗設定權限
     protected void lbtnSetup_Click(object sender, EventArgs e)
     {
-        TGridView1.EditIndex = -1;
-        //OpenManageRoleProgramMapping1.RoleID = (int)TGridView1.DataKeys[((GridViewRow)((LinkButton)sender).NamingContainer).RowIndex][0];
+        GridView1.EditIndex = -1;
+        //OpenManageRoleProgramMapping1.RoleID = (int)GridView1.DataKeys[((GridViewRow)((LinkButton)sender).NamingContainer).RowIndex][0];
         //OpenManageRoleProgramMapping1.InitDataAndShow();
     }
 

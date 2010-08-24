@@ -1,5 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RegistActivityQuery.aspx.cs" Inherits="WebForm_RegistActivityQuery" %>
 <%@ Register src="OpenRegistedEmployeeSelector.ascx" tagname="OpenRegistedEmployeeSelector" tagprefix="uc1" %>
+<%@ Register src="OpenRegistedTeamSelector.ascx" tagname="OpenRegistedTeamSelector" tagprefix="uc2" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
@@ -48,7 +49,7 @@
             </tr>
         </table>
         <br />
-        <TServerControl:TGridView ID="TGridView2" runat="server" 
+        <TServerControl:TGridView ID="GridView2" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
             AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource2" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 
@@ -82,6 +83,7 @@
             SelectCommand="SELECT * FROM [Activity]"></asp:SqlDataSource>
         <uc1:OpenRegistedEmployeeSelector ID="OpenRegistedEmployeeSelector1" 
             runat="server" />
+        <uc2:OpenRegistedTeamSelector ID="OpenRegistedTeamSelector1" runat="server" />
     </div>
 </asp:Panel>
 </asp:Content>

@@ -21,13 +21,13 @@ public partial class WebForm_ManageRole_OpenManageRoleProgramMapping : System.We
     {
         this.mpSearch.Show();
         this.ObjectDataSource1.SelectParameters["Parent"].DefaultValue = ((DropDownList)sender).SelectedValue;
-        //TGridView1.DataBind();
+        //GridView1.DataBind();
     }
 
 
     protected void CheckBox1_CheckedChanged(object sender, EventArgs e)
     {
-        string ProgramID = TGridView1.DataKeys[((GridViewRow)((CheckBox)sender).NamingContainer).RowIndex].Value.ToString();
+        string ProgramID = GridView1.DataKeys[((GridViewRow)((CheckBox)sender).NamingContainer).RowIndex].Value.ToString();
 
         if (((CheckBox)sender).Checked == true)
         {
@@ -45,13 +45,13 @@ public partial class WebForm_ManageRole_OpenManageRoleProgramMapping : System.We
         this.mpSearch.Show();
     }
 
-    protected void TGridView1_PageIndexChanged(object sender, EventArgs e)
+    protected void GridView1_PageIndexChanged(object sender, EventArgs e)
     {
         this.mpSearch.Show();
     }
 
 
-    protected void TGridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
         { 
@@ -78,9 +78,9 @@ public partial class WebForm_ManageRole_OpenManageRoleProgramMapping
         ddlProgramGroup.SelectedIndex = -1;
         this.ObjectDataSource1.SelectParameters["RoleID"].DefaultValue = RoleID.ToString();
         this.ObjectDataSource1.SelectParameters["Parent"].DefaultValue = ddlProgramGroup.SelectedValue;
-        TGridView1.DataSourceID = "ObjectDataSource1";
-        TGridView1.PageIndex = 0;        
-        TGridView1.DataBind();
+        GridView1.DataSourceID = "ObjectDataSource1";
+        GridView1.PageIndex = 0;        
+        GridView1.DataBind();
 
     }
 
