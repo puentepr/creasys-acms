@@ -42,7 +42,8 @@
                 </td>
             </tr>
         </table>
-        <asp:Panel ID="Panel5" runat="server" GroupingText="新增團隊資訊" Visible="False">
+            </asp:Panel>
+        <asp:Panel ID="PanelB" runat="server" GroupingText="新增團隊資訊" Visible="False">
             <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="SqlDataSource1"
                 DefaultMode="Insert" Width="100%">
                 <edititemtemplate>
@@ -158,7 +159,7 @@
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
                 SelectCommand="SELECT * FROM [ActivityTeam]"></asp:SqlDataSource>
         </asp:Panel>
-    </asp:Panel>
+
     <div align="center">
         <asp:Panel ID="PanelMember" runat="server" Visible="False">
             <table align="center">
@@ -219,7 +220,9 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                 <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />
             </asp:Panel>
         </asp:Panel>
-        <asp:Button ID="Button4" runat="server" OnClick="Button4_Click" Text="下一步" />
+        <asp:Button ID="btnBack" runat="server" OnClick="btnBack_Click" Text="上一步" 
+            Visible="False" />
+        <asp:Button ID="btnNext" runat="server" OnClick="btnNext_Click" Text="下一步" />
         <asp:Button ID="Button5" runat="server" OnClick="Button5_Click" Text="送出" />
         <asp:Button ID="Button6" runat="server" OnClick="Button6_Click" Text="取消" />
     </div>

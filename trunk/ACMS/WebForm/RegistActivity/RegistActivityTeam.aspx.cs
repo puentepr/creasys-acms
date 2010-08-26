@@ -16,7 +16,7 @@ public partial class WebForm_RegistActivity_RegistActivityTeam : System.Web.UI.P
     }
     protected void Button1_Click(object sender, EventArgs e)
     {
-        Panel5.Visible = true; 
+        PanelB.Visible = true; 
     }
     protected void Button6_Click(object sender, EventArgs e)
     {
@@ -26,18 +26,35 @@ public partial class WebForm_RegistActivity_RegistActivityTeam : System.Web.UI.P
     {
         Response.Redirect("RegistActivityQuery.aspx");
     }
-    protected void Button4_Click(object sender, EventArgs e)
+
+    protected void btnBack_Click(object sender, EventArgs e)
+    {
+        PanelA.Visible = true;
+        PanelB.Visible = true;
+        btnBack.Visible = false;
+        btnNext.Visible = true;
+        PanelMember.Visible = false;
+    }
+    protected void btnNext_Click(object sender, EventArgs e)
     {
         PanelA.Visible = false;
+        PanelB.Visible = false;
+        btnBack.Visible = true;
+        btnNext.Visible = false;
         PanelMember.Visible = true;
     }
+
     protected void LinkButton2_Click(object sender, EventArgs e)
     {
         PanelA.Visible = false;
+        PanelB.Visible = false;
+        btnBack.Visible = true;
+        btnNext.Visible = false;
         PanelMember.Visible = true;
     }
     protected void LinkButton1_Click1(object sender, EventArgs e)
     {
         OpenEmployeeSelector1.InitDataAndShow();
     }
+
 }
