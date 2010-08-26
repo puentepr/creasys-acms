@@ -35,10 +35,10 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     <li><a href="/ACMS/Default.aspx">首頁</a></li>
                     <li><a href="#">活動資料管理</a>
                         <ul>
-                            <li><a href="#">活動紀錄查詢</a></li>
+                            <li><a href="/ACMS/WebForm/ActivityProgressQuery.aspx">活動進度查詢</a></li>
                             <li><a href="/ACMS/WebForm/RegistActivity/RegistActivityQuery.aspx">活動報名</a></li>
-                            <li><a href="#">報名登錄狀態管理</a></li>
-                            <li><a href="#">歷史資料查詢</a></li>
+                            <li><a href="/ACMS/WebForm/ActivityCheck.aspx">報名登錄狀態管理</a></li>
+                            <li><a href="/ACMS/WebForm/ActivityHistoryQuery.aspx">歷史資料查詢</a></li>
                             <li><a href="/ACMS/WebForm/ManageActivity/ActivityManagementQuery.aspx">活動管理</a></li>
                         </ul>
                     </li>
