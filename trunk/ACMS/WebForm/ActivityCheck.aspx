@@ -82,13 +82,13 @@
                                     SortExpression="emp_cname" />
                                 <asp:BoundField DataField="dept_name" HeaderText="部門" 
                                     SortExpression="dept_name" />
-                                <asp:BoundField DataField="CheckStatus" HeaderText="登錄狀態" ReadOnly="True" 
-                                    SortExpression="CheckStatus" />
+                                <asp:BoundField DataField="check_status" HeaderText="登錄狀態" ReadOnly="True" 
+                                    SortExpression="check_status" />
                             </Columns>
                         </TServerControl:TGridView>
          
                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-                            ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name,CASE A.CheckStatus WHEN 1 THEN '已報到'  WHEN 2 THEN '已取消' WHEN 3 THEN '已完成' WHEN 4 THEN '已離職' END as CheckStatus
+                            ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name,CASE A.check_status WHEN 1 THEN '已報到'  WHEN 2 THEN '已取消' WHEN 3 THEN '已完成' WHEN 4 THEN '已離職' END as check_status
 FROM ActivityRegist A
 inner join dbo.UserList B on A.emp_id=B.emp_id
 inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>

@@ -21,8 +21,8 @@
             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
             <ItemTemplate>
                 <asp:Label ID="emp_idLabel" runat="server" Text='<%# Eval("emp_id") %>' />
-                &nbsp;&nbsp;&nbsp; <asp:Label ID="CheckStatusLabel" runat="server" 
-                    Text='<%# Eval("CheckStatus") %>' />
+                &nbsp;&nbsp;&nbsp; <asp:Label ID="check_statusLabel" runat="server" 
+                    Text='<%# Eval("check_status") %>' />
                 <br />
                 <br />
             </ItemTemplate>
@@ -30,7 +30,7 @@
         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
             ConnectionString="<%$ ConnectionStrings:connStr %>" 
             
-            SelectCommand="SELECT emp_id,CASE CheckStatus WHEN 1 THEN '已報到'  WHEN 2 THEN '已取消' WHEN 3 THEN '已完成' WHEN 4 THEN '已離職' END as CheckStatus  FROM [ActivityRegist]"></asp:SqlDataSource></td>
+            SelectCommand="SELECT emp_id,CASE check_status WHEN 1 THEN '已報到'  WHEN 2 THEN '已取消' WHEN 3 THEN '已完成' WHEN 4 THEN '已離職' END as check_status  FROM [ActivityRegist]"></asp:SqlDataSource></td>
             </tr>
           
         </table>

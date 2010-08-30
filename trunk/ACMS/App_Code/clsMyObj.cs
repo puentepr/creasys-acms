@@ -42,3 +42,19 @@ public class clsMyObj
     }
 
 }
+
+public class RegistGoSecondEventArgs : EventArgs
+{
+    public RegistGoSecondEventArgs(int activity_id)
+    {
+        this._id = activity_id;
+    }
+
+    private int _id;
+
+    public int activity_id
+    {
+        get { return _id; }
+    }
+
+}

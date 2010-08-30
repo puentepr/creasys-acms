@@ -37,29 +37,6 @@
         </tr>
         <tr>
             <td align="center">
-                <asp:Panel ID="Panel2" runat="server" GroupingText="報名資訊">
-                    <table align="center">
-                        <tr>
-                            <td align="left">
-                                攜伴人數</td>
-                            <td align="left">
-                                <asp:TextBox ID="TextBox5" runat="server"></asp:TextBox>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="left">
-                                費用</td>
-                            <td align="left">
-                                500</td>
-                        </tr>
-                        <tr>
-                            <td align="left">
-                                備註說明</td>
-                            <td align="left">
-                                <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
-                            </td>
-                        </tr>
-                    </table>
                     <TServerControl:TGridView ID="GridView1" runat="server" 
                         AllowHoverEffect="True" AllowHoverSelect="True" AutoGenerateColumns="False" 
                         DataKeyNames="emp_id" DataSourceID="SqlDataSource2" 
@@ -78,7 +55,6 @@
                             </asp:TemplateField>
                         </Columns>
                     </TServerControl:TGridView>
-                </asp:Panel>
                 <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
                     ConnectionString="<%$ ConnectionStrings:connStr %>" 
                     SelectCommand="SELECT * FROM [UserList]"></asp:SqlDataSource>

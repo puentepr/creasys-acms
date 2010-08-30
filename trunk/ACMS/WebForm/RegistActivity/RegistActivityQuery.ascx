@@ -1,12 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RegistActivityQuery.aspx.cs" Inherits="WebForm_RegistActivityQuery" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="RegistActivityQuery.ascx.cs" Inherits="WebForm_RegistActivity_RegistActivityQuery" %>
 <%@ Register src="OpenRegistedEmployeeSelector.ascx" tagname="OpenRegistedEmployeeSelector" tagprefix="uc1" %>
 <%@ Register src="OpenRegistedTeamSelector.ascx" tagname="OpenRegistedTeamSelector" tagprefix="uc2" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
-</asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:Panel ID="Panel1" runat="server">
+
     <div class="MyDiv">
-        <table>
+        <table align="center">
             <tr>
                 <td>
                     活動名稱</td>
@@ -49,7 +46,7 @@
             </tr>
         </table>
         <br />
-        <TServerControl:TGridView ID="GridView2" runat="server" 
+        <TServerControl:TGridView ID="gv_Activity" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
             AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource2" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 
@@ -74,7 +71,8 @@
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton2" runat="server" onclick="LinkButton1_Click">取消報名</asp:LinkButton>
+                        <asp:LinkButton ID="lbtnCancelRegist" runat="server" 
+                            onclick="lbtnCancelRegist_Click">取消報名</asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
             </Columns>
@@ -83,9 +81,7 @@
             ConnectionString="<%$ ConnectionStrings:connStr %>" 
             SelectCommand="SELECT * FROM [Activity]"></asp:SqlDataSource>
         <uc1:OpenRegistedEmployeeSelector ID="OpenRegistedEmployeeSelector1" 
-            runat="server" />
-        <uc2:OpenRegistedTeamSelector ID="OpenRegistedTeamSelector1" runat="server" Visible="False" />
+            runat="server" Visible="False" />
+        <uc2:OpenRegistedTeamSelector ID="OpenRegistedTeamSelector1" runat="server" 
+            Visible="False" />
     </div>
-</asp:Panel>
-</asp:Content>
-

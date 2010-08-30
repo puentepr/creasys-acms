@@ -38,9 +38,9 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     <li><a href="/ACMS/Default.aspx">首頁</a></li>
                     <li><a href="#">活動報名</a>
                         <ul>
-                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivityQuery.aspx?type=A">個人活動報名</a></li>
-                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivityQuery.aspx?type=B">代理個人活動報名</a></li>
-                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivityQuery.aspx?type=C">團體活動報名</a></li>
+                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Person.aspx">個人報名</a></li>
+                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Agent.aspx">代理報名</a></li>
+                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Team.aspx">團隊報名</a></li>
                         </ul>
                     </li>
                     <li><a href="#">活動資料管理</a>

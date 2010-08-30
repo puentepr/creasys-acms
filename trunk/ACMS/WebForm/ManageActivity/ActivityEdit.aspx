@@ -25,7 +25,7 @@
                         <asp:DropDownList ID="DropDownList1" runat="server" 
                             SelectedValue='<%# Bind("activity_type") %>'>
                             <asp:ListItem>個人</asp:ListItem>
-                            <asp:ListItem>團體</asp:ListItem>
+                            <asp:ListItem>團隊</asp:ListItem>
                         </asp:DropDownList>
                     </td>
                 </tr>
