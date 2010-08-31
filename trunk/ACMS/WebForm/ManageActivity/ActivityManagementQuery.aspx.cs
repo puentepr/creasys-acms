@@ -10,12 +10,29 @@ public partial class WebForm_ActivityManagementQuery : System.Web.UI.Page
     {
 
     }
-    protected void Button2_Click(object sender, EventArgs e)
+
+    //新增個人活動
+    protected void btnAddActivity_Click(object sender, EventArgs e)
     {
         Response.Redirect("ActivityEdit.aspx");
     }
-    protected void LinkButton1_Click(object sender, EventArgs e)
+
+    //新增團隊活動
+    protected void btnAddActivityTeam_Click(object sender, EventArgs e)
     {
-        Response.Redirect("ActivityEdit.aspx");
+        Response.Redirect("ActivityTeamEdit.aspx");
+    }
+
+    //編輯活動
+    protected void lbtnEditActivaty_Click(object sender, EventArgs e)
+    {
+        if (((sender as LinkButton).NamingContainer as GridViewRow).RowIndex == 0)
+        {
+            Response.Redirect("ActivityEdit.aspx");
+        }
+        else
+        {
+            Response.Redirect("ActivityTeamEdit.aspx");
+        }
     }
 }

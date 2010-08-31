@@ -29,7 +29,10 @@
                 </td>
                 <td>
                     <asp:Button ID="Button1" runat="server" Text="查詢" />
-                    <asp:Button ID="Button2" runat="server" Text="新增活動" onclick="Button2_Click" />
+                    <asp:Button ID="btnAddActivity" runat="server" Text="新增活動" 
+                        onclick="btnAddActivity_Click" />
+                    <asp:Button ID="btnAddActivityTeam" runat="server" 
+                        onclick="btnAddActivityTeam_Click" Text="新增團隊活動" />
                 </td>
             </tr>
         </table>
@@ -54,7 +57,8 @@
                     SortExpression="is_full" />
                 <asp:TemplateField>
                     <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton1" runat="server" onclick="LinkButton1_Click">編輯</asp:LinkButton>
+                        <asp:LinkButton ID="lbtnEditActivaty" runat="server" 
+                            onclick="lbtnEditActivaty_Click">編輯</asp:LinkButton>
                     </ItemTemplate>
                     <ItemStyle HorizontalAlign="Center" />
                 </asp:TemplateField>
