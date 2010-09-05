@@ -53,8 +53,8 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     </li>
                     <li><a href="#">系統管理</a>
                         <ul>
-                            <li><a href="#">公佈欄管理</a></li>
-                            <li><a href="#">架構參數管理</a>
+                            <li><a href="/ACMS/WebForm/ManageBulletinBoard/BulletinBoardQuery.aspx">公佈欄管理</a></li>
+                            <li><a href="/ACMS/WebForm/ManageParam/ManageParam.aspx">系統參數維護</a>
                         </ul>
                     </li>
                     <li><a href="#">權限管理</a>
@@ -81,7 +81,7 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     </td>
                     <td valign="top" width="20%">
                         <asp:Panel ID="Panel3" runat="server" GroupingText="日曆及熱門連結">
-                            <div class="MyDiv">
+                            <div class="SpaceDiv">
                                 <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
                             </div>
                         </asp:Panel>

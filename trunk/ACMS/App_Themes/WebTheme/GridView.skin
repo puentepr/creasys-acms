@@ -8,6 +8,6 @@
 <PagerStyle HorizontalAlign="Center" />
 <SelectedRowStyle BackColor="#E2DED6" Font-Bold="true" ForeColor="#333333" />
 <HeaderStyle  BackColor="#293955" Wrap="False" ForeColor="White" Font-Size="Small" Font-Bold="False" />
-<EditRowStyle BackColor="#999999" />
+<EditRowStyle BackColor="#FDE2BB" />
 <AlternatingRowStyle BackColor="White" />
 </TServerControl:TGridView>

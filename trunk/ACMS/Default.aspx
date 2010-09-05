@@ -4,15 +4,14 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:Panel ID="Panel1" runat="server" GroupingText="公佈欄">
-    <div class="MyDiv">
+    <div class="SpaceDiv">
         <TServerControl:TGridView ID="GridView1" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
             AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource1" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 
-            ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" Width="100%">
+            ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" Width="100%" 
+            BackColor="#FDE2BB">
             <Columns>
-                <asp:BoundField DataField="event_date" DataFormatString="{0:d}" HeaderText="日期" 
-                    SortExpression="event_date" />
                 <asp:BoundField DataField="title" HeaderText="內容" SortExpression="title" />
             </Columns>
         </TServerControl:TGridView>
@@ -21,7 +20,7 @@
             SelectCommand="SELECT * FROM [BulletinBoard]"></asp:SqlDataSource>
                </div> </asp:Panel>
     <asp:Panel ID="Panel2" runat="server" GroupingText="最新活動">
-     <div class="MyDiv">
+     <div class="SpaceDiv">
         <TServerControl:TGridView ID="GridView2" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
             AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource2" 
