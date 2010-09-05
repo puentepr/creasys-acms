@@ -8,7 +8,7 @@ public partial class WebForm_ActivityManagementQuery : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        (this.Master as MyMasterPage).PanelMainGroupingText = "活動紀錄查詢";
     }
 
     //新增個人活動

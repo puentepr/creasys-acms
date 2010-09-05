@@ -5,9 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <table align="center">
-        <tr>
-            <td>    <asp:Panel ID="Panel1" runat="server" GroupingText="團隊報名">
+
                 <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" 
                     ActiveStepIndex="0" FinishPreviousButtonText="上一步" StartNextButtonText="下一步" 
                     StepNextButtonText="下一步" StepPreviousButtonText="上一步">
@@ -73,8 +71,6 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                         <asp:Button ID="FinishButton" runat="server" CommandName="MoveComplete" 
                             onclick="FinishButton_Click" Text="完成" />
                     </FinishNavigationTemplate>
-    </asp:Wizard></asp:Panel></td>
-        </tr>
-    </table>
+    </asp:Wizard>
 </asp:Content>
 

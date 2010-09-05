@@ -4,7 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
-        <table align="center">
+        <table>
             <tr>
                 <td>
                           活動名稱:<asp:DropDownList ID="DropDownList1" runat="server">

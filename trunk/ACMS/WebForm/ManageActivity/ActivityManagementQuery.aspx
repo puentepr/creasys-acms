@@ -2,8 +2,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:Panel ID="Panel1" runat="server" GroupingText="活動紀錄查詢">
-    <div class="SpaceDiv">
         <table>
             <tr>
                 <td>
@@ -73,7 +71,7 @@
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
             ConnectionString="<%$ ConnectionStrings:connStr %>" 
             SelectCommand="SELECT * FROM [Activity]"></asp:SqlDataSource>
-    </div>
-</asp:Panel>
+
+
 </asp:Content>
 

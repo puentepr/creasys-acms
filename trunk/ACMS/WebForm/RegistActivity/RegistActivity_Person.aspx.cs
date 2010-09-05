@@ -13,7 +13,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //Wizard1.WizardSteps[0].  
+        (this.Master as MyMasterPage).PanelMainGroupingText = "個人報名";
     }
 
     protected void GoSecondStep_Click(object sender, RegistGoSecondEventArgs e)

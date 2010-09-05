@@ -13,6 +13,6 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        (this.Master as MyMasterPage).PanelMainGroupingText = "報名登錄狀態管理";
     }
 }

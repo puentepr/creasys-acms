@@ -15,7 +15,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        (this.Master as MyMasterPage).PanelMainGroupingText = "新增活動";
     }
     protected void Button4_Click(object sender, EventArgs e)
     {

@@ -13,7 +13,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Agent : System.Web.UI
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        (this.Master as MyMasterPage).PanelMainGroupingText = "代理報名";
     }
 
     protected void GoSecondStep_Click(object sender, RegistGoSecondEventArgs e)

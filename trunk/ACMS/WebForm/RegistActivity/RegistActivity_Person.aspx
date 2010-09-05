@@ -5,9 +5,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <table align="center">
-        <tr>
-            <td>    <asp:Panel ID="Panel1" runat="server" GroupingText="個人報名">
+ 
                 <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" 
                     ActiveStepIndex="0" FinishPreviousButtonText="上一步" StartNextButtonText="下一步" 
                     StepNextButtonText="下一步" StepPreviousButtonText="上一步">
@@ -60,8 +58,6 @@
                             onclick="FinishButton_Click" Text="完成" />
                     </FinishNavigationTemplate>
     </asp:Wizard></asp:Panel></td>
-        </tr>
-    </table>
 
 
 </asp:Content>

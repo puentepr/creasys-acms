@@ -4,9 +4,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
         
-        <table align="center">
-            <tr>
-                <td>
+
 <table>
             <tr>
                 <td>
@@ -94,10 +92,7 @@ inner join dbo.UserList B on A.emp_id=B.emp_id
 inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
          
                     </asp:Panel>
-                </td>
-            </tr>
-          
-        </table>
+
 
 </asp:Content>
 

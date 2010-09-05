@@ -5,10 +5,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-    <asp:Panel ID="Panel1" runat="server" GroupingText="新增活動">
-        <div class="SpaceDiv">
 
-<table align="center"><tr><td>
+
+
 
             <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="SqlDataSource1"
                 EnableModelValidation="True">
@@ -231,7 +230,6 @@ WHERE A.activity_id=1"></asp:SqlDataSource>
             </asp:FormView>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
                 SelectCommand="SELECT * FROM [Activity]"></asp:SqlDataSource>
-            <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" /></td></tr></table>
-        </div>
-    </asp:Panel>
+            <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />
+
 </asp:Content>
