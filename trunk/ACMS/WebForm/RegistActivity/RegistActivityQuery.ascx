@@ -2,7 +2,7 @@
 <%@ Register src="OpenRegistedEmployeeSelector.ascx" tagname="OpenRegistedEmployeeSelector" tagprefix="uc1" %>
 <%@ Register src="OpenRegistedTeamSelector.ascx" tagname="OpenRegistedTeamSelector" tagprefix="uc2" %>
 
-    <div class="MyDiv">
+    <div class="SpaceDiv">
         <table align="center">
             <tr>
                 <td>

@@ -1,9 +1,9 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ActivityHistoryQuery.aspx.cs" Inherits="WebForm_ActivityHistoryQuery" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="ActivityHistoryQuery.aspx.cs" Inherits="WebForm_ActivityHistoryQuery" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:Panel ID="Panel1" runat="server" GroupingText="活動歷史資料查詢">
-    <div class="MyDiv">
+    <div class="SpaceDiv">
         <table>
             <tr>
                 <td>

@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="CancelRegistActivity.aspx.cs" Inherits="WebForm_RegistActivity_CancelRegistActivity" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="CancelRegistActivity.aspx.cs" Inherits="WebForm_RegistActivity_CancelRegistActivity" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>

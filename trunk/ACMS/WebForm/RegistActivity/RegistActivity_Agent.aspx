@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RegistActivity_Agent.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Agent" Title="未命名頁面" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="RegistActivity_Agent.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Agent" Title="未命名頁面" %>
 <%@ Register src="RegistActivityQuery.ascx" tagname="RegistActivityQuery" tagprefix="uc1" %>
 <%@ Register src="OpenUnRegistEmployeeSelector.ascx" tagname="openunregistemployeeselector" tagprefix="uc1" %>
 <%@ Register namespace="TServerControl" tagprefix="cc1" %>
@@ -43,24 +43,9 @@
                                 SortExpression="dept_name"></asp:BoundField>
                             <asp:BoundField DataField="price_money" HeaderText="費用" 
                                 SortExpression="price_money"></asp:BoundField>
-                            <asp:TemplateField>
-                                <HeaderTemplate>
-                                    <asp:CheckBox ID="CheckBox4" runat="server" Text="取消報名" />
-                                </HeaderTemplate>
-                                <ItemTemplate>
-                                    <asp:CheckBox ID="CheckBox1" runat="server" />
-                                </ItemTemplate>
-                                <ItemStyle HorizontalAlign="Center" />
-                            </asp:TemplateField>
-                            <asp:TemplateField>
-                                <HeaderTemplate>
-                                    <asp:CheckBox ID="CheckBox3" runat="server" Text="取消名單" />
-                                </HeaderTemplate>
-                                <ItemTemplate>
-                                    <asp:CheckBox ID="CheckBox2" runat="server" />
-                                </ItemTemplate>
-                                <ItemStyle HorizontalAlign="Center" />
-                            </asp:TemplateField>
+                           
+                            <asp:CommandField ShowDeleteButton="True" />
+                           
                         </Columns>
                     </cc1:TGridView>
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 

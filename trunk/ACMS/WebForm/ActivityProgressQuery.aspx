@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ActivityProgressQuery.aspx.cs" Inherits="WebForm_ActivityProgressQuery" Title="未命名頁面" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="ActivityProgressQuery.aspx.cs" Inherits="WebForm_ActivityProgressQuery" Title="未命名頁面" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>

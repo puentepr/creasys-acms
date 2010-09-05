@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="RegistActivity_Team.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Team" Title="未命名頁面" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="RegistActivity_Team.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Team" Title="未命名頁面" %>
 <%@ Register src="RegistActivityQuery.ascx" tagname="RegistActivityQuery" tagprefix="uc1" %>
 <%@ Register src="../OpenEmployeeSelector.ascx" tagname="openemployeeselector" tagprefix="uc1" %>
 <%@ Register namespace="TServerControl" tagprefix="cc1" %>
@@ -54,22 +54,7 @@
                                     SortExpression="emp_cname"></asp:BoundField>
                                 <asp:BoundField DataField="dept_name" HeaderText="部門" 
                                     SortExpression="dept_name"></asp:BoundField>
-                                <asp:TemplateField>
-                                    <HeaderTemplate>
-                                        <asp:CheckBox ID="CheckBox6" runat="server" Text="取消報名" />
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                        <asp:CheckBox ID="CheckBox7" runat="server" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField>
-                                    <HeaderTemplate>
-                                        <asp:CheckBox ID="CheckBox8" runat="server" Text="取消名單" />
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                        <asp:CheckBox ID="CheckBox9" runat="server" />
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                <asp:CommandField ShowDeleteButton="True" />
                             </Columns>
                         </cc1:TGridView>
                     </div>
