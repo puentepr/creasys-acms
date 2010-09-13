@@ -84,7 +84,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
 {
     public FormViewMode FormMode
     {
-        get { return (FormViewMode) ViewState["FormMode"]; }
+        get { return (FormViewMode)ViewState["FormMode"]; }
         set { ViewState["FormMode"] = value; }
     }
 
@@ -110,8 +110,29 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
             {
                 if (DT != null)
                 {
+                    System.Web.UI.WebControls.Table MyTable = new System.Web.UI.WebControls.Table();
+                    System.Web.UI.WebControls.TableRow MyTableRow;
+
                     foreach (DataRow DR in DT.Rows)
                     {
+
+                        MyTableRow = new TableRow();
+                        System.Web.UI.WebControls.TableCell MyTableCell_Title = new TableCell();
+                        System.Web.UI.WebControls.TableCell MyTableCell_Control = new TableCell();
+                        //MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Percentage(30);// "40%";
+                        //MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Percentage(60);// "40%";
+
+
+                        //Title
+                        Label lblTitle = new Label();
+                        lblTitle.ID = string.Format("lbl{0}", DR["key_id"].ToString());
+                        lblTitle.Text = DR["key_name"].ToString();
+
+
+                        MyTableCell_Title.Controls.Add(lblTitle);
+
+
+
                         //Control
                         Control MyControl = new Control();
 
@@ -119,7 +140,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         {
                             MyControl = new TextBox();
                             MyControl.ID = string.Format("txt{0}", DR["key_id"].ToString());
-     
+
                         }
                         else if (DR["key_control"].ToString().ToUpper() == "CHECKBOXLIST")
                         {
@@ -155,12 +176,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                                     i++;
 
 
-                                    if (DR["key_control"].ToString().ToUpper() == "CHECKBOXLIST")
-                                    {
+                                    //if (DR["key_control"].ToString().ToUpper() == "CHECKBOXLIST")
+                                    //{
                                         (MyControl as ListControl).Items.Add(new ListItem(DR_Items["key_item_name"].ToString(), DR_Items["key_item_id"].ToString()));
 
-                                    }
-                                 
+                                    //}
+
                                 }
 
 
@@ -169,11 +190,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                             }
                         }
 
+                        MyTableCell_Control.Controls.Add(MyControl);
+
+                        MyTableRow.Cells.Add(MyTableCell_Title);
+                        MyTableRow.Cells.Add(MyTableCell_Control);
+
+                        
+                        MyTable.Rows.Add(MyTableRow);
+
                         MyHashtable.Add(DR["key_name"].ToString(), MyControl.ID);
 
-                        PlaceHolder1.Controls.Add(MyControl);
+
 
                     }
+
+                    PlaceHolder1.Controls.Add(MyTable);
 
                 }
             }
