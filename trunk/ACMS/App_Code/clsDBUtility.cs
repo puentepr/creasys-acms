@@ -19,11 +19,17 @@ using System.Collections.Generic;
     /// </summary>
     public partial class clsDBUtility
     {
+        private static clsDBUtility dbUtil;
         private SqlConnection conn;
 
         public static clsDBUtility GetInstance()
         {
-            return new clsDBUtility();
+            if (dbUtil == null)
+            {
+                dbUtil = new clsDBUtility();
+            }
+
+            return dbUtil;
         }
 
         public clsDBUtility()
@@ -148,4 +154,71 @@ using System.Collections.Generic;
 
 
         #endregion
+
+
+
+        public DataTable GetCustomField(int activity_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[1];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.Int);
+            sqlParams[0].Value = activity_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT * ");
+            sb.AppendLine("FROM CustomField A ");
+            sb.AppendLine("WHERE activity_id=@activity_id ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
+
+            if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
+            {
+                return DS.Tables[0];
+
+            }
+            else
+            {
+                return null;
+            }
+
+
+
+        }
+
+
+        public DataTable GetCustomFieldItem(int key_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@key_id", SqlDbType.Int);
+            sqlParams[0].Value = key_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT * ");
+            sb.AppendLine("FROM CustomFieldItem A ");
+            sb.AppendLine("WHERE key_id=@key_id ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
+
+            if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
+            {
+                return DS.Tables[0];
+
+            }
+            else
+            {
+                return null;
+            }
+
+
+
+        }
+
+
+
+
+
+
 }
