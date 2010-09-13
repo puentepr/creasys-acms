@@ -24,7 +24,12 @@
                     TypeName="個人報名" />
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 2">
-                活對資訊(含圖文附加檔案)
+            <div align="center">
+                <asp:Label ID="Label3" runat="server" Font-Bold="True" Font-Size="Large" 
+                    ForeColor="#FF0066" Text="清境農場一日遊"></asp:Label>
+                <br />
+                <asp:Image ID="Image1" runat="server" ImageUrl="~/images/Sample.jpg" />
+                &nbsp;</div>
             </asp:WizardStep>
             <asp:WizardStep runat="server" title="Step 3">
                 <asp:Label ID="Label2" runat="server" Text="Label" > </asp:Label>
