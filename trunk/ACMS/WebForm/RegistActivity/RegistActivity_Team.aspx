@@ -1,4 +1,4 @@
-Ôªø<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="RegistActivity_Team.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Team" Title="Êú™ÂëΩÂêçÈ†ÅÈù¢" %>
+<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="RegistActivity_Team.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Team" Title="•º©R¶W≠∂≠±" %>
 
 <%@ Register src="RegistActivityQuery.ascx" tagname="RegistActivityQuery" tagprefix="uc1" %>
 
@@ -9,39 +9,20 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
 
                 <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" 
-                    ActiveStepIndex="0" FinishPreviousButtonText="‰∏ä‰∏ÄÊ≠•" StartNextButtonText="‰∏ã‰∏ÄÊ≠•" 
-                    StepNextButtonText="‰∏ã‰∏ÄÊ≠•" StepPreviousButtonText="‰∏ä‰∏ÄÊ≠•">
+                    ActiveStepIndex="0" FinishPreviousButtonText="§W§@®B" StartNextButtonText="§U§@®B" 
+                    StepNextButtonText="§U§@®B" StepPreviousButtonText="§W§@®B" 
+                    >
                     <StartNavigationTemplate>
                         &nbsp;
                     </StartNavigationTemplate>
         <WizardSteps>
-            <asp:WizardStep ID="WizardStep1" runat="server" title="Step 1">
-                <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click ="GoSecondStep_Click"
-                    TypeName="ÂúòÈöäÂ†±Âêç" />
-            </asp:WizardStep>
-                        <asp:WizardStep ID="WizardStep2" runat="server" Title="Step 2">
-            <div align="center">
-                <asp:Label ID="Label3" runat="server" Font-Bold="True" Font-Size="Large" 
-                    ForeColor="#FF0066" Text="Ê∏ÖÂ¢ÉËæ≤Â†¥‰∏ÄÊó•ÈÅä"></asp:Label>
+            <%--<asp:WizardStep ID="WizardStep2" runat="server" title="Step 2">
+                <asp:Label ID="Label2" runat="server" Text="Label" Visible="False"> </asp:Label>
                 <br />
-                <asp:Image ID="Image1" runat="server" ImageUrl="~/images/Sample.jpg" />
-                &nbsp;</div>
-            </asp:WizardStep>
-            <asp:WizardStep ID="WizardStep3" runat="server" title="Step 3">
-                <asp:Label ID="Label2" runat="server" Text="Label" > </asp:Label>
-                
-                
-                
-                
-                
-                
-                <asp:Panel ID="PanelRegisterInfo" runat="server" GroupingText="Â†±Âêç‰∫∫‰∫ãË≥áÊñô">
-                
-                <asp:Panel ID="PanelRegisterInfoA" runat="server">
-                                  <table align="center">
+                <table align="center">
                     <tr>
                         <td>
-                            ÂúòÈöäÂêçÁ®±</td>
+                            πŒ∂§¶W∫Ÿ</td>
                         <td width="70%">
                             <asp:TextBox ID="activity_idTextBox" runat="server" 
                                 Text='<%# Bind("activity_id") %>'></asp:TextBox>
@@ -49,16 +30,83 @@
                     </tr>
                     <tr>
                         <td>
-                            ÂÇôË®ªË™™Êòé </td>
+                            ≥∆µ˘ª°©˙ </td>
                         <td>
                             <asp:TextBox ID="activity_idTextBox0" runat="server" 
                                 Text='<%# Bind("activity_id") %>'></asp:TextBox>
                         </td>
                     </tr>
                 </table>
-                <asp:Panel ID="PanelMemberList" runat="server" GroupingText="ÂúòÈöäÊàêÂì°">
+                <asp:Panel ID="PanelMemberList" runat="server" GroupingText="πŒ∂§¶®≠˚">
                     <div align="right">
-                        <asp:LinkButton ID="lbtnAddPerson" runat="server" OnClick="lbtnAddPerson_Click">Êñ∞Â¢ûÂúòÈöäÊàêÂì°</asp:LinkButton>
+                        <asp:LinkButton ID="lbtnAddPerson" runat="server" OnClick="lbtnAddPerson_Click">∑sºWπŒ∂§¶®≠˚</asp:LinkButton>
+                    </div>
+                    <div align="center">
+                        <cc1:TGridView ID="GridView2" runat="server" AllowHoverEffect="True" 
+                            AllowHoverSelect="True" AutoGenerateColumns="False" 
+                            DataSourceID="SqlDataSource2" ShowFooterWhenEmpty="False" 
+                            ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0">
+                            <Columns>
+                                <asp:BoundField DataField="emp_cname" HeaderText="©m¶W" 
+                                    SortExpression="emp_cname"></asp:BoundField>
+                                <asp:BoundField DataField="dept_name" HeaderText="≥°™˘" 
+                                    SortExpression="dept_name"></asp:BoundField>
+                                <asp:CommandField ShowDeleteButton="True" />
+                            </Columns>
+                        </cc1:TGridView>
+                    </div>
+                    <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+                        ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name
+FROM ActivityTeamMember A
+inner join dbo.UserList B on A.emp_id=B.emp_id
+inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
+                    <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />
+                </asp:Panel>
+            </asp:WizardStep>--%><asp:WizardStep ID="WizardStep1" runat="server" title="Step 1">
+                <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click ="GoSecondStep_Click"
+                    TypeName="πŒ∂§≥¯¶W" />
+            </asp:WizardStep>
+                        <asp:WizardStep ID="WizardStep2" runat="server" Title="Step 2">
+            <div align="center">
+                <asp:Label ID="Label3" runat="server" Font-Bold="True" Font-Size="Large" 
+                    ForeColor="#FF0066" Text="≤Mπ“πA≥ı§@§ÈπC"></asp:Label>
+                <br />
+                <asp:Image ID="Image1" runat="server" ImageUrl="~/images/Sample.jpg" />
+                &nbsp;</div>
+            </asp:WizardStep>
+            <asp:WizardStep ID="WizardStep3" runat="server" title="Step 3" 
+                StepType="Finish">
+                <asp:Label ID="Label2" runat="server" Text="Label" > </asp:Label>
+                
+                
+                
+                
+                
+                
+                <asp:Panel ID="PanelRegisterInfo" runat="server" GroupingText="≥¯¶W§H®∆∏ÍÆ∆">
+                
+                <asp:Panel ID="PanelRegisterInfoA" runat="server">
+                                  <table align="center">
+                    <tr>
+                        <td>
+                            πŒ∂§¶W∫Ÿ</td>
+                        <td width="70%">
+                            <asp:TextBox ID="activity_idTextBox" runat="server" 
+                                Text='<%# Bind("activity_id") %>'></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            ≥∆µ˘ª°©˙ </td>
+                        <td>
+                            <asp:TextBox ID="activity_idTextBox0" runat="server" 
+                                Text='<%# Bind("activity_id") %>'></asp:TextBox>
+                        </td>
+                    </tr>
+                </table>
+                <asp:Panel ID="PanelMemberList" runat="server" GroupingText="πŒ∂§¶®≠˚">
+                    <div align="right">
+                        <asp:LinkButton ID="lbtnAddPerson" runat="server" OnClick="lbtnAddPerson_Click">∑sºWπŒ∂§¶®≠˚</asp:LinkButton>
                     </div>
                     <div align="center">
                         <cc1:TGridView ID="GridView2" runat="server" AllowHoverEffect="True" 
@@ -66,13 +114,19 @@
                             DataSourceID="SqlDataSource1" ShowFooterWhenEmpty="False" 
                             ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0">
                             <Columns>
-                                <asp:BoundField DataField="emp_cname" HeaderText="ÂßìÂêç" 
+                                <asp:BoundField DataField="emp_cname" HeaderText="©m¶W" 
                                     SortExpression="emp_cname"></asp:BoundField>
-                                <asp:BoundField DataField="dept_name" HeaderText="ÈÉ®ÈñÄ" 
+                                <asp:BoundField DataField="dept_name" HeaderText="≥°™˘" 
                                     SortExpression="dept_name"></asp:BoundField>
+                                                          <asp:TemplateField HeaderText="¨Oß_§w∂Òºg≠”§H∏ÍÆ∆">
+                                    <ItemTemplate>
+                                       ¨O
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+                                
                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="LinkButton1" runat="server">Á∑®ËºØÂÄã‰∫∫Áõ∏ÈóúÊ¨Ñ‰Ωç</asp:LinkButton>
+                                        <asp:LinkButton ID="LinkButton1" runat="server" onclick="LinkButton1_Click">ΩsøË≠”§H¨€√ˆƒÊ¶Ï</asp:LinkButton>
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:CommandField ShowDeleteButton="True" />
@@ -106,7 +160,7 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                 
                 
                 
-                                <asp:Panel ID="PanelActivityInfo" runat="server" GroupingText="Ê¥ªÂãïÁõ∏ÈóúË≥áË®ä">
+                                <asp:Panel ID="PanelActivityInfo" runat="server" GroupingText="¨°∞ ¨€√ˆ∏Í∞T">
                                     <asp:FormView ID="FormView2" runat="server" DataSourceID="SqlDataSource2">
                                         <EditItemTemplate>
                                             id:
@@ -180,9 +234,9 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                                             <asp:TextBox ID="is_fullTextBox" runat="server" Text='<%# Bind("is_full") %>' />
                                             <br />
                                             <asp:LinkButton ID="UpdateButton" runat="server" CausesValidation="True" 
-                                                CommandName="Update" Text="Êõ¥Êñ∞" />
+                                                CommandName="Update" Text="ßÛ∑s" />
                                             &nbsp;<asp:LinkButton ID="UpdateCancelButton" runat="server" 
-                                                CausesValidation="False" CommandName="Cancel" Text="ÂèñÊ∂à" />
+                                                CausesValidation="False" CommandName="Cancel" Text="®˙Æ¯" />
                                         </EditItemTemplate>
                                         <InsertItemTemplate>
                                             id:
@@ -256,31 +310,31 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                                             <asp:TextBox ID="is_fullTextBox" runat="server" Text='<%# Bind("is_full") %>' />
                                             <br />
                                             <asp:LinkButton ID="InsertButton" runat="server" CausesValidation="True" 
-                                                CommandName="Insert" Text="ÊèíÂÖ•" />
+                                                CommandName="Insert" Text="¥°§J" />
                                             &nbsp;<asp:LinkButton ID="InsertCancelButton" runat="server" 
-                                                CausesValidation="False" CommandName="Cancel" Text="ÂèñÊ∂à" />
+                                                CausesValidation="False" CommandName="Cancel" Text="®˙Æ¯" />
                                         </InsertItemTemplate>
                                         <ItemTemplate>
-                                            Ê¥ªÂãïÂêçÁ®±:
+                                            ¨°∞ ¶W∫Ÿ:
                                             <asp:Label ID="activity_nameLabel" runat="server" 
                                                 Text='<%# Bind("activity_name") %>' />
                                             <br />
-                                            Ê¥ªÂãïÂ∞çË±°:
+                                            ¨°∞ πÔ∂H:
                                             <asp:Label ID="people_typeLabel" runat="server" 
                                                 Text='<%# Bind("people_type") %>' />
                                             <br />
-                                            Ê¥ªÂãïÊó•Êúü:
+                                            ¨°∞ §È¥¡:
                                             <asp:Label ID="activity_dateLabel" runat="server" 
                                                 Text='<%# Bind("activity_date") %>' />
                                             <br />
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :<br />
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :<br />
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; :<br />
-                                            Â†±ÂêçÊà™Ê≠¢Êó•Êúü:
+                                            ≥¯¶W∫I§Ó§È¥¡:
                                             <asp:Label ID="regist_deadlineLabel" runat="server" 
                                                 Text='<%# Bind("regist_deadline") %>' />
                                             <br />
-                                            ÂèñÊ∂àÂ†±ÂêçÊà™Ê≠¢Êó•Êúü:
+                                            ®˙Æ¯≥¯¶W∫I§Ó§È¥¡:
                                             <asp:Label ID="cancelregist_deadlineLabel" runat="server" 
                                                 Text='<%# Bind("cancelregist_deadline") %>' />
                                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -295,65 +349,21 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                                     </asp:SqlDataSource>
                 </asp:Panel>
             </asp:WizardStep>
-            <asp:WizardStep ID="WizardStep4" runat="server" Title="Step 4">
-              
-
-                
-                <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
-            </asp:WizardStep>
-            <%--<asp:WizardStep ID="WizardStep2" runat="server" title="Step 2">
-                <asp:Label ID="Label2" runat="server" Text="Label" Visible="False"> </asp:Label>
-                <br />
-                <table align="center">
-                    <tr>
-                        <td>
-                            ÂúòÈöäÂêçÁ®±</td>
-                        <td width="70%">
-                            <asp:TextBox ID="activity_idTextBox" runat="server" 
-                                Text='<%# Bind("activity_id") %>'></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            ÂÇôË®ªË™™Êòé </td>
-                        <td>
-                            <asp:TextBox ID="activity_idTextBox0" runat="server" 
-                                Text='<%# Bind("activity_id") %>'></asp:TextBox>
-                        </td>
-                    </tr>
-                </table>
-                <asp:Panel ID="PanelMemberList" runat="server" GroupingText="ÂúòÈöäÊàêÂì°">
-                    <div align="right">
-                        <asp:LinkButton ID="lbtnAddPerson" runat="server" OnClick="lbtnAddPerson_Click">Êñ∞Â¢ûÂúòÈöäÊàêÂì°</asp:LinkButton>
-                    </div>
-                    <div align="center">
-                        <cc1:TGridView ID="GridView2" runat="server" AllowHoverEffect="True" 
-                            AllowHoverSelect="True" AutoGenerateColumns="False" 
-                            DataSourceID="SqlDataSource2" ShowFooterWhenEmpty="False" 
-                            ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0">
-                            <Columns>
-                                <asp:BoundField DataField="emp_cname" HeaderText="ÂßìÂêç" 
-                                    SortExpression="emp_cname"></asp:BoundField>
-                                <asp:BoundField DataField="dept_name" HeaderText="ÈÉ®ÈñÄ" 
-                                    SortExpression="dept_name"></asp:BoundField>
-                                <asp:CommandField ShowDeleteButton="True" />
-                            </Columns>
-                        </cc1:TGridView>
-                    </div>
-                    <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
-                        ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name
-FROM ActivityTeamMember A
-inner join dbo.UserList B on A.emp_id=B.emp_id
-inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
-                    <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />
-                </asp:Panel>
-            </asp:WizardStep>--%>
+            <asp:TemplatedWizardStep runat="server" ID="WizardStep4" Title="WizardStep4">
+                <CustomNavigationTemplate>
+                    <asp:Button ID="Button1" runat="server" Text="ßπ¶®≠”§H∏ÍÆ∆∂Òºg" 
+                        onclick="Button1_Click" />
+                </CustomNavigationTemplate>
+                <ContentTemplate>
+                    <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+                </ContentTemplate>
+            </asp:TemplatedWizardStep>
         </WizardSteps>
                     <FinishNavigationTemplate>
                         <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" 
-                            CommandName="MovePrevious" Text="‰∏ä‰∏ÄÊ≠•" />
+                            CommandName="MovePrevious" Text="§W§@®B" />
                         <asp:Button ID="FinishButton" runat="server" CommandName="MoveComplete" 
-                            onclick="FinishButton_Click" Text="ÂÆåÊàê" />
+                            onclick="FinishButton_Click" Text="ßπ¶®" />
                     </FinishNavigationTemplate>
     </asp:Wizard>
 </asp:Content>

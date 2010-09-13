@@ -72,12 +72,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
     protected void FinishButton_Click(object sender, EventArgs e)
     {
-        Response.Redirect("RegistActivity_Person.aspx");
+        Response.Redirect("RegistActivity_Team.aspx");
     }
     protected void lbtnAddPerson_Click(object sender, EventArgs e)
     {
         OpenEmployeeSelector1.InitDataAndShow();
     }
+    protected void LinkButton1_Click(object sender, EventArgs e)
+    {
+        Wizard1.ActiveStepIndex = 3;
+    
+    }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+Wizard1.ActiveStepIndex = 2;
+    }
+
 }
 
 public partial class WebForm_RegistActivity_RegistActivity_Team
@@ -104,6 +114,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
     protected void InitQueryBlock(string activity_id)
     {
+
         if (!string.IsNullOrEmpty(activity_id))
         {
             using (DataTable DT = dbUtil.GetCustomField(Convert.ToInt32(activity_id)))
@@ -204,7 +215,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
                     }
 
-                    PlaceHolder1.Controls.Add(MyTable);
+                    (WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).Controls.Add(MyTable);
+       
 
                 }
             }
@@ -212,7 +224,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
         }
         else
         {
-            PlaceHolder1.Controls.Clear();
+            (WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).Controls.Clear();
         }
 
     }
