@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_OpenEmployeeSelector" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
-    " Width="400" Height="500"><!---->
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
+    " Width="500" Height="500"><!--display: none;-->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="人員選取" SkinID="title"></asp:Label>
@@ -22,6 +22,12 @@
                                 ConnectionString="<%$ ConnectionStrings:connStr %>" 
                                 SelectCommand="SELECT * FROM [DeptList]"></asp:SqlDataSource>
                         </td>
+                        <td>
+                            <asp:Label ID="lblProgramGroup2" runat="server" Text="職稱"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
+                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -30,19 +36,48 @@
                         <td>
                             <asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
                         </td>
-                    </tr>
-                    <tr>
                         <td>
                             <asp:Label ID="lblProgramGroup1" runat="server" Text="員工姓名"></asp:Label>
                         </td>
                         <td>
-                            <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="TextBox2" runat="server" ></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            &nbsp;</td>
-                        <td align="right">
+                            <asp:Label ID="lblProgramGroup3" runat="server" Text="性別"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:RadioButtonList ID="RadioButtonList1" runat="server" 
+                                RepeatDirection="Horizontal">
+                                <asp:ListItem>女</asp:ListItem>
+                                <asp:ListItem>男</asp:ListItem>
+                                <asp:ListItem Selected="True">不拘</asp:ListItem>
+                            </asp:RadioButtonList>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblProgramGroup4" runat="server" Text="年齡"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="TextBox4" runat="server" ></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblProgramGroup5" runat="server" Text="年資起始日"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="TextBox5" runat="server"></asp:TextBox>
+                        </td>
+                        <td>
+                            <asp:Label ID="lblProgramGroup6" runat="server" Text="公司別"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="TextBox6" runat="server"></asp:TextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right" colspan="4">
                             <asp:Button ID="Button1" runat="server" Text="查詢" />
                         </td>
                     </tr>

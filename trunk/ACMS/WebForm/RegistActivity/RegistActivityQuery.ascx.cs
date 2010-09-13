@@ -15,6 +15,9 @@ public partial class WebForm_RegistActivity_RegistActivityQuery : System.Web.UI.
     public delegate void GoSecondStepDelegate(object sender, RegistGoSecondEventArgs e);
     public event GoSecondStepDelegate GoSecondStep_Click;
 
+    public delegate void GoThirdStepDelegate(object sender, RegistGoSecondEventArgs e);
+    public event GoThirdStepDelegate GoThirdStep_Click;
+
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -32,37 +35,36 @@ public partial class WebForm_RegistActivity_RegistActivityQuery : System.Web.UI.
             int activity_id = (int)gv_Activity.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }    
+    }
 
-        //if (((sender as LinkButton).NamingContainer as GridViewRow).RowIndex == 0)
-        //{
-        //    Response.Redirect("RegistActivity.aspx");
-        //}
-        //else
-        //{
-        //    Response.Redirect("RegistActivityTeam.aspx");
-        //}
-    }
-    protected void lbtnRegist_PreRender(object sender, EventArgs e)
+    protected void lbtnEdit_Click(object sender, EventArgs e)
     {
-        (sender as LinkButton).Text = TypeName;
+        if (GoThirdStep_Click != null)
+        {
+            int activity_id = (int)gv_Activity.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
+            GoThirdStep_Click(this, new RegistGoSecondEventArgs(activity_id));
+        }   
     }
+
     protected void lbtnCancelRegist_Click(object sender, EventArgs e)
     {
 
-        if (TypeName == "個人報名")
-        {
-            clsMyObj.ShowMessage("個人報名將取消!"); 
-        }
-        else if (TypeName == "代理報名")
-        {
-            OpenRegistedEmployeeSelector1.Visible = true;
-            OpenRegistedEmployeeSelector1.InitDataAndShow();
+        OpenRegistedEmployeeSelector1.Visible = true;
+        OpenRegistedEmployeeSelector1.InitDataAndShow();
 
-        }
-        else if (TypeName == "團隊報名")
-        {
-            clsMyObj.ShowMessage("該團隊將解散!該團隊成員將全部取消報名。"); 
-        }
+        //if (TypeName == "個人報名")
+        //{
+        //    clsMyObj.ShowMessage("個人報名將取消!"); 
+        //}
+        //else if (TypeName == "代理報名")
+        //{
+
+
+        //}
+        //else if (TypeName == "團隊報名")
+        //{
+        //    clsMyObj.ShowMessage("該團隊將解散!該團隊成員將全部取消報名。"); 
+        //}
 
 
         //if (((sender as LinkButton).NamingContainer as GridViewRow).RowIndex == 0)
@@ -74,6 +76,7 @@ public partial class WebForm_RegistActivity_RegistActivityQuery : System.Web.UI.
         //    OpenRegistedTeamSelector1.InitDataAndShow();
         //}
     }
+
 }
 
 public partial class WebForm_RegistActivity_RegistActivityQuery

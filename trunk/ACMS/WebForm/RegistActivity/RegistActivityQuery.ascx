@@ -65,9 +65,14 @@
                 <asp:TemplateField>
                     <ItemTemplate>
                         <asp:LinkButton ID="lbtnRegist" runat="server" onclick="lbtnRegist_Click" 
-                            onprerender="lbtnRegist_PreRender"></asp:LinkButton>
+                        >報名</asp:LinkButton>
                     </ItemTemplate>
                     <ItemStyle HorizontalAlign="Center" />
+                </asp:TemplateField>
+                <asp:TemplateField>
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lbtnEdit" runat="server" onclick="lbtnEdit_Click">編輯</asp:LinkButton>
+                    </ItemTemplate>
                 </asp:TemplateField>
                 <asp:TemplateField>
                     <ItemTemplate>

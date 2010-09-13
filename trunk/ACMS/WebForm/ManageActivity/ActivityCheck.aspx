@@ -45,15 +45,6 @@
             </tr>
             <tr>
                 <td align="center" colspan="2">
-                    <asp:CheckBoxList ID="CheckBoxList1" runat="server" 
-                        RepeatDirection="Horizontal">
-                        <asp:ListItem>已報名員工</asp:ListItem>
-                        <asp:ListItem>未報名員工</asp:ListItem>
-                    </asp:CheckBoxList>
-                </td>
-            </tr>
-            <tr>
-                <td align="center" colspan="2">
                     <asp:Button ID="Button1" runat="server" Text="查詢" />
 &nbsp;&nbsp;&nbsp;&nbsp;
                     <asp:Button ID="Button2" runat="server" Text="匯出" />

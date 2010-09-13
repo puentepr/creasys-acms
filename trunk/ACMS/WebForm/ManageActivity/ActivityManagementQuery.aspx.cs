@@ -20,7 +20,7 @@ public partial class WebForm_ActivityManagementQuery : System.Web.UI.Page
     //新增團隊活動
     protected void btnAddActivityTeam_Click(object sender, EventArgs e)
     {
-        Response.Redirect("ActivityTeamEdit.aspx");
+        Response.Redirect("ActivityEdit.aspx?type=team");
     }
 
     //編輯活動
@@ -32,7 +32,7 @@ public partial class WebForm_ActivityManagementQuery : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("ActivityTeamEdit.aspx");
+            Response.Redirect("ActivityEdit.aspx?type=team");
         }
     }
 }

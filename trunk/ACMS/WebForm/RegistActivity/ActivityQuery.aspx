@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="ActivityManagementQuery.aspx.cs" Inherits="WebForm_ActivityManagementQuery" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="ActivityQuery.aspx.cs" Inherits="WebForm_RegistActivity_ActivityQuery" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
@@ -27,10 +27,6 @@
                 </td>
                 <td>
                     <asp:Button ID="Button1" runat="server" Text="查詢" />
-                    <asp:Button ID="btnAddActivity" runat="server" Text="新增個人活動" 
-                        onclick="btnAddActivity_Click" />
-                    <asp:Button ID="btnAddActivityTeam" runat="server" 
-                        onclick="btnAddActivityTeam_Click" Text="新增團隊活動" />
                 </td>
             </tr>
         </table>
@@ -53,19 +49,11 @@
                     SortExpression="activity_date" />
                 <asp:BoundField DataField="is_full" HeaderText="是否額滿" 
                     SortExpression="is_full" />
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:LinkButton ID="lbtnEditActivaty" runat="server" 
-                            onclick="lbtnEditActivaty_Click">編輯</asp:LinkButton>
-                    </ItemTemplate>
-                    <ItemStyle HorizontalAlign="Center" />
-                </asp:TemplateField>
-                <asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:LinkButton ID="LinkButton2" runat="server" OnClientClick="return confirm('族群名單將清空!確定要繼續嗎?')">取消族群設定</asp:LinkButton>
-                    </ItemTemplate>
-                    <ItemStyle HorizontalAlign="Center" />
-                </asp:TemplateField>
+                            <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lbtnRegistEdit" runat="server">編輯</asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
             </Columns>
         </TServerControl:TGridView>
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" 

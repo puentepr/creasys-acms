@@ -4,22 +4,20 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class WebForm_OpenEmployeeSelector : System.Web.UI.UserControl
+public partial class WebForm_ManageActivity_OpenNameList : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
 
     }
-
-
 }
 
-public partial class WebForm_OpenEmployeeSelector
+public partial class WebForm_ManageActivity_OpenNameList
 {
     public void InitDataAndShow()
     {
-        this.mpSearch.Show();    
-
+        this.mpSearch.Show();
     }
 
 }
+
