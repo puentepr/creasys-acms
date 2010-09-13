@@ -1,9 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegistedEmployeeSelector.ascx.cs" Inherits="WebForm_OpenRegistedEmployeeSelector" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
-    " Width="400" Height="500"><!---->
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
+    " Width="400" Height="500"><!--display: none;-->
     <br />
     <div align="center">
-        <asp:Label ID="lblTitle" runat="server" Text="取消報名" SkinID="title"></asp:Label>
+        <asp:Label ID="lblTitle" runat="server" Text="取消個人報名" SkinID="title"></asp:Label>
     </div>
     <table width="100%">
         <tr>

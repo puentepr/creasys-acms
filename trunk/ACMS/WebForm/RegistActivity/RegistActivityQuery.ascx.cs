@@ -49,8 +49,8 @@ public partial class WebForm_RegistActivity_RegistActivityQuery : System.Web.UI.
     protected void lbtnCancelRegist_Click(object sender, EventArgs e)
     {
 
-        OpenRegistedEmployeeSelector1.Visible = true;
-        OpenRegistedEmployeeSelector1.InitDataAndShow();
+        //OpenRegistedEmployeeSelector1.Visible = true;
+        //OpenRegistedEmployeeSelector1.InitDataAndShow();
 
         //if (TypeName == "個人報名")
         //{
@@ -67,14 +67,16 @@ public partial class WebForm_RegistActivity_RegistActivityQuery : System.Web.UI.
         //}
 
 
-        //if (((sender as LinkButton).NamingContainer as GridViewRow).RowIndex == 0)
-        //{
-        //    OpenRegistedEmployeeSelector1.InitDataAndShow();
-        //}
-        //else
-        //{
-        //    OpenRegistedTeamSelector1.InitDataAndShow();
-        //}
+        if (((sender as LinkButton).NamingContainer as GridViewRow).RowIndex == 0)
+        {
+            OpenRegistedEmployeeSelector1.Visible = true;
+            OpenRegistedEmployeeSelector1.InitDataAndShow();
+        }
+        else
+        {
+            OpenRegistedTeamSelector1.Visible = true;
+            OpenRegistedTeamSelector1.InitDataAndShow();
+        }
     }
 
 }

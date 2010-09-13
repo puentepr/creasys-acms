@@ -10,6 +10,15 @@ public partial class WebForm_OpenRegistedTeamSelector : System.Web.UI.UserContro
     {
 
     }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowIndex == 0)
+        { 
+                (e.Row.FindControl("RadioButton1") as RadioButton).Checked = true;
+        (e.Row.FindControl("CheckBox1") as CheckBox).Visible = false;
+        }
+
+    }
 }
 
 public partial class WebForm_OpenRegistedTeamSelector
