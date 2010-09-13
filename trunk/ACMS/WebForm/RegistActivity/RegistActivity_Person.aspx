@@ -1,12 +1,15 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="RegistActivity_Person.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Person" Title="未命名頁面" %>
 
-<%@ Register Assembly="TServerControl.Web" Namespace="TServerControl.Web" TagPrefix="TServerControl" %>
 
 <%@ Register src="RegistActivityQuery.ascx" tagname="RegistActivityQuery" tagprefix="uc1" %>
 
 <%@ Register src="../OpenEmployeeSelector.ascx" tagname="OpenEmployeeSelector" tagprefix="uc2" %>
 
+
+
 <%@ Register namespace="TServerControl" tagprefix="cc1" %>
+
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -69,7 +72,7 @@ WHERE A.emp_id=@emp_id">
                 </asp:Panel>
                 
                   <asp:Panel ID="PanelRegisterInfoB" runat="server">  
-                      <cc1:TGridView ID="gv_Activity" runat="server" AllowHoverEffect="True" 
+                      <TServerControl:TGridView ID="gv_Activity" runat="server" AllowHoverEffect="True" 
                           AllowHoverSelect="True" AutoGenerateColumns="False" 
                           DataSourceID="SqlDataSource3" EnableModelValidation="True" PageSize="2" 
                           ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" SkinID="pager" 
@@ -84,7 +87,7 @@ WHERE A.emp_id=@emp_id">
                               <asp:BoundField DataField="emp_cname" HeaderText="姓名" />
                               <asp:BoundField DataField="dept_name" HeaderText="部門" />
                           </Columns>
-                      </cc1:TGridView>
+                      </TServerControl:TGridView>
                       <asp:SqlDataSource ID="SqlDataSource3" runat="server" 
                           ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT A.[emp_id], B.[emp_cname],C.dept_name
 FROM [ActivityRegist] A

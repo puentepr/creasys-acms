@@ -54,6 +54,11 @@
                             <asp:LinkButton ID="lbtnRegistEdit" runat="server">編輯</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
+                    <asp:TemplateField>
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lbtnRegistCancel" runat="server">取消報名</asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
             </Columns>
         </TServerControl:TGridView>
         <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
