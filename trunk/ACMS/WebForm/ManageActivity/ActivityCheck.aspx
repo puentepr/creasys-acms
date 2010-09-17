@@ -79,7 +79,7 @@
                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                             ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name,CASE A.check_status WHEN 1 THEN '已報到'  WHEN 2 THEN '已取消' WHEN 3 THEN '已完成' WHEN 4 THEN '已離職' END as check_status
 FROM ActivityRegist A
-inner join dbo.UserList B on A.emp_id=B.emp_id
+inner join dbo.V_ACSM_USER B on A.emp_id=B.emp_id
 inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
          
                     </asp:Panel>

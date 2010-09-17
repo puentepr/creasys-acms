@@ -60,7 +60,7 @@
                     </asp:FormView>
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT A.[emp_id], A.[emp_cname],B.dept_name
-FROM [UserList] A
+FROM [V_ACSM_USER] A
 inner join dbo.DeptList B on A.dept_id=B.dept_id
 WHERE A.emp_id=@emp_id">
                         <SelectParameters>
@@ -91,7 +91,7 @@ WHERE A.emp_id=@emp_id">
                       <asp:SqlDataSource ID="SqlDataSource3" runat="server" 
                           ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT A.[emp_id], B.[emp_cname],C.dept_name
 FROM [ActivityRegist] A
-inner join dbo.UserList B on A.emp_id=B.emp_id
+inner join dbo.V_ACSM_USER B on A.emp_id=B.emp_id
 inner join dbo.DeptList C on B.dept_id=C.dept_id
 WHERE (A.[activity_id] = @activity_id)
 ">

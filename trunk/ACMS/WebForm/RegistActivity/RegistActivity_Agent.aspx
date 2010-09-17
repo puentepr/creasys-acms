@@ -49,7 +49,7 @@
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT A.*,B.emp_cname,C.dept_name,D.price_money
 FROM dbo.ActivityRegist A
-inner join dbo.UserList B on A.emp_id=B.emp_id 
+inner join dbo.V_ACSM_USER B on A.emp_id=B.emp_id 
 inner join dbo.DeptList C on B.dept_id=C.dept_id
 inner join dbo.ActivityPrice D on A.activity_id=D.activity_id"></asp:SqlDataSource>
                     <uc1:OpenUnRegistEmployeeSelector ID="OpenUnRegistEmployeeSelector1" 

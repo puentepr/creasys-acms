@@ -19,7 +19,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Agent : System.Web.UI
     protected void GoSecondStep_Click(object sender, RegistGoSecondEventArgs e)
     {
         Wizard1.MoveTo(Wizard1.WizardSteps[1]);
-        Label2.Text = e.activity_id.ToString() + "   --     " + clsAuth.UserID;
+        Label2.Text = e.activity_id.ToString() + "   --     " + clsAuth.ID;
 
 
     }

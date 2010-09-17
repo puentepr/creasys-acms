@@ -21,7 +21,7 @@ public partial class clsAuth
 {
     #region Property
 
-    public static string UserID
+    public static string ID
     {
         get
         {
@@ -29,51 +29,203 @@ public partial class clsAuth
         }
     }
 
-    public static string emp_cname
+    public static string NATIVE_NAME
     {
         get
         {
-            return GetCookie("emp_cname");
+            return GetCookie("NATIVE_NAME");
         }
         set
         {
-            SetCookie(value, "emp_cname");
+            SetCookie(value, "NATIVE_NAME");
         }
     }
 
-    public static string email
+    public static string ENGLISH_NAME
     {
         get
         {
-            return GetCookie("email");
+            return GetCookie("ENGLISH_NAME");
         }
         set
         {
-            SetCookie(value, "email");
+            SetCookie(value, "ENGLISH_NAME");
         }
     }
 
-    public static string dept_id
+    public static string WORK_ID
     {
         get
         {
-            return GetCookie("dept_id");
+            return GetCookie("WORK_ID");
         }
         set
         {
-            SetCookie(value, "dept_id");
+            SetCookie(value, "WORK_ID");
         }
     }
 
-    public static string dept_name
+    public static string OFFICE_MAIL
     {
         get
         {
-            return GetCookie("dept_name");
+            return GetCookie("OFFICE_MAIL");
         }
         set
         {
-            SetCookie(value, "dept_name");
+            SetCookie(value, "OFFICE_MAIL");
+        }
+    }
+
+    public static string DEPT_ID
+    {
+        get
+        {
+            return GetCookie("DEPT_ID");
+        }
+        set
+        {
+            SetCookie(value, "DEPT_ID");
+        }
+    }
+
+    public static string C_DEPT_NAME
+    {
+        get
+        {
+            return GetCookie("C_DEPT_NAME");
+        }
+        set
+        {
+            SetCookie(value, "C_DEPT_NAME");
+        }
+    }
+
+    public static string C_DEPT_ABBR
+    {
+        get
+        {
+            return GetCookie("C_DEPT_ABBR");
+        }
+        set
+        {
+            SetCookie(value, "C_DEPT_ABBR");
+        }
+    }
+
+
+    public static string OFFICE_PHONE
+    {
+        get
+        {
+            return GetCookie("OFFICE_PHONE");
+        }
+        set
+        {
+            SetCookie(value, "OFFICE_PHONE");
+        }
+    }
+
+
+    public static string EXPERIENCE_START_DATE
+    {
+        get
+        {
+            return GetCookie("EXPERIENCE_START_DATE");
+        }
+        set
+        {
+            SetCookie(value, "EXPERIENCE_START_DATE");
+        }
+    }
+
+
+    public static string BIRTHDAY
+    {
+        get
+        {
+            return GetCookie("BIRTHDAY");
+        }
+        set
+        {
+            SetCookie(value, "BIRTHDAY");
+        }
+    }
+
+
+    public static string SEX
+    {
+        get
+        {
+            return GetCookie("SEX");
+        }
+        set
+        {
+            SetCookie(value, "SEX");
+        }
+    }
+
+
+    public static string JOB_CNAME
+    {
+        get
+        {
+            return GetCookie("JOB_CNAME");
+        }
+        set
+        {
+            SetCookie(value, "JOB_CNAME");
+        }
+    }
+
+
+    public static string STATUS
+    {
+        get
+        {
+            return GetCookie("STATUS");
+        }
+        set
+        {
+            SetCookie(value, "STATUS");
+        }
+    }
+
+
+    public static string WORK_END_DATE
+    {
+        get
+        {
+            return GetCookie("WORK_END_DATE");
+        }
+        set
+        {
+            SetCookie(value, "WORK_END_DATE");
+        }
+    }
+
+
+    public static string COMPANY_CODE
+    {
+        get
+        {
+            return GetCookie("COMPANY_CODE");
+        }
+        set
+        {
+            SetCookie(value, "COMPANY_CODE");
+        }
+    }
+
+    public static string C_NAME
+    {
+        get
+        {
+            return GetCookie("C_NAME");
+        }
+        set
+        {
+            SetCookie(value, "C_NAME");
         }
     }
 

@@ -43,7 +43,7 @@
                     </Columns>
                 </TServerControl:TGridView>
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
-                    SelectCommand="SELECT * FROM [UserList]">
+                    SelectCommand="SELECT * FROM [V_ACSM_USER]">
                 </asp:SqlDataSource>
             </td>
         </tr>

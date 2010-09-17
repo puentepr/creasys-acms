@@ -248,7 +248,7 @@
                                                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                                                     ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_id,B.emp_cname,C.dept_name
 FROM ActivityGroupLimit A
-inner join UserList B on A.emp_id=B.emp_id
+inner join V_ACSM_USER B on A.emp_id=B.emp_id
 inner join DeptList C on B.dept_id=C.dept_id
 WHERE A.activity_id=1"></asp:SqlDataSource>
                                             </asp:Panel>
@@ -375,7 +375,7 @@ FROM CustomField WHERE (activity_id = @activity_id)">
                     &nbsp;<asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
                         SelectCommand="SELECT B.emp_id,B.emp_cname,C.dept_name
 FROM ActivityGroupLimit A
-inner join UserList B on A.emp_id=B.emp_id
+inner join V_ACSM_USER B on A.emp_id=B.emp_id
 inner join DeptList C on B.dept_id=C.dept_id
 WHERE A.activity_id=1"></asp:SqlDataSource>
                     <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />

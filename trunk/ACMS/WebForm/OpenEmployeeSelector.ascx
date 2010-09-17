@@ -106,7 +106,7 @@
                 </TServerControl:TGridView>
                 <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
                     ConnectionString="<%$ ConnectionStrings:connStr %>" 
-                    SelectCommand="SELECT * FROM [UserList]"></asp:SqlDataSource>
+                    SelectCommand="SELECT * FROM [V_ACSM_USER]"></asp:SqlDataSource>
             </td>
         </tr>
     </table>

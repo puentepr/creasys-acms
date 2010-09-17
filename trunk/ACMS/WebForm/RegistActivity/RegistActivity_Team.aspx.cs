@@ -35,7 +35,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     protected void GoSecondStep_Click(object sender, RegistGoSecondEventArgs e)
     {
         Wizard1.MoveTo(Wizard1.WizardSteps[1]);
-        Label2.Text = e.activity_id.ToString() + "   --     " + clsAuth.UserID;
+        Label2.Text = e.activity_id.ToString() + "   --     " + clsAuth.ID;
 
         FormMode = FormViewMode.Insert;
         emp_id = "1111";
@@ -51,7 +51,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     protected void GoThirdStep_Click(object sender, RegistGoSecondEventArgs e)
     {
         Wizard1.MoveTo(Wizard1.WizardSteps[1]);
-        Label2.Text = e.activity_id.ToString() + "   --     " + clsAuth.UserID;
+        Label2.Text = e.activity_id.ToString() + "   --     " + clsAuth.ID;
 
         FormMode = FormViewMode.Edit;
         emp_id = "1111";

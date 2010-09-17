@@ -51,14 +51,11 @@ using System.Collections.Generic;
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.*,B.dept_id,B.dept_name ");
-            sb.AppendLine("FROM UserList A ");
-            sb.AppendLine("inner join DeptList B on A.dept_id=B.dept_id");
+            sb.AppendLine("SELECT A.* ");
+            sb.AppendLine("FROM V_ACSM_USER A ");
             sb.AppendLine("WHERE 1=1 ");
-            sb.AppendLine("AND A.active='Y' ");
-            sb.AppendLine("AND B.active='Y' ");
-            sb.AppendLine("AND A.emp_id=@LoginID ");
-            sb.AppendLine("AND A.password=@LoginPwd ");
+            sb.AppendLine("AND A.STATUS='1' ");
+            sb.AppendLine("AND A.ID=@LoginID ");
 
             DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
 
@@ -66,10 +63,21 @@ using System.Collections.Generic;
             {
                 //取得登入者資訊
                 DataRow DR = DS.Tables[0].Rows[0];
-                clsAuth.emp_cname = DR["emp_cname"].ToString();
-                clsAuth.email = DR["email"].ToString();
-                clsAuth.dept_id = DR["dept_id"].ToString();
-                clsAuth.dept_name = DR["dept_name"].ToString();
+                clsAuth.NATIVE_NAME = DR["NATIVE_NAME"].ToString();
+                clsAuth.ENGLISH_NAME = DR["ENGLISH_NAME"].ToString();
+                clsAuth.WORK_ID = DR["WORK_ID"].ToString();
+                clsAuth.DEPT_ID = DR["DEPT_ID"].ToString();
+                clsAuth.C_DEPT_NAME = DR["C_DEPT_NAME"].ToString();
+                clsAuth.C_DEPT_ABBR = DR["C_DEPT_ABBR"].ToString();
+                clsAuth.OFFICE_PHONE = DR["OFFICE_PHONE"].ToString();
+                clsAuth.EXPERIENCE_START_DATE = DR["EXPERIENCE_START_DATE"].ToString();
+                clsAuth.BIRTHDAY = DR["BIRTHDAY"].ToString();
+                clsAuth.SEX = DR["SEX"].ToString();
+                clsAuth.JOB_CNAME = DR["JOB_CNAME"].ToString();
+                clsAuth.STATUS = DR["STATUS"].ToString();
+                clsAuth.WORK_END_DATE = DR["WORK_END_DATE"].ToString();
+                clsAuth.COMPANY_CODE = DR["COMPANY_CODE"].ToString();
+                clsAuth.C_NAME = DR["C_NAME"].ToString();
 
                 //取得角色ID與角色名稱
                 CheckRole(LoginID);
@@ -143,7 +151,7 @@ using System.Collections.Generic;
         //    StringBuilder sb = new StringBuilder();
 
         //    sb.AppendLine("SELECT COUNT(*) ");
-        //    sb.AppendLine("FROM UserList ");
+        //    sb.AppendLine("FROM V_ACSM_USER ");
         //    sb.AppendLine("WHERE emp_id=@LoginID ");
 
         //    return Convert.ToInt32(SqlHelper.ExecuteScalar(conn, CommandType.Text, sb.ToString(), sqlParams)) > 0 ? true : false;

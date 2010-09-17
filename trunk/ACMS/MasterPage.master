@@ -61,7 +61,7 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     <li><a href="#">權限管理</a>
                         <ul>
                             <li><a href="WebForm/ManageRole/ManageRole.aspx">角色功能管理</a></li>
-                            <li><a href="#">人員角色管理</a></li>
+                            <li><a href="/ACMS/WebForm/ManageRole/ManageRole.aspx">角色人員管理</a></li>
                         </ul>
                     </li>
                     <li></li>

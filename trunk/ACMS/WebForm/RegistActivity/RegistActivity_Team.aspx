@@ -58,7 +58,7 @@
                     <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name
 FROM ActivityTeamMember A
-inner join dbo.UserList B on A.emp_id=B.emp_id
+inner join dbo.V_ACSM_USER B on A.emp_id=B.emp_id
 inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                     <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />
                 </asp:Panel>
@@ -136,7 +136,7 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name
 FROM ActivityTeamMember A
-inner join dbo.UserList B on A.emp_id=B.emp_id
+inner join dbo.V_ACSM_USER B on A.emp_id=B.emp_id
 inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                     <uc2:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />
                 </asp:Panel>
