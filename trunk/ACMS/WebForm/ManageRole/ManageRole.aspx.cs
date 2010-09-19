@@ -42,19 +42,14 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
 
 
 
-   
-    //開窗設定權限
-    protected void lbtnSetup_Click(object sender, EventArgs e)
+
+
+
+    protected void ibtnAdd_Click(object sender, ImageClickEventArgs e)
     {
-        GridView1.EditIndex = -1;
-        //OpenManageRoleProgramMapping1.RoleID = (int)GridView1.DataKeys[((GridViewRow)((LinkButton)sender).NamingContainer).RowIndex][0];
-        //OpenManageRoleProgramMapping1.InitDataAndShow();
+        OpenEmployeeSelector1.SelectMethod = "BLL_OpenEmployeeSelector_ManageRole_Select";
+        OpenEmployeeSelector1.InitDataAndShow(); 
     }
-
-
-
-
-
 }
 
 public partial class WebForm_ManageRole_ManageRole

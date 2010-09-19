@@ -1,6 +1,8 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
     CodeFile="ManageRole.aspx.cs" Inherits="WebForm_ManageRole_ManageRole" %>
 
+<%@ Register src="../OpenEmployeeSelector.ascx" tagname="OpenEmployeeSelector" tagprefix="uc1" %>
+
 <%--<%@ Register Src="OpenManageRoleProgramMapping.ascx" TagName="OpenManageRoleProgramMapping"
     TagPrefix="uc1" %>--%>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -22,9 +24,9 @@
             <asp:TemplateField>
                 <ItemTemplate>
                     <asp:ImageButton ID="ibtnAdd" runat="server" ImageUrl="~/images/addperson.png" 
-                        ToolTip="新增人員" />
+                        ToolTip="新增人員" onclick="ibtnAdd_Click" />
                     <asp:ImageButton ID="ibtnDel" runat="server" ImageUrl="~/images/del.png" 
-                        ToolTip="刪除人員" />
+                        ToolTip="刪除人員" onclientclick="return confirm('確定要刪除嗎?');" />
                 </ItemTemplate>
             </asp:TemplateField>
         </Columns>
@@ -38,12 +40,8 @@
                     <asp:Parameter Name="original_ID" Type="String" />
                 </deleteparameters>
     </asp:ObjectDataSource>
-    <asp:Panel ID="Panel2" runat="server">
-    </asp:Panel>
-    <%--<%@ Register Src="OpenManageRoleProgramMapping.ascx" TagName="OpenManageRoleProgramMapping"
-    TagPrefix="uc1" %>--%>
-    <asp:ValidationSummary ID="sum_Insert" runat="server" DisplayMode="List" ShowMessageBox="True"
-        ShowSummary="False" ValidationGroup="Insert" />
-    <asp:ValidationSummary ID="sum_Update" runat="server" DisplayMode="List" ShowMessageBox="True"
-        ShowSummary="False" ValidationGroup="Update" />
+<uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" 
+        runat="server" />
+&nbsp;
+
 </asp:Content>

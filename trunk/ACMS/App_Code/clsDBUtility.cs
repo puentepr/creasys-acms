@@ -107,7 +107,7 @@ using System.Collections.Generic;
             sb.AppendLine("inner join RoleList B on A.role_id=B.role_id");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND B.active='Y' ");
-            sb.AppendLine("AND A.emp_id=@UserID ");
+            sb.AppendLine("AND A.ID=@UserID ");
 
             DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
 
