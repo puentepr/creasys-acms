@@ -58,11 +58,13 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
     //{
     //    DataRowView MyDataRowView = (DataRowView)e.Row.DataItem;
 
-    //    if(MyDataRowView["key_control"])
+    //    if(MyDataRowView["field_control"])
     //}
     protected void lbtnEditItem_Click(object sender, EventArgs e)
-    {
-        OpenListItem1.InitDataAndShow((sender as LinkButton).CommandArgument);
+    {   
+      
+
+        OpenListItem1.InitDataAndShow((sender as LinkButton).CommandArgument, ( ((sender as LinkButton).NamingContainer as GridViewRow).FindControl("ddlfield_control") as DropDownList).SelectedValue);
     
     }
     protected void btnAddGroupLimit_Click(object sender, EventArgs e)

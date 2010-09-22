@@ -57,10 +57,17 @@
                             </asp:RadioButtonList>
                         </td>
                         <td align="right">
-                            <asp:Label ID="lblAGE" runat="server" Text="年齡"></asp:Label>
-                        </td>
+                            &nbsp;</td>
                         <td>
-                            <asp:TextBox ID="txtAGE" runat="server" ></asp:TextBox>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td align="right">
+                            <asp:Label ID="lblBIRTHDAY" runat="server" Text="生日"></asp:Label>
+                        </td>
+                        <td colspan="3">
+                            <asp:TextBox ID="txtBIRTHDAY_start" runat="server"></asp:TextBox>
+                            ~<asp:TextBox ID="txtBIRTHDAY_end" runat="server"></asp:TextBox>
                         </td>
                     </tr>
                     <tr>
@@ -70,7 +77,7 @@
                         <td>
                             <asp:TextBox ID="txtEXPERIENCE_START_DATE" runat="server"></asp:TextBox>
                             <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" 
-                                TargetControlID="txtEXPERIENCE_START_DATE">
+                                Format="yyyy/MM/dd" TargetControlID="txtEXPERIENCE_START_DATE">
                             </ajaxToolkit:CalendarExtender>
                         </td>
                         <td align="right">
@@ -93,19 +100,22 @@
                 <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
                     ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID"
-                    SkinID="pager" DataSourceID="ObjectDataSource2" 
+                    SkinID="pager" DataSourceID="SqlDataSource1" 
                     EnableModelValidation="True">
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
                             SortExpression="WORK_ID" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
                             SortExpression="NATIVE_NAME" />
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" />
+                        <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" SortExpression="C_DEPT_ABBR" />
                           <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <asp:CheckBox ID="CheckBox1" runat="server" />
                             </ItemTemplate>
+                            <HeaderTemplate>
+                                <asp:CheckBox ID="CheckBox1" runat="server" Text="全選" />
+                            </HeaderTemplate>
                         </asp:TemplateField>
                     </Columns>
                 </TServerControl:TGridView>
@@ -125,6 +135,9 @@
                         <asp:Parameter ConvertEmptyStringToNull="false"  Name="C_NAME" Type="String" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
+                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
+                    ConnectionString="<%$ ConnectionStrings:connStr %>" 
+                    SelectCommand="SELECT * FROM [V_ACSM_USER]"></asp:SqlDataSource>
             </td>
         </tr>
     </table>

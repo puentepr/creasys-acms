@@ -1,11 +1,11 @@
-Ôªø<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="ActivityQuery.aspx.cs" Inherits="WebForm_RegistActivity_ActivityQuery" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" CodeFile="ActivityQuery.aspx.cs" Inherits="WebForm_RegistActivity_ActivityQuery" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
         <table>
             <tr>
                 <td>
-                    Ê¥ªÂãïÂêçÁ®±</td>
+                    ¨°∞ ¶W∫Ÿ</td>
                 <td>
                     <asp:TextBox ID="TextBox3" runat="server"></asp:TextBox>
                 </td>
@@ -14,56 +14,81 @@
             </tr>
             <tr>
                 <td>
-                    Ê¥ªÂãïÊó•Êúü</td>
+                    ¨°∞ §È¥¡</td>
                 <td>
                     <asp:TextBox ID="txtStartDate" runat="server"></asp:TextBox>
                     <ajaxToolkit:CalendarExtender
-                        ID="CalendarExtender1" runat="server" TargetControlID="txtStartDate">
+                        ID="CalendarExtender1" runat="server" TargetControlID="txtStartDate" Format="yyyy/MM/dd">
                     </ajaxToolkit:CalendarExtender>
                     ~<asp:TextBox ID="txtEndDate" runat="server"></asp:TextBox>
                     <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" 
-                        TargetControlID="txtEndDate">
+                        TargetControlID="txtEndDate" Format="yyyy/MM/dd">
                     </ajaxToolkit:CalendarExtender>
                 </td>
                 <td>
-                    <asp:Button ID="Button1" runat="server" Text="Êü•Ë©¢" />
+                    <asp:Button ID="Button1" runat="server" Text="¨d∏ﬂ" />
                 </td>
             </tr>
         </table>
         <br />
-        <TServerControl:TGridView ID="GridView2" runat="server" 
+        <TServerControl:TGridView ID="GridView1" runat="server" 
             AllowHoverEffect="True" AllowHoverSelect="True" 
-            AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource2" 
+            AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="SqlDataSource1" 
             EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 
-            ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" Width="100%">
+            ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" Width="100%" 
+            onrowdatabound="GridView1_RowDataBound">
             <Columns>
-                <asp:BoundField DataField="activity_name" HeaderText="Ê¥ªÂãïÂêçÁ®±" 
+                <asp:BoundField DataField="activity_name" HeaderText="¨°∞ ¶W∫Ÿ" 
                     SortExpression="activity_name" />
-                <asp:BoundField DataField="people_type" HeaderText="Ê¥ªÂãïÂ∞çË±°" 
-                    SortExpression="people_type" />
-                <asp:BoundField DataField="acept_count" HeaderText="ÈåÑÂèñ‰∫∫Êï∏" 
-                    SortExpression="acept_count" />
-                <asp:BoundField DataField="register_count" HeaderText="Â†±Âêç‰∫∫Êï∏" 
-                    SortExpression="register_count" />
-                <asp:BoundField DataField="activity_date" HeaderText="Ê¥ªÂãïÊó•Êúü" 
-                    SortExpression="activity_date" />
-                <asp:BoundField DataField="is_full" HeaderText="ÊòØÂê¶È°çÊªø" 
-                    SortExpression="is_full" />
+                <asp:BoundField DataField="people_type" HeaderText="¨°∞ πÔ∂H" 
+                    SortExpression="people_type" >
+                <ItemStyle HorizontalAlign="Right" />
+                </asp:BoundField>
+                <asp:BoundField DataField="limit_count" HeaderText="¨°∞ §Hº∆" 
+                    SortExpression="limit_count" >
+                <ItemStyle HorizontalAlign="Right" />
+                </asp:BoundField>
+                <asp:BoundField DataField="RegistCount" HeaderText="§w≥¯¶W§Hº∆" 
+                    SortExpression="RegistCount" >
+                <ItemStyle HorizontalAlign="Right" />
+                </asp:BoundField>
+                <asp:TemplateField HeaderText="¨°∞ §È¥¡" SortExpression="activity_startdate">
+                    <ItemTemplate>
+                        <asp:Label ID="lblactivity_startdate" runat="server" 
+                            Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>
+                        ~<asp:Label ID="lblactivity_enddate" runat="server" 
+                            Text='<%# Bind("activity_enddate", "{0:g}") %>'></asp:Label>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                        <asp:TextBox ID="TextBox1" runat="server" 
+                            Text='<%# Bind("activity_startdate") %>'></asp:TextBox>
+                    </EditItemTemplate>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="¨Oß_√B∫°" SortExpression="is_full">
+                    <ItemTemplate>
+                        <asp:Label ID="lblisfull" runat="server"></asp:Label>
+                    </ItemTemplate>
+                    <ItemStyle HorizontalAlign="Right" />
+                </asp:TemplateField>
                             <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:LinkButton ID="lbtnRegistEdit" runat="server">Á∑®ËºØ</asp:LinkButton>
+                            <asp:LinkButton ID="lbtnRegistEdit" runat="server">ΩsøË</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:TemplateField>
                         <ItemTemplate>
-                            <asp:LinkButton ID="lbtnRegistCancel" runat="server">ÂèñÊ∂àÂ†±Âêç</asp:LinkButton>
+                            <asp:LinkButton ID="lbtnRegistCancel" runat="server">®˙Æ¯≥¯¶W</asp:LinkButton>
                         </ItemTemplate>
                     </asp:TemplateField>
             </Columns>
         </TServerControl:TGridView>
-        <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
+        <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
             ConnectionString="<%$ ConnectionStrings:connStr %>" 
-            SelectCommand="SELECT * FROM [Activity]"></asp:SqlDataSource>
+            SelectCommand="SELECT A.id,A.activity_name,A.people_type,A.activity_startdate,A.activity_enddate,A.limit_count
+,(SELECT COUNT(*) FROM [ActivityRegist] WHERE activity_id=A.id) as RegistCount,B.emp_id
+FROM [Activity] A
+inner join [ActivityRegist] B on A.id=activity_id and B.emp_id='1111'
+"></asp:SqlDataSource>
 
 
 </asp:Content>

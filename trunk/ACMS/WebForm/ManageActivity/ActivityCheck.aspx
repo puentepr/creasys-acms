@@ -21,11 +21,11 @@
                 <td>
                     <asp:TextBox ID="txtStartDate" runat="server"></asp:TextBox>
                     <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" 
-                        TargetControlID="txtStartDate">
+                        TargetControlID="txtStartDate" Format="yyyy/MM/dd">
                     </ajaxToolkit:CalendarExtender>
                     ~<asp:TextBox ID="txtEndDate" runat="server"></asp:TextBox>
                     <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" 
-                        TargetControlID="txtEndDate">
+                        TargetControlID="txtEndDate" Format="yyyy/MM/dd">
                     </ajaxToolkit:CalendarExtender>
                 </td>
             </tr>
@@ -60,27 +60,29 @@
                         <asp:Button ID="Button3" runat="server" Text="批次更新" /></div>
          
                         <TServerControl:TGridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
-                            DataSourceID="SqlDataSource1" SkinID="pager" Width="100%">
+                            DataSourceID="SqlDataSource1" SkinID="pager" Width="100%" 
+                             AllowHoverEffect="True" AllowHoverSelect="True" ShowFooterWhenEmpty="False" 
+                             ShowHeaderWhenEmpty="False" TotalRowCount="0">
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>
                                         <asp:CheckBox ID="CheckBox1" runat="server" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                                <asp:BoundField DataField="emp_cname" HeaderText="員工姓名" 
-                                    SortExpression="emp_cname" />
-                                <asp:BoundField DataField="dept_name" HeaderText="部門" 
-                                    SortExpression="dept_name" />
+                                <asp:BoundField DataField="NATIVE_NAME" HeaderText="員工姓名" 
+                                    SortExpression="NATIVE_NAME" />
+                                <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
+                                    SortExpression="C_DEPT_ABBR" />
                                 <asp:BoundField DataField="check_status" HeaderText="登錄狀態" ReadOnly="True" 
                                     SortExpression="check_status" />
                             </Columns>
                         </TServerControl:TGridView>
          
                         <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-                            ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.emp_cname,C.dept_name,CASE A.check_status WHEN 1 THEN '已報到'  WHEN 2 THEN '已取消' WHEN 3 THEN '已完成' WHEN 4 THEN '已離職' END as check_status
+                            ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.NATIVE_NAME,B.C_DEPT_ABBR,CASE A.check_status WHEN 1 THEN '已報到'  WHEN 2 THEN '已取消' WHEN 3 THEN '已完成' WHEN 4 THEN '已離職' END as check_status
 FROM ActivityRegist A
-inner join dbo.V_ACSM_USER B on A.emp_id=B.emp_id
-inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
+inner join dbo.V_ACSM_USER B on A.emp_id=B.ID
+"></asp:SqlDataSource>
          
                     </asp:Panel>
 

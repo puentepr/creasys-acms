@@ -75,17 +75,17 @@ public partial class clsDBUtility
 
         StringBuilder sb = new StringBuilder();
 
-        sb.AppendLine("SELECT ID,WORK_ID,NATIVE_NAME,C_DEPT_NAME,C_NAME ");
+        sb.AppendLine("SELECT ID,WORK_ID,NATIVE_NAME,C_DEPT_ABBR,C_NAME ");
         sb.AppendLine("FROM V_ACSM_USER A ");
         sb.AppendLine("WHERE 1=1 ");
-        sb.AppendLine("AND (@DEPT_ID='' or DEPT_ID=@DEPT_ID) ");
-        sb.AppendLine("AND (@JOB_CNAME='' or JOB_CNAME=@JOB_CNAME) ");
-        sb.AppendLine("AND (@WORK_ID='' or WORK_ID=@WORK_ID) ");
-        sb.AppendLine("AND (@NATIVE_NAME='' or NATIVE_NAME=@NATIVE_NAME) ");
-        sb.AppendLine("AND (@SEX='' or SEX=@SEX) ");
-        sb.AppendLine("AND (@AGE='' or @AGE=datediff(year,BIRTHDAY,getdate())) ");
-        sb.AppendLine("AND (@EXPERIENCE_START_DATE='' or EXPERIENCE_START_DATE=@EXPERIENCE_START_DATE) ");
-        sb.AppendLine("AND (@C_NAME='' or C_NAME like '%'+@C_NAME+'%') ");
+        //sb.AppendLine("AND (@DEPT_ID='' or DEPT_ID=@DEPT_ID) ");
+        //sb.AppendLine("AND (@JOB_CNAME='' or JOB_CNAME=@JOB_CNAME) ");
+        //sb.AppendLine("AND (@WORK_ID='' or WORK_ID=@WORK_ID) ");
+        //sb.AppendLine("AND (@NATIVE_NAME='' or NATIVE_NAME=@NATIVE_NAME) ");
+        //sb.AppendLine("AND (@SEX='' or SEX=@SEX) ");
+        //sb.AppendLine("AND (@AGE='' or @AGE=datediff(year,BIRTHDAY,getdate())) ");
+        //sb.AppendLine("AND (@EXPERIENCE_START_DATE='' or EXPERIENCE_START_DATE=@EXPERIENCE_START_DATE) ");
+        //sb.AppendLine("AND (@C_NAME='' or C_NAME like '%'+@C_NAME+'%') ");
         sb.AppendLine("ORDER BY WORK_ID,NATIVE_NAME ");
 
         DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);

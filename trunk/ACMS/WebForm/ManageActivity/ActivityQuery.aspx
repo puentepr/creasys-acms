@@ -57,12 +57,12 @@
             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
             <asp:BoundField DataField="people_type" HeaderText="活動對象" SortExpression="people_type" />
             <asp:BoundField DataField="activity_date" HeaderText="活動日期" SortExpression="activity_date" />
-            <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日期" />
-            <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日期" />
+            <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日" />
+            <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日" />
             <asp:TemplateField>
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnShowPerson" runat="server" 
-                        onclick="lbtnShowPerson_Click">檢視名單</asp:LinkButton>
+                        onclick="lbtnShowPerson_Click">檢視內容</asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
             <asp:TemplateField>

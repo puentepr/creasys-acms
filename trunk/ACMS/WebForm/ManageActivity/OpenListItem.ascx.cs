@@ -14,10 +14,27 @@ public partial class WebForm_ManageActivity_OpenListItem : System.Web.UI.UserCon
 
 public partial class WebForm_ManageActivity_OpenListItem
 {
-    public void InitDataAndShow(string key_id)
+    public void InitDataAndShow(string field_id,string controltype)
     {
         this.mpSearch.Show();
 
+
+        if (controltype == "textboxlist")
+        {
+            lblValue.Visible = true;
+            txtValue.Visible = true;
+
+            gvCustomField.Columns[1].Visible = true;
+        }
+        else
+        {
+            lblValue.Visible = false;
+            txtValue.Visible = false;
+
+            gvCustomField.Columns[1].Visible = false;
+        }
+
+        SqlDataSource1.SelectParameters["field_id"].DefaultValue = field_id;
     }
 
 }

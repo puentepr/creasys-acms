@@ -39,15 +39,16 @@
             <td align="center">
                 <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
-                    ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="emp_id"
+                    ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID"
                     SkinID="pager" DataSourceID="SqlDataSource2" 
                     EnableModelValidation="True">
                     <Columns>
-                        <asp:BoundField DataField="emp_id" HeaderText="員工編號" ReadOnly="True" 
-                            SortExpression="emp_id" />
-                        <asp:BoundField DataField="emp_cname" HeaderText="姓名" 
-                            SortExpression="emp_cname" />
-                        <asp:BoundField DataField="dept_id" HeaderText="部門" SortExpression="dept_id" />
+                        <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
+                            SortExpression="WORK_ID" />
+                        <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
+                            SortExpression="NATIVE_NAME" />
+                        <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
+                            SortExpression="C_DEPT_ABBR" />
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <asp:CheckBox ID="CheckBox1" runat="server" />

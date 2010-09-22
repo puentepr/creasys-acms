@@ -76,7 +76,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     }
     protected void lbtnAddPerson_Click(object sender, EventArgs e)
     {
-        OpenEmployeeSelector1.InitDataAndShow();
+        OpenSmallEmployeeSelector1.InitDataAndShow();
     }
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
@@ -136,8 +136,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
                         //Title
                         Label lblTitle = new Label();
-                        lblTitle.ID = string.Format("lbl{0}", DR["key_id"].ToString());
-                        lblTitle.Text = DR["key_name"].ToString();
+                        lblTitle.ID = string.Format("lbl{0}", DR["field_id"].ToString());
+                        lblTitle.Text = DR["field_name"].ToString();
 
 
                         MyTableCell_Title.Controls.Add(lblTitle);
@@ -147,35 +147,41 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         //Control
                         Control MyControl = new Control();
 
-                        if (DR["key_control"].ToString().ToUpper() == "TEXTBOX")
+                        if (DR["field_control"].ToString().ToUpper() == "TEXTBOX")
                         {
                             MyControl = new TextBox();
-                            MyControl.ID = string.Format("txt{0}", DR["key_id"].ToString());
+                            MyControl.ID = string.Format("txt{0}", DR["field_id"].ToString());
 
                         }
-                        else if (DR["key_control"].ToString().ToUpper() == "CHECKBOXLIST")
+                        if (DR["field_control"].ToString().ToUpper() == "TEXTBOXLIST")
+                        {
+                            MyControl = new PlaceHolder();
+                            MyControl.ID = string.Format("plh{0}", DR["field_id"].ToString());
+
+                        }
+                        else if (DR["field_control"].ToString().ToUpper() == "CHECKBOXLIST")
                         {
                             MyControl = new TCheckBoxList();
                             (MyControl as TCheckBoxList).RepeatDirection = RepeatDirection.Horizontal;
                             (MyControl as TCheckBoxList).RepeatLayout = RepeatLayout.Flow;
                             //(MyControl as TCheckBoxList).RepeatColumns = 3;
-                            MyControl.ID = string.Format("cbl{0}", DR["key_id"].ToString());
+                            MyControl.ID = string.Format("cbl{0}", DR["field_id"].ToString());
                             (MyControl as TCheckBoxList).ClearSelection();
                             (MyControl as TCheckBoxList).EnableViewState = false;
                         }
-                        else if (DR["key_control"].ToString().ToUpper() == "RADIOBUTTONLIST")
+                        else if (DR["field_control"].ToString().ToUpper() == "RADIOBUTTONLIST")
                         {
                             MyControl = new TRadioButtonList();
                             (MyControl as TRadioButtonList).RepeatDirection = RepeatDirection.Horizontal;
                             (MyControl as TRadioButtonList).RepeatLayout = RepeatLayout.Flow;
                             //(MyControl as TRadioButtonList).RepeatColumns = 3;
-                            MyControl.ID = string.Format("radl{0}", DR["key_id"].ToString());
+                            MyControl.ID = string.Format("radl{0}", DR["field_id"].ToString());
                             (MyControl as TRadioButtonList).ClearSelection();
                             (MyControl as TRadioButtonList).EnableViewState = false;
                         }
 
-                        //每個 ORG_FIELD_NAME 長出選項
-                        using (DataTable DT_Items = dbUtil.GetCustomFieldItem(Convert.ToInt32(DR["key_id"])))
+                        //每個 ORG_field_name 長出選項
+                        using (DataTable DT_Items = dbUtil.GetCustomFieldItem(Convert.ToInt32(DR["field_id"])))
                         {
                             if (DT_Items != null)
                             {
@@ -187,11 +193,19 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                                     i++;
 
 
-                                    //if (DR["key_control"].ToString().ToUpper() == "CHECKBOXLIST")
-                                    //{
-                                    (MyControl as ListControl).Items.Add(new ListItem(DR_Items["key_item_name"].ToString(), DR_Items["key_item_id"].ToString()));
+                                    if (DR["field_control"].ToString().ToUpper() == "TEXTBOXLIST")
+                                    {
+                                        Label lblLabel = new Label();
+                                        lblLabel.Text = string.Format("{0}:{1}<br>", DR_Items["field_item_name"].ToString(), DR_Items["field_item_text"].ToString());
+                                        (MyControl as PlaceHolder).Controls.Add(lblLabel);
 
-                                    //}
+                                    }
+                                    else
+                                    {
+
+                                        (MyControl as ListControl).Items.Add(new ListItem(DR_Items["field_item_name"].ToString(), DR_Items["field_item_id"].ToString()));
+
+                                    }
 
                                 }
 
@@ -209,7 +223,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
                         MyTable.Rows.Add(MyTableRow);
 
-                        MyHashtable.Add(DR["key_name"].ToString(), MyControl.ID);
+                        MyHashtable.Add(DR["field_name"].ToString(), MyControl.ID);
 
 
 

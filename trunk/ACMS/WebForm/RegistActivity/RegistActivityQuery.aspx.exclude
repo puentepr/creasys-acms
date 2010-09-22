@@ -22,11 +22,11 @@
                 <td>
                     <asp:TextBox ID="txtStartDate" runat="server"></asp:TextBox>
                     <ajaxToolkit:CalendarExtender
-                        ID="CalendarExtender1" runat="server" TargetControlID="txtStartDate">
+                        ID="CalendarExtender1" runat="server" TargetControlID="txtStartDate" Format="yyyy/MM/dd">
                     </ajaxToolkit:CalendarExtender>
                     ~<asp:TextBox ID="txtEndDate" runat="server"></asp:TextBox>
                     <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" 
-                        TargetControlID="txtEndDate">
+                        TargetControlID="txtEndDate" Format="yyyy/MM/dd">
                     </ajaxToolkit:CalendarExtender>
                 </td>
                 <td>
@@ -61,8 +61,8 @@
                     SortExpression="people_type" />
                 <asp:BoundField DataField="activity_date" HeaderText="活動日期" 
                     SortExpression="activity_date" />
-                <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日期" />
-                <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日期" />
+                <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日" />
+                <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日" />
                 <asp:BoundField DataField="is_full" HeaderText="是否額滿" 
                     SortExpression="is_full" />
                 <asp:TemplateField>

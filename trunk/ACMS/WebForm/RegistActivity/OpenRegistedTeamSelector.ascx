@@ -11,15 +11,16 @@
             <asp:Panel ID="Panel3" runat="server" GroupingText="團員列表">
                 <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
-                    ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="emp_id"
+                    ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID"
                     SkinID="pager" DataSourceID="SqlDataSource2" 
                     EnableModelValidation="True" onrowdatabound="GridView1_RowDataBound">
                     <Columns>
-                        <asp:BoundField DataField="emp_id" HeaderText="員工編號" ReadOnly="True" 
-                            SortExpression="emp_id" />
-                        <asp:BoundField DataField="emp_cname" HeaderText="姓名" 
-                            SortExpression="emp_cname" />
-                        <asp:BoundField DataField="dept_id" HeaderText="部門" SortExpression="dept_id" />
+                        <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
+                            SortExpression="WORK_ID" />
+                        <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
+                            SortExpression="NATIVE_NAME" />
+                        <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
+                            SortExpression="C_DEPT_ABBR" />
                         <asp:TemplateField HeaderText="隊長">
                             <ItemTemplate>
                                 <asp:RadioButton ID="RadioButton1" runat="server" />
@@ -30,7 +31,7 @@
                                 <asp:CheckBox ID="CheckBox1" runat="server" />
                             </ItemTemplate>
                             <HeaderTemplate>
-                                <asp:CheckBox ID="CheckBox2" runat="server" Text="取消報名" />
+                                <asp:CheckBox ID="CheckBox2" runat="server" Text="取消" />
                             </HeaderTemplate>
                         </asp:TemplateField>
                     </Columns>

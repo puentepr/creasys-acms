@@ -32,9 +32,9 @@
                     DataSourceID="SqlDataSource1" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     SkinID="pager" TotalRowCount="0" AllowPaging="True">
                     <Columns>
-                        <asp:BoundField DataField="emp_id" HeaderText="工號" SortExpression="emp_id" />
-                        <asp:BoundField DataField="emp_cname" HeaderText="姓名" 
-                            SortExpression="emp_cname" />
+                        <asp:BoundField DataField="WORK_ID" HeaderText="工號" SortExpression="WORK_ID" />
+                        <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
+                            SortExpression="NATIVE_NAME" />
                         <asp:TemplateField HeaderText="報名狀態">
                             <ItemTemplate>
                                 已報名

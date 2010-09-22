@@ -28,24 +28,27 @@ public partial class WebForm_RegistActivity_RegistActivityQuery : System.Web.UI.
     }
 
 
+    //報名
     protected void lbtnRegist_Click(object sender, EventArgs e)
     {
         if (GoSecondStep_Click != null)
         {
             int activity_id = (int)gv_Activity.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
-        }    
+        }
     }
 
-    protected void lbtnEdit_Click(object sender, EventArgs e)
+    //報名資料修改
+    protected void lbtnRegistEdit_Click(object sender, EventArgs e)
     {
         if (GoThirdStep_Click != null)
         {
             int activity_id = (int)gv_Activity.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
             GoThirdStep_Click(this, new RegistGoSecondEventArgs(activity_id));
-        }   
+        }
     }
 
+    //取消報名
     protected void lbtnCancelRegist_Click(object sender, EventArgs e)
     {
 
@@ -78,6 +81,55 @@ public partial class WebForm_RegistActivity_RegistActivityQuery : System.Web.UI.
             OpenRegistedTeamSelector1.InitDataAndShow();
         }
     }
+
+
+    protected void gv_Activity_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            DataRowView MyDataRowView = (e.Row.DataItem as DataRowView);
+            int limit_count = (int)MyDataRowView["limit_count"];
+            int RegistCount = (int)MyDataRowView["RegistCount"];
+
+            if (limit_count - RegistCount > 0)
+            {
+                //未額滿顯示"可報名人數"
+                (e.Row.FindControl("lblisfull") as Label).Text = (limit_count - RegistCount).ToString();
+
+                //LinkButton lbtnRegist = (e.Row.FindControl("lbtnRegist") as LinkButton);
+                //if (Convert.ToDateTime(MyDataRowView["activity_startdate"]) > DateTime.Now && MyDataRowView["emp_id"] == DBNull.Value)
+                //{
+                //    //若未過期且本人沒報名則可以報名
+                //    lbtnRegistEdit.Text = "報名";
+                //    lbtnRegistEdit.CommandName = "Regist";
+                //}
+                //else
+                //{
+                //    //若已過期則不可以報名
+                //    lbtnRegistEdit.Visible = false;
+                //}
+
+
+
+            }
+            else
+            {
+                //已額滿顯示"額滿"
+                (e.Row.FindControl("lblisfull") as Label).Text = "額滿";
+            }
+
+
+
+
+
+
+
+
+
+
+        }
+    }
+
 
 }
 

@@ -67,7 +67,7 @@ using System.Collections.Generic;
                 clsAuth.ENGLISH_NAME = DR["ENGLISH_NAME"].ToString();
                 clsAuth.WORK_ID = DR["WORK_ID"].ToString();
                 clsAuth.DEPT_ID = DR["DEPT_ID"].ToString();
-                clsAuth.C_DEPT_NAME = DR["C_DEPT_NAME"].ToString();
+                clsAuth.C_DEPT_ABBR = DR["C_DEPT_ABBR"].ToString();
                 clsAuth.C_DEPT_ABBR = DR["C_DEPT_ABBR"].ToString();
                 clsAuth.OFFICE_PHONE = DR["OFFICE_PHONE"].ToString();
                 clsAuth.EXPERIENCE_START_DATE = DR["EXPERIENCE_START_DATE"].ToString();
@@ -195,18 +195,18 @@ using System.Collections.Generic;
         }
 
 
-        public DataTable GetCustomFieldItem(int key_id)
+        public DataTable GetCustomFieldItem(int field_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
 
-            sqlParams[0] = new SqlParameter("@key_id", SqlDbType.Int);
-            sqlParams[0].Value = key_id;
+            sqlParams[0] = new SqlParameter("@field_id", SqlDbType.Int);
+            sqlParams[0].Value = field_id;
 
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT * ");
             sb.AppendLine("FROM CustomFieldItem A ");
-            sb.AppendLine("WHERE key_id=@key_id ");
+            sb.AppendLine("WHERE field_id=@field_id ");
 
             DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
 

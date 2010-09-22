@@ -22,15 +22,15 @@ public partial class WebForm_OpenEmployeeSelector : System.Web.UI.UserControl
     {
         this.mpSearch.Show();
 
-        ObjectDataSource2.SelectMethod = this.SelectMethod; 
-        ObjectDataSource2.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
-        ObjectDataSource2.SelectParameters["JOB_CNAME"].DefaultValue = txtJOB_CNAME.Text;
-        ObjectDataSource2.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
-        ObjectDataSource2.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-        ObjectDataSource2.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
-        ObjectDataSource2.SelectParameters["AGE"].DefaultValue = txtAGE.Text;
-        ObjectDataSource2.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
-        ObjectDataSource2.SelectParameters["C_NAME"].DefaultValue = txtC_NAME.Text;
+        //ObjectDataSource2.SelectMethod = this.SelectMethod; 
+        //ObjectDataSource2.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
+        //ObjectDataSource2.SelectParameters["JOB_CNAME"].DefaultValue = txtJOB_CNAME.Text;
+        //ObjectDataSource2.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
+        //ObjectDataSource2.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
+        //ObjectDataSource2.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
+        //ObjectDataSource2.SelectParameters["BIRTHDAY"].DefaultValue = txtBIRTHDAY_start.Text;
+        //ObjectDataSource2.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
+        //ObjectDataSource2.SelectParameters["C_NAME"].DefaultValue = txtC_NAME.Text;
 
 
     }

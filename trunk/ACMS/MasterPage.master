@@ -36,31 +36,20 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
             <div id="myslidemenu" class="jqueryslidemenu">
                 <ul>
                     <li><a href="/ACMS/Default.aspx">首頁</a></li>
-                    <li><a href="#">活動報名</a>
-                        <ul>
-                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Person.aspx">個人報名</a></li>
-                            <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Team.aspx">團隊報名</a></li>
-                            <li><a href="/ACMS/WebForm/RegistActivity/ActivityQuery.aspx">已報名活動查詢</a></li>        
-                            <li><a href="/ACMS/WebForm/ActivityProgressQuery.aspx">活動進度查詢</a></li>
-                        </ul>
-                    </li>
+                    <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Person.aspx">個人報名</a></li>
+                    <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Team.aspx">團隊報名</a></li>
+                    <li><a href="/ACMS/WebForm/RegistActivity/ActivityQuery.aspx">已報名活動查詢</a></li>
+                    <li><a href="/ACMS/WebForm/ActivityProgressQuery.aspx">活動進度查詢</a></li>
                     <li><a href="#">活動資料管理</a>
                         <ul>
-                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityManagementQuery.aspx">活動管理</a></li>
-                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityCheck.aspx">登錄狀態管理</a></li>   
-                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityQuery.aspx">報名狀態查詢</a></li>                         
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityManagementQuery.aspx">新增/修改活動</a></li>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityQuery.aspx">報名狀態查詢</a></li>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityCheck.aspx">活動進度登錄</a></li>
                             <li><a href="/ACMS/WebForm/ManageActivity/ActivityQuery.aspx?type=off">歷史資料查詢</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">系統管理</a>
-                        <ul>
-                            <li><a href="/ACMS/WebForm/ManageBulletinBoard/BulletinBoardQuery.aspx">公佈欄管理</a></li>
-                            <li><a href="/ACMS/WebForm/ManageParam/ManageParam.aspx">系統參數維護</a>
                         </ul>
                     </li>
                     <li><a href="#">權限管理</a>
                         <ul>
-                            <li><a href="WebForm/ManageRole/ManageRole.aspx">角色功能管理</a></li>
                             <li><a href="/ACMS/WebForm/ManageRole/ManageRole.aspx">角色人員管理</a></li>
                         </ul>
                     </li>
@@ -72,13 +61,13 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
         <div id="MyContentPlaceHolder">
             <table width="100%">
                 <tr>
-                    <td valign="top"> <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-                            <ContentTemplate>
-                               
-                                
-                            </ContentTemplate>
-                        </asp:UpdatePanel></asp:ContentPlaceHolder>
+                    <td valign="top">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </asp:ContentPlaceHolder>
                     </td>
                     <td valign="top" width="20%">
                         <asp:Panel ID="Panel3" runat="server" GroupingText="日曆及熱門連結">

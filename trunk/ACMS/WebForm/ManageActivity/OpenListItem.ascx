@@ -9,26 +9,50 @@
     <table width="100%">
         <tr>
             <td>
-                <asp:Label ID="Label2" runat="server" Text="選項名稱"></asp:Label>
-                <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
-                <asp:Button ID="btnAdd" runat="server" Text="新增" />
+                <table>
+                    <tr>
+                        <td>
+                            <asp:Label ID="Label3" runat="server" Text="選項名稱"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                        </td>
+                        <td>
+                            &nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label ID="lblValue" runat="server" Text="選項值" Visible="False"></asp:Label>
+                        </td>
+                        <td>
+                            <asp:TextBox ID="txtValue" runat="server" Visible="False"></asp:TextBox>
+                        </td>
+                        <td>
+                            <asp:Button ID="btnAdd" runat="server" Text="新增" />
+                        </td>
+                    </tr>
+                </table>
+                <br />
             </td>
         </tr>
         <tr>
             <td align="center">
                 <TServerControl:TGridView ID="gvCustomField" runat="server" AllowHoverEffect="True"
-                    AllowHoverSelect="True" AutoGenerateColumns="False" DataKeyNames="key_item_id"
+                    AllowHoverSelect="True" AutoGenerateColumns="False" DataKeyNames="field_item_id"
                     DataSourceID="SqlDataSource1" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     SkinID="pager" TotalRowCount="0" AllowPaging="True">
                     <Columns>
-                        <asp:BoundField DataField="key_item_name" HeaderText="選項名稱" SortExpression="key_item_name" />
+                        <asp:BoundField DataField="field_item_name" HeaderText="選項名稱" SortExpression="field_item_name" />
+                         <asp:BoundField DataField="field_item_text" HeaderText="選項值" SortExpression="field_item_text" Visible="False" />
                         <asp:CommandField ShowDeleteButton="True" />
+                                 
                     </Columns>
                 </TServerControl:TGridView>
                 <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
-                    SelectCommand="SELECT [key_id], [key_item_id], [key_item_name] FROM [CustomFieldItem] WHERE ([key_id] = @key_id)">
+                    
+                    SelectCommand="SELECT [field_id], [field_item_id], [field_item_name], [field_item_text] FROM [CustomFieldItem] WHERE ([field_id] = @field_id)">
                     <SelectParameters>
-                        <asp:Parameter DefaultValue="2" Name="key_id" Type="Int32" />
+                        <asp:Parameter DefaultValue="" Name="field_id" Type="Int32" />
                     </SelectParameters>
                 </asp:SqlDataSource>
             </td>
