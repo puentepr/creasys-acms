@@ -323,6 +323,11 @@ WHERE (A.[activity_id] = @activity_id)
                 
                 <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
             </asp:WizardStep>
+            <asp:WizardStep runat="server" Title="Step 5">
+                注意事項<br />
+                <br />
+                請自備巫巫茲拉
+            </asp:WizardStep>
         </WizardSteps>
                     <FinishNavigationTemplate>
                         <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" 

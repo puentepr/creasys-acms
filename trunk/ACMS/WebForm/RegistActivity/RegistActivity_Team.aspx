@@ -370,6 +370,11 @@ inner join dbo.V_ACSM_USER B on A.emp_id=B.ID
                     <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
                 </ContentTemplate>
             </asp:TemplatedWizardStep>
+            <asp:WizardStep runat="server">
+                注意事項<br />
+                <br />
+                請自備巫巫茲拉
+            </asp:WizardStep>
         </WizardSteps>
                     <FinishNavigationTemplate>
                         <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" 

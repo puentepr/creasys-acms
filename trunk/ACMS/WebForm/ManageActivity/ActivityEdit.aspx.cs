@@ -24,7 +24,17 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView1.FindControl("lbllimit_count_team") as Label).Visible = true;
                 (FormView1.FindControl("lbllimit2_count_team") as Label).Visible = true;
                 (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = true;
-                (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = true;                
+                (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = true;
+
+
+                PanelCustomFieldA1.Visible = false;
+                PanelCustomFieldA2.Visible = true;
+                PanelCustomFieldB2.Visible = true;
+                PanelCustomFieldC.GroupingText = "團隊自訂欄位";
+
+
+
+
 
             }
             else
@@ -34,6 +44,13 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView1.FindControl("lbllimit2_count") as Label).Visible = true;
                 (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
                 (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
+
+                PanelCustomFieldA1.Visible = true;
+                PanelCustomFieldA2.Visible = false;
+                PanelCustomFieldB2.Visible = false;
+                PanelCustomFieldC.GroupingText = "個人自訂欄位";
+
+
             }
         }
 

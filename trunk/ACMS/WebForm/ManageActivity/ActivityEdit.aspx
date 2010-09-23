@@ -8,7 +8,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1" DisplaySideBar="False"
+    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步">
         <WizardSteps>
@@ -274,14 +274,43 @@
                     SelectCommand="SELECT * FROM [Activity]"></asp:SqlDataSource>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 3">
-                <asp:Panel ID="PanelCustomFieldnA" runat="server" GroupingText="固定欄位">
-                    <asp:CheckBox ID="cbPersonID" runat="server" Text="身分證字號" /><br>
-                    <asp:CheckBox ID="cbExtPersonLimit" runat="server" Text="攜伴人數限制" />
-                    <asp:TextBox ID="txtExtPersonLimit" runat="server" Width="50px"></asp:TextBox>~<asp:TextBox 
-                        ID="txtExtPersonLimit0" runat="server" Width="50px"></asp:TextBox>
-                    人
+                <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="個人固定欄位">
+                   
+                        <div>
+                            <asp:CheckBox ID="cbPersonID" runat="server" Text="身分證字號" />
+                            <br>
+                            <asp:CheckBox ID="cbExtPersonLimit" runat="server" Text="攜伴人數限制" />
+                            <asp:TextBox ID="txtExtPersonLimit" runat="server" Width="50px"></asp:TextBox>
+                            ~<asp:TextBox ID="txtExtPersonLimit0" runat="server" Width="50px"></asp:TextBox>
+                            人 </br>
+                        </div>
+   
                 </asp:Panel>
-                <asp:Panel ID="PanelCustomFieldB" runat="server" GroupingText="自訂欄位">
+                 <asp:Panel ID="PanelCustomFieldA2" runat="server" GroupingText="個人固定欄位">
+                     <div>
+                         <asp:CheckBox ID="cbPersonID0" runat="server" Text="身分證字號" />
+                         <br />
+                         <asp:CheckBox ID="cbPersonID2" runat="server" Text="備註" />
+                         <br></br>
+                     </div>
+                </asp:Panel>
+                 <asp:Panel ID="PanelCustomFieldB2" runat="server" GroupingText="團隊固定欄位">
+                 
+                 
+                 
+                 
+                     <asp:CheckBox ID="cbPersonID1" runat="server" Text="隊名" />
+                     <br>
+                     <asp:CheckBox ID="cbExtPersonLimit0" runat="server" Text="攜伴人數限制" />
+                     <asp:TextBox ID="txtExtPersonLimit1" runat="server" Width="50px"></asp:TextBox>
+                     ~<asp:TextBox ID="txtExtPersonLimit2" runat="server" Width="50px"></asp:TextBox>
+                     人 </br>
+                 
+                 
+                 
+                 
+                 </asp:Panel>
+                <asp:Panel ID="PanelCustomFieldC" runat="server" GroupingText="自訂欄位">
                     <table>
                         <tr>
                             <td>

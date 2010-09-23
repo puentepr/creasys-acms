@@ -88,6 +88,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 Wizard1.ActiveStepIndex = 2;
     }
 
+    protected void CheckBoxList1_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        int intSum = 0;
+
+        foreach (ListItem theListItem in (sender as CheckBoxList).Items)
+        {
+            if (theListItem.Selected == true)
+            {
+                intSum = intSum + Convert.ToInt32(theListItem.Text.Split(':')[1]);
+            }
+        }
+
+
+        ((WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).FindControl("lblSumValue") as Label).Text = intSum.ToString();
+    }
+
 }
 
 public partial class WebForm_RegistActivity_RegistActivity_Team
@@ -153,10 +169,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                             MyControl.ID = string.Format("txt{0}", DR["field_id"].ToString());
 
                         }
-                        if (DR["field_control"].ToString().ToUpper() == "TEXTBOXLIST")
+                        else if (DR["field_control"].ToString().ToUpper() == "TEXTBOXLIST")
                         {
-                            MyControl = new PlaceHolder();
+                            MyControl = new TCheckBoxList();
                             MyControl.ID = string.Format("plh{0}", DR["field_id"].ToString());
+                            (MyControl as TCheckBoxList).AutoPostBack = true;
+                            (MyControl as TCheckBoxList).SelectedIndexChanged += CheckBoxList1_SelectedIndexChanged;
+
+                            (MyControl as TCheckBoxList).ClearSelection();
+                            (MyControl as TCheckBoxList).EnableViewState = false;
 
                         }
                         else if (DR["field_control"].ToString().ToUpper() == "CHECKBOXLIST")
@@ -192,20 +213,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                                 {
                                     i++;
 
-
                                     if (DR["field_control"].ToString().ToUpper() == "TEXTBOXLIST")
                                     {
-                                        Label lblLabel = new Label();
-                                        lblLabel.Text = string.Format("{0}:{1}<br>", DR_Items["field_item_name"].ToString(), DR_Items["field_item_text"].ToString());
-                                        (MyControl as PlaceHolder).Controls.Add(lblLabel);
-
+                                        (MyControl as ListControl).Items.Add(new ListItem(string.Format("{0}:{1}", DR_Items["field_item_name"].ToString(), DR_Items["field_item_text"].ToString()), DR_Items["field_item_id"].ToString()));
                                     }
                                     else
                                     {
-
                                         (MyControl as ListControl).Items.Add(new ListItem(DR_Items["field_item_name"].ToString(), DR_Items["field_item_id"].ToString()));
-
                                     }
+
 
                                 }
 
@@ -216,6 +232,16 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         }
 
                         MyTableCell_Control.Controls.Add(MyControl);
+
+                        if (DR["field_control"].ToString().ToUpper() == "TEXTBOXLIST")
+                        {
+                            Label lblSumText = new Label();
+                            Label lblSumValue = new Label();
+                            lblSumText.Text = "總計:";
+                            lblSumValue.ID = "lblSumValue";
+                            MyTableCell_Control.Controls.Add(lblSumText);
+                            MyTableCell_Control.Controls.Add(lblSumValue);
+                        }
 
                         MyTableRow.Cells.Add(MyTableCell_Title);
                         MyTableRow.Cells.Add(MyTableCell_Control);

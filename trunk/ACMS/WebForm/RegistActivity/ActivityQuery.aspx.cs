@@ -42,6 +42,11 @@ public partial class WebForm_RegistActivity_ActivityQuery : System.Web.UI.Page
                 //已過期顯示"檢視"
                 lbtnRegistEdit.Text = "檢視";
                 lbtnRegistEdit.CommandName = "View";
+
+                //已過期不可取消報名
+                (e.Row.FindControl("lbtnRegistCancel") as LinkButton).Visible = false;
+
+                
             }
             else
             {

@@ -63,7 +63,7 @@
         </tr>
     </table>
     <div align="center">
-        <asp:Button ID="btnOK" runat="server" Text="取消報名" />
+        <asp:Button ID="btnOK" runat="server" Text="確定" />
         <asp:Button ID="btnCancel" runat="server"  Text="關閉" />
     </div>
 </asp:Panel>
