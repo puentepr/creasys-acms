@@ -75,8 +75,7 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                 <asp:Image ID="Image1" runat="server" ImageUrl="~/images/Sample.jpg" />
                 &nbsp;</div>
             </asp:WizardStep>
-            <asp:WizardStep ID="WizardStep3" runat="server" title="Step 3" 
-                StepType="Finish">
+            <asp:WizardStep ID="WizardStep3" runat="server" title="Step 3">
                 <asp:Label ID="Label2" runat="server" Text="Label" > </asp:Label>
                 
                 
@@ -283,7 +282,7 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                 
                 
                 
-                <asp:Panel ID="PanelRegisterInfo" runat="server" GroupingText="報名人事資料">
+                <asp:Panel ID="PanelRegisterInfo" runat="server" GroupingText="團隊固定欄位">
                 
                 <asp:Panel ID="PanelRegisterInfoA" runat="server">
                                   <table align="center">
@@ -361,20 +360,26 @@ inner join dbo.V_ACSM_USER B on A.emp_id=B.ID
                 
                 
             </asp:WizardStep>
+            <asp:WizardStep runat="server" Title="Step 4">
+                <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+            </asp:WizardStep>
+            <asp:WizardStep runat="server" Title="Step 5" StepType="Finish">
+                注意事項<br />
+                <br />
+                請自備巫巫茲拉
+            </asp:WizardStep>
             <asp:TemplatedWizardStep runat="server" ID="WizardStep4" Title="WizardStep4">
                 <CustomNavigationTemplate>
                     <asp:Button ID="Button1" runat="server" Text="完成個人資料填寫" 
                         onclick="Button1_Click" />
                 </CustomNavigationTemplate>
                 <ContentTemplate>
-                    <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
+                    身分證字號<asp:TextBox ID="TextBox1" runat="server"></asp:TextBox>
+                    <br />
+                    備註<asp:TextBox ID="TextBox2" runat="server"></asp:TextBox>
+                    &nbsp;
                 </ContentTemplate>
             </asp:TemplatedWizardStep>
-            <asp:WizardStep runat="server">
-                注意事項<br />
-                <br />
-                請自備巫巫茲拉
-            </asp:WizardStep>
         </WizardSteps>
                     <FinishNavigationTemplate>
                         <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" 
@@ -382,6 +387,12 @@ inner join dbo.V_ACSM_USER B on A.emp_id=B.ID
                         <asp:Button ID="FinishButton" runat="server" CommandName="MoveComplete" 
                             onclick="FinishButton_Click" Text="完成" />
                     </FinishNavigationTemplate>
+                    <StepNavigationTemplate>
+                        <asp:Button ID="StepPreviousButton" runat="server" CausesValidation="False" 
+                            CommandName="MovePrevious" Text="上一步" />
+                        <asp:Button ID="StepNextButton" runat="server" CommandName="MoveNext" 
+                            Text="下一步" />
+                    </StepNavigationTemplate>
     </asp:Wizard>
 </asp:Content>
 

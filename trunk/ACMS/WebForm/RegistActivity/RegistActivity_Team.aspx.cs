@@ -80,7 +80,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     }
     protected void LinkButton1_Click(object sender, EventArgs e)
     {
-        Wizard1.ActiveStepIndex = 3;
+        Wizard1.ActiveStepIndex =5;
     
     }
     protected void Button1_Click(object sender, EventArgs e)
@@ -101,7 +101,8 @@ Wizard1.ActiveStepIndex = 2;
         }
 
 
-        ((WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).FindControl("lblSumValue") as Label).Text = intSum.ToString();
+        //((WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).FindControl("lblSumValue") as Label).Text = intSum.ToString();
+        (PlaceHolder1.FindControl("lblSumValue") as Label).Text = intSum.ToString();
     }
 
 }
@@ -255,16 +256,17 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
                     }
 
-                    (WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).Controls.Add(MyTable);
-       
+                    //(WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).Controls.Add(MyTable);
 
+                    PlaceHolder1.Controls.Add(MyTable);
                 }
             }
 
         }
         else
         {
-            (WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).Controls.Clear();
+            //(WizardStep4.ContentTemplateContainer.FindControl("PlaceHolder1") as PlaceHolder).Controls.Clear();
+            PlaceHolder1.Controls.Clear();
         }
 
     }
