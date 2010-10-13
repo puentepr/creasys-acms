@@ -8,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
-using TServerControl.Web;
+using TServerControl;
 
 public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.Page
 {

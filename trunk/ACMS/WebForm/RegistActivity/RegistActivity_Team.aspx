@@ -3,7 +3,6 @@
 <%@ Register src="RegistActivityQuery.ascx" tagname="RegistActivityQuery" tagprefix="uc1" %>
 
 <%@ Register src="../OpenEmployeeSelector.ascx" tagname="OpenEmployeeSelector" tagprefix="uc2" %>
-<%@ Register namespace="TServerControl" tagprefix="cc1" %>
 <%@ Register src="../OpenSmallEmployeeSelector.ascx" tagname="OpenSmallEmployeeSelector" tagprefix="uc3" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -308,7 +307,7 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                         <asp:LinkButton ID="lbtnAddPerson" runat="server" OnClick="lbtnAddPerson_Click">新增團隊成員</asp:LinkButton>
                     </div>
                     <div align="center">
-                        <cc1:TGridView ID="GridView2" runat="server" AllowHoverEffect="True" 
+                        <TServerControl:TGridView ID="GridView2" runat="server" AllowHoverEffect="True" 
                             AllowHoverSelect="True" AutoGenerateColumns="False" 
                             DataSourceID="SqlDataSource1" ShowFooterWhenEmpty="False" 
                             ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0">
@@ -330,7 +329,7 @@ inner join dbo.DeptList C on B.dept_id=C.dept_id"></asp:SqlDataSource>
                                 </asp:TemplateField>
                                 <asp:CommandField ShowDeleteButton="True" />
                             </Columns>
-                        </cc1:TGridView>
+                        </TServerControl:TGridView>
                     </div>
                     <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
                         ConnectionString="<%$ ConnectionStrings:connStr %>" SelectCommand="SELECT B.NATIVE_NAME,B.C_DEPT_ABBR

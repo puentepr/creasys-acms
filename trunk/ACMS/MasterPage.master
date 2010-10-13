@@ -16,12 +16,46 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
 <![endif]-->
 
     <script type="text/javascript" src="/ACMS/Scripts/jquery-1.4.1.min.js"></script>
-
     <script type="text/javascript" src="/ACMS/Scripts/jqueryslidemenu.js"></script>
+    <script type="text/javascript" src="/ACMS/js/jquery-ui.min.js"></script> 
+    <link rel="stylesheet" type="text/css" media="screen" href="/ACMS/js/jquery-ui.css"/> 
+
+
+    <script type="text/javascript">
+        $(function () {
+            $('.date-picker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: false,
+                dateFormat: 'yy/MM',
+                onClose: function (dateText, inst) {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).datepicker('setDate', new Date(year, month, 1));
+                }
+//            ,
+//                beforeShow: function (input, inst) {
+//                    if ((datestr = $(this).val()).length > 0) {
+//                        year = datestr.substring(0, 4);
+//                        month = jQuery.inArray(datestr.substring(0, datestr.length - 5), $(this).datepicker('option', 'monthNames'));
+//                        $(this).datepicker('option', 'defaultDate', new Date(year, month, 1));
+//                        $(this).datepicker('setDate', new Date(year, month, 1));
+//                    }
+//                }
+
+            });
+        }); 
+
+</script> 
+ <style> 
+    .ui-datepicker-calendar { 
+        display: none; 
+        } 
+    </style> 
 
 </head>
 <body>
-    <form id="form1" runat="server">
+    <form id="form1" runat="server" enctype="multipart/form-data">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
     <div id="main_container">
@@ -62,11 +96,12 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
             <table width="100%">
                 <tr>
                     <td valign="top">
+                 
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-                            <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-                                <ContentTemplate>
-                                </ContentTemplate>
-                            </asp:UpdatePanel>
+                            
+                                
+                               
+                           
                         </asp:ContentPlaceHolder>
                     </td>
                     <td valign="top" width="20%">
@@ -83,7 +118,7 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
             <div class="copyright">
                 &nbsp;</div>
             <div class="footer_links">
-                <a href="#">Contact us </a>
+               <%-- <a href="#">Contact us </a>--%>
             </div>
         </div>
     </div>

@@ -47,8 +47,8 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
 
     protected void ibtnAdd_Click(object sender, ImageClickEventArgs e)
     {
-        OpenEmployeeSelector1.SelectMethod = "BLL_OpenEmployeeSelector_ManageRole_Select";
-        OpenEmployeeSelector1.InitDataAndShow(); 
+        //OpenEmployeeSelector1.SelectMethod = "BLL_OpenEmployeeSelector_ManageRole_Select";
+        //OpenEmployeeSelector1.InitDataAndShow(); 
     }
 }
 

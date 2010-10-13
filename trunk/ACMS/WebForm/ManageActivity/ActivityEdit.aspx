@@ -1,348 +1,403 @@
-Ôªø<%@ Page Title="" Language="C#"  MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true" ValidateRequest="false"
-    CodeFile="ActivityEdit.aspx.cs" Inherits="WebForm_ManageActivity_ActivityEdit" %>
+<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
+    ValidateRequest="false" CodeFile="ActivityEdit.aspx.cs" Inherits="WebForm_ManageActivity_ActivityEdit" %>
+
 
 <%@ Register Src="../OpenEmployeeSelector.ascx" TagName="OpenEmployeeSelector" TagPrefix="uc1" %>
 <%@ Register Assembly="FreeTextBox" Namespace="FreeTextBoxControls" TagPrefix="FTB" %>
 <%@ Register Src="OpenListItem.ascx" TagName="OpenListItem" TagPrefix="uc2" %>
-<%@ Register namespace="TServerControl" tagprefix="cc1" %>
+<%@ Register Src="../DatetimePicker.ascx" TagName="DatetimePicker" TagPrefix="uc3" %>
+<%@ Register assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI" tagprefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
-        FinishPreviousButtonText="‰∏ä‰∏ÄÊ≠•" StartNextButtonText="‰∏ã‰∏ÄÊ≠•" StepNextButtonText="‰∏ã‰∏ÄÊ≠•"
-        StepPreviousButtonText="‰∏ä‰∏ÄÊ≠•">
+
+
+              <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1" DisplaySideBar="False"
+        FinishPreviousButtonText="§W§@®B" StartNextButtonText="§U§@®B" StepNextButtonText="§U§@®B"
+        StepPreviousButtonText="§W§@®B" 
+        onfinishbuttonclick="Wizard1_FinishButtonClick">
         <WizardSteps>
             <asp:WizardStep runat="server" Title="Step 1">
-                     <FTB:FreeTextBox ID="FreeTextBox1" runat="server" AllowHtmlMode="False" 
-                            AssemblyResourceHandlerPath="" AutoConfigure="" 
-                            AutoGenerateToolbarsFromString="True" AutoHideToolbar="True" 
-                            AutoParseStyles="True" BackColor="158, 190, 245" BaseUrl="" 
-                            BreakMode="Paragraph" ButtonDownImage="False" ButtonFileExtention="gif" 
-                            ButtonFolder="Images" ButtonHeight="20" ButtonImagesLocation="InternalResource" 
-                            ButtonOverImage="False" ButtonPath="" ButtonSet="Office2003" ButtonWidth="21" 
-                            ClientSideTextChanged="" ConvertHtmlSymbolsToHtmlCodes="False" 
-                            DesignModeBodyTagCssClass="" DesignModeCss="" DisableIEBackButton="False" 
-                            DownLevelCols="50" DownLevelMessage="" DownLevelMode="TextArea" 
-                            DownLevelRows="10" EditorBorderColorDark="128, 128, 128" 
-                            EditorBorderColorLight="128, 128, 128" EnableHtmlMode="True" EnableSsl="False" 
-                            EnableToolbars="True" Focus="False" FormatHtmlTagsToXhtml="True" 
-                            GutterBackColor="129, 169, 226" GutterBorderColorDark="128, 128, 128" 
-                            GutterBorderColorLight="255, 255, 255" Height="350px" HelperFilesParameters="" 
-                            HelperFilesPath="" HtmlModeCss="" HtmlModeDefaultsToMonoSpaceFont="True" 
-                            ImageGalleryPath="../../FTBimages/" 
-                            ImageGalleryUrl="../../ftb.imagegallery.aspx?rif={0}&amp;cif={0}" 
-                            InstallationErrorMessage="InlineMessage" JavaScriptLocation="InternalResource" 
-                            Language="zh-TW" PasteMode="Default" ReadOnly="False" 
-                            RemoveScriptNameFromBookmarks="True" RemoveServerNameFromUrls="True" 
-                            RenderMode="NotSet" ScriptMode="External" ShowTagPath="False" SslUrl="/." 
-                            StartMode="DesignMode" StripAllScripting="False" 
-                            SupportFolder="../../Edit/" TabIndex="-1" 
-                            TabMode="InsertSpaces" Text="" TextDirection="LeftToRight" 
-                            ToolbarBackColor="Transparent" ToolbarBackgroundImage="True" 
-                            ToolbarImagesLocation="InternalResource" 
-                            ToolbarLayout="ParagraphMenu,FontFacesMenu,FontSizesMenu,FontForeColorsMenu|Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,InsertImage,InsertImageFromGallery,InsertRule|Cut,Copy,Paste;Undo,Redo,Print" 
-                            ToolbarStyleConfiguration="NotSet" UpdateToolbar="True" 
-                            UseToolbarBackGroundImage="True" Width="100%">
-                        </FTB:FreeTextBox>
+                <FTB:FreeTextBox ID="FTB_FreeTextBox" runat="server" AllowHtmlMode="False" AssemblyResourceHandlerPath=""
+                    AutoConfigure="" AutoGenerateToolbarsFromString="True" AutoHideToolbar="True"
+                    AutoParseStyles="True" BackColor="158, 190, 245" BaseUrl="" BreakMode="Paragraph"
+                    ButtonDownImage="False" ButtonFileExtention="gif" ButtonFolder="Images" ButtonHeight="20"
+                    ButtonImagesLocation="InternalResource" ButtonOverImage="False" ButtonPath=""
+                    ButtonSet="Office2003" ButtonWidth="21" ClientSideTextChanged="" ConvertHtmlSymbolsToHtmlCodes="False"
+                    DesignModeBodyTagCssClass="" DesignModeCss="" DisableIEBackButton="False" DownLevelCols="50"
+                    DownLevelMessage="" DownLevelMode="TextArea" DownLevelRows="10" EditorBorderColorDark="128, 128, 128"
+                    EditorBorderColorLight="128, 128, 128" EnableHtmlMode="True" EnableSsl="False"
+                    EnableToolbars="True" Focus="False" FormatHtmlTagsToXhtml="True" GutterBackColor="129, 169, 226"
+                    GutterBorderColorDark="128, 128, 128" GutterBorderColorLight="255, 255, 255"
+                    Height="350px" HelperFilesParameters="" HelperFilesPath="" HtmlModeCss="" HtmlModeDefaultsToMonoSpaceFont="True"
+                    ImageGalleryPath="../../FTBimages/" ImageGalleryUrl="../../ftb.imagegallery.aspx?rif={0}&amp;cif={0}"
+                    InstallationErrorMessage="InlineMessage" JavaScriptLocation="InternalResource"
+                    Language="zh-TW" PasteMode="Default" ReadOnly="False" RemoveScriptNameFromBookmarks="True"
+                    RemoveServerNameFromUrls="True" RenderMode="NotSet" ScriptMode="External" ShowTagPath="False"
+                    SslUrl="/." StartMode="DesignMode" StripAllScripting="False" SupportFolder="../../Edit/"
+                    TabIndex="-1" TabMode="InsertSpaces" Text="" TextDirection="LeftToRight" ToolbarBackColor="Transparent"
+                    ToolbarBackgroundImage="True" ToolbarImagesLocation="InternalResource" ToolbarLayout="ParagraphMenu,FontFacesMenu,FontSizesMenu,FontForeColorsMenu|Bold,Italic,Underline,Strikethrough;Superscript,Subscript,RemoveFormat|JustifyLeft,JustifyRight,JustifyCenter,JustifyFull;BulletedList,NumberedList,Indent,Outdent;CreateLink,Unlink,InsertImage,InsertImageFromGallery,InsertRule|Cut,Copy,Paste;Undo,Redo,Print"
+                    ToolbarStyleConfiguration="NotSet" UpdateToolbar="True" UseToolbarBackGroundImage="True"
+                    Width="100%">
+                </FTB:FreeTextBox>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 2">
-                <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="SqlDataSource2"
-                    EnableModelValidation="True">
+                <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="ObjectDataSource_Activaty"
+                    EnableModelValidation="True" DefaultMode="Edit" 
+                    OnPreRender="FormView1_PreRender">
                     <ItemTemplate>
                         <table align="center">
                             <tr>
                                 <td>
-                                    Ê¥ªÂãï‰∏ªËæ¶ÂñÆ‰Ωç
+                                    ¨°∞ •DøÏ≥Ê¶Ï
                                 </td>
                                 <td>
-                                    <asp:DropDownList ID="DropDownList5" runat="server">
-                                        <asp:ListItem>‰∫∫‰∫ãÂÆ§</asp:ListItem>
-                                        <asp:ListItem>ÊúÉË®àÈÉ®</asp:ListItem>
-                                    </asp:DropDownList>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Ê¥ªÂãïÂêçÁ®± 
-                                </td>
-                                <td>
-                                    <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("activity_name") %>'></asp:TextBox>
+                                    <TServerControl:TDropDownList ID="ddlorg_id" runat="server" DataSourceID="ObjectDataSource_Unit"
+                                        DataTextField="name" DataValueField="id" SelectedValue='<%# Bind("org_id") %>'>
+                                    </TServerControl:TDropDownList>
+                                    <asp:RequiredFieldValidator ID="chk_ddlorg_id" runat="server" 
+                                        ControlToValidate="ddlorg_id" Display="Dynamic" ErrorMessage="¨°∞ •DøÏ≥Ê¶Ï•≤∂Ò" 
+                                        ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                    <asp:ObjectDataSource ID="ObjectDataSource_Unit" runat="server" OldValuesParameterFormatString="original_{0}"
+                                        SelectMethod="SelectActivatyByActivatyID" TypeName="ACMS.BO.UnitBO"></asp:ObjectDataSource>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Ê¥ªÂãïÂ∞çË±°
-                                </td>
+                                    ¨°∞ ¶W∫Ÿ&nbsp;&nbsp;</td>
                                 <td>
-                                    <asp:TextBox ID="TextBox2" runat="server" Text='<%# Bind("people_type") %>'></asp:TextBox>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    Ê¥ªÂãïÊó•Êúü(Ëµ∑)</td>
-                                <td>
-                                    <asp:TextBox ID="txtactivity_date" runat="server" Text='<%# Bind("activity_date") %>'></asp:TextBox>
-                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="txtactivity_date" Format="yyyy/MM/dd">
-                                    </ajaxToolkit:CalendarExtender>
-                                    <asp:DropDownList ID="DropDownList1" runat="server">
-                                        <asp:ListItem Value="ÊôÇ"></asp:ListItem>
-                                        <asp:ListItem>1</asp:ListItem>
-                                        <asp:ListItem>2</asp:ListItem>
-                                        <asp:ListItem>3</asp:ListItem>
-                                        <asp:ListItem>4</asp:ListItem>
-                                        <asp:ListItem>5</asp:ListItem>
-                                        <asp:ListItem>6</asp:ListItem>
-                                        <asp:ListItem>7</asp:ListItem>
-                                        <asp:ListItem>8</asp:ListItem>
-                                        <asp:ListItem>9</asp:ListItem>
-                                        <asp:ListItem>10</asp:ListItem>
-                                        <asp:ListItem>11</asp:ListItem>
-                                        <asp:ListItem>12</asp:ListItem>
-                                        <asp:ListItem>13</asp:ListItem>
-                                        <asp:ListItem>14</asp:ListItem>
-                                        <asp:ListItem>15</asp:ListItem>
-                                        <asp:ListItem>16</asp:ListItem>
-                                        <asp:ListItem>17</asp:ListItem>
-                                        <asp:ListItem>18</asp:ListItem>
-                                        <asp:ListItem>19</asp:ListItem>
-                                        <asp:ListItem>20</asp:ListItem>
-                                        <asp:ListItem>21</asp:ListItem>
-                                        <asp:ListItem>22</asp:ListItem>
-                                        <asp:ListItem>23</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <asp:DropDownList ID="DropDownList2" runat="server">
-                                        <asp:ListItem>ÂàÜ</asp:ListItem>
-                                        <asp:ListItem>00</asp:ListItem>
-                                        <asp:ListItem>30</asp:ListItem>
-                                    </asp:DropDownList>
+                                    <asp:TextBox ID="txtactivity_name" runat="server" Text='<%# Bind("activity_name") %>'></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="chk_txtactivity_name" runat="server" 
+                                        ControlToValidate="txtactivity_name" Display="Dynamic" ErrorMessage="¨°∞ ¶W∫Ÿ•≤∂Ò" 
+                                        ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Ê¥ªÂãïÊó•Êúü(ËøÑ)</td>
+                                    ¨°∞ πÔ∂H
+                                </td>
                                 <td>
-                                    <asp:TextBox ID="txtactivity_date0" runat="server" 
-                                        Text='<%# Bind("activity_date") %>'></asp:TextBox>
-                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender4" runat="server" 
-                                        Format="yyyy/MM/dd" TargetControlID="txtactivity_date">
-                                    </ajaxToolkit:CalendarExtender>
-                                    <asp:DropDownList ID="DropDownList3" runat="server">
-                                        <asp:ListItem Value="ÊôÇ"></asp:ListItem>
-                                        <asp:ListItem>1</asp:ListItem>
-                                        <asp:ListItem>2</asp:ListItem>
-                                        <asp:ListItem>3</asp:ListItem>
-                                        <asp:ListItem>4</asp:ListItem>
-                                        <asp:ListItem>5</asp:ListItem>
-                                        <asp:ListItem>6</asp:ListItem>
-                                        <asp:ListItem>7</asp:ListItem>
-                                        <asp:ListItem>8</asp:ListItem>
-                                        <asp:ListItem>9</asp:ListItem>
-                                        <asp:ListItem>10</asp:ListItem>
-                                        <asp:ListItem>11</asp:ListItem>
-                                        <asp:ListItem>12</asp:ListItem>
-                                        <asp:ListItem>13</asp:ListItem>
-                                        <asp:ListItem>14</asp:ListItem>
-                                        <asp:ListItem>15</asp:ListItem>
-                                        <asp:ListItem>16</asp:ListItem>
-                                        <asp:ListItem>17</asp:ListItem>
-                                        <asp:ListItem>18</asp:ListItem>
-                                        <asp:ListItem>19</asp:ListItem>
-                                        <asp:ListItem>20</asp:ListItem>
-                                        <asp:ListItem>21</asp:ListItem>
-                                        <asp:ListItem>22</asp:ListItem>
-                                        <asp:ListItem>23</asp:ListItem>
-                                    </asp:DropDownList>
-                                    <asp:DropDownList ID="DropDownList4" runat="server">
-                                        <asp:ListItem>ÂàÜ</asp:ListItem>
-                                        <asp:ListItem>00</asp:ListItem>
-                                        <asp:ListItem>30</asp:ListItem>
-                                    </asp:DropDownList>
+                                    <asp:TextBox ID="txtpeople_type" runat="server" Text='<%# Bind("people_type") %>'></asp:TextBox>
+                                    <asp:RequiredFieldValidator ID="chk_txtpeople_type" runat="server" 
+                                        ControlToValidate="txtpeople_type" Display="Dynamic" ErrorMessage="¨°∞ πÔ∂H•≤∂Ò" 
+                                        ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <asp:Label ID="lbllimit_count" runat="server" Text="Ê¥ªÂãï‰∫∫Êï∏‰∏äÈôê " Visible="False"></asp:Label>
-                                    <asp:Label ID="lbllimit_count_team" runat="server" Text="Ê¥ªÂãïÈöäÊï∏‰∏äÈôê " Visible="False"></asp:Label>
+                                    ¨°∞ §È¥¡(∞_)
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="peoplelimit_countTextBox" runat="server" Text='<%# Bind("limit_count") %>' />
+                                    <uc3:DatetimePicker ID="txtactivity_startdate" DateTimeValue='<%# Bind("activity_startdate") %>'
+                                        runat="server" EnableTheming="False" EnableViewState="True" RequiredErrorMessage="¨°∞ §È¥¡(∞_)•≤∂Ò" FormatErrorMessage="¨°∞ §È¥¡(∞_)ÆÊ¶°§£•øΩT"
+                                        ValidationGroup="WizardNext" />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    <asp:Label ID="lbllimit2_count" runat="server" Text="Ê¥ªÂãïÂÇôÂèñ‰∫∫Êï∏ " Visible="False"></asp:Label>
-                                    <asp:Label ID="lbllimit2_count_team" runat="server" Text="Ê¥ªÂãïÂÇôÂèñÈöäÊï∏" Visible="False"></asp:Label>
+                                    ¨°∞ §È¥¡(®¥)
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="peoplelimit2_countTextBox" runat="server" Text='<%# Bind("limit2_count") %>' />
+                                    <uc3:DatetimePicker ID="txtactivity_enddate" runat="server" DateTimeValue='<%# Bind("activity_enddate") %>'
+                                        EnableTheming="True" RequiredErrorMessage="¨°∞ §È¥¡(®¥)•≤∂Ò" FormatErrorMessage="¨°∞ §È¥¡(®¥)ÆÊ¶°§£•øΩT" ValidationGroup="WizardNext" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <asp:Label ID="lbllimit_count" runat="server" Text="¨°∞ §Hº∆§W≠≠ " Visible="False"></asp:Label>
+                                    <asp:Label ID="lbllimit_count_team" runat="server" Text="¨°∞ ∂§º∆§W≠≠ " Visible="False"></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="txtlimit_count" runat="server" Text='<%# Bind("limit_count") %>' />
+                                    <asp:RequiredFieldValidator ID="chk_txtlimit_count" runat="server" 
+                                        Display="Dynamic" ControlToValidate="txtlimit_count" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                    <asp:CompareValidator ID="chk_txtlimit_count2" runat="server" 
+                                        ControlToValidate="txtlimit_count" Operator="DataTypeCheck" Type="Integer" 
+                                        ValidationGroup="WizardNext" Display="Dynamic"></asp:CompareValidator>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <asp:Label ID="lbllimit2_count" runat="server" Text="¨°∞ ≥∆®˙§Hº∆ " Visible="False"></asp:Label>
+                                    <asp:Label ID="lbllimit2_count_team" runat="server" Text="¨°∞ ≥∆®˙∂§º∆" Visible="False"></asp:Label>
+                                </td>
+                                <td>
+                                    <asp:TextBox ID="txtlimit2_count" runat="server" Text='<%# Bind("limit2_count") %>' />
+                                    <asp:RequiredFieldValidator ID="chk_txtlimit2_count" runat="server" 
+                                        ControlToValidate="txtlimit2_count" Display="Dynamic" 
+                                        ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                    <asp:CompareValidator ID="chk_txtlimit2_count2" runat="server" 
+                                        ControlToValidate="txtlimit2_count" Operator="DataTypeCheck" Type="Integer" 
+                                        ValidationGroup="WizardNext" Display="Dynamic"></asp:CompareValidator>
                                 </td>
                             </tr>
                             <tr id="trteam_member_max" runat="server">
                                 <td>
-                                    ÊØèÈöä‰∫∫Êï∏‰∏äÈôê
+                                    ®C∂§§Hº∆§W≠≠
                                 </td>
                                 <td>
                                     <asp:TextBox ID="txtteam_member_max" runat="server" Text='<%# Bind("team_member_max") %>' />
+                                    <asp:RequiredFieldValidator ID="chk_txtteam_member_max" runat="server" 
+                                        Display="Dynamic" ErrorMessage="®C∂§§Hº∆§W≠≠•≤∂Ò" ValidationGroup="WizardNext" 
+                                        ControlToValidate="txtteam_member_max"></asp:RequiredFieldValidator>
+                                    <asp:CompareValidator ID="chk_txtteam_member_max2" runat="server" 
+                                        ControlToValidate="txtteam_member_max" ErrorMessage="®C∂§§Hº∆§W≠≠•≤∂Òº∆¶r" 
+                                        Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" 
+                                        Display="Dynamic"></asp:CompareValidator>
                                 </td>
                             </tr>
                             <tr id="trteam_member_min" runat="server">
                                 <td>
-                                    ÊØèÈöä‰∫∫Êï∏‰∏ãÈôê
+                                    ®C∂§§Hº∆§U≠≠
                                 </td>
                                 <td>
                                     <asp:TextBox ID="txtteam_member_min" runat="server" Text='<%# Bind("team_member_min") %>' />
+                                    <asp:RequiredFieldValidator ID="chk_txtteam_member_min" runat="server" 
+                                        Display="Dynamic" ErrorMessage="®C∂§§Hº∆§U≠≠•≤∂Ò" ValidationGroup="WizardNext" 
+                                        ControlToValidate="txtteam_member_min"></asp:RequiredFieldValidator>
+                                    <asp:CompareValidator ID="chk_txtteam_member_min2" runat="server" 
+                                        ControlToValidate="txtteam_member_min" ErrorMessage="®C∂§§Hº∆§U≠≠•≤∂Òº∆¶r" 
+                                        Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" 
+                                        Display="Dynamic"></asp:CompareValidator>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    Â†±ÂêçÊà™Ê≠¢Êó•
+                                    ≥¯¶W∫I§Ó§È
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtregist_deadline" runat="server" Text='<%# Bind("regist_deadline") %>' />
-                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" 
-                                        TargetControlID="txtregist_deadline" Format="yyyy/MM/dd">
+                                    <asp:TextBox ID="txtregist_deadline" runat="server" 
+                                        Text='<%# Bind("regist_deadline","{0:d}") %>' />
+                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="txtregist_deadline"
+                                        Format="yyyy/MM/dd">
                                     </ajaxToolkit:CalendarExtender>
+                                    <asp:RequiredFieldValidator ID="chk_txtregist_deadline" runat="server" 
+                                        ControlToValidate="txtregist_deadline" ErrorMessage="≥¯¶W∫I§Ó§È•≤∂Ò" 
+                                        Display="Dynamic" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                    <asp:CompareValidator ID="chk_txtregist_deadline2" runat="server" 
+                                        ControlToValidate="txtregist_deadline" ErrorMessage="≥¯¶W∫I§Ó§ÈÆÊ¶°§£•øΩT" 
+                                        Operator="DataTypeCheck" Type="Date" Display="Dynamic" 
+                                        ValidationGroup="WizardNext"></asp:CompareValidator>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    ÂèñÊ∂àÂ†±ÂêçÊà™Ê≠¢Êó•
+                                    ®˙Æ¯≥¯¶W∫I§Ó§È
                                 </td>
                                 <td>
-                                    <asp:TextBox ID="txtcancelregist_deadline" runat="server" Text='<%# Bind("cancelregist_deadline") %>' />
-                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" TargetControlID="txtcancelregist_deadline" Format="yyyy/MM/dd">
+                                    <asp:TextBox ID="txtcancelregist_deadline" runat="server" 
+                                        Text='<%# Bind("cancelregist_deadline","{0:d}") %>' />
+                                    <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" TargetControlID="txtcancelregist_deadline"
+                                        Format="yyyy/MM/dd">
                                     </ajaxToolkit:CalendarExtender>
+                                    <asp:RequiredFieldValidator ID="chk_txtcancelregist_deadline" runat="server" 
+                                        ControlToValidate="txtcancelregist_deadline" ErrorMessage="®˙Æ¯≥¯¶W∫I§Ó§È•≤∂Ò" 
+                                        Display="Dynamic" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                    <asp:CompareValidator ID="chk_txtcancelregist_deadline2" runat="server" 
+                                        ControlToValidate="txtcancelregist_deadline" ErrorMessage="®˙Æ¯≥¯¶W∫I§Ó§ÈÆÊ¶°§£•øΩT" 
+                                        Operator="DataTypeCheck" Type="Date" Display="Dynamic" 
+                                        ValidationGroup="WizardNext"></asp:CompareValidator>
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    ÊòØÂê¶È°ØÁ§∫ÈôÑÂä†Ê™îÊ°à
+                                    ¨Oß_≈„•‹™˛•[¿…Æ◊
                                 </td>
                                 <td>
-                                    <asp:CheckBox ID="CheckBox1" runat="server" Checked='<%# Bind("is_showfile") %>' />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    ÊòØÂê¶È°ØÁ§∫Ê¥ªÂãïÈÄ≤Â∫¶ 
-                                </td>
-                                <td>
-                                    <asp:CheckBox ID="CheckBox2" runat="server" 
-                                        Checked='<%# Bind("is_showprogress") %>' />
+                                    <TServerControl:TCheckBoxYN ID="chkis_showfile" runat="server" YesNo='<%# Eval("is_showfile") %>' />
                                 </td>
                             </tr>
                             <tr>
                                 <td>
-                                    ÈôÑÂä†Ê™îÊ°à
+                                    ¨Oß_≈„•‹¨°∞ ∂i´◊
                                 </td>
                                 <td>
-                                    <asp:FileUpload ID="FileUpload2" runat="server" />
-                                    <asp:Button ID="Button6" runat="server" Text="‰∏äÂÇ≥" />
+                                    <TServerControl:TCheckBoxYN ID="chkis_showprogres" runat="server" 
+                                        YesNo='<%# Eval("is_showprogress") %>' />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    ™˛•[¿…Æ◊
+                                </td>
+                                <td>
+                                    <asp:FileUpload ID="FileUpload1" runat="server" />
+                                    <asp:Button ID="btnUpload" runat="server" Text="§W∂«" OnClick="btnUpload_Click" />
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="2">
-                                    <TServerControl:TGridView ID="GridView3" runat="server" AutoGenerateColumns="False" 
-                                        DataKeyNames="id" DataSourceID="SqlDataSource_File" 
-                                        AllowHoverEffect="True" AllowHoverSelect="True" ShowFooterWhenEmpty="False" 
-                                        ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" Width="100%">
+                                    <TServerControl:TGridView ID="GridView_UpFiles" runat="server" AutoGenerateColumns="False"
+                                        DataKeyNames="path" DataSourceID="ObjectDataSource_UpFiles" AllowHoverEffect="True"
+                                        AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
+                                        SkinID="pager" TotalRowCount="0" Width="100%">
                                         <Columns>
-                                            <asp:BoundField DataField="file_desc" HeaderText="Ê™îÊ°àË™™Êòé" 
-                                                SortExpression="file_desc" />
+                                            <asp:BoundField DataField="name" HeaderText="¿…Æ◊¶W∫Ÿ" SortExpression="name" />
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:LinkButton ID="LinkButton2" runat="server">‰∏ãËºâ</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbtnFileDownload" runat="server" 
+                                                        CommandArgument='<%# Eval("path") %>' onclick="lbtnFileDownload_Click">§U∏¸</asp:LinkButton>
                                                 </ItemTemplate>
+                                                <ItemStyle Width="50px" />
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <ItemTemplate>
-                                                    <asp:LinkButton ID="LinkButton3" runat="server">Âà™Èô§</asp:LinkButton>
+                                                    <asp:LinkButton ID="lbtnFileDelete" runat="server" CommandArgument='<%# Eval("path") %>'
+                                                        OnClientClick="return confirm('ΩT©w≠nßR∞£∂‹?')" onclick="lbtnFileDelete_Click">ßR∞£</asp:LinkButton>
                                                 </ItemTemplate>
+                                                <ItemStyle Width="50px" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </TServerControl:TGridView>
-                                    <asp:SqlDataSource ID="SqlDataSource_File" runat="server" 
-                                        ConnectionString="<%$ ConnectionStrings:connStr %>" 
-                                        SelectCommand="SELECT * FROM [ActivatyFiles]"></asp:SqlDataSource>
                                 </td>
                             </tr>
                         </table>
                         <br />
                     </ItemTemplate>
                 </asp:FormView>
-                <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
-                    SelectCommand="SELECT * FROM [Activity]"></asp:SqlDataSource>
+                <asp:ObjectDataSource ID="ObjectDataSource_Activaty" runat="server" OldValuesParameterFormatString="original_{0}"
+                    SelectMethod="SelectActivatyByActivatyID" TypeName="ACMS.BO.ActivatyBO">
+                    <SelectParameters>
+                        <asp:Parameter DbType="Guid" Name="id" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
+                <asp:ObjectDataSource ID="ObjectDataSource_UpFiles" runat="server" OldValuesParameterFormatString="original_{0}"
+                    SelectMethod="SELECT" TypeName="ACMS.BO.UpFileBO">
+                    <SelectParameters>
+                        <asp:Parameter Name="dirName" Type="String" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 3">
-                <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="ÂÄã‰∫∫Âõ∫ÂÆöÊ¨Ñ‰Ωç">
-                   
-                        <div>
-                            <asp:CheckBox ID="cbPersonID" runat="server" Text="Ë∫´ÂàÜË≠âÂ≠óËôü" />
-                            <br>
-                            <asp:CheckBox ID="cbExtPersonLimit" runat="server" Text="Êîú‰º¥‰∫∫Êï∏ÈôêÂà∂" />
-                            <asp:TextBox ID="txtExtPersonLimit" runat="server" Width="50px"></asp:TextBox>
-                            ~<asp:TextBox ID="txtExtPersonLimit0" runat="server" Width="50px"></asp:TextBox>
-                            ‰∫∫ </br>
-                        </div>
-   
-                </asp:Panel>
-                 <asp:Panel ID="PanelCustomFieldA2" runat="server" GroupingText="ÂÄã‰∫∫Âõ∫ÂÆöÊ¨Ñ‰Ωç">
-                     <div>
-                         <asp:CheckBox ID="cbPersonID0" runat="server" Text="Ë∫´ÂàÜË≠âÂ≠óËôü" />
-                         <br />
-                         <asp:CheckBox ID="cbPersonID2" runat="server" Text="ÂÇôË®ª" />
-                         <br></br>
-                     </div>
-                </asp:Panel>
-                 <asp:Panel ID="PanelCustomFieldB2" runat="server" GroupingText="ÂúòÈöäÂõ∫ÂÆöÊ¨Ñ‰Ωç">
-                 
-                 
-                 
-                 
-                     <asp:CheckBox ID="cbPersonID1" runat="server" Text="ÈöäÂêç" />
-                     <br>
-                     <asp:CheckBox ID="cbExtPersonLimit0" runat="server" Text="Êîú‰º¥‰∫∫Êï∏ÈôêÂà∂" />
-                     <asp:TextBox ID="txtExtPersonLimit1" runat="server" Width="50px"></asp:TextBox>
-                     ~<asp:TextBox ID="txtExtPersonLimit2" runat="server" Width="50px"></asp:TextBox>
-                     ‰∫∫ </br>
-                 
-                 
-                 
-                 
-                 </asp:Panel>
-                <asp:Panel ID="PanelCustomFieldC" runat="server" GroupingText="Ëá™Ë®ÇÊ¨Ñ‰Ωç">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                    <ContentTemplate>                    
+ 
+                <asp:FormView ID="FormView2" runat="server" 
+                    DataSourceID="ObjectDataSource_Activaty2" DataKeyNames="id">
+                    <ItemTemplate>
+                        <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="≠”§H©T©wƒÊ¶Ï">
+                            <div>
+                                <TServerControl:TCheckBoxYN ID="chkis_showperson_fix1" runat="server" Text="®≠§¿√“¶r∏π" YesNo='<%# Bind("is_showperson_fix1") %>' />
+                                <asp:UpdatePanel ID="UpdatePanelA" runat="server">
+                                    <ContentTemplate>
+                                       <TServerControl:TCheckBoxYN ID="chkis_showperson_fix2" runat="server" 
+                                            Text="ƒ‚¶Ò§Hº∆≠≠®Ó" YesNo='<%# Bind("is_showperson_fix2") %>' AutoPostBack="True" 
+                                            oncheckedchanged="chkis_showperson_fix2_CheckedChanged" />
+
+<asp:TextBox ID="txtpersonextcount_min" runat="server" Text='<%# Bind("personextcount_min") %>' Width="50px"></asp:TextBox>
+                              
+                                ~  <asp:TextBox ID="txtpersonextcount_max" runat="server" 
+                                    Text='<%# Bind("personextcount_max") %>' Width="50px"></asp:TextBox>§H
+                             
+                                <asp:RequiredFieldValidator ID="chk_txtpersonextcount_min" runat="server" ControlToValidate="txtpersonextcount_min"
+                                    Display="Dynamic" ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Ò" ValidationGroup="WizardNext" 
+                                            Visible="False"></asp:RequiredFieldValidator>
+                                <asp:CompareValidator ID="chk_txtpersonextcount_min2" runat="server" 
+                                    ControlToValidate="txtpersonextcount_min" ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Òº∆¶r" 
+                                    Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" 
+                                            Visible="False" Display="Dynamic"></asp:CompareValidator>
+                                <asp:RequiredFieldValidator ID="chk_txtpersonextcount_max" runat="server" 
+                                    ControlToValidate="txtpersonextcount_max" Display="Dynamic" 
+                                    ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Ò" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                                <asp:CompareValidator ID="chk_txtpersonextcount_max2" runat="server" 
+                                    ControlToValidate="txtpersonextcount_max" ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Òº∆¶r" 
+                                    Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" 
+                                            Visible="False" Display="Dynamic"></asp:CompareValidator>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                                <br/>
+                             
+                            </div>
+                        </asp:Panel>
+                        <asp:Panel ID="PanelCustomFieldB1" runat="server" GroupingText="≠”§H©T©wƒÊ¶Ï">
+                            <TServerControl:TCheckBoxYN ID="chkis_showidno" runat="server" Text="®≠§¿√“¶r∏π" YesNo='<%# Bind("is_showidno") %>' />
+                            <asp:UpdatePanel ID="UpdatePanelB" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                     <TServerControl:TCheckBoxYN ID="chkis_showremark" runat="server" Text="≥∆µ˘" 
+                                         YesNo='<%# Bind("is_showremark") %>' AutoPostBack="True" 
+                                         oncheckedchanged="chkis_showremark_CheckedChanged" />
+                            </div>
+                            &nbsp; ≥∆µ˘≈„•‹¶W∫Ÿ<asp:TextBox ID="txtremark_name" runat="server" 
+                                Text='<%# Bind("remark_name") %>' Width="50px"></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="chk_txtremark_name" runat="server" 
+                                ControlToValidate="txtremark_name" Display="Dynamic" ErrorMessage="≥∆µ˘≈„•‹¶W∫Ÿ•≤∂Ò" 
+                                ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <br/>
+                         
+                        </asp:Panel>
+                        <asp:Panel ID="PanelCustomFieldB2" runat="server" GroupingText="πŒ∂§©T©wƒÊ¶Ï">
+                             <TServerControl:TCheckBoxYN ID="chkis_showteam_fix1" runat="server" Text="∂§¶W" YesNo='<%# Bind("is_showteam_fix1") %>' />
+                             <asp:UpdatePanel ID="UpdatePanelC" runat="server" UpdateMode="Conditional">
+                                 <ContentTemplate>
+                                    <TServerControl:TCheckBoxYN ID="chkis_showteam_fix2" runat="server" 
+                                         Text="ƒ‚¶Ò§Hº∆≠≠®Ó" YesNo='<%# Bind("is_showteam_fix2") %>' AutoPostBack="True" 
+                                         oncheckedchanged="chkis_showteam_fix2_CheckedChanged" />
+                                <asp:TextBox ID="txtteamextcount_min" runat="server" Text='<%# Bind("teamextcount_min") %>' Width="50px"></asp:TextBox>~<asp:TextBox ID="txtteamextcount_max" runat="server" Text='<%# Bind("teamextcount_max") %>' Width="50px"></asp:TextBox>
+                                §H
+                         
+                             <asp:RequiredFieldValidator ID="chk_txtteamextcount_min" runat="server" 
+                                 ControlToValidate="txtteamextcount_min" Display="Dynamic" 
+                                 ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Ò" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                             <asp:CompareValidator ID="chk_txtteamextcount_min2" runat="server" 
+                                 ControlToValidate="txtteamextcount_min" ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Òº∆¶r" 
+                                 Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" 
+                                         Visible="False" Display="Dynamic"></asp:CompareValidator>
+                             <asp:RequiredFieldValidator ID="chk_txtteamextcount_max" runat="server" 
+                                 ControlToValidate="txtteamextcount_max" Display="Dynamic" 
+                                 ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Ò" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                             <asp:CompareValidator ID="chk_txtteamextcount_max2" runat="server" 
+                                 ControlToValidate="txtteamextcount_max" ErrorMessage="ƒ‚¶Ò§Hº∆≠≠®Ó•≤∂Òº∆¶r" 
+                                 Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" 
+                                         Visible="False" Display="Dynamic"></asp:CompareValidator>
+                                 </ContentTemplate>
+                             </asp:UpdatePanel>
+                            <br/>
+                           
+                        </asp:Panel>
+                    </ItemTemplate>
+                </asp:FormView>
+                <asp:ObjectDataSource ID="ObjectDataSource_Activaty2" runat="server" OldValuesParameterFormatString="original_{0}"
+                    SelectMethod="SelectActivatyByActivatyID" TypeName="ACMS.BO.ActivatyBO">
+                    <SelectParameters>
+                        <asp:Parameter DbType="Guid" Name="id" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
+                <asp:Panel ID="PanelCustomFieldC" runat="server" GroupingText="¶€≠qƒÊ¶Ï">
                     <table>
                         <tr>
                             <td>
-                                Ê¨Ñ‰ΩçÂêçÁ®±
+                                ƒÊ¶Ï¶W∫Ÿ
                             </td>
                             <td>
                                 <asp:TextBox ID="txtfield_name" runat="server"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="chk_txtfield_name" runat="server" 
+                                    ControlToValidate="txtfield_name" ErrorMessage="ƒÊ¶Ï¶W∫Ÿ•≤∂Ò" 
+                                    ValidationGroup="CustomFieldAdd" Display="Dynamic"></asp:RequiredFieldValidator>
                             </td>
                             <td>
-                                Ê¨Ñ‰ΩçÈ°ûÂûã
+                                ƒÊ¶Ï√˛´¨
                             </td>
                             <td>
                                 <asp:DropDownList ID="ddlfield_control" runat="server">
-                                    <asp:ListItem Value="textbox">ÊñáÂ≠óËº∏ÂÖ•</asp:ListItem>
-                                     <asp:ListItem Value="textboxlist">Ë≤ªÁî®È†ÖÁõÆ</asp:ListItem>
-                                    <asp:ListItem Value="checkboxlist">Ë§áÈÅ∏È†ÖÁõÆ</asp:ListItem>
-                                    <asp:ListItem Value="radiobuttonlist">ÂñÆÈÅ∏È†ÖÁõÆ</asp:ListItem>
+                                    <asp:ListItem Value="textbox">§Â¶røÈ§J</asp:ListItem>
+                                    <asp:ListItem Value="textboxlist">∂O•Œ∂µ•ÿ</asp:ListItem>
+                                    <asp:ListItem Value="checkboxlist">Ω∆øÔ∂µ•ÿ</asp:ListItem>
+                                    <asp:ListItem Value="radiobuttonlist">≥ÊøÔ∂µ•ÿ</asp:ListItem>
                                 </asp:DropDownList>
                             </td>
                             <td>
-                                <asp:Button ID="btnAddCustomField" runat="server" Text="Êñ∞Â¢û" />
+                                <asp:Button ID="btnAddCustomField" runat="server" Text="∑sºW" 
+                                    OnClick="btnAddCustomField_Click" ValidationGroup="CustomFieldAdd" />
                             </td>
                         </tr>
                     </table>
-                    <TServerControl:TGridView ID="gvCustomField" runat="server" AutoGenerateColumns="False"
-                        DataKeyNames="field_id" DataSourceID="SqlDataSource1" SkinID="pager">
+                    <TServerControl:TGridView ID="GridView_CustomField" runat="server" AutoGenerateColumns="False"
+                        DataKeyNames="field_id" DataSourceID="ObjectDataSource_CustomField" 
+                        SkinID="pager">
                         <Columns>
-                            <asp:CommandField ShowEditButton="True" HeaderStyle-Width="80px">
-                                <HeaderStyle Width="80px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Center" />
-                            </asp:CommandField>
-                            <asp:TemplateField HeaderText="Ê¨Ñ‰ΩçÂêçÁ®±" SortExpression="field_name">
+                            <asp:TemplateField HeaderText="ƒÊ¶Ï¶W∫Ÿ" SortExpression="field_name">
                                 <EditItemTemplate>
                                     <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("field_name") %>' Width="90%"></asp:TextBox>
                                 </EditItemTemplate>
@@ -351,21 +406,21 @@
                                 </ItemTemplate>
                                 <HeaderStyle Width="150px" />
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Ê¨Ñ‰ΩçÈ°ûÂûã" SortExpression="field_control" HeaderStyle-Width="80px">
+                            <asp:TemplateField HeaderText="ƒÊ¶Ï√˛´¨" SortExpression="field_control" HeaderStyle-Width="80px">
                                 <EditItemTemplate>
                                     <asp:DropDownList ID="ddlfield_control" runat="server" Enabled="False" SelectedValue='<%# Bind("field_control") %>'>
-                                        <asp:ListItem Value="textbox">ÊñáÂ≠óËº∏ÂÖ•</asp:ListItem>
-                                        <asp:ListItem Value="textboxlist">Ë≤ªÁî®È†ÖÁõÆ</asp:ListItem>
-                                        <asp:ListItem Value="checkboxlist">Ë§áÈÅ∏È†ÖÁõÆ</asp:ListItem>
-                                        <asp:ListItem Value="radiobuttonlist">ÂñÆÈÅ∏È†ÖÁõÆ</asp:ListItem>
+                                        <asp:ListItem Value="textbox">§Â¶røÈ§J</asp:ListItem>
+                                        <asp:ListItem Value="textboxlist">∂O•Œ∂µ•ÿ</asp:ListItem>
+                                        <asp:ListItem Value="checkboxlist">Ω∆øÔ∂µ•ÿ</asp:ListItem>
+                                        <asp:ListItem Value="radiobuttonlist">≥ÊøÔ∂µ•ÿ</asp:ListItem>
                                     </asp:DropDownList>
                                 </EditItemTemplate>
                                 <ItemTemplate>
                                     <asp:DropDownList ID="ddlfield_control" runat="server" Enabled="False" SelectedValue='<%# Bind("field_control") %>'>
-                                        <asp:ListItem Value="textbox">ÊñáÂ≠óËº∏ÂÖ•</asp:ListItem>
-                                        <asp:ListItem Value="textboxlist">Ë≤ªÁî®È†ÖÁõÆ</asp:ListItem>
-                                        <asp:ListItem Value="checkboxlist">Ë§áÈÅ∏È†ÖÁõÆ</asp:ListItem>
-                                        <asp:ListItem Value="radiobuttonlist">ÂñÆÈÅ∏È†ÖÁõÆ</asp:ListItem>
+                                        <asp:ListItem Value="textbox">§Â¶røÈ§J</asp:ListItem>
+                                        <asp:ListItem Value="textboxlist">∂O•Œ∂µ•ÿ</asp:ListItem>
+                                        <asp:ListItem Value="checkboxlist">Ω∆øÔ∂µ•ÿ</asp:ListItem>
+                                        <asp:ListItem Value="radiobuttonlist">≥ÊøÔ∂µ•ÿ</asp:ListItem>
                                     </asp:DropDownList>
                                 </ItemTemplate>
                                 <HeaderStyle Width="80px"></HeaderStyle>
@@ -373,64 +428,123 @@
                             <asp:TemplateField HeaderStyle-Width="80px">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnEditItem" runat="server" Visible='<%# IsShowEdit( Eval("IsShowEdit") ) %>'
-                                        OnClick="lbtnEditItem_Click" CommandArgument='<%# Eval("field_id") %>'>Á∑®ËºØÈÅ∏È†Ö</asp:LinkButton>
+                                        OnClick="lbtnEditItem_Click" CommandArgument='<%# Eval("field_id") %>'>ΩsøËøÔ∂µ</asp:LinkButton>
                                 </ItemTemplate>
                                 <HeaderStyle Width="80px"></HeaderStyle>
-                                <ItemStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center" Width="100px" />
                             </asp:TemplateField>
-                            <asp:CommandField ShowDeleteButton="True" />
+                            <asp:TemplateField ShowHeader="False">
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbtnDeleteCustomField" runat="server" 
+                                        CausesValidation="False" CommandName="Delete" 
+                                        onclick="lbtnDeleteCustomField_Click" 
+                                        onclientclick="return confirm ('ΩT©w≠nßR∞£∂‹?');" Text="ßR∞£"></asp:LinkButton>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" Width="50px" />
+                            </asp:TemplateField>
                         </Columns>
                     </TServerControl:TGridView>
-                    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
-                        SelectCommand="SELECT activity_id, field_id, field_name, field_control,CASE field_control WHEN 'textbox' THEN 0 ELSE 1 END as IsShowEdit
-FROM CustomField WHERE (activity_id = @activity_id)">
+                    <asp:ObjectDataSource ID="ObjectDataSource_CustomField" runat="server" 
+                        DataObjectTypeName="ACMS.VO.CustomFieldVO" DeleteMethod="DELETE" 
+                        InsertMethod="INSERT" OldValuesParameterFormatString="original_{0}" 
+                        SelectMethod="SelectByActivity_id" TypeName="ACMS.BO.CustomFieldBO">
+                        <DeleteParameters>
+                            <asp:Parameter Name="field_id" Type="Int32" />
+                        </DeleteParameters>
                         <SelectParameters>
-                            <asp:Parameter DefaultValue="1" Name="activity_id" Type="Int32" />
+                            <asp:Parameter DbType="Guid" Name="activity_id" />
                         </SelectParameters>
-                    </asp:SqlDataSource>
+                    </asp:ObjectDataSource>
                     <uc2:OpenListItem ID="OpenListItem1" runat="server" />
-                </asp:Panel>
+                </asp:Panel>                   </ContentTemplate>
+                </asp:UpdatePanel>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 4">
+                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
+                    <ContentTemplate>
+
+                  
                 <asp:RadioButtonList ID="rblgrouplimit" runat="server" RepeatDirection="Horizontal">
-                    <asp:ListItem Selected="True" Value="Y">‰ΩøÁî®ÊóèÁæ§ÈôêÂÆöÂêçÂñÆ</asp:ListItem>
-                    <asp:ListItem Value="N">‰∏ç‰ΩøÁî®ÊóèÁæ§ÈôêÂÆöÂêçÂñÆ</asp:ListItem>
+                    <asp:ListItem Selected="True" Value="Y">®œ•Œ±⁄∏s≠≠©w¶W≥Ê</asp:ListItem>
+                    <asp:ListItem Value="N">§£®œ•Œ±⁄∏s≠≠©w¶W≥Ê</asp:ListItem>
                 </asp:RadioButtonList>
-                <asp:Panel ID="Panel1" runat="server" GroupingText="ÊóèÁæ§ÈôêÂÆöÂêçÂñÆ">
-                    Ê™îÊ°à‰∏äÂÇ≥<asp:FileUpload ID="FileUpload1" runat="server" />
-                    <asp:Button ID="btnUpload" runat="server" Text="‰∏äÂÇ≥" />
-                    <asp:Button ID="btnAddGroupLimit" runat="server" OnClick="btnAddGroupLimit_Click"
-                        Text="Êñ∞Â¢ûÊóèÁæ§" /><asp:Button ID="btnExportExcel" runat="server" 
-                        Text="ÂåØÂá∫ÊóèÁæ§ÂêçÂñÆ" />
-                    <TServerControl:TGridView ID="GridView2" runat="server" AllowHoverEffect="True"
-                        AllowHoverSelect="True" AutoGenerateColumns="False" DataKeyNames="ID" DataSourceID="SqlDataSource3"
-                        EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                        SkinID="pager" TotalRowCount="0" Width="100%">
-                        <Columns>
-                            <asp:BoundField DataField="WORK_ID" HeaderText="Âì°Â∑•Á∑®Ëôü" ReadOnly="True" SortExpression="WORK_ID" />
-                            <asp:BoundField DataField="NATIVE_NAME" HeaderText="ÂßìÂêç" SortExpression="NATIVE_NAME" />
-                            <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="ÈÉ®ÈñÄ" SortExpression="C_DEPT_ABBR" />
-                            <asp:TemplateField>
-                                <ItemTemplate>
-                                    <asp:LinkButton ID="LinkButton1" runat="server">Âà™Èô§</asp:LinkButton>
-                                </ItemTemplate>
-                                <ItemStyle HorizontalAlign="Center" />
-                            </asp:TemplateField>
-                        </Columns>
-                    </TServerControl:TGridView>
-                    &nbsp;<asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:connStr %>"
-                        SelectCommand="SELECT B.ID,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_ABBR
-FROM ActivityGroupLimit A
-inner join V_ACSM_USER B on A.emp_id=B.ID
-WHERE A.activity_id=1"></asp:SqlDataSource>
-                    <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" runat="server" />
+                <asp:Panel ID="Panel_GroupLimit" runat="server" GroupingText="±⁄∏s≠≠©w¶W≥Ê">
+                    ¿…Æ◊§W∂«<asp:FileUpload ID="FileUpload_GroupLimit" runat="server" />
+                    <asp:Button ID="btnUpload_GroupLimit" runat="server" Text="§W∂«" 
+                        OnClick="btnUpload_GroupLimit_Click" />
+                    <asp:Button ID="btnAdd_GroupLimit" runat="server" OnClick="btnAddGroupLimit_Click"
+                        Text="∑sºW±⁄∏s" />
+                    <asp:Button ID="btnExport_GroupLimit" runat="server" 
+                        Text="∂◊•X±⁄∏s¶W≥Ê" OnClick="btnExport_GroupLimit_Click" />
+                    <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+                        <ContentTemplate>
+                            <TServerControl:TGridView ID="GridView_GroupLimit" runat="server" 
+                                AllowHoverEffect="True" AllowHoverSelect="True" AutoGenerateColumns="False" 
+                                DataKeyNames="keyID" DataSourceID="ObjectDataSource_GroupLimit" 
+                                EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" 
+                                ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" Width="100%">
+                                <Columns>
+                                    <asp:BoundField DataField="WORK_ID" HeaderText="≠˚§uΩs∏π" ReadOnly="True" 
+                                        SortExpression="WORK_ID" />
+                                    <asp:BoundField DataField="NATIVE_NAME" HeaderText="©m¶W" 
+                                        SortExpression="NATIVE_NAME" />
+                                    <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="≥°™˘" 
+                                        SortExpression="C_DEPT_ABBR" />
+                                    <asp:TemplateField>
+                                        <ItemTemplate>
+                                            <asp:LinkButton ID="lbtnDel_GroupLimit" runat="server" 
+                                                onclick="lbtnDel_GroupLimit_Click" onclientclick="return confirm('ΩT©w≠nßR∞£∂‹?');">ßR∞£</asp:LinkButton>
+                                        </ItemTemplate>
+                                        <ItemStyle HorizontalAlign="Center" />
+                                    </asp:TemplateField>
+                                </Columns>
+                            </TServerControl:TGridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
+                    <asp:ObjectDataSource ID="ObjectDataSource_GroupLimit" runat="server" 
+                        DeleteMethod="DELETE" OldValuesParameterFormatString="original_{0}" 
+                        SelectMethod="SelectByActivity_id" TypeName="ACMS.BO.ActivityGroupLimitBO">
+                        <DeleteParameters>
+                            <asp:Parameter Name="id" Type="Int32" />
+                        </DeleteParameters>
+                        <SelectParameters>
+                            <asp:Parameter DbType="Guid" Name="activity_id" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
+                    <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployees_Click="GetEmployees_Click" runat="server" />
                 </asp:Panel>
+                  </ContentTemplate>
+                </asp:UpdatePanel>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 5">
-                Ê≥®ÊÑè‰∫ãÈ†Ö<br />
-                <asp:TextBox ID="TextBox3" runat="server" Height="294px" TextMode="MultiLine" 
+                ™`∑N®∆∂µ<asp:RequiredFieldValidator ID="chk_txtnotice" runat="server" 
+                    ControlToValidate="txtnotice" ErrorMessage="™`∑N®∆∂µ•≤∂Ò" 
+                    ValidationGroup="WizardNext">*</asp:RequiredFieldValidator>
+                <br />
+                <asp:TextBox ID="txtnotice" runat="server" Height="294px" TextMode="MultiLine" 
                     Width="400px"></asp:TextBox>
             </asp:WizardStep>
         </WizardSteps>
+        <StepNavigationTemplate>
+            <asp:Button ID="btnPrevious" runat="server" CssClass="WizardControlButton" Text="§W§@®B"
+                CommandName="MovePrevious" />
+            <asp:Button ID="btnNext" runat="server" CssClass="WizardControlButton" CommandName="MoveNext"
+                Text="§U§@®B" CausesValidation="true" ValidationGroup="WizardNext" />
+        </StepNavigationTemplate>
     </asp:Wizard>
+    <asp:ValidationSummary ID="sum_WizardNext" runat="server" ShowMessageBox="True" ShowSummary="False"
+        ValidationGroup="WizardNext" />
+    <asp:ValidationSummary ID="sum_CustomFieldAdd" runat="server" 
+        ShowMessageBox="True" ShowSummary="False"
+        ValidationGroup="CustomFieldAdd" />
+
+
+        <asp:ValidationSummary ID="sum_CustomFieldItemAdd" runat="server" 
+            ValidationGroup="CustomFieldItemAdd" ShowMessageBox="True" ShowSummary="False" />
+    
+
+        <asp:ValidationSummary ID="sum_Query" runat="server" DisplayMode="List" 
+            ShowMessageBox="True" ShowSummary="False" ValidationGroup="Query" />
+        
+
 </asp:Content>

@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_OpenEmployeeSelector" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    " Width="500" Height="500"><!--display: none;-->
+<script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
+    " Width="500" Height="500"><!---->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="人員選取" SkinID="title"></asp:Label>
@@ -15,20 +16,28 @@
                         </td>
                         <td>
                             <asp:DropDownList ID="ddlDEPT_ID" runat="server" 
-                                AutoPostBack="True" DataSourceID="ObjectDataSource1" DataTextField="dept_name" 
-                                DataValueField="dept_id">
+                                DataSourceID="ObjectDataSource_Dept" DataTextField="Text" 
+                                DataValueField="Value">
                             </asp:DropDownList>
-                            <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" 
+                            <asp:ObjectDataSource ID="ObjectDataSource_Dept" runat="server" 
                                 OldValuesParameterFormatString="original_{0}" 
-                                SelectMethod="BLL_Department_Select" TypeName="BLL_Pubic">
+                                SelectMethod="DeptSelector" TypeName="ACMS.BO.SelectorBO">
                             </asp:ObjectDataSource>
                         </td>
                         <td align="right">
                             <asp:Label ID="lblJOB_CNAME" runat="server" Text="職稱"></asp:Label>
                         </td>
                         <td>
-                            <asp:TextBox ID="txtJOB_CNAME" runat="server"></asp:TextBox>
+                            <asp:DropDownList ID="ddlJOB_CNAME" runat="server" 
+                                DataSourceID="ObjectDataSource_JOBCNAME" DataTextField="Text" 
+                                DataValueField="Value">
+                            </asp:DropDownList>
+                            <asp:ObjectDataSource ID="ObjectDataSource_JOBCNAME" runat="server" 
+                                OldValuesParameterFormatString="original_{0}" SelectMethod="JOBCNAMESelector" 
+                                TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                         </td>
+                        <td>
+                            &nbsp;</td>
                     </tr>
                     <tr>
                         <td align="right">
@@ -43,6 +52,8 @@
                         <td>
                             <asp:TextBox ID="txtNATIVE_NAME" runat="server" ></asp:TextBox>
                         </td>
+                        <td>
+                            &nbsp;</td>
                     </tr>
                     <tr>
                         <td align="right">
@@ -60,15 +71,30 @@
                             &nbsp;</td>
                         <td>
                             &nbsp;</td>
+                        <td>
+                            &nbsp;</td>
                     </tr>
                     <tr>
                         <td align="right">
                             <asp:Label ID="lblBIRTHDAY" runat="server" Text="生日"></asp:Label>
                         </td>
                         <td colspan="3">
-                            <asp:TextBox ID="txtBIRTHDAY_start" runat="server"></asp:TextBox>
-                            ~<asp:TextBox ID="txtBIRTHDAY_end" runat="server"></asp:TextBox>
+                            <asp:TextBox ID="txtBIRTHDAY_start" runat="server"></asp:TextBox>~<asp:TextBox ID="txtBIRTHDAY_end" runat="server"></asp:TextBox>
+                              <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" 
+                                Format="yyyy/MM" TargetControlID="txtBIRTHDAY_start">
+                            </ajaxToolkit:CalendarExtender>
+                              <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" 
+                                Format="yyyy/MM" TargetControlID="txtBIRTHDAY_end">
+                            </ajaxToolkit:CalendarExtender>
+                            <asp:CompareValidator ID="chk_txtBIRTHDAY_start" runat="server" 
+                                ControlToValidate="txtBIRTHDAY_start" Display="None" ErrorMessage="生日必填日期格式" 
+                                Operator="DataTypeCheck" Type="Date" ValidationGroup="Query"></asp:CompareValidator>
+                            <asp:CompareValidator ID="chk_txtBIRTHDAY_end" runat="server" 
+                                ControlToValidate="txtBIRTHDAY_end" Display="None" ErrorMessage="生日必填日期格式" 
+                                Operator="DataTypeCheck" Type="Date" ValidationGroup="Query"></asp:CompareValidator>
                         </td>
+                        <td>
+                            &nbsp;</td>
                     </tr>
                     <tr>
                         <td align="right">
@@ -79,17 +105,26 @@
                             <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" 
                                 Format="yyyy/MM/dd" TargetControlID="txtEXPERIENCE_START_DATE">
                             </ajaxToolkit:CalendarExtender>
+                            <asp:CompareValidator ID="chk_txtEXPERIENCE_START_DATE" runat="server" 
+                                ControlToValidate="txtEXPERIENCE_START_DATE" Display="None" 
+                                ErrorMessage="年資起始日必填日期格式" Operator="DataTypeCheck" Type="Date" 
+                                ValidationGroup="Query"></asp:CompareValidator>
                         </td>
                         <td align="right">
                             <asp:Label ID="lblC_NAME" runat="server" Text="公司別"></asp:Label>
                         </td>
                         <td>
-                            <asp:TextBox ID="txtC_NAME" runat="server"></asp:TextBox>
+                            <asp:DropDownList ID="ddlC_NAME" runat="server" 
+                                DataSourceID="ObjectDataSource_CNAME" DataTextField="Text" 
+                                DataValueField="Value">
+                            </asp:DropDownList>
+                            <asp:ObjectDataSource ID="ObjectDataSource_CNAME" runat="server" 
+                                OldValuesParameterFormatString="original_{0}" SelectMethod="CNAMESelector" 
+                                TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                         </td>
-                    </tr>
-                    <tr>
-                        <td align="right" colspan="4">
-                            <asp:Button ID="btnQuery" runat="server" Text="查詢" onclick="btnQuery_Click" />
+                        <td>
+                            <asp:Button ID="btnQuery" runat="server" onclick="btnQuery_Click" Text="查詢" 
+                                ValidationGroup="Query" />
                         </td>
                     </tr>
                 </table>
@@ -97,10 +132,10 @@
         </tr>
         <tr>
             <td align="center">
-                <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
+                <TServerControl:TGridView ID="GridView_Employee" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
                     ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID"
-                    SkinID="pager" DataSourceID="SqlDataSource1" 
+                    SkinID="pager" DataSourceID="ObjectDataSource_Employee" 
                     EnableModelValidation="True">
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
@@ -111,38 +146,38 @@
                           <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:CheckBox ID="CheckBox1" runat="server" />
+                                    <TServerControl:TCheckBoxYN ID="CheckBox1" runat="server" Enabled='<%# Eval("keyValue") %>' />
                             </ItemTemplate>
                             <HeaderTemplate>
-                                <asp:CheckBox ID="CheckBox1" runat="server" Text="全選" />
+                                <input id="cbCheckAll" onclick="Check2(this,'GridView_Employee','CheckBox1');"
+                                runat="server" type="checkbox" /><asp:Literal ID="Literal1" runat="server">全選</asp:Literal>
                             </HeaderTemplate>
                         </asp:TemplateField>
                     </Columns>
                 </TServerControl:TGridView>
-                <asp:ObjectDataSource ID="ObjectDataSource2" runat="server" 
+                <asp:ObjectDataSource ID="ObjectDataSource_Employee" runat="server" 
                     OldValuesParameterFormatString="original_{0}" 
-                    TypeName="BLL_OpenEmployeeSelector" 
-                    SelectMethod="BLL_OpenEmployeeSelector_Select" 
-                    onselecting="ObjectDataSource2_Selecting">
+                    TypeName="ACMS.BO.SelectorBO" 
+                    SelectMethod="EmployeeSelector" 
+                    >
                     <SelectParameters>
-                        <asp:Parameter ConvertEmptyStringToNull="false"  Name="DEPT_ID" Type="String" />
-                        <asp:Parameter ConvertEmptyStringToNull="false"  Name="JOB_CNAME" Type="String" />
-                        <asp:Parameter ConvertEmptyStringToNull="false"  Name="WORK_ID" Type="String" />
-                        <asp:Parameter ConvertEmptyStringToNull="false"  Name="NATIVE_NAME" Type="String" />
-                        <asp:Parameter ConvertEmptyStringToNull="false" Name="SEX" Type="String" />
-                        <asp:Parameter Name="AGE" Type="Int32" />
-                        <asp:Parameter ConvertEmptyStringToNull="false"  Name="EXPERIENCE_START_DATE" Type="String" />
-                        <asp:Parameter ConvertEmptyStringToNull="false"  Name="C_NAME" Type="String" />
+                        <asp:Parameter  Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter  Name="JOB_CNAME" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter   Name="WORK_ID" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter   Name="NATIVE_NAME" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter Name="SEX" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter Name="BIRTHDAY_S" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter Name="BIRTHDAY_E" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter   Name="EXPERIENCE_START_DATE" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter  Name="C_NAME" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter DbType="Guid" Name="activity_id" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" 
-                    ConnectionString="<%$ ConnectionStrings:connStr %>" 
-                    SelectCommand="SELECT * FROM [V_ACSM_USER]"></asp:SqlDataSource>
             </td>
         </tr>
     </table>
     <div align="center">
-        <asp:Button ID="btnOK" runat="server" Text="確定" />
+        <asp:Button ID="btnOK" runat="server" Text="確定" onclick="btnOK_Click" />
         <asp:Button ID="btnCancel" runat="server"  Text="取消" />
     </div>
 </asp:Panel>
