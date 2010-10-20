@@ -118,6 +118,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
         ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
 
+        //報名截止日後要唯讀
+        //if (myActivatyVO.regist_deadline <= DateTime.Today)
+        //{
+        //    MyFormMode = FormViewMode.ReadOnly;
+        //}
+
         //活動海報訊息
         Literal1.Text = myActivatyVO.activity_info;
 
