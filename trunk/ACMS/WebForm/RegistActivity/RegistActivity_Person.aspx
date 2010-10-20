@@ -13,7 +13,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
         ActivityType="1" />
-    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="2"
+    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="1"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步">
         <StartNavigationTemplate>
@@ -187,7 +187,8 @@
                             AllowHoverSelect="True" AutoGenerateColumns="False" DataSourceID="ObjectDataSource_RegisterPeoplenfo"
                             EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                             SkinID="pager" TotalRowCount="0" Width="100%" DataKeyNames="ID" 
-                            OnRowDataBound="GridView_RegisterPeoplinfo_RowDataBound">
+                            OnRowDataBound="GridView_RegisterPeoplinfo_RowDataBound" 
+                            OnDataBound="GridView_RegisterPeoplinfo_DataBound">
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>

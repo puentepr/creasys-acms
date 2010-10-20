@@ -97,10 +97,10 @@ namespace ACMS.BO
 
         //6-3報名登錄狀態管理 
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable ActivityCheckQuery(string activity_id, string emp_id, string emp_name)
+        public DataTable ActivityCheckQuery(string activity_id, string DEPT_ID, string emp_id, string emp_name)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, emp_id, emp_name);
+            DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, DEPT_ID, emp_id, emp_name);
             return DT;
         }
 

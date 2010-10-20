@@ -355,26 +355,29 @@ namespace ACMS.DAO
         }
 
         //6-3報名登錄狀態管理 
-        public DataTable ActivityCheckQuery(string activity_id, string emp_id, string emp_name)
+        public DataTable ActivityCheckQuery(string activity_id,string DEPT_ID, string emp_id, string emp_name)
         {
-            SqlParameter[] sqlParams = new SqlParameter[3];
+            SqlParameter[] sqlParams = new SqlParameter[4];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = new Guid(activity_id);
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
-            sqlParams[1].Value = emp_id;
-            sqlParams[2] = new SqlParameter("@emp_name", SqlDbType.NVarChar, 200);
-            sqlParams[2].Value = emp_name;
+            sqlParams[1] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
+            sqlParams[1].Value = DEPT_ID;
+            sqlParams[2] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+            sqlParams[2].Value = emp_id;
+            sqlParams[3] = new SqlParameter("@emp_name", SqlDbType.NVarChar, 200);
+            sqlParams[3].Value = emp_name;
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.emp_id,B.NATIVE_NAME,B.C_DEPT_ABBR,CASE check_status  WHEN 0 THEN '已報名' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine("SELECT A.emp_id,B.NATIVE_NAME,B.C_DEPT_ABBR,CASE check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine("FROM [ActivityRegist] A ");
             sb.AppendLine("left join [V_ACSM_USER] B on A.emp_id = B.id ");
             sb.AppendLine("where 1=1 ");
             sb.AppendLine("and A.activity_id=@activity_id ");
-            sb.AppendLine("and A.check_status>=0 ");
+            sb.AppendLine("and A.check_status>=0 ");//已取消的不會出現
             sb.AppendLine("and (B.ID=@emp_id or @emp_id='') ");
+            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
             sb.AppendLine("and (B.NATIVE_NAME like '%'+@emp_name +'%'or @emp_name='') ");
             sb.AppendLine("order by A.id ");
 

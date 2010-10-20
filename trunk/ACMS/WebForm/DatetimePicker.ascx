@@ -29,17 +29,7 @@
 </asp:DropDownList>時
 <asp:DropDownList ID="ddlMinute" runat="server">
     <asp:ListItem>0</asp:ListItem>
-    <asp:ListItem>5</asp:ListItem>
-    <asp:ListItem>10</asp:ListItem>
-    <asp:ListItem>15</asp:ListItem>
-    <asp:ListItem>20</asp:ListItem>
-    <asp:ListItem>25</asp:ListItem>
-    <asp:ListItem>30</asp:ListItem>
-    <asp:ListItem>35</asp:ListItem>
-    <asp:ListItem>40</asp:ListItem>
-    <asp:ListItem>45</asp:ListItem>
-    <asp:ListItem>50</asp:ListItem>
-    <asp:ListItem>55</asp:ListItem>
+    <asp:ListItem>30</asp:ListItem> 
 </asp:DropDownList>分
 <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="txtDate" Format="yyyy/MM/dd"></ajaxToolkit:CalendarExtender>
 <asp:RequiredFieldValidator ID="chk_txtDate" runat="server" ErrorMessage="" 

@@ -18,7 +18,6 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-
             (this.Master as MyMasterPage).PanelMainGroupingText = "報名登錄狀態管理";
             ddlActivity.DataBind();
             btnQuery_Click(null, null);
@@ -28,9 +27,13 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
     protected void btnQuery_Click(object sender, EventArgs e)
     {
         ViewState["activity_id"] = ddlActivity.SelectedValue;
+        ViewState["DEPT_ID"] = ddlDEPT_ID.SelectedValue;
+
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = ddlActivity.SelectedValue;
+        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
         ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = txtemp_id.Text;
         ObjectDataSource1.SelectParameters["emp_name"].DefaultValue = txtemp_name.Text;
+
         GridView1.DataBind();
     }
     protected void btnExport_Click(object sender, EventArgs e)
@@ -42,7 +45,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
         DataTable table = new DataTable();
         ACMS.DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), txtemp_id.Text, txtemp_name.Text);
+        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text);
 
         if (table != null && table.Rows.Count > 0)
         {
@@ -67,13 +70,14 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
         }
     }
+
+    //更新
     protected void btnUpdate_Click(object sender, EventArgs e)
     {
         if (ViewState["activity_id"] == null)
         {
             return;
         }
-
 
         ACMS.DAO.BaseDAO myBaseDAO = new ACMS.DAO.BaseDAO();
 
@@ -111,7 +115,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
                             sb.AppendLine("UPDATE ActivityRegist ");
                             sb.AppendLine("set check_status=@check_status ");
-                            sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@emp_id and ISNULL(ticket_id,0)>0; ");
+                            sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@emp_id; ");
 
                             cmd.CommandText = sb.ToString();
                             cmd.Parameters.Clear();

@@ -269,18 +269,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
     }
 
+    //[報名人事資料」區塊
     protected void GridView_RegisterPeoplinfo_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+        RadioButton RadioButton1 = (RadioButton)e.Row.FindControl("RadioButton1");
         //给每个RadioButton1绑定setRadio事件
         try
         {
-            ((RadioButton)e.Row.FindControl("RadioButton1")).Attributes.Add("onclick", "setRadio(this)");
+            RadioButton1.Attributes.Add("onclick", "setRadio(this)");
         }
         catch (Exception)
         { }
 
-    }
 
+
+    }
 
     //選擇費用項目時要加總金額
     protected void CheckBoxList1_SelectedIndexChanged(object sender, EventArgs e)
@@ -444,6 +447,24 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
         myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
         myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
+    }
+
+
+    //protected void GridView_RegisterPeoplinfo_DataBound(object sender, EventArgs e)
+    //{
+    //    if()
+    //}
+
+    protected void GridView_RegisterPeoplinfo_DataBound(object sender, EventArgs e)
+    {
+        if (GridView_RegisterPeoplinfo.Rows.Count > 0)
+        {  
+            //系統預設會勾選第一筆資料
+            RadioButton RadioButton1 = (RadioButton)GridView_RegisterPeoplinfo.Rows[0].FindControl("RadioButton1");         
+           InitQueryBlock(ActivityID.ToString());
+            RadioButton1_CheckedChanged(RadioButton1, null);
+ 
+        }
     }
 }
 
