@@ -1,0 +1,7 @@
+<asp:Label SkinID="Usage" runat="server" ForeColor="blue"  Font-Size="9pt" />
+<asp:Label SkinID="title" runat="server" ForeColor="#408080" Font-Size="16pt" Font-Bold="true"></asp:Label>
+<asp:Label SkinID="section" runat="server" ForeColor="#8B0000"  Font-Size="9pt" />
+<asp:Label SkinID="subSection" runat="server" Font-Bold="true"  Font-Size="9pt" />
+<asp:Label SkinID="tip" runat="server" ForeColor="blue"  Font-Size="9pt" />
+<asp:Label SkinID="Bulletin" runat="server" Font-Size="12pt"></asp:Label>
+<asp:Label SkinID="Alert" runat="server" ForeColor="red"  Font-Size="9pt" />
