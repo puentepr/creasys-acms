@@ -13,7 +13,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
         ActivityType="1" />
-    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="1"
+    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="2"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步">
         <StartNavigationTemplate>
@@ -221,8 +221,8 @@
                                     <ItemTemplate>
                                         <table>
                                             <tr id="tr_person_fix1" runat="server">
-                                                <td width="100">
-                                                    身分證字號
+                                                <td width="150">
+                                                    身分證字號/護照號碼
                                                 </td>
                                                 <td width="200">
                                                     <asp:TextBox ID="txtperson_fix1" runat="server" Text='<%# Bind("idno") %>'></asp:TextBox>
@@ -231,7 +231,7 @@
                                                 </td>
                                             </tr>
                                             <tr id="tr_person_fix2" runat="server">
-                                                <td width="100">
+                                                <td width="150">
                                                     攜伴人數
                                                 </td>
                                                 <td width="200">

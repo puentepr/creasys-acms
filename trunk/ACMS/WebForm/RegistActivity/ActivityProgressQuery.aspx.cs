@@ -9,11 +9,16 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 
-public partial class WebForm_ActivityProgressQuery : System.Web.UI.Page
+public partial class WebForm_RegistActivity_ActivityProgressQuery : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度查詢";
+        if (!IsPostBack)
+        {
+            ObjectDataSource_Activity.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
+            (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度查詢";
+        }
+
     }
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
     {

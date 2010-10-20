@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
-    CodeFile="ActivityProgressQuery.aspx.cs" Inherits="WebForm_ActivityProgressQuery"
+    CodeFile="ActivityProgressQuery.aspx.cs" Inherits="WebForm_RegistActivity_ActivityProgressQuery"
     Title="未命名頁面" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -12,7 +12,11 @@
                     DataTextField="activity_name" DataValueField="id" AutoPostBack="True">
                 </asp:DropDownList>
                 <asp:ObjectDataSource ID="ObjectDataSource_Activity" runat="server" OldValuesParameterFormatString="original_{0}"
-                    SelectMethod="GetAllActivity" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                    SelectMethod="GetAllMyActivity" TypeName="ACMS.BO.SelectorBO">
+                    <SelectParameters>
+                        <asp:Parameter Name="emp_id" Type="String" />
+                    </SelectParameters>
+                </asp:ObjectDataSource>
                 &nbsp;<asp:DataList ID="DataList1" runat="server" DataSourceID="ObjectDataSource_ActivityProcessQuery"
                     RepeatColumns="3" CellPadding="4" ForeColor="#333333" GridLines="Both"
                     OnItemDataBound="DataList1_ItemDataBound" ShowFooter="False" ShowHeader="False">                

@@ -249,6 +249,26 @@ namespace ACMS.DAO
             return clsMyObj.GetDataTable(DS);
         }
 
+        public DataTable GetAllMyActivity(string emp_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[1];
+
+            sqlParams[0] = new SqlParameter("@emp_id", SqlDbType.NVarChar,100);
+            sqlParams[0].Value = emp_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT id,activity_name ");
+            sb.AppendLine("FROM Activity ");
+            sb.AppendLine("WHERE active='Y' ");
+            sb.AppendLine("and id in (SELECT distinct activity_id FROM ActivityRegist WHERE emp_id=@emp_id) ");
+            sb.AppendLine("ORDER BY sn ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            return clsMyObj.GetDataTable(DS);
+        }
+
         //5.2.活動進度查詢-該活動報到進度情況
         public DataTable ActivityProcessQuery(string activity_id)
         {

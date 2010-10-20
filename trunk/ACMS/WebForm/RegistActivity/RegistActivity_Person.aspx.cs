@@ -491,7 +491,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                     MyTableRow = new TableRow();
                     System.Web.UI.WebControls.TableCell MyTableCell_Title = new TableCell();
                     System.Web.UI.WebControls.TableCell MyTableCell_Control = new TableCell();
-                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(100);// "40%";
+                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(150);// "40%";
                     MyTableCell_Control.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
 
                     //Title

@@ -68,6 +68,14 @@ namespace ACMS.BO
             return DT;
         }
 
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public DataTable GetAllMyActivity(string emp_id)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            DataTable DT = mySelectorDAO.GetAllMyActivity(emp_id);
+            return DT;
+        }
+
         //5.2.活動進度查詢-該活動報到進度情況
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public DataTable ActivityProcessQuery(string activity_id)
