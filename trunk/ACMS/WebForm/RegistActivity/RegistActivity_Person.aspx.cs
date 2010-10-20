@@ -55,8 +55,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
 
 
-            //Session["form_mode"] = null;
-            //Session["activity_id"] = null;
+            Session["form_mode"] = null;
+            Session["activity_id"] = null;
 
         }
     }
@@ -80,18 +80,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
         MyHiddenField.Value = ActivityID.ToString();
 
-        //新增一筆報名紀錄    
-        //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
-        //ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
-
-        //RegistID = Guid.NewGuid();
-        ////myActivityRegistVO.id = RegistID;
-        //myActivityRegistVO.activity_id = e.activity_id;
-        //myActivityRegistVO.emp_id = clsAuth.ID;
-        //myActivityRegistVO.regist_by = clsAuth.ID;
-
-        //myActivityRegistDAO.INSERT_NewOne(myActivityRegistVO);
-
         //載入活動資訊
         GetActivityDefault();
 
@@ -109,12 +97,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         //必要屬性
         MyFormMode = FormViewMode.Insert;
         ActivityID = new Guid(Session["activity_id"].ToString());
-        EmpID = clsAuth.ID;//預設是登入者
+        EmpID = clsAuth.ID;//預設是登入者 為了讓FormView顯示
         RegistBy = clsAuth.ID;//執行是登入者
 
         MyFormMode = FormViewMode.Edit;
-
-        ObjectDataSource_RegisterPeoplenfo.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
 
         PanelRegisterInfoA.Visible = false;
         PanelRegisterInfoB.Visible = true;
@@ -150,15 +136,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         Literal_notice.Text = myActivatyVO.notice;
 
         FormView_fixA.DataBind();
-        FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
-        FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
+        //FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
+        //FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
 
-        (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
-        (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
+        //(FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
+        //(FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
 
-        RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
-        myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
-        myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
+        //RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
+        //myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
+        //myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
     }
 
 
@@ -218,12 +204,63 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         RadioButton RadioButton1 = sender as RadioButton;
         RadioButton1.Checked = true;
 
-        EmpID = GridView_RegisterPeoplinfo.DataKeys[(RadioButton1.NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        GridView_RegisterPeoplinfo.SelectedIndex = (RadioButton1.NamingContainer as GridViewRow).RowIndex;
+
+        EmpID = GridView_RegisterPeoplinfo.DataKeys[GridView_RegisterPeoplinfo.SelectedIndex].Value.ToString();
 
         //載入個人資訊
         //個人固定欄位
         ObjectDataSource_fixA.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
         ObjectDataSource_fixA.SelectParameters["emp_id"].DefaultValue = EmpID;
+
+        FormView_fixA.DataBind();
+
+        //載入動態欄位資料
+
+        ACMS.DAO.CustomFieldValueDAO myCustomFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
+
+        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustomFieldValueDAO.SelectCustomFieldValue(ActivityID, EmpID);
+
+        foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
+        {
+
+            if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOX")
+            {
+                TextBox MyControl = new TextBox();
+                MyControl.ID = string.Format("txt{0}", myCustomFieldValueVO.field_id);
+                (PlaceHolder1.FindControl(MyControl.ID) as TextBox).Text = myCustomFieldValueVO.field_value;
+            }
+            else if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOXLIST")
+            {
+                TCheckBoxList MyControl = new TCheckBoxList();
+                MyControl.ID = string.Format("plh{0}", myCustomFieldValueVO.field_id);
+                (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+
+                CheckBoxList1_SelectedIndexChanged((PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList), null);
+
+            }
+            else if (myCustomFieldValueVO.field_control.ToUpper() == "CHECKBOXLIST")
+            {
+                TCheckBoxList MyControl = new TCheckBoxList();
+
+                MyControl.ID = string.Format("cbl{0}", myCustomFieldValueVO.field_id);
+                (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+
+
+            }
+            else if (myCustomFieldValueVO.field_control.ToUpper() == "RADIOBUTTONLIST")
+            {
+                TRadioButtonList MyControl = new TRadioButtonList();
+                MyControl.ID = string.Format("radl{0}", myCustomFieldValueVO.field_id);
+                (MyControl as TRadioButtonList).ClearSelection();
+                (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
+            }
+        
+        }
+
+    
+
+
     }
 
     protected void GridView_RegisterPeoplinfo_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -269,9 +306,18 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
                 clsMyObj.ShowMessage(@"已存在此員工的報名成功紀錄!\n請選擇其他員工執行代理報名。");
                 Wizard1.MoveTo(Wizard1.WizardSteps[0]);
             }
-
-
         }
+
+        else if (Wizard1.ActiveStepIndex == 1 && MyFormMode != FormViewMode.Insert)
+        {
+
+        if (GridView_RegisterPeoplinfo.SelectedIndex == -1)
+        {
+            clsMyObj.ShowMessage(@"請選擇要編輯的人員。");
+            Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+        }
+        }
+
     }
 
     //取得報名資訊
@@ -343,39 +389,34 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
+
+        ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
+        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
+        //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+
+        //報名
+        MySingleton.AlterRegistResult MyResult;
+
         if (MyFormMode == FormViewMode.Insert)
         {
-            //新增報名模式
-            ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
-            List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
-            //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
-            //報名
-            MySingleton.AlterRegistResult MyResult;
+            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "");
 
-            if (MyFormMode == FormViewMode.Insert)
-            {
+        }
+        else
+        {
+            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "");
 
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "");
-
-            }
-            else
-            {
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "");
-
-            }
+        }
 
 
-            if(MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
-            {
-                clsMyObj.ShowMessage("已存在報名成功紀錄，無法重複報名!");
-            }
-            else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
-            {
-                clsMyObj.ShowMessage(@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
-            }
-
-
+        if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
+        {
+            clsMyObj.ShowMessage("已存在報名成功紀錄，無法重複報名!");
+        }
+        else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
+        {
+            clsMyObj.ShowMessage(@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
         }
 
 
@@ -383,6 +424,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
     }
 
+    protected void FormView_fixA_DataBound(object sender, EventArgs e)
+    {
+        ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
+        ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
+
+        FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
+        FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
+
+        (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
+        (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
+
+        RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
+        myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
+        myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
+    }
 }
 
 

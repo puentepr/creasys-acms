@@ -26,11 +26,13 @@ public partial class WebForm_RegistActivity_ActivityEditQuery : System.Web.UI.Pa
         {
             DataRowView drv = (DataRowView)e.Row.DataItem;
 
-            //報名截止後，不可再編輯(幫別人代理報名)
-            if (Convert.ToDateTime(drv["regist_deadline"]) <= DateTime.Today)
-            {
-                (e.Row.FindControl("lbtnRegistEdit") as LinkButton).Visible = false;            
-            }
+            //因為是已報名活動查詢，所以這裡一定是"編輯"已報名活動
+
+            ////報名截止後，不可再編輯(幫別人代理報名)
+            //if (Convert.ToDateTime(drv["regist_deadline"]) <= DateTime.Today)
+            //{
+            //    (e.Row.FindControl("lbtnRegistEdit") as LinkButton).Visible = false;            
+            //}
 
             //取消報名截止日後，誰都不能再取消報名
             if (Convert.ToDateTime(drv["cancelregist_deadline"]) <= DateTime.Today)

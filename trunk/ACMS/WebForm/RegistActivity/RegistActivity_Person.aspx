@@ -13,7 +13,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
         ActivityType="1" />
-    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="1"
+    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="2"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步">
         <StartNavigationTemplate>
@@ -215,7 +215,8 @@
                     <ContentTemplate>
                         <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="報名相關資料">
                             <div>
-                                <asp:FormView ID="FormView_fixA" runat="server" DataSourceID="ObjectDataSource_fixA">
+                                <asp:FormView ID="FormView_fixA" runat="server" 
+                                    DataSourceID="ObjectDataSource_fixA" ondatabound="FormView_fixA_DataBound">
                                     <ItemTemplate>
                                         <table>
                                             <tr id="tr_person_fix1" runat="server">

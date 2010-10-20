@@ -142,7 +142,7 @@ namespace ACMS.DAO
             sb.AppendLine("FROM ActivityRegist A ");
             sb.AppendLine("left join V_ACSM_USER B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE activity_id=@activity_id ");
-            sb.AppendLine("and A.regist_by=@emp_id ");
+            sb.AppendLine("and (A.regist_by=@emp_id or A.emp_id=@emp_id) ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
@@ -180,7 +180,7 @@ namespace ACMS.DAO
             sb.AppendLine("  left join ActivityRegist BB on AA.id=BB.activity_id ");
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and ((AA.activity_enddate<=getdate() and @activity_enddate_finish='Y') or @activity_enddate_finish='N' ) ");//是否為活動已結束的歷史資料            
-            sb.AppendLine("  and (BB.emp_id=@emp_id or BB.regist_by=@emp_id) ");//報名者是我 注意:已取消的也會顯示
+            sb.AppendLine("  and (BB.emp_id=@emp_id or BB.regist_by=@emp_id) ");//報名者是他們本人或報名者是我 注意:已取消的也會顯示
             sb.AppendLine(") A ");
             sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id ");
             sb.AppendLine("WHERE A.active='Y' ");

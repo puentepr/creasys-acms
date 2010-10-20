@@ -222,34 +222,39 @@ public class MySingleton
             {
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
-                int RegistCount = myActivityRegistDAO.IsRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id);
-
-                if (RegistCount > 0)
+                if (myAlterRegistType == AlterRegistType.RegistInsert)
                 {
-                    return AlterRegistResult.RegistFail_Already;
-                }
-                else
-                {
-                    int RegistableCount = myActivityRegistDAO.RegistableCount(myActivityRegistVO.activity_id);
+                    //是否重複報名
+                    int RegistCount = myActivityRegistDAO.IsRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id);
 
-
-                    if (RegistableCount <= 0)
+                    if (RegistCount > 0)
                     {
-                        return AlterRegistResult.RegistFail_Full;
+                        return AlterRegistResult.RegistFail_Already;
                     }
                     else
                     {
-                        if (myAlterRegistType == AlterRegistType.RegistInsert)
+                        //是否已額滿
+                        int RegistableCount = myActivityRegistDAO.RegistableCount(myActivityRegistVO.activity_id);
+
+                        if (RegistableCount <= 0)
+                        {
+                            return AlterRegistResult.RegistFail_Full;
+                        }
+                        else
                         {
                             int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "insert");
+                            return AlterRegistResult.RegistSucess;
                         }
 
-                        return AlterRegistResult.RegistSucess;
                     }
-
                 }
+                else
+                {
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "update");
+                    return AlterRegistResult.RegistSucess;
+                }           
 
-                return AlterRegistResult.CancelRegistFail;
+
             }
             else
             {
