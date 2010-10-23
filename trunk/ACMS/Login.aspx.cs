@@ -14,11 +14,37 @@ public partial class Login : System.Web.UI.Page
     }
     protected void btnLogin_Click(object sender, EventArgs e)
     {
+        // 登入時清空所有 Session 資料
+        Session.RemoveAll();
+
+
+
         clsDBUtility dbUtil = new clsDBUtility();
 
-        if (dbUtil.CheckLogin(txtUserName.Text, txtPassword.Text)==true)
+        string UserData;
+
+        if (dbUtil.CheckLogin(txtUserName.Text, txtPassword.Text, out UserData) == true)
         {
-            FormsAuthentication.RedirectFromLoginPage(txtUserName.Text, false);
+
+            // 將管理者登入的 Cookie 設定成 Session Cookie
+            bool isPersistent = false;
+
+            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
+             txtUserName.Text,
+              DateTime.Now,
+              DateTime.Now.AddMinutes(30),
+              isPersistent,
+              UserData,
+              FormsAuthentication.FormsCookiePath);
+
+            string encTicket = FormsAuthentication.Encrypt(ticket);
+
+            // Create the cookie.
+            Response.Cookies.Add(new HttpCookie(FormsAuthentication.FormsCookieName, encTicket));
+
+            Response.Redirect(FormsAuthentication.GetRedirectUrl(txtUserName.Text,false));
+
+            //FormsAuthentication.RedirectFromLoginPage(txtUserName.Text, false);
         }
         else
         {

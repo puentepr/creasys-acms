@@ -43,6 +43,11 @@ public class clsMyObj
         }
     }
 
+    public static string GetStringObject(object myObj)
+    {
+        return (string)(myObj == DBNull.Value ? null : myObj);
+    }
+
     public static void CheckFull(ref DataTable myDataTable, bool IsShowregisted_count, bool IsShowregistable_count)
     {
         if (myDataTable != null)
@@ -113,24 +118,6 @@ public class MySingleton
 {
     private static MySingleton _singleton = null;
 
-    //public enum AlterTicketIDType
-    //{
-    //    GetTicketID,
-    //    CancelTicketID
-    //}
-
-
-
-    //public enum AlterTicketIDResult
-    //{
-    //    GetTicketIDSucess,
-    //    GetTicketIDFail_Already,
-    //    GetTicketIDFail_Full,
-    //    CancelTicketIDSucess,
-    //    CancelTicketIDFail,
-    //}
-
-
     public enum AlterRegistType
     {
         RegistInsert,
@@ -162,58 +149,7 @@ public class MySingleton
         return _singleton;
     }
 
-    //public AlterTicketIDResult AlterTicketID(Guid regist_id, Guid activity_id, string emp_id, AlterTicketIDType myAlterTicketIDType)
-    //{
-    //    lock (this)
-    //    {
-    //        if (myAlterTicketIDType == AlterTicketIDType.GetTicketID)
-    //        {
-    //            ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
-
-    //            DataTable dtResult = myActivatyDAO.SelectTicketID(activity_id, emp_id);
-
-    //            if (dtResult == null || dtResult.Rows.Count==0)
-    //            {
-    //                return AlterTicketIDResult.GetTicketIDFail_Already;
-    //            }
-    //            else
-    //            {
-    //                int MyTicketID = 0;
-    //                if (Convert.ToInt32(dtResult.Rows[0]["ticket_id"]) >= Convert.ToInt32(dtResult.Rows[0]["acept_ticket_id"]))
-    //                {
-    //                    return AlterTicketIDResult.GetTicketIDFail_Full;
-    //                }
-    //                else
-    //                {
-    //                    MyTicketID = Convert.ToInt32(dtResult.Rows[0]["ticket_id"]) + 1;
-    //                    myActivatyDAO.UpdateTicketID(regist_id,activity_id, MyTicketID);
-    //                    return AlterTicketIDResult.GetTicketIDSucess;
-    //                }
-
-    //            }
-
-              
-    //        }
-    //        else 
-    //        {
-
-    //            if (1 ==2)
-    //            {
-    //                return AlterTicketIDResult.CancelTicketIDFail;
-    //            }
-    //            else
-    //            {
-
-    //                return AlterTicketIDResult.CancelTicketIDSucess;
-    //            }
-    //        }
-
-
-
-    //    }
-
-    //}
-
+    
     public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline)
     {
         lock (this)
@@ -225,7 +161,7 @@ public class MySingleton
                 if (myAlterRegistType == AlterRegistType.RegistInsert)
                 {
                     //是否重複報名
-                    int RegistCount = myActivityRegistDAO.IsRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id);
+                    int RegistCount = myActivityRegistDAO.IsPersonRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id);
 
                     if (RegistCount > 0)
                     {
@@ -253,6 +189,99 @@ public class MySingleton
                     int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "update");
                     return AlterRegistResult.RegistSucess;
                 }           
+
+
+            }
+            else
+            {
+                //報名截止日之前-刪除
+                //報名截止日之後-狀態改取消
+                //取消報名截止日之後-不可以取消
+
+                ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+
+
+                if (Convert.ToDateTime(cancelregist_deadline) > DateTime.Today)
+                {
+                    //取消報名截止日之前-刪除
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id) > 0)
+                    {
+                        return AlterRegistResult.CancelRegistSucess;
+                    }
+                    else
+                    {
+                        return AlterRegistResult.CancelRegistFail;
+                    }
+                }
+                else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
+                {
+                    //取消報名截止日之後-狀態改取消
+                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id) > 0)
+                    {
+                        return AlterRegistResult.CancelRegistSucess;
+                    }
+                    else
+                    {
+                        return AlterRegistResult.CancelRegistFail;
+                    }
+                }
+                else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
+                {
+                    return AlterRegistResult.CancelRegistFail_DayOver;
+                }
+
+                return AlterRegistResult.CancelRegistFail;
+
+            }
+
+        }
+
+    }
+
+    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVO, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline)
+    {
+        lock (this)
+        {
+            if (myAlterRegistType == AlterRegistType.RegistInsert || myAlterRegistType == AlterRegistType.RegistUpdate)
+            {
+                ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+
+                if (myAlterRegistType == AlterRegistType.RegistInsert)
+                {
+                    //是否重複報名
+                    int RegistCount = myActivityRegistDAO.IsPersonRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id);
+
+                    if (RegistCount > 0)
+                    {
+                        return AlterRegistResult.RegistFail_Already;
+                    }
+                    else
+                    {
+                        //是否已額滿
+                        int RegistableCount = myActivityRegistDAO.RegistableCount(myActivityRegistVO.activity_id);
+
+                        if (RegistableCount <= 0)
+                        {
+                            return AlterRegistResult.RegistFail_Full;
+                        }
+                        else
+                        {
+
+                            //重製ActivityTeamMember
+                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "insert");
+                            return AlterRegistResult.RegistSucess;
+                        }
+
+                    }
+                }
+                else
+                {
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "update");
+
+                    //重製ActivityTeamMember
+
+                    return AlterRegistResult.RegistSucess;
+                }
 
 
             }

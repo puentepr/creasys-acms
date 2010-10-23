@@ -131,8 +131,8 @@ namespace ACMS.DAO
 
         }
 
-        //檢查是否重複報名
-        public int IsRegisted(Guid activity_id, string emp_id)
+        //檢查是否重複報名(個人)
+        public int IsPersonRegisted(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
 
@@ -151,6 +151,30 @@ namespace ACMS.DAO
 
             return (int)SqlHelper.ExecuteScalar(MyConn(), CommandType.Text, sb.ToString(), sqlParams);       
         
+        }
+
+        //檢查是否重複報名(團隊)
+        public string IsTeamRegisted(Guid activity_id, string emp_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 50);
+            sqlParams[1].Value = emp_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT top 1 B.NATIVE_NAME ");
+            sb.AppendLine("FROM ActivityTeamMember A ");
+            sb.AppendLine("left join V_ACSM_USER B on A.emp_id=B.ID ");            
+            sb.AppendLine("WHERE 1=1 ");
+            sb.AppendLine("AND A.activity_id=@activity_id ");
+            sb.AppendLine("AND A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) ");
+            //sb.AppendLine("GROUP BY B.NATIVE_NAME having COUNT(B.ID)>0 ");
+
+            return (string)SqlHelper.ExecuteScalar(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
         }
 
         //檢查是否已額滿

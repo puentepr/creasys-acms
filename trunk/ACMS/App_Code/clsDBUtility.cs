@@ -34,7 +34,7 @@ using System.Collections.Generic;
         #region "Login相關"
 
         //人員登入並取得登入者資訊
-        public bool CheckLogin(String LoginID, String LoginPwd)
+        public bool CheckLogin(String LoginID, String LoginPwd, out string UserData)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
 
@@ -75,12 +75,13 @@ using System.Collections.Generic;
                 clsAuth.C_NAME = DR["C_NAME"].ToString();
 
                 //取得角色ID與角色名稱
-                CheckRole(LoginID);
+                UserData = CheckRole(LoginID);
 
                 return true;
             }
             else
             {
+                UserData = "";
                 return false;
             }
 
@@ -88,36 +89,32 @@ using System.Collections.Generic;
         }
 
         //取得role_ids與role_names
-        public void  CheckRole(string UserID)
+        public string CheckRole(string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
 
-            sqlParams[0] = new SqlParameter("@UserID", SqlDbType.NVarChar, 50);
-            sqlParams[0].Value = UserID;
+            sqlParams[0] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 50);
+            sqlParams[0].Value = emp_id;
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT B.role_id,B.role_name ");
+            sb.AppendLine("SELECT B.id,B.role_name ");
             sb.AppendLine("FROM RoleUserMapping A ");
-            sb.AppendLine("inner join RoleList B on A.role_id=B.role_id");
+            sb.AppendLine("inner join RoleList B on A.role_id=B.id");
             sb.AppendLine("WHERE 1=1 ");
-            sb.AppendLine("AND B.active='Y' ");
-            sb.AppendLine("AND A.ID=@UserID ");
+            sb.AppendLine("AND A.emp_id=@emp_id ");
 
             DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
 
             if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
             {
                 //取得角色ID與角色名稱
-
-
-
                 List<string> _list_role_ids = new List<string>();
                 List<string> _list_role_names = new List<string>();
 
                 foreach (DataRow DR in DS.Tables[0].Rows)
                 {
-                    _list_role_ids.Add(DR["role_id"].ToString());
+                    _list_role_ids.Add(DR["id"].ToString());
                     _list_role_names.Add(DR["role_name"].ToString());
 
                 }
@@ -125,9 +122,18 @@ using System.Collections.Generic;
                 clsAuth.role_ids = String.Join(",", _list_role_ids.ToArray());
                 clsAuth.role_names = String.Join(",", _list_role_names.ToArray());
 
+                return String.Join(",", _list_role_ids.ToArray());
+
+            }
+            else
+            {
+                clsAuth.role_ids = "";
+                clsAuth.role_names = "";
+
+                return "";
             }
 
-
+         
 
         }
 

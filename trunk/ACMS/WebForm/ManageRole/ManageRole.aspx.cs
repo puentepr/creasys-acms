@@ -11,45 +11,70 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            //((Literal)this.Page.Master.FindControl("Literal1")).Text = this.GetLocalResourceObject("ManageRole").ToString();
-
-            //ObjectDataSource_ManageRole.SelectParameters["role_id"].DefaultValue = ((DropDownList)FormView1.FindControl("ddlParent")).SelectedValue;
+            (this.Master as MyMasterPage).PanelMainGroupingText = "角色人員管理";
         }
+    }
 
+
+    //開窗選人
+    protected void btnQueryPerson_Click(object sender, EventArgs e)
+    {
+        OpenEmployeeSelector1.TitleName = "選取人員";
+        OpenEmployeeSelector1.InitDataAndShow(); 
+    }
+
+    //選取人員之後
+    protected void GetEmployees_Click(object sender, GetEmployeeEventArgs e)
+    {
+        txtEmployee.Text = e.id;
     }
 
 
 
-    //GridView1 RowDataBound
-    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    //新增
+    protected void btnInsert_Click(object sender, EventArgs e)
     {
-        if (e.Row.RowType == DataControlRowType.DataRow)
+        ACMS.VO.RoleUserMappingVO myRoleUserMappingVO = new ACMS.VO.RoleUserMappingVO();
+        myRoleUserMappingVO.role_id = Convert.ToInt32(ddlRole.SelectedValue);
+
+        if (ddlRole.SelectedIndex > 1)
         {
-            DataRowView drv = (DataRowView)(e.Row.DataItem);
-
-            if (string.IsNullOrEmpty(drv["NATIVE_NAME"].ToString().Trim()))
-            {
-                (e.Row.FindControl("ibtnAdd") as ImageButton).Visible = true;
-                (e.Row.FindControl("ibtnDel") as ImageButton).Visible = false;
-            }
-            else
-            {
-                (e.Row.FindControl("ibtnAdd") as ImageButton).Visible = false;
-                (e.Row.FindControl("ibtnDel") as ImageButton).Visible = true;
-            }
+            myRoleUserMappingVO.unit_id = Convert.ToInt32(ddlUnit.SelectedValue);
         }
+        else
+        {
+            myRoleUserMappingVO.unit_id = 0;
+        }
+   
+        myRoleUserMappingVO.emp_id = txtEmployee.Text;
+
+        ACMS.DAO.RoleUserMappingDAO myRoleUserMappingDAO = new ACMS.DAO.RoleUserMappingDAO();
+        myRoleUserMappingDAO.InsertRoleUserMapping(myRoleUserMappingVO);
+
+        GridView1.DataBind();
     }
 
-
-
-
-
-
-    protected void ibtnAdd_Click(object sender, ImageClickEventArgs e)
+    //刪除
+    protected void lbtnDelete_Click(object sender, EventArgs e)
     {
-        //OpenEmployeeSelector1.SelectMethod = "BLL_OpenEmployeeSelector_ManageRole_Select";
-        //OpenEmployeeSelector1.InitDataAndShow(); 
+        string id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+
+        ACMS.VO.RoleUserMappingVO myRoleUserMappingVO = new ACMS.VO.RoleUserMappingVO();
+        myRoleUserMappingVO.id = Convert.ToInt32(id);
+     
+        ACMS.DAO.RoleUserMappingDAO myRoleUserMappingDAO = new ACMS.DAO.RoleUserMappingDAO();
+        myRoleUserMappingDAO.DeleteRoleUserMapping(myRoleUserMappingVO);
+
+        GridView1.DataBind();
     }
+
+    //變更選取角色
+    protected void ddlRole_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        chk_ddlUnit.Visible = ((sender as DropDownList).SelectedIndex > 1);
+    }
+
+
 }
 
 public partial class WebForm_ManageRole_ManageRole

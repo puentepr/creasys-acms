@@ -150,6 +150,59 @@ namespace ACMS.DAO
 
         }
 
+        //3.列出可加入此活動的隊員
+        public List<VO.EmployeeVO> RegistableTeamMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
+        {
+            if (string.IsNullOrEmpty(activity_id))
+            {
+                return null;
+            }
+
+            SqlParameter[] sqlParams = new SqlParameter[4];
+
+            sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
+            sqlParams[0].Value = DEPT_ID;
+            sqlParams[1] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 36);
+            sqlParams[1].Value = WORK_ID;
+            sqlParams[2] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 200);
+            sqlParams[2].Value = NATIVE_NAME;
+            sqlParams[3] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[3].Value = new Guid(activity_id);
+            
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT A.[ID],A.[C_DEPT_ABBR],A.[WORK_ID],A.[NATIVE_NAME],CASE WHEN B.emp_id is null THEN 'true' ELSE 'false' END as theEnable  ");
+            sb.AppendLine("FROM V_ACSM_USER A ");
+            sb.AppendLine("left join (SELECT emp_id FROM ActivityTeamMember WHERE activity_id=@activity_id) B on A.ID = B.emp_id ");
+            sb.AppendLine("WHERE A.status <>2 ");//不為離職  
+            sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
+            sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
+
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
+
+            while (MyDataReader.Read())
+            {
+                VO.EmployeeVO myEmployeeVO = new ACMS.VO.EmployeeVO();
+
+                myEmployeeVO.ID = (string)MyDataReader["ID"];
+                myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
+                myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];
+                myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
+                myEmployeeVO.keyValue = Convert.ToBoolean(MyDataReader["theEnable"]);
+
+                myEmployeeVOList.Add(myEmployeeVO);
+
+            }
+
+            return myEmployeeVOList;
+        
+        }
+
+
         //4.已報名活動查詢
         public DataTable ActivityEditQuery(string activity_name, string activity_startdate, string activity_enddate, string activity_enddate_finish, string emp_id)
         {
@@ -462,7 +515,7 @@ namespace ACMS.DAO
             {
                 VO.EmployeeVO myEmployeeVO = new ACMS.VO.EmployeeVO();
 
-                myEmployeeVO.keyValue = Convert.ToBoolean(  MyDataReader["YN"]);
+                myEmployeeVO.keyValue = Convert.ToBoolean(MyDataReader["YN"]);
                 myEmployeeVO.ID = (string)MyDataReader["ID"];
                 myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
                 myEmployeeVO.ENGLISH_NAME = (string)MyDataReader["ENGLISH_NAME"];
@@ -669,6 +722,100 @@ namespace ACMS.DAO
             return myDDLVOList;
 
         }
+
+        //7-1 主辦單位設定 角色 DDL DataSource
+        public List<VO.RoleListVO> SelectRoleList()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT *");
+            sb.AppendLine("FROM RoleList A ");
+
+            IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+
+            List<VO.RoleListVO> myRoleListVOList = new List<ACMS.VO.RoleListVO>();
+
+            while (myIDataReader.Read())
+            {
+                VO.RoleListVO myRoleListVO = new ACMS.VO.RoleListVO();
+                myRoleListVO.id = (int)myIDataReader["id"];
+                myRoleListVO.role_name = (string)myIDataReader["role_name"];
+                myRoleListVOList.Add(myRoleListVO);
+            }
+
+            return myRoleListVOList;
+        }
+
+
+
+
+
+        //7-1 主辦單位設定 主辦單位 DDL DataSource
+        public List<VO.UnitVO> SelectUnit()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT *");
+            sb.AppendLine("FROM Unit A ");
+            sb.AppendLine("WHERE active='Y'; ");
+
+            IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+
+            List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
+
+            while (myIDataReader.Read())
+            {
+                VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
+                myUnitVO.id = (int)myIDataReader["id"];
+                myUnitVO.name = (string)myIDataReader["name"];
+                myUnitVOList.Add(myUnitVO);
+            }
+
+            return myUnitVOList;
+        }
+
+        //7-2 角色人員管理 選取所有在職員工
+        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[3];
+
+            sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
+            sqlParams[0].Value = DEPT_ID;
+            sqlParams[1] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 36);
+            sqlParams[1].Value = WORK_ID;
+            sqlParams[2] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 200);
+            sqlParams[2].Value = NATIVE_NAME;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT B.[ID],B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
+            sb.AppendLine("FROM V_ACSM_USER B ");
+            sb.AppendLine("WHERE status<>2 ");//在職員工
+            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
+            sb.AppendLine("and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
+
+            while (MyDataReader.Read())
+            {
+                VO.EmployeeVO myEmployeeVO = new ACMS.VO.EmployeeVO();
+
+                myEmployeeVO.ID = (string)MyDataReader["ID"];
+                myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
+                myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];
+                myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
+
+                myEmployeeVOList.Add(myEmployeeVO);
+
+            }
+
+            return myEmployeeVOList;
+
+        }
+
 
     }
 }

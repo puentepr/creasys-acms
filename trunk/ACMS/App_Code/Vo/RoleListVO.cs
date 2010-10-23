@@ -7,9 +7,9 @@ using System.Web;
 /// </summary>
 namespace ACMS.VO
 {
-    public partial class UnitVO : BaseVO
+    public partial class RoleListVO : BaseVO
     {
-        public UnitVO()
+        public RoleListVO()
         {
             //
             // TODO: 在此加入建構函式的程式碼
@@ -17,12 +17,10 @@ namespace ACMS.VO
         }
 
         private int? _id;
-        private string _name;
-        private string _active;
+        private string _role_name;
 
         public int? id { get { return _id; } set { _id = value; } }
-        public string name { get { return _name; } set { _name = value; } }
-        public string active { get { return _active; } set { _active = value; } }
+        public string role_name { get { return _role_name; } set { _role_name = value; } }
 
     }
 

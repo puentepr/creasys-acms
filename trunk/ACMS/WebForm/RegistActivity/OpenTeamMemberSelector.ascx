@@ -1,4 +1,5 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenSmallEmployeeSelector.ascx.cs" Inherits="WebForm_OpenSmallEmployeeSelector" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenTeamMemberSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenTeamMemberSelector" %>
+<script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
     " Width="400" Height="500"><!--display: none;-->
     <br />
@@ -66,29 +67,36 @@
                     onpageindexchanged="GridView_Employee_PageIndexChanged">
                     <Columns>
                 
-                                                    <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
-                                SortExpression="C_DEPT_ABBR" />
-                            <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
-                                SortExpression="WORK_ID" />
+                                                    <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" 
+                                SortExpression="WORK_ID" ReadOnly="True" />
                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
                                 SortExpression="NATIVE_NAME" />
-                            <asp:TemplateField>
-                                <ItemTemplate>
-                                    <asp:LinkButton ID="lbtnSelect" runat="server" onclick="lbtnSelect_Click">選擇</asp:LinkButton>
-                                </ItemTemplate>
-                            </asp:TemplateField>
+                            <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
+                                SortExpression="C_DEPT_ABBR" />
+                                                    <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
+                                                    <asp:TemplateField>
+                                                        <ItemTemplate>
+                                                            <TServerControl:TCheckBoxYN ID="CheckBox1" runat="server" 
+                                                                Enabled='<%#Eval("keyValue") %>' />
+                                                        </ItemTemplate>
+                                                        <HeaderTemplate>
+                                                            <input ID="cbCheckAll" runat="server" 
+                                                                onclick="Check2(this,'GridView_Employee','CheckBox1');" type="checkbox" /><asp:Literal 
+                                                                ID="Literal1" runat="server">全選</asp:Literal>
+                                                        </HeaderTemplate>
+                                                    </asp:TemplateField>
                         
                     </Columns>
                 </TServerControl:TGridView>                    
                     
                     
                     <asp:ObjectDataSource ID="ObjectDataSource_Employee" runat="server" 
-                        OldValuesParameterFormatString="original_{0}" SelectMethod="SmallEmployeeSelector" 
+                        OldValuesParameterFormatString="original_{0}" SelectMethod="RegistableTeamMember" 
                         TypeName="ACMS.BO.SelectorBO">
                         <SelectParameters>
-                            <asp:Parameter Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />                        
-                            <asp:Parameter Name="WORK_ID" Type="String" ConvertEmptyStringToNull="false" />
-                            <asp:Parameter Name="NATIVE_NAME" Type="String" ConvertEmptyStringToNull="false" />          
+                             <asp:Parameter Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />
+                             <asp:Parameter Name="WORK_ID" Type="String" ConvertEmptyStringToNull="false"/>
+                             <asp:Parameter Name="NATIVE_NAME" Type="String" ConvertEmptyStringToNull="false"/>
                              <asp:Parameter Name="activity_id" Type="String" ConvertEmptyStringToNull="false" />                      
                         </SelectParameters>
                     </asp:ObjectDataSource>
@@ -96,6 +104,7 @@
         </tr>
     </table>
     <div align="center">
+        <asp:Button ID="btnOK" runat="server" onclick="btnOK_Click" Text="確定" />
         <asp:Button ID="btnCancel" runat="server"  Text="關閉" />
     </div>
 </asp:Panel>

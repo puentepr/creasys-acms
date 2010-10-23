@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class WebForm_OpenEmployeeSelector : System.Web.UI.UserControl
+public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI.UserControl
 {
     public delegate void GetEmployeesDelegate(object sender, EventArgs e);
     public event GetEmployeesDelegate GetEmployeesClick;
@@ -66,7 +66,7 @@ public partial class WebForm_OpenEmployeeSelector : System.Web.UI.UserControl
     }
 }
 
-public partial class WebForm_OpenEmployeeSelector
+public partial class WebForm_ManageActivity_OpenEmployeeSelector
 {
     public void InitDataAndShow(Guid activity_id)
     {

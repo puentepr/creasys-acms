@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_OpenEmployeeSelector" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_ManageActivity_OpenEmployeeSelector" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
     " Width="500" Height="500"><!--display: none;-->
@@ -179,7 +179,7 @@
     </table>
     <div align="center">
         <asp:Button ID="btnOK" runat="server" Text="確定" onclick="btnOK_Click" />
-        <asp:Button ID="btnCancel" runat="server"  Text="取消" />
+        <asp:Button ID="btnCancel" runat="server"  Text="關閉" />
     </div>
 </asp:Panel>
 <asp:Button ID="btnDummy" runat="server" SkinID="null" Style="display: none" />

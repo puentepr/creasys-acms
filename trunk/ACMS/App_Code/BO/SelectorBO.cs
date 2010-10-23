@@ -42,6 +42,13 @@ namespace ACMS.BO
             return mySelectorDAO.RegisterPeopleInfo(activity_id, emp_id);
         }
 
+        //3.列出可加入此活動的隊員
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.EmployeeVO> RegistableTeamMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            return mySelectorDAO.RegistableTeamMember(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id);
+        }
 
         //4.已報名活動查詢
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
@@ -129,21 +136,21 @@ namespace ACMS.BO
             return mySelectorDAO.SmallEmployeeSelector(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id);
         }
 
-          //SELECT
-          [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-          public List<VO.DDLVO> UnitSelector()
-          {
-              DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+        //SELECT
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.DDLVO> UnitSelector()
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
 
-              List<VO.DDLVO> myDDLVOList = new List<VO.DDLVO>();
-              VO.DDLVO myDDLVO = new VO.DDLVO();
+            List<VO.DDLVO> myDDLVOList = new List<VO.DDLVO>();
+            VO.DDLVO myDDLVO = new VO.DDLVO();
 
-              myDDLVOList = mySelectorDAO.UnitSelector();
-              myDDLVO.Value = "";
-              myDDLVO.Text = "請選擇";
-              myDDLVOList.Insert(0, myDDLVO);
-              return myDDLVOList;
-          }
+            myDDLVOList = mySelectorDAO.UnitSelector();
+            myDDLVO.Value = "";
+            myDDLVO.Text = "請選擇";
+            myDDLVOList.Insert(0, myDDLVO);
+            return myDDLVOList;
+        }
 
 
         //SELECT
@@ -156,9 +163,9 @@ namespace ACMS.BO
             VO.DDLVO myDDLVO = new VO.DDLVO();
 
             myDDLVOList = mySelectorDAO.DeptSelector();
-            myDDLVO.Value ="";
+            myDDLVO.Value = "";
             myDDLVO.Text = "請選擇";
-            myDDLVOList.Insert(0,myDDLVO);
+            myDDLVOList.Insert(0, myDDLVO);
             return myDDLVOList;
         }
 
@@ -195,8 +202,57 @@ namespace ACMS.BO
         }
 
 
+        //7.角色 DDL DataSource
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.RoleListVO> SelectRoleList()
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+
+            List<VO.RoleListVO> myRoleListVOList = new List<ACMS.VO.RoleListVO>();
+
+            myRoleListVOList = mySelectorDAO.SelectRoleList();
+
+            VO.RoleListVO myRoleListVO = new ACMS.VO.RoleListVO();
+
+            myRoleListVO.id = null;
+            myRoleListVO.role_name = "請選擇";
+            myRoleListVOList.Insert(0, myRoleListVO);
+
+            return myRoleListVOList;
+        }
+
+        //主辦單位 DDL DataSource
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.UnitVO> SelectUnit()
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+
+            List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
+
+            myUnitVOList = mySelectorDAO.SelectUnit();
+
+            VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
+
+            myUnitVO.id = null;
+            myUnitVO.name = "請選擇";
+            myUnitVOList.Insert(0, myUnitVO);
+
+            return myUnitVOList;
+        }
 
 
+        //7-2 角色人員管理 選取所有在職員工
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+
+            List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
+
+            myEmployeeVOList = mySelectorDAO.GetEmployeeSelector(DEPT_ID, WORK_ID, NATIVE_NAME);
+
+            return myEmployeeVOList;
+        }
 
 
     }

@@ -4,11 +4,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class WebForm_OpenSmallEmployeeSelector : System.Web.UI.UserControl
+public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.UI.UserControl
 {
-    public delegate void GetSmallEmployeesDelegate(object sender, GetEmployeeEventArgs e);
-    public event GetSmallEmployeesDelegate GetSmallEmployeesClick;
-
+    //public delegate void GetSmallEmployeesDelegate(object sender, GetEmployeeEventArgs e);
+    //public event GetSmallEmployeesDelegate GetSmallEmployeesClick;
+    public delegate void GetEmployeesDelegate(object sender, EventArgs e);
+    public event GetEmployeesDelegate GetEmployeesClick;
 
 
     protected void Page_Load(object sender, EventArgs e)
@@ -25,22 +26,33 @@ public partial class WebForm_OpenSmallEmployeeSelector : System.Web.UI.UserContr
 
         GridView_Employee.DataBind();
     }
-    protected void lbtnSelect_Click(object sender, EventArgs e)
-    {
-        string emp_id = GridView_Employee.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
 
-        if (GetSmallEmployeesClick != null)
-        {
-            GetSmallEmployeesClick(this, new GetEmployeeEventArgs(emp_id));
-        }
-    }
+
     protected void GridView_Employee_PageIndexChanged(object sender, EventArgs e)
     {
         this.mpSearch.Show();   
     }
+
+    protected void btnOK_Click(object sender, EventArgs e)
+    {
+        if (GetEmployeesClick != null)
+        {
+            GetEmployeesClick(this, e);
+        }
+        try
+        {
+            GridView_Employee.PageIndex = GridView_Employee.PageIndex + 1;
+        }
+        catch
+        {
+        }
+
+
+        this.mpSearch.Show();
+    }
 }
 
-public partial class WebForm_OpenSmallEmployeeSelector
+public partial class WebForm_RegistActivity_OpenTeamMemberSelector
 {
     public void InitDataAndShow(string activity_id)
     {
@@ -54,5 +66,7 @@ public partial class WebForm_OpenSmallEmployeeSelector
         get { return lblTitle.Text; }
         set { lblTitle.Text = value; }
     }
+
+   
 
 }

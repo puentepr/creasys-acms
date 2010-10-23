@@ -7,7 +7,7 @@ namespace ACMS.VO
     /// <summary>
     /// BaseVO
     /// </summary>
-
+    [Serializable]
     public class BaseVO
     {
     }
