@@ -42,7 +42,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT activity_id, field_id, field_name, field_control,CASE field_control WHEN 'textbox' THEN 0 ELSE 1 END as IsShowEdit ");
+            sb.AppendLine("SELECT activity_id, field_id, field_name, field_control,CASE field_control WHEN 'textbox' THEN 'false' ELSE 'true' END as IsShowEdit ");
             sb.AppendLine("FROM CustomField WHERE (activity_id = @activity_id) ");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -57,7 +57,7 @@ namespace ACMS.DAO
                 myCustomFieldVO.field_id = (int)MyDataReader["field_id"];
                 myCustomFieldVO.field_name = (string)MyDataReader["field_name"];
                 myCustomFieldVO.field_control = (string)MyDataReader["field_control"];
-                myCustomFieldVO.isShowEdit = (int)MyDataReader["IsShowEdit"];
+                myCustomFieldVO.isShowEdit = Convert.ToBoolean(MyDataReader["IsShowEdit"]);
 
                 myCustomFieldVOList.Add(myCustomFieldVO);
               

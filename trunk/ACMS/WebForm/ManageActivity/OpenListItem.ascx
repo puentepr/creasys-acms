@@ -1,8 +1,8 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenListItem.ascx.cs"
     Inherits="WebForm_ManageActivity_OpenListItem" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none"
-    Width="300" Height="350">
-    <!---->
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;"
+     Width="300" Height="350">
+    <!--display: none-->
     <div align="center">
         <table width="100%" cellpadding="10" cellspacing="10">
             <tr>
@@ -12,30 +12,34 @@
             </tr>
             <tr>
                 <td>
-                    <table>
+                    <table width="100%">
                         <tr>
                             <td>
                                 <asp:Label ID="Label3" runat="server" Text="選項名稱"></asp:Label>
-                                <asp:RequiredFieldValidator ID="chk_txtfield_item_name" runat="server" 
-                                    ControlToValidate="txtfield_item_name" ErrorMessage="選項名稱必填" 
-                                    ValidationGroup="CustomFieldItemAdd">*</asp:RequiredFieldValidator>
+                                <asp:RequiredFieldValidator ID="chk_txtfield_item_name" runat="server" ControlToValidate="txtfield_item_name"
+                                    ErrorMessage="選項名稱必填" ValidationGroup="CustomFieldItemAdd" Display="None"></asp:RequiredFieldValidator>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtfield_item_name" runat="server"></asp:TextBox>
-                            </td>
-                            <td>
-                                &nbsp;
+                                <asp:TextBox ID="txtfield_item_name" runat="server" Width="95%"></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
                             <td>
-                                <asp:Label ID="lblValue" runat="server" Text="選項值" Visible="False"></asp:Label>
+                                <asp:Label ID="lblValue" runat="server" Text="金額" Visible="False"></asp:Label>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtfield_item_text" runat="server" Visible="False"></asp:TextBox>
+                                <asp:TextBox ID="txtfield_item_text" runat="server" Visible="False" Width="95%"></asp:TextBox>
+                                <asp:RequiredFieldValidator ID="chk_txtfield_item_text" runat="server" Display="None"
+                                    ErrorMessage="金額必填" ValidationGroup="CustomFieldItemAdd" 
+                                    ControlToValidate="txtfield_item_text"></asp:RequiredFieldValidator>
+                                <asp:CompareValidator ID="chk_txtfield_item_text2" runat="server" ControlToValidate="txtfield_item_text"
+                                    ErrorMessage="金額必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="CustomFieldItemAdd"
+                                    Display="None"></asp:CompareValidator>
                             </td>
-                            <td>
-                                <asp:Button ID="btnAdd" runat="server" Text="新增" OnClick="btnAdd_Click" 
+                        </tr>
+                        <tr>
+                            <td align="right" colspan="2">
+                                <asp:Button ID="btnAdd" runat="server" OnClick="btnAdd_Click" Text="新增" 
                                     ValidationGroup="CustomFieldItemAdd" />
                             </td>
                         </tr>
@@ -44,8 +48,8 @@
             </tr>
             <tr>
                 <td align="center">
-                         <TServerControl:TGridView ID="GridView_CustomFieldItem" runat="server" AutoGenerateColumns="False"
-                        DataKeyNames="field_item_id" DataSourceID="ObjectDataSource_CustomFieldItem" 
+                    <TServerControl:TGridView ID="GridView_CustomFieldItem" runat="server" AutoGenerateColumns="False"
+                        DataKeyNames="field_item_id" DataSourceID="ObjectDataSource_CustomFieldItem"
                         SkinID="pager">
                         <Columns>
                             <asp:BoundField DataField="field_item_name" HeaderText="選項名稱" SortExpression="field_item_name" />
@@ -54,8 +58,7 @@
                             <asp:TemplateField ShowHeader="False">
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnDel_CustomFieldItem" runat="server" CausesValidation="False"
-                                        CommandName="Delete" OnClick="lbtnDel_CustomFieldItem_Click" Text="刪除" 
-                                        onclientclick="return confirm('確定要刪除嗎?');"></asp:LinkButton>
+                                        CommandName="Delete" OnClick="lbtnDel_CustomFieldItem_Click" Text="刪除" OnClientClick="return confirm('確定要刪除嗎?');"></asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

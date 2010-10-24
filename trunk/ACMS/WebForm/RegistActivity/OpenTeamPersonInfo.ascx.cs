@@ -35,9 +35,17 @@ public partial class WebForm_RegistActivity_OpenTeamPersonInfo : System.Web.UI.U
 
     protected void btnOK_Click(object sender, EventArgs e)
     {
+        if (clsMyObj.IDChk(txtidno.Text) != "0")
+        {
+            clsMyObj.ShowMessage("身分證字號格式不正確!");
+            this.mpSearch.Show();  
+            return;
+        }
+
         UC_ActivityTeamMemberVO.WritePersonInfo = "是";
-        UC_ActivityTeamMemberVO.idno = txtperson_fix1.Text;
-        UC_ActivityTeamMemberVO.remark = txtperson_fix2.Text;
+        UC_ActivityTeamMemberVO.idno_type = rblidno_type.SelectedIndex;
+        UC_ActivityTeamMemberVO.idno = txtidno.Text;
+        UC_ActivityTeamMemberVO.remark = txtremark.Text;
 
         if (GetTeamPersonInfoClick != null)
         {
@@ -51,8 +59,9 @@ public partial class WebForm_RegistActivity_OpenTeamPersonInfo
 {
     public void InitDataAndShow()
     {
-        txtperson_fix1.Text = UC_ActivityTeamMemberVO.idno;
-        txtperson_fix2.Text = UC_ActivityTeamMemberVO.remark;
+        rblidno_type.SelectedIndex = UC_ActivityTeamMemberVO.idno_type;
+        txtidno.Text = UC_ActivityTeamMemberVO.idno;
+        txtremark.Text = UC_ActivityTeamMemberVO.remark;
       
         this.mpSearch.Show(); 
     }

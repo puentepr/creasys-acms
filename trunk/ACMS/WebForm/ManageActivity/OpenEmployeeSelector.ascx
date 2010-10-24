@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_ManageActivity_OpenEmployeeSelector" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    " Width="500" Height="500"><!--display: none;-->
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
+    " Width="500" Height="500"><!---->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="人員選取" SkinID="title"></asp:Label>

@@ -338,6 +338,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         myActivityRegistVO.emp_id = EmpID;
         myActivityRegistVO.regist_by = RegistBy;
         myActivityRegistVO.idno = (FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix1") as TextBox).Text;
+        myActivityRegistVO.team_name = "";
         myActivityRegistVO.ext_people = Convert.ToInt32((FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix2") as TextBox).Text);
 
         return myActivityRegistVO;

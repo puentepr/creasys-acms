@@ -45,7 +45,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_ABBR ");
             sb.AppendLine("FROM ActivityRegist A ");
-            sb.AppendLine("left join V_ACSM_USER B on A.emp_id=B.ID ");  
+            sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");  
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND activity_id=@activity_id ");
 
@@ -167,7 +167,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT top 1 B.NATIVE_NAME ");
             sb.AppendLine("FROM ActivityTeamMember A ");
-            sb.AppendLine("left join V_ACSM_USER B on A.emp_id=B.ID ");            
+            sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");            
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND A.activity_id=@activity_id ");
             sb.AppendLine("AND A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) ");
@@ -199,31 +199,33 @@ namespace ACMS.DAO
         }
 
         //完成時存檔
-        public int UpdateActivityRegist(VO.ActivityRegistVO myActivityRegistVO, List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList,string type)
+        public int UpdateActivityRegist(VO.ActivityRegistVO myActivityRegistVO, List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList, List<ACMS.VO.ActivityTeamMemberVO> myActivityTeamMemberVOList, string type)
         {
-            SqlParameter[] sqlParams = new SqlParameter[6];
+            SqlParameter[] sqlParams = new SqlParameter[7];
 
             sqlParams[0] = new SqlParameter("@id", SqlDbType.Int);
             sqlParams[0].Value = myActivityRegistVO.id;
             sqlParams[1] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[1].Value = myActivityRegistVO.activity_id;
-            sqlParams[2] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 50);
+            sqlParams[2] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
             sqlParams[2].Value = myActivityRegistVO.emp_id;
-            sqlParams[3] = new SqlParameter("@regist_by", SqlDbType.NVarChar, 50);
+            sqlParams[3] = new SqlParameter("@regist_by", SqlDbType.NVarChar, 100);
             sqlParams[3].Value = myActivityRegistVO.regist_by;
             sqlParams[4] = new SqlParameter("@idno", SqlDbType.NVarChar, 20);
             sqlParams[4].Value = myActivityRegistVO.idno;
-            sqlParams[5] = new SqlParameter("@ext_people", SqlDbType.Int);
-            sqlParams[5].Value = myActivityRegistVO.ext_people;
+            sqlParams[5] = new SqlParameter("@team_name", SqlDbType.NVarChar, 100);
+            sqlParams[5].Value = myActivityRegistVO.team_name;
+            sqlParams[6] = new SqlParameter("@ext_people", SqlDbType.Int);
+            sqlParams[6].Value = myActivityRegistVO.ext_people;
 
             StringBuilder sb = new StringBuilder();
 
             if (type == "insert")
-            {     
+            {
                 sb.AppendLine("INSERT ActivityRegist ");
-                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno],[ext_people],[createat],[check_status]) ");
+                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno],[team_name],[ext_people],[createat],[check_status]) ");
                 sb.AppendLine("Values ");
-                sb.AppendLine("(@activity_id,@emp_id,@regist_by,@idno,@ext_people,getdate(),0); ");
+                sb.AppendLine("(@activity_id,@emp_id,@regist_by,@idno,@team_name,@ext_people,getdate(),0); ");
             }
             else
             {
@@ -232,6 +234,7 @@ namespace ACMS.DAO
                 sb.AppendLine(",emp_id=@emp_id ");
                 sb.AppendLine(",regist_by=@regist_by ");
                 sb.AppendLine(",idno=@idno ");
+                sb.AppendLine(",team_name=@team_name ");
                 sb.AppendLine(",ext_people=@ext_people ");
                 sb.AppendLine("WHERE id=@id; ");
 
@@ -240,6 +243,10 @@ namespace ACMS.DAO
             sb.AppendLine("DELETE A ");
             sb.AppendLine("FROM CustomFieldValue A ");
             sb.AppendLine("inner join CustomField B on A.field_id=B.field_id and A.emp_id=@emp_id and B.activity_id=@activity_id; ");
+
+            sb.AppendLine("DELETE A ");
+            sb.AppendLine("FROM ActivityTeamMember A ");
+            sb.AppendLine("inner join Activity B on A.activity_id=B.id and A.activity_id=@activity_id; ");
 
             using (SqlConnection myConn = MyConn())
             {
@@ -256,14 +263,14 @@ namespace ACMS.DAO
                         cmd.CommandText = sb.ToString();
                         cmd.Parameters.AddRange(sqlParams);
                         cmd.ExecuteNonQuery();
-                                            
+
                         foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
                         {
                             SqlParameter[] sqlParams2 = new SqlParameter[4];
 
                             sqlParams2[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier);
                             sqlParams2[0].Value = myCustomFieldValueVO.id;
-                            sqlParams2[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 50);
+                            sqlParams2[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
                             sqlParams2[1].Value = myCustomFieldValueVO.emp_id;
                             sqlParams2[2] = new SqlParameter("@field_id", SqlDbType.Int);
                             sqlParams2[2].Value = myCustomFieldValueVO.field_id;
@@ -283,6 +290,39 @@ namespace ACMS.DAO
 
                         }
 
+                        //重製ActivityTeamMember
+                        foreach (ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO in myActivityTeamMemberVOList)
+                        {
+                            SqlParameter[] sqlParams3 = new SqlParameter[7];
+
+                            sqlParams3[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+                            sqlParams3[0].Value = myActivityTeamMemberVO.activity_id;
+                            sqlParams3[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+                            sqlParams3[1].Value = myActivityTeamMemberVO.emp_id;
+                            sqlParams3[2] = new SqlParameter("@boss_id", SqlDbType.NVarChar, 100);
+                            sqlParams3[2].Value = myActivityTeamMemberVO.boss_id;
+                            sqlParams3[3] = new SqlParameter("@idno_type", SqlDbType.SmallInt);
+                            sqlParams3[3].Value = myActivityTeamMemberVO.idno_type;
+                            sqlParams3[4] = new SqlParameter("@idno", SqlDbType.NVarChar, 20);
+                            sqlParams3[4].Value = myActivityTeamMemberVO.idno;
+                            sqlParams3[5] = new SqlParameter("@remark", SqlDbType.NVarChar,500);
+                            sqlParams3[5].Value = myActivityTeamMemberVO.remark;
+                            sqlParams3[6] = new SqlParameter("@check_status", SqlDbType.Int);
+                            sqlParams3[6].Value = myActivityTeamMemberVO.check_status;
+                       
+                            StringBuilder sb3 = new StringBuilder();
+
+                            sb3.AppendLine("INSERT ActivityTeamMember ");
+                            sb3.AppendLine("VALUES ");
+                            sb3.AppendLine("(@activity_id,@emp_id,@boss_id,@idno_type,@idno,@remark,@check_status) ");
+
+                            cmd.CommandText = sb3.ToString();
+                            cmd.Parameters.Clear();
+                            cmd.Parameters.AddRange(sqlParams3);
+                            cmd.ExecuteNonQuery();
+
+                        }
+
                         trans.Commit();
                     }
                     catch (Exception ex)
@@ -292,7 +332,7 @@ namespace ACMS.DAO
                         return 0;
                     }
 
-       
+
 
                 }
 

@@ -52,10 +52,10 @@ namespace ACMS.BO
 
         //4.已報名活動查詢
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable ActivityEditQuery(string activity_name, string activity_startdate, string activity_enddate, string activity_enddate_finish, string emp_id)
+        public DataTable RegistedActivityQuery(string activity_name, string activity_startdate, string activity_enddate, string activity_enddate_finish, string emp_id)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.ActivityEditQuery(activity_name, activity_startdate, activity_enddate, activity_enddate_finish, emp_id);
+            return mySelectorDAO.RegistedActivityQuery(activity_name, activity_startdate, activity_enddate, activity_enddate_finish, emp_id);
         }
 
         //4.1由我報名的人員選單
@@ -94,10 +94,10 @@ namespace ACMS.BO
 
         //6-1新增修改活動查詢
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable ActivityManagementQuery(string activity_name, string activity_startdate, string activity_enddate)
+        public DataTable ActivityEditQuery(string activity_name, string activity_startdate, string activity_enddate)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            DataTable DT = mySelectorDAO.ActivityManagementQuery(activity_name, activity_startdate, activity_enddate);
+            DataTable DT = mySelectorDAO.ActivityEditQuery(activity_name, activity_startdate, activity_enddate);
             return DT;
         }
 
@@ -117,15 +117,6 @@ namespace ACMS.BO
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, DEPT_ID, emp_id, emp_name);
             return DT;
-        }
-
-
-        //SELECT
-        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_CNAME, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
-        {
-            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_CNAME, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id);
         }
 
         //SELECT
@@ -221,7 +212,15 @@ namespace ACMS.BO
             return myRoleListVOList;
         }
 
-        //主辦單位 DDL DataSource
+        //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_CNAME, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_CNAME, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id);
+        }
+
+        //7-1 主辦單位設定 主辦單位 DDL DataSource
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public List<VO.UnitVO> SelectUnit()
         {
@@ -239,7 +238,6 @@ namespace ACMS.BO
 
             return myUnitVOList;
         }
-
 
         //7-2 角色人員管理 選取所有在職員工
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]

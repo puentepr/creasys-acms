@@ -76,7 +76,7 @@ public partial class clsDBUtility
         StringBuilder sb = new StringBuilder();
 
         sb.AppendLine("SELECT ID,WORK_ID,NATIVE_NAME,C_DEPT_ABBR,C_NAME ");
-        sb.AppendLine("FROM V_ACSM_USER A ");
+        sb.AppendLine("FROM V_ACSM_USER2 A ");
         sb.AppendLine("WHERE 1=1 ");
         //sb.AppendLine("AND (@DEPT_ID='' or DEPT_ID=@DEPT_ID) ");
         //sb.AppendLine("AND (@JOB_CNAME='' or JOB_CNAME=@JOB_CNAME) ");

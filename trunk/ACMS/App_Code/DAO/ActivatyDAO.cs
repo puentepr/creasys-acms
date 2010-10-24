@@ -28,9 +28,9 @@ namespace ACMS.DAO
             //sb.AppendLine("(@id,@activity_info,@activity_name,@activity_type,@people_type,@activity_startdate,@activity_enddate,@limit_count,@limit2_count,@team_member_max,@team_member_min,@regist_deadline,@cancelregist_deadline,@is_showfile,@is_showprogress,@is_showextpeoplecount,@is_showremark,@is_grouplimit) ");
 
             sb.AppendLine("INSERT Activity ");
-            sb.AppendLine("([id],[activity_type],[activity_info],[org_id],[activity_name],[people_type],[activity_startdate],[activity_enddate],[limit_count],[limit2_count],[team_member_max],[team_member_min],[regist_startdate],[regist_deadline],[cancelregist_deadline],[is_showfile],[is_showprogress],[is_showperson_fix1],[is_showperson_fix2],[personextcount_max],[personextcount_min],[is_showidno],[is_showremark],[remark_name],[is_showteam_fix1],[is_showteam_fix2],[teamextcount_max],[teamextcount_min],[is_grouplimit],[notice],[active],[ticket_id],[acept_ticket_id]) ");
+            sb.AppendLine("([id],[activity_type],[activity_info],[org_id],[activity_name],[people_type],[activity_startdate],[activity_enddate],[limit_count],[limit2_count],[team_member_max],[team_member_min],[regist_startdate],[regist_deadline],[cancelregist_deadline],[is_showfile],[is_showprogress],[is_showperson_fix1],[is_showperson_fix2],[personextcount_max],[personextcount_min],[is_showidno],[is_showremark],[remark_name],[is_showteam_fix1],[is_showteam_fix2],[teamextcount_max],[teamextcount_min],[is_grouplimit],[notice],[active]) ");
             sb.AppendLine("VALUES ");
-            sb.AppendLine("(@id,@activity_type,'','','','',null,null,null,null,null,null,null,null,null,'N','N','N','N',null,null,'N','N','','N','N',null,null,'N','',null,null,null) ");
+            sb.AppendLine("(@id,@activity_type,'','','','',null,null,null,null,null,null,null,null,null,'N','N','N','N',null,null,'N','N','','N','N',null,null,'N','',null) ");
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
@@ -106,8 +106,7 @@ namespace ACMS.DAO
                 myActivatyVO.teamextcount_min = (int?)(MyDataReader["teamextcount_min"] == DBNull.Value ? null : MyDataReader["teamextcount_min"]);
                 myActivatyVO.is_grouplimit = (string)MyDataReader["is_grouplimit"];
                 myActivatyVO.notice = (string)MyDataReader["notice"];
-                myActivatyVO.ticket_id = (int?)(MyDataReader["ticket_id"] == DBNull.Value ? null : MyDataReader["ticket_id"]);
-                myActivatyVO.acept_ticket_id = (int?)(MyDataReader["acept_ticket_id"] == DBNull.Value ? null : MyDataReader["acept_ticket_id"]);
+             
             }
 
             return myActivatyVO;
@@ -116,7 +115,7 @@ namespace ACMS.DAO
 
         public int UpdateActivaty(VO.ActivatyVO myActivatyVO)
         {
-            SqlParameter[] sqlParams = new SqlParameter[33];
+            SqlParameter[] sqlParams = new SqlParameter[31];
 
             sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = myActivatyVO.id;
@@ -180,10 +179,6 @@ namespace ACMS.DAO
             sqlParams[29].Value = myActivatyVO.notice;
             sqlParams[30] = new SqlParameter("@active", SqlDbType.NChar, 1);
             sqlParams[30].Value = myActivatyVO.active;
-            sqlParams[31] = new SqlParameter("@ticket_id", SqlDbType.Int);
-            sqlParams[31].Value = myActivatyVO.ticket_id;
-            sqlParams[32] = new SqlParameter("@acept_ticket_id", SqlDbType.Int);
-            sqlParams[32].Value = myActivatyVO.acept_ticket_id;
 
             StringBuilder sb = new StringBuilder();
 
@@ -219,8 +214,6 @@ namespace ACMS.DAO
             sb.AppendLine(",is_grouplimit=@is_grouplimit ");
             sb.AppendLine(",notice=@notice ");
             sb.AppendLine(",active=@active ");
-            sb.AppendLine(",ticket_id=@ticket_id ");
-            sb.AppendLine(",acept_ticket_id=@acept_ticket_id ");
 
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND id=@id ");
@@ -251,68 +244,6 @@ namespace ACMS.DAO
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
         }
-
-        //取得號碼牌
-        public DataTable SelectTicketID(Guid activity_id, string emp_id)
-        {
-            SqlParameter[] sqlParams = new SqlParameter[2];
-
-            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-            sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 50);
-            sqlParams[1].Value = emp_id;
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT ISNULL(A.ticket_id,0) as ticket_id ,A.acept_ticket_id ");
-            sb.AppendLine("FROM Activity A ");
-            sb.AppendLine("WHERE A.id=@activity_id ");
-            sb.AppendLine("and A.id not in (SELECT B.activity_id FROM ActivityRegist B WHERE B.activity_id=@activity_id and B.emp_id=@emp_id and ISNULL(ticket_id,0)>0 ) ");
-
-            return clsMyObj.GetDataTable( SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams));
-
-        }
-
-        public int UpdateTicketID(Guid regist_id, Guid activity_id, int ticket_id)
-        {
-            SqlParameter[] sqlParams = new SqlParameter[3];
-
-            sqlParams[0] = new SqlParameter("@regist_id", SqlDbType.UniqueIdentifier);
-            sqlParams[0].Value = regist_id;
-            sqlParams[1] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-            sqlParams[1].Value = activity_id;
-            sqlParams[2] = new SqlParameter("@ticket_id", SqlDbType.Int);
-            sqlParams[2].Value = ticket_id;
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("UPDATE Activity set ticket_id=@ticket_id WHERE id=@activity_id; ");
-            sb.AppendLine("UPDATE ActivityRegist set ticket_id=@ticket_id WHERE id=@regist_id; ");
-
-            return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-        }
-
-        public int AddAceptTicketID(string id)
-        {
-            SqlParameter[] sqlParams = new SqlParameter[1];
-
-            sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier);
-            sqlParams[0].Value = new Guid(id);
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("UPDATE Activity set acept_ticket_id=acept_ticket_id+1 WHERE id=@id; ");
-
-            return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-        }
-
-
-
-
-
-
 
     }
 }

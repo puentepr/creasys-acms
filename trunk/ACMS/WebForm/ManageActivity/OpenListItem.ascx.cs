@@ -64,7 +64,6 @@ public partial class WebForm_ManageActivity_OpenListItem
     {
         this.mpSearch.Show();
 
-
         if (controltype == "textboxlist")
         {
             lblValue.Visible = true;
@@ -84,6 +83,8 @@ public partial class WebForm_ManageActivity_OpenListItem
 
         ObjectDataSource_CustomFieldItem.SelectParameters["field_id"].DefaultValue = field_id.ToString();
 
+        txtfield_item_name.Text = "";
+        txtfield_item_text.Text = "";
     }
 
 }

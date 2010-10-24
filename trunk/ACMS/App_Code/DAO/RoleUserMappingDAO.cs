@@ -16,7 +16,7 @@ namespace ACMS.DAO
             sb.AppendLine("FROM RoleUserMapping A ");
             sb.AppendLine("left join RoleList B on A.role_id=B.id ");
             sb.AppendLine("left join Unit C on A.unit_id=C.id ");
-            sb.AppendLine("left join V_ACSM_USER D on A.emp_id=D.ID ");
+            sb.AppendLine("left join V_ACSM_USER2 D on A.emp_id=D.ID ");
             sb.AppendLine("order by C.name,B.id  ");  
 
             IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
@@ -53,7 +53,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("INSERT INTO RoleUserMapping  SELECT @role_id,@unit_id,ID FROM V_ACSM_USER WHERE ID=@emp_id and status!=2 ; ");
+            sb.AppendLine("INSERT INTO RoleUserMapping  SELECT @role_id,@unit_id,ID FROM V_ACSM_USER2 WHERE ID=@emp_id and status!=2 ; ");
 
             int Result=-1;
 

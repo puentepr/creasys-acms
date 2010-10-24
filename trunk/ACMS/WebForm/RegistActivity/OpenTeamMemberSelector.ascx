@@ -14,7 +14,7 @@
                         <td align="right">
                             <asp:Label ID="lblProgramGroup2" runat="server" Text="部門"></asp:Label>
                         </td>
-                        <td>
+                        <td align="left">
                             <asp:DropDownList ID="ddlDEPT_ID" runat="server" 
                                 DataSourceID="ObjectDataSource_Dept" DataTextField="Text" 
                                 DataValueField="Value">

@@ -54,18 +54,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
             }
 
-
-
             Session["form_mode"] = null;
             Session["activity_id"] = null;
 
         }
-
-
-  
-
-
-
 
     }
 
@@ -87,7 +79,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
         //載入活動資訊
         GetActivityDefault();
-
 
         //登入者為第一個團員
         ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = new ACMS.VO.ActivityTeamMemberVO();
@@ -165,6 +156,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         tr_showteam_fix1.Visible=( myActivatyVO.is_showteam_fix1=="Y");
         tr_showteam_fix2.Visible = (myActivatyVO.is_showteam_fix2 == "Y");
 
+        if (tr_showteam_fix1.Visible == false && tr_showteam_fix2.Visible==false)
+        {
+            Panel_TeamFix.Visible = false;
+        }
+
         lbltext_peopleStart.Text = myActivatyVO.teamextcount_min.ToString();
         lbltext_peopleEnd.Text = myActivatyVO.teamextcount_max.ToString();
 
@@ -176,11 +172,23 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         //Page_is_showperson_fix1 = myActivatyVO.is_showperson_fix1;
         //Page_is_showperson_fix2 = myActivatyVO.is_showperson_fix2;
 
-         (OpenTeamPersonInfo1.FindControl("tr_person_fix1") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showperson_fix1=="Y");
-         (OpenTeamPersonInfo1.FindControl("tr_person_fix2") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showperson_fix2=="Y");
+         (OpenTeamPersonInfo1.FindControl("tr_idno") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showidno=="Y");
+         (OpenTeamPersonInfo1.FindControl("tr_remark") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showremark=="Y");
 
         (OpenTeamPersonInfo1.FindControl("lblRemark") as Label).Text = myActivatyVO.remark_name;
-        (OpenTeamPersonInfo1.FindControl("chk_txtperson_fix2") as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填", myActivatyVO.remark_name);
+        (OpenTeamPersonInfo1.FindControl("chk_txtremark") as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填", myActivatyVO.remark_name);
+
+        if (myActivatyVO.is_showidno == "N" && myActivatyVO.is_showremark == "N")
+        {
+            IsPersonInfoRequired = false;
+            GridView_TemMember.Columns[3].Visible = false;
+            GridView_TemMember.Columns[4].Visible = false;
+        }
+        else
+        {
+            IsPersonInfoRequired = true;
+        }
+
 
 
         Page_team_member_min = myActivatyVO.team_member_min;
@@ -188,7 +196,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
 
 
-        FormView_fixA.DataBind();
+        //FormView_fixA.DataBind();
         //FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
         //FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
 
@@ -298,6 +306,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
                     myActivityTeamMemberVO.activity_id = ActivityID;
                     myActivityTeamMemberVO.emp_id = GridView_Employee.DataKeys[i].Value.ToString();
                     myActivityTeamMemberVO.boss_id = RegistBy;
+                    myActivityTeamMemberVO.idno_type = 0;
                     myActivityTeamMemberVO.idno = "";
                     myActivityTeamMemberVO.remark = "";
                     myActivityTeamMemberVO.check_status = 0;
@@ -375,6 +384,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO =Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.emp_id; });
 
         myActivityTeamMemberVO.WritePersonInfo = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.WritePersonInfo;
+        myActivityTeamMemberVO.idno_type = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno_type;
         myActivityTeamMemberVO.idno = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno;
         myActivityTeamMemberVO.remark = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.remark;
 
@@ -418,69 +428,69 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     }
 
     //人員切換之後指定EmpID
-    protected void RadioButton1_CheckedChanged(object sender, EventArgs e)
-    {
-        RadioButton RadioButton1 = sender as RadioButton;
-        RadioButton1.Checked = true;
+    //protected void RadioButton1_CheckedChanged(object sender, EventArgs e)
+    //{
+    //    RadioButton RadioButton1 = sender as RadioButton;
+    //    RadioButton1.Checked = true;
 
-        GridView_TemMember.SelectedIndex = (RadioButton1.NamingContainer as GridViewRow).RowIndex;
+    //    GridView_TemMember.SelectedIndex = (RadioButton1.NamingContainer as GridViewRow).RowIndex;
 
-        EmpID = GridView_TemMember.DataKeys[GridView_TemMember.SelectedIndex].Value.ToString();
+    //    EmpID = GridView_TemMember.DataKeys[GridView_TemMember.SelectedIndex].Value.ToString();
 
-        //載入個人資訊
-        //個人固定欄位
-        ObjectDataSource_fixA.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
-        ObjectDataSource_fixA.SelectParameters["emp_id"].DefaultValue = EmpID;
+    //    //載入個人資訊
+    //    //個人固定欄位
+    //    ObjectDataSource_fixA.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
+    //    ObjectDataSource_fixA.SelectParameters["emp_id"].DefaultValue = EmpID;
 
-        FormView_fixA.DataBind();
+    //    FormView_fixA.DataBind();
 
-        //載入動態欄位資料
+    //    //載入動態欄位資料
 
-        ACMS.DAO.CustomFieldValueDAO myCustomFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
+    //    ACMS.DAO.CustomFieldValueDAO myCustomFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
 
-        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustomFieldValueDAO.SelectCustomFieldValue(ActivityID, EmpID);
+    //    List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustomFieldValueDAO.SelectCustomFieldValue(ActivityID, EmpID);
 
-        foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
-        {
+    //    foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
+    //    {
 
-            if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOX")
-            {
-                TextBox MyControl = new TextBox();
-                MyControl.ID = string.Format("txt{0}", myCustomFieldValueVO.field_id);
-                (PlaceHolder1.FindControl(MyControl.ID) as TextBox).Text = myCustomFieldValueVO.field_value;
-            }
-            else if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOXLIST")
-            {
-                TCheckBoxList MyControl = new TCheckBoxList();
-                MyControl.ID = string.Format("plh{0}", myCustomFieldValueVO.field_id);
-                (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+    //        if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOX")
+    //        {
+    //            TextBox MyControl = new TextBox();
+    //            MyControl.ID = string.Format("txt{0}", myCustomFieldValueVO.field_id);
+    //            (PlaceHolder1.FindControl(MyControl.ID) as TextBox).Text = myCustomFieldValueVO.field_value;
+    //        }
+    //        else if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOXLIST")
+    //        {
+    //            TCheckBoxList MyControl = new TCheckBoxList();
+    //            MyControl.ID = string.Format("plh{0}", myCustomFieldValueVO.field_id);
+    //            (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
 
-                CheckBoxList1_SelectedIndexChanged((PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList), null);
+    //            CheckBoxList1_SelectedIndexChanged((PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList), null);
 
-            }
-            else if (myCustomFieldValueVO.field_control.ToUpper() == "CHECKBOXLIST")
-            {
-                TCheckBoxList MyControl = new TCheckBoxList();
+    //        }
+    //        else if (myCustomFieldValueVO.field_control.ToUpper() == "CHECKBOXLIST")
+    //        {
+    //            TCheckBoxList MyControl = new TCheckBoxList();
 
-                MyControl.ID = string.Format("cbl{0}", myCustomFieldValueVO.field_id);
-                (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+    //            MyControl.ID = string.Format("cbl{0}", myCustomFieldValueVO.field_id);
+    //            (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
 
 
-            }
-            else if (myCustomFieldValueVO.field_control.ToUpper() == "RADIOBUTTONLIST")
-            {
-                TRadioButtonList MyControl = new TRadioButtonList();
-                MyControl.ID = string.Format("radl{0}", myCustomFieldValueVO.field_id);
-                (MyControl as TRadioButtonList).ClearSelection();
-                (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
-            }
+    //        }
+    //        else if (myCustomFieldValueVO.field_control.ToUpper() == "RADIOBUTTONLIST")
+    //        {
+    //            TRadioButtonList MyControl = new TRadioButtonList();
+    //            MyControl.ID = string.Format("radl{0}", myCustomFieldValueVO.field_id);
+    //            (MyControl as TRadioButtonList).ClearSelection();
+    //            (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
+    //        }
         
-        }
+    //    }
 
     
 
 
-    }
+    //}
 
 
 
@@ -505,21 +515,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
    //下一步
     protected void btnNext_Click(object sender, EventArgs e)
     {
-
-
         if (Wizard1.ActiveStepIndex == 1)
         {
-
-            //個人資料都有填,才能按下一步
-            foreach (ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO in Page_ActivityTeamMemberVOList)
+            if (IsPersonInfoRequired)
             {
-                if (myActivityTeamMemberVO.WritePersonInfo != "是")
+                //個人資料都有填,才能按下一步
+                foreach (ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO in Page_ActivityTeamMemberVOList)
                 {
-                    clsMyObj.ShowMessage(string.Format(@"{0}尚未填寫個人相關欄位!\n無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
-                    Wizard1.MoveTo(Wizard1.WizardSteps[0]);
-                    return;
+                    if (myActivityTeamMemberVO.WritePersonInfo != "是")
+                    {
+                        clsMyObj.ShowMessage(string.Format(@"{0}尚未填寫個人相關欄位!\n無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
+                        Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+                        return;
+                    }
                 }
             }
+
             
 
             //團隊成員人數符合限制,才能按下一步
@@ -596,8 +607,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         myActivityRegistVO.activity_id = ActivityID;
         myActivityRegistVO.emp_id = EmpID;
         myActivityRegistVO.regist_by = RegistBy;
+        myActivityRegistVO.idno = "";
         myActivityRegistVO.team_name = txtteam_name.Text;
-        myActivityRegistVO.ext_people = Convert.ToInt32( txtext_people.Text);
+        myActivityRegistVO.ext_people =(txtext_people.Text=="" ? 0: Convert.ToInt32(txtext_people.Text));
 
         return myActivityRegistVO;
 
@@ -665,7 +677,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
         if (MyFormMode == FormViewMode.Insert)
         {
-
             MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "");
 
         }
@@ -684,27 +695,31 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         {
             clsMyObj.ShowMessage(@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
         }
+        else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
+        {
+            clsMyObj.ShowMessage(@"資料存檔發生錯誤，無法完成報名。");
+        }
 
 
-        Response.Redirect("ActivityEditQuery.aspx");
+        Response.Redirect("RegistedActivityQuery.aspx");
 
     }
 
-    protected void FormView_fixA_DataBound(object sender, EventArgs e)
-    {
-        ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
-        ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
+    //protected void FormView_fixA_DataBound(object sender, EventArgs e)
+    //{
+    //    ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
+    //    ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
 
-        FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
-        FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
+    //    FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
+    //    FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
 
-        (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
-        (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
+    //    (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
+    //    (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
 
-        RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
-        myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
-        myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
-    }
+    //    RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
+    //    myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
+    //    myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
+    //}
 
 
     //protected void GridView_RegisterPeoplinfo_DataBound(object sender, EventArgs e)
@@ -928,7 +943,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
         set { ViewState["Page_team_member_max"] = value; }
     }
 
-
+    //是否需填寫個人資訊
+    public bool IsPersonInfoRequired
+    {
+        get { return (bool)ViewState["IsPersonInfoRequired"]; }
+        set { ViewState["IsPersonInfoRequired"] = value; }
+    }
 
 }
 

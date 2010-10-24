@@ -13,7 +13,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
-        ActivityType="1" />
+        ActivityType="2" />
     <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="1"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步">
@@ -149,7 +149,7 @@
                         </SelectParameters>
                     </asp:ObjectDataSource>
                 </asp:Panel>
-                <asp:Panel ID="Panel_TeamColumn" runat="server" GroupingText="團隊固定欄位">
+                <asp:Panel ID="Panel_TeamFix" runat="server" GroupingText="團隊固定欄位">
                     <table align="center">
                         <tr id="tr_showteam_fix1" runat="server">
                             <td>

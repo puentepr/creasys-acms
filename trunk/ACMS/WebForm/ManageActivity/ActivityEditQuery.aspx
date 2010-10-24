@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
-    CodeFile="ActivityManagementQuery.aspx.cs" Inherits="WebForm_ActivityManagementQuery" %>
+    CodeFile="ActivityEditQuery.aspx.cs" Inherits="WebForm_ActivityEditQuery" %>
 
 <%@ Register assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" namespace="System.Web.UI" tagprefix="asp" %>
 
@@ -94,7 +94,7 @@
             </TServerControl:TGridView>
             <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" 
                 OldValuesParameterFormatString="original_{0}" 
-                SelectMethod="ActivityManagementQuery" TypeName="ACMS.BO.SelectorBO">
+                SelectMethod="ActivityEditQuery" TypeName="ACMS.BO.SelectorBO">
                 <SelectParameters>
                     <asp:Parameter Name="activity_name" Type="String" ConvertEmptyStringToNull="false" />
                     <asp:Parameter Name="activity_startdate" Type="String" ConvertEmptyStringToNull="false" />

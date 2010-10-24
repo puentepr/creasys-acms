@@ -46,10 +46,10 @@ using System.Collections.Generic;
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT A.* ");
-            sb.AppendLine("FROM V_ACSM_USER A ");
+            sb.AppendLine("FROM V_ACSM_USER2 A ");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND A.STATUS='1' ");
-            sb.AppendLine("AND A.ID=@LoginID ");
+            sb.AppendLine("AND A.WINDOWS_ID=@LoginID ");
 
             DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
 
@@ -152,7 +152,7 @@ using System.Collections.Generic;
         //    StringBuilder sb = new StringBuilder();
 
         //    sb.AppendLine("SELECT COUNT(*) ");
-        //    sb.AppendLine("FROM V_ACSM_USER ");
+        //    sb.AppendLine("FROM V_ACSM_USER2 ");
         //    sb.AppendLine("WHERE emp_id=@LoginID ");
 
         //    return Convert.ToInt32(SqlHelper.ExecuteScalar(conn, CommandType.Text, sb.ToString(), sqlParams)) > 0 ? true : false;

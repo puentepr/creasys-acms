@@ -23,7 +23,7 @@ namespace ACMS.DAO
             SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
 
          //
-            DataTable DT = SelectEmployeeByActivity_id(activity_id);
+            DataTable DT = SelectCheckExistEmployeeByActivity_id(activity_id);
 
 
             if (DT != null && DT.Rows.Count > 0)
@@ -35,6 +35,36 @@ namespace ACMS.DAO
 
         }
 
+        //上傳族群名單 
+        public DataTable SelectCheckExistEmployeeByActivity_id(Guid activity_id)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            SqlParameter[] sqlParams = new SqlParameter[1];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+
+            sb.AppendLine("SELECT activity_id,emp_id ");
+            sb.AppendLine("FROM ActivityGroupLimit ");
+            sb.AppendLine("WHERE activity_id = @activity_id ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+
+            if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
+            {
+                return DS.Tables[0];
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+
+
+        //匯出族群名單
         public DataTable SelectEmployeeByActivity_id(Guid activity_id)
         {
              StringBuilder sb = new StringBuilder();
@@ -44,8 +74,9 @@ namespace ACMS.DAO
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
 
-            sb.AppendLine("SELECT activity_id,emp_id ");
-            sb.AppendLine("FROM ActivityGroupLimit ");         
+            sb.AppendLine("SELECT B.WORK_ID,B.NATIVE_NAME,B.OFFICE_PHONE,B.OFFICE_MAIL,B.DEPT_ID,B.C_DEPT_ABBR ");
+            sb.AppendLine("FROM ActivityGroupLimit A ");
+            sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE activity_id = @activity_id ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -74,7 +105,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT A.id as keyID,B.ID,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_ABBR ");
             sb.AppendLine("FROM ActivityGroupLimit A ");
-            sb.AppendLine("inner join V_ACSM_USER B on A.emp_id=B.ID ");
+            sb.AppendLine("inner join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE A.activity_id = @activity_id ");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);

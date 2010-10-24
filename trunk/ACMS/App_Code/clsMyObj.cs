@@ -110,6 +110,82 @@ public class clsMyObj
             myDataTable.AcceptChanges();
         }
     }
+
+    //回傳1 代表字數不到10   
+    //回傳2代表第二碼非1,2   
+    //回傳3 代表首碼有誤   
+    //回傳4代表檢查碼不對   
+    public static string IDChk(string vid)
+    {
+        string[] a = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O" }; 
+
+        List<string> FirstEng = new List<string>(a);// { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O" };
+        string aa = vid.ToUpper();
+        bool chackFirstEnd = false;
+        if (aa.Trim().Length == 10)
+        {
+            byte firstNo = Convert.ToByte(aa.Trim().Substring(1, 1));
+            if (firstNo > 2 || firstNo < 1)
+            {
+                return "2";
+            }
+            else
+            {
+                int x;
+                for (x = 0; x < FirstEng.Count; x++)
+                {
+                    if (aa.Substring(0, 1) == FirstEng[x])
+                    {
+                        aa = string.Format("{0}{1}", x + 10, aa.Substring(1, 9));
+                        chackFirstEnd = true;
+                        break;
+                    }
+
+                }
+                if (!chackFirstEnd)
+                    return "3";
+
+                int i = 1;
+                int ss = int.Parse(aa.Substring(0, 1));
+                while (aa.Length > i)
+                {
+                    ss = ss + (int.Parse(aa.Substring(i, 1)) * (10 - i));
+                    i++;
+                }
+                aa = ss.ToString();
+                if (vid.Substring(9, 1) == "0")
+                {
+                    if (aa.Substring(aa.Length - 1, 1) == "0")
+                    {
+                        return "0";
+                    }
+                    else
+                    {
+                        return "4";
+                    }
+                }
+                else
+                {
+                    if (vid.Substring(9, 1) == (10 - int.Parse(aa.Substring(aa.Length - 1, 1))).ToString())
+                    {
+
+                        return "0";
+                    }
+                    else
+                    {
+                        return "4";
+                    }
+                }
+            }
+        }
+        else
+        {
+
+            return "1";
+        }
+    }
+
+
 }
 
 
@@ -128,6 +204,7 @@ public class MySingleton
     public enum AlterRegistResult
     {
         RegistSucess,
+        RegistFail,
         RegistFail_Already,
         RegistFail_Full,
         CancelRegistSucess,
@@ -178,7 +255,7 @@ public class MySingleton
                         }
                         else
                         {
-                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "insert");
+                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "insert");
                             return AlterRegistResult.RegistSucess;
                         }
 
@@ -186,7 +263,7 @@ public class MySingleton
                 }
                 else
                 {
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "update");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "update");
                     return AlterRegistResult.RegistSucess;
                 }           
 
@@ -238,7 +315,7 @@ public class MySingleton
 
     }
 
-    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVO, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline)
+    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline)
     {
         lock (this)
         {
@@ -265,20 +342,25 @@ public class MySingleton
                             return AlterRegistResult.RegistFail_Full;
                         }
                         else
-                        {
+                        {                          
+                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "insert");
 
-                            //重製ActivityTeamMember
-                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "insert");
-                            return AlterRegistResult.RegistSucess;
+                            if (intSaveResult == 1)
+                            {
+                                return AlterRegistResult.RegistSucess;
+                            }
+                            else
+                            {
+                                return AlterRegistResult.RegistFail;
+                            }
+                        
                         }
 
                     }
                 }
                 else
                 {
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, "update");
-
-                    //重製ActivityTeamMember
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "update");
 
                     return AlterRegistResult.RegistSucess;
                 }

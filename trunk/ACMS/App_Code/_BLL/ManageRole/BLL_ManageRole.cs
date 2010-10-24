@@ -57,7 +57,7 @@ public partial class clsDBUtility
         sb.AppendLine("UNION ");
         sb.AppendLine("SELECT A.role_id,'0','','',B.ID,B.NATIVE_NAME+'('+B.WORK_ID+'-'+B.C_DEPT_ABBR+'-'+CASE B.STATUS WHEN 1 THEN '在職' WHEN '2' THEN '離職' WHEN '3' THEN '留職停薪' ELSE '' END+')' ");
         sb.AppendLine("FROM RoleUserMapping A ");
-        sb.AppendLine("inner join dbo.V_ACSM_USER B on A.ID=B.ID ");
+        sb.AppendLine("inner join dbo.V_ACSM_USER2 B on A.ID=B.ID ");
         sb.AppendLine("ORDER BY role_id,parent desc ");
 
         DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);

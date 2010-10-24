@@ -47,8 +47,6 @@ namespace ACMS.VO
         private string _is_grouplimit;
         private string _notice;
         private string _active;
-        private int? _ticket_id;
-        private int? _acept_ticket_id;
 
         public Guid id { get { return _id; } set { _id = value; } }
         public string activity_type { get { return _activity_type; } set { _activity_type = value; } }
@@ -81,9 +79,6 @@ namespace ACMS.VO
         public string is_grouplimit { get { return _is_grouplimit; } set { _is_grouplimit = value; } }
         public string notice { get { return _notice; } set { _notice = value; } }
         public string active { get { return _active; } set { _active = value; } }
-        public int? ticket_id { get { return _ticket_id; } set { _ticket_id = value; } }
-        public int? acept_ticket_id { get { return _acept_ticket_id; } set { _acept_ticket_id = value; } }
-
 
     }
 

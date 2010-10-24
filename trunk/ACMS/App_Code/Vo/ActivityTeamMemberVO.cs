@@ -13,6 +13,7 @@ namespace ACMS.VO
         private Guid _activity_id;
         private string _emp_id;
         private string _boss_id;
+        private int _idno_type;
         private string _idno;
         private string _remark;
         private int _check_status;
@@ -30,6 +31,7 @@ namespace ACMS.VO
         public string emp_id { get { return _emp_id; } set { _emp_id = value; } }
         public string boss_id { get { return _boss_id; } set { _boss_id = value; } }
         public string idno { get { return _idno; } set { _idno = value; } }
+        public int idno_type { get { return _idno_type; } set { _idno_type = value; } }
         public string remark { get { return _remark; } set { _remark = value; } }
         public int check_status { get { return _check_status; } set { _check_status = value; } }
 

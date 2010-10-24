@@ -8,9 +8,6 @@ namespace ACMS.BO
     [System.ComponentModel.DataObjectAttribute(true)]
     public class ActivatyBO:BaseBO
     {
-
-
-
         //SELECT
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public VO.ActivatyVO SelectActivatyByActivatyID(Guid id)

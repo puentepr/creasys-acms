@@ -38,7 +38,7 @@
                 </TServerControl:TGridView>
                 <asp:SqlDataSource ID="SqlDataSource2" runat="server" 
                     ConnectionString="<%$ ConnectionStrings:connStr %>" 
-                    SelectCommand="SELECT * FROM [V_ACSM_USER]"></asp:SqlDataSource>
+                    SelectCommand="SELECT * FROM [V_ACSM_USER2]"></asp:SqlDataSource>
                 </asp:Panel>
             </td>
         </tr>

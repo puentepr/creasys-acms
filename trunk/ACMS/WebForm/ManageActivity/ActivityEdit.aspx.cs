@@ -18,9 +18,9 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         //FormView2.EditItemTemplate = FormView2.ItemTemplate;
     }
 
-
     protected void Page_Load(object sender, EventArgs e)
     {
+        //族群限定的上傳與匯出
         (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(btnUpload_GroupLimit);
         (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(btnExport_GroupLimit);
 
@@ -29,14 +29,13 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             //取得必要的Session
             if (Session["form_mode"] == null)
             {
-                Page.Visible = false;
-                return;
+                Response.Redirect("ActivityEditQuery.aspx");
             }
 
+            //編輯時須帶入activity_id
             if (Session["form_mode"] != "new" && Session["activity_id"] == null)
             {
-                Page.Visible = false;
-                return;
+                Response.Redirect("ActivityEditQuery.aspx");
             }
 
             //取得FormView外的欄位初始值
@@ -101,20 +100,43 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             rblgrouplimit.SelectedValue = myActivatyVO.is_grouplimit;
             txtnotice.Text = myActivatyVO.notice;
 
-            //Step2
+            //活動資訊-活動內容
             ObjectDataSource_Activaty.SelectParameters["id"].DefaultValue = ActivityID.ToString();
+            //活動資訊-上傳檔
             ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("/ACMS/UpFiles", ActivityID.ToString()));
-            //Step3
+           
+            //個人固定欄位
             ObjectDataSource_Activaty2.SelectParameters["id"].DefaultValue = ActivityID.ToString();
+
+            //自訂欄位
             ObjectDataSource_CustomField.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
-            //
+
+            //族群限定
             ObjectDataSource_GroupLimit.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
 
-            if (ActivityType == "2")
+            if (ActivityType == "1")
+            {
+                (this.Master as MyMasterPage).PanelMainGroupingText = "新增個人活動";
+                (FormView1.FindControl("lbllimit_count") as Literal).Visible = true;
+                (FormView1.FindControl("lbllimit2_count") as Literal).Visible = true;
+                (FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動人數上限必填";
+                (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動人數上限必填數字";
+                (FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取人數必填";
+                (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取人數必填數字";
+                (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
+                (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
+
+                (FormView2.FindControl("PanelCustomFieldA1") as Panel).Visible = true;
+                (FormView2.FindControl("PanelCustomFieldB1") as Panel).Visible = false;
+                (FormView2.FindControl("PanelCustomFieldB2") as Panel).Visible = false;
+
+                PanelCustomFieldC.GroupingText = "個人自訂欄位";
+            }
+            else
             {
                 (this.Master as MyMasterPage).PanelMainGroupingText = "新增團隊活動";
-                (FormView1.FindControl("lbllimit_count_team") as Label).Visible = true;
-                (FormView1.FindControl("lbllimit2_count_team") as Label).Visible = true;
+                (FormView1.FindControl("lbllimit_count_team") as Literal).Visible = true;
+                (FormView1.FindControl("lbllimit2_count_team") as Literal).Visible = true;
                 (FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動隊數上限必填";
                 (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動隊數上限必填數字";
                 (FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取隊數必填";
@@ -130,62 +152,16 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 PanelCustomFieldC.GroupingText = "團隊自訂欄位";
 
             }
-            else
-            {
-                (this.Master as MyMasterPage).PanelMainGroupingText = "新增個人活動";
-                (FormView1.FindControl("lbllimit_count") as Label).Visible = true;
-                (FormView1.FindControl("lbllimit2_count") as Label).Visible = true;
-                (FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動人數上限必填";
-                (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動人數上限必填數字";
-                (FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取人數必填";
-                (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取人數必填數字";
-                (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
-                (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
-
-                (FormView2.FindControl("PanelCustomFieldA1") as Panel).Visible = true;
-                (FormView2.FindControl("PanelCustomFieldB1") as Panel).Visible = false;
-                (FormView2.FindControl("PanelCustomFieldB2") as Panel).Visible = false;
-
-                PanelCustomFieldC.GroupingText = "個人自訂欄位";
-            }
 
         }
     }
-
+   
+    //上傳檔與下載
     protected void FormView1_PreRender(object sender, EventArgs e)
     {
         (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(FormView1.FindControl("btnUpload"));
         (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(FormView1.FindControl("GridView_UpFiles"));
 
-    }
-
-    protected void chkis_showperson_fix2_CheckedChanged(object sender, EventArgs e)
-    {
-        CheckBox chkis_showperson_fix2 = (CheckBox)sender;
-        chk_txtpersonextcount_min.Visible = chkis_showperson_fix2.Checked;
-        chk_txtpersonextcount_min2.Visible = chkis_showperson_fix2.Checked;
-
-        chk_txtpersonextcount_max.Visible = chkis_showperson_fix2.Checked;
-        chk_txtpersonextcount_max2.Visible = chkis_showperson_fix2.Checked;
-    }
-
-    protected void chkis_showremark_CheckedChanged(object sender, EventArgs e)
-    {
-        CheckBox chkis_showremark = (CheckBox)sender;
-        chk_txtremark_name.Visible = chkis_showremark.Checked;
-
-
-
-    }
-
-    protected void chkis_showteam_fix2_CheckedChanged(object sender, EventArgs e)
-    {
-        CheckBox chkis_showteam_fix2 = (CheckBox)sender;
-        chk_txtteamextcount_min.Visible = chkis_showteam_fix2.Checked;
-        chk_txtteamextcount_min2.Visible = chkis_showteam_fix2.Checked;
-
-        chk_txtteamextcount_max.Visible = chkis_showteam_fix2.Checked;
-        chk_txtteamextcount_max2.Visible = chkis_showteam_fix2.Checked;
     }
 
     //上傳附件檔案
@@ -212,15 +188,10 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 clsMyObj.ShowMessage("檔案上傳時發生錯誤!");
             }
 
-
-
             GridView GridView_UpFiles = (GridView)FormView1.FindControl("GridView_UpFiles");
 
             GridView_UpFiles.DataBind();
-
         }
-
-
     }
 
     //下載附件檔
@@ -234,9 +205,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
             // 輸出檔案。
             Response.WriteFile(myFileInfo.FullName);
-
         }
-
     }
 
     //刪除附件檔
@@ -253,13 +222,42 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         GridView_UpFiles.DataBind();
     }
 
+    //勾選改變時要必填
+    protected void chkis_showperson_fix2_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkis_showperson_fix2 = (CheckBox)sender;
+        chk_txtpersonextcount_min.Visible = chkis_showperson_fix2.Checked;
+        chk_txtpersonextcount_min2.Visible = chkis_showperson_fix2.Checked;
+
+        chk_txtpersonextcount_max.Visible = chkis_showperson_fix2.Checked;
+        chk_txtpersonextcount_max2.Visible = chkis_showperson_fix2.Checked;
+    }
+    //勾選改變時要必填
+    protected void chkis_showremark_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkis_showremark = (CheckBox)sender;
+        chk_txtremark_name.Visible = chkis_showremark.Checked;
+
+
+
+    }
+    //勾選改變時要必填
+    protected void chkis_showteam_fix2_CheckedChanged(object sender, EventArgs e)
+    {
+        CheckBox chkis_showteam_fix2 = (CheckBox)sender;
+        chk_txtteamextcount_min.Visible = chkis_showteam_fix2.Checked;
+        chk_txtteamextcount_min2.Visible = chkis_showteam_fix2.Checked;
+
+        chk_txtteamextcount_max.Visible = chkis_showteam_fix2.Checked;
+        chk_txtteamextcount_max2.Visible = chkis_showteam_fix2.Checked;
+    }
+
     //存檔
     protected void Wizard1_FinishButtonClick(object sender, WizardNavigationEventArgs e)
     {
-
         if (MyFormMode == FormViewMode.ReadOnly)
         {
-            Response.Redirect("ActivityManagementQuery.aspx");
+            Response.Redirect("ActivityEditQuery.aspx");
         }
 
         ACMS.VO.ActivatyVO myActivatyVO = new ACMS.VO.ActivatyVO();
@@ -297,9 +295,6 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             myActivatyVO.personextcount_max = Convert.ToInt32(((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text);
             myActivatyVO.personextcount_min = Convert.ToInt32(((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text);
         }
-
-
-
             myActivatyVO.is_showidno = ((CheckBox)FormView2.FindControl("chkis_showidno")).Checked == true ? "Y" : "N";
             myActivatyVO.is_showremark = ((CheckBox)FormView2.FindControl("chkis_showremark")).Checked == true ? "Y" : "N";
             myActivatyVO.remark_name = ((TextBox)FormView2.FindControl("txtremark_name")).Text;
@@ -317,29 +312,19 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.notice = txtnotice.Text;
         myActivatyVO.active = "Y";
 
-        if (MyFormMode == FormViewMode.Insert)
-        {
-            myActivatyVO.ticket_id = 0;
-            myActivatyVO.acept_ticket_id = myActivatyVO.limit_count + myActivatyVO.limit2_count;
-        }
-
         try
         {
             ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
             myActivatyDAO.UpdateActivaty(myActivatyVO);
 
-            Response.Redirect("ActivityManagementQuery.aspx");
+            Response.Redirect("ActivityEditQuery.aspx");
         }
         catch (Exception ex)
         {
-
             clsMyObj.ShowMessage("存檔失敗!");
-
         }
 
     }
-
-
 
 }
 
@@ -389,12 +374,6 @@ public partial class WebForm_ManageActivity_ActivityEdit
 //族群限定
 public partial class WebForm_ManageActivity_ActivityEdit
 {
-    //開啟族群限定新增
-    protected void btnAddGroupLimit_Click(object sender, EventArgs e)
-    {
-        OpenEmployeeSelector1.InitDataAndShow(ActivityID);
-    }
-
     //上傳族群限定名單
     protected void btnUpload_GroupLimit_Click(object sender, EventArgs e)
     {
@@ -440,7 +419,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
                     //}
 
                     dataRow["activity_id"] = ActivityID;
-                    dataRow["emp_id"] = row.GetCell(0).ToString();
+                    dataRow["emp_id"] = row.GetCell(0).ToString() + row.GetCell(1).ToString();
 
                     table.Rows.Add(dataRow);
 
@@ -454,8 +433,6 @@ public partial class WebForm_ManageActivity_ActivityEdit
 
                 GridView_GroupLimit.DataBind();
 
-
-
             }
             catch (Exception ex)
             {
@@ -464,6 +441,12 @@ public partial class WebForm_ManageActivity_ActivityEdit
             }
 
         }
+    }
+
+    //開啟族群限定新增
+    protected void btnAddGroupLimit_Click(object sender, EventArgs e)
+    {
+        OpenEmployeeSelector1.InitDataAndShow(ActivityID);
     }
 
     //選取人員之後
@@ -532,8 +515,13 @@ public partial class WebForm_ManageActivity_ActivityEdit
 
         if (table != null && table.Rows.Count > 0)
         {
-            table.Columns.RemoveAt(0);
+            //table.Columns.RemoveAt(0);
             table.Columns[0].ColumnName = "員工編號";
+            table.Columns[1].ColumnName = "員工姓名";
+            table.Columns[2].ColumnName = "分機";
+            table.Columns[3].ColumnName = "Email";
+            table.Columns[4].ColumnName = "部門編號";
+            table.Columns[5].ColumnName = "部門名稱";
 
             // 產生 Excel 資料流。
             MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;
@@ -589,10 +577,10 @@ public partial class WebForm_ManageActivity_ActivityEdit
         set { ViewState["ActivityType"] = value; }
     }
 
-    public bool IsShowEdit(object objTMP)
-    {
-        return Convert.ToBoolean(objTMP);
+    //public bool IsShowEdit(object objTMP)
+    //{
+    //    return Convert.ToBoolean(objTMP);
 
-    }
+    //}
 }
 

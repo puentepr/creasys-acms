@@ -12,7 +12,8 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
-        StepPreviousButtonText="上一步" OnFinishButtonClick="Wizard1_FinishButtonClick">
+        StepPreviousButtonText="上一步" 
+        OnFinishButtonClick="Wizard1_FinishButtonClick">
         <WizardSteps>
             <asp:WizardStep runat="server" Title="Step 1">
                 <FTB:FreeTextBox ID="FTB_FreeTextBox" runat="server" AllowHtmlMode="False" AssemblyResourceHandlerPath=""
@@ -54,7 +55,7 @@
                                     <asp:RequiredFieldValidator ID="chk_ddlorg_id" runat="server" ControlToValidate="ddlorg_id"
                                         Display="Dynamic" ErrorMessage="活動主辦單位必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                     <asp:ObjectDataSource ID="ObjectDataSource_Unit" runat="server" OldValuesParameterFormatString="original_{0}"
-                                        SelectMethod="SelectActivatyByActivatyID" TypeName="ACMS.BO.UnitBO"></asp:ObjectDataSource>
+                                        SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                                 </td>
                             </tr>
                             <tr>
@@ -99,8 +100,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <asp:Label ID="lbllimit_count" runat="server" Text="活動人數上限 " Visible="False"></asp:Label>
-                                    <asp:Label ID="lbllimit_count_team" runat="server" Text="活動隊數上限 " Visible="False"></asp:Label>
+                                    <asp:Literal ID="lbllimit_count" runat="server" Visible="False">活動人數上限</asp:Literal>
+                                    <asp:Literal ID="lbllimit_count_team" runat="server" Visible="False">活動隊數上限</asp:Literal>
                                 </td>
                                 <td>
                                     <asp:TextBox ID="txtlimit_count" runat="server" Text='<%# Bind("limit_count") %>' />
@@ -112,8 +113,8 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <asp:Label ID="lbllimit2_count" runat="server" Text="活動備取人數 " Visible="False"></asp:Label>
-                                    <asp:Label ID="lbllimit2_count_team" runat="server" Text="活動備取隊數" Visible="False"></asp:Label>
+                                    <asp:Literal ID="lbllimit2_count" runat="server" Visible="False">活動備取人數</asp:Literal>
+                                    <asp:Literal ID="lbllimit2_count_team" runat="server" Visible="False">活動備取隊數</asp:Literal>
                                 </td>
                                 <td>
                                     <asp:TextBox ID="txtlimit2_count" runat="server" Text='<%# Bind("limit2_count") %>' />
@@ -179,6 +180,10 @@
                                     <asp:CompareValidator ID="chk_txtregist_deadline2" runat="server" ControlToValidate="txtregist_deadline"
                                         Display="Dynamic" ErrorMessage="報名截止日格式不正確" Operator="DataTypeCheck" Type="Date"
                                         ValidationGroup="WizardNext"></asp:CompareValidator>
+                                    <asp:CompareValidator ID="chk_txtregist_deadline3" runat="server" 
+                                        ControlToCompare="txtregist_startdate" ControlToValidate="txtregist_deadline" 
+                                        Display="Dynamic" ErrorMessage="報名開始日不可晚於報名截止日" Operator="GreaterThanEqual" 
+                                        Type="Date" ValidationGroup="WizardNext"></asp:CompareValidator>
                                 </td>
                             </tr>
                             <tr>
@@ -194,6 +199,11 @@
                                         ErrorMessage="取消報名截止日必填" Display="Dynamic" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                     <asp:CompareValidator ID="chk_txtcancelregist_deadline2" runat="server" ControlToValidate="txtcancelregist_deadline"
                                         ErrorMessage="取消報名截止日格式不正確" Operator="DataTypeCheck" Type="Date" Display="Dynamic"
+                                        ValidationGroup="WizardNext"></asp:CompareValidator>
+                                    <asp:CompareValidator ID="chk_txtcancelregist_deadline3" runat="server" 
+                                        ControlToCompare="txtregist_deadline" 
+                                        ControlToValidate="txtcancelregist_deadline" Display="Dynamic" 
+                                        ErrorMessage="報名截止日不可晚於取消報名截止日" Operator="GreaterThanEqual" Type="Date" 
                                         ValidationGroup="WizardNext"></asp:CompareValidator>
                                 </td>
                             </tr>
@@ -235,14 +245,14 @@
                                                     <asp:LinkButton ID="lbtnFileDownload" runat="server" CommandArgument='<%# Eval("path") %>'
                                                         OnClick="lbtnFileDownload_Click">下載</asp:LinkButton>
                                                 </ItemTemplate>
-                                                <ItemStyle Width="50px" />
+                                                <ItemStyle Width="50px" HorizontalAlign="Center" />
                                             </asp:TemplateField>
                                             <asp:TemplateField>
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnFileDelete" runat="server" CommandArgument='<%# Eval("path") %>'
                                                         OnClientClick="return confirm('確定要刪除嗎?')" OnClick="lbtnFileDelete_Click">刪除</asp:LinkButton>
                                                 </ItemTemplate>
-                                                <ItemStyle Width="50px" />
+                                                <ItemStyle Width="50px" HorizontalAlign="Center" />
                                             </asp:TemplateField>
                                         </Columns>
                                     </TServerControl:TGridView>
@@ -299,16 +309,24 @@
                                         <br />
                                     </div>
                                 </asp:Panel>
-                                <asp:Panel ID="PanelCustomFieldB1" runat="server" GroupingText="個人固定欄位1" Width="500">
+                                <asp:Panel ID="PanelCustomFieldB1" runat="server" GroupingText="個人固定欄位" Width="500">
                                     <TServerControl:TCheckBoxYN ID="chkis_showidno" runat="server" Text="身分證字號" YesNo='<%# Bind("is_showidno") %>' />
                                     <asp:UpdatePanel ID="UpdatePanelB" runat="server" UpdateMode="Conditional">
                                         <ContentTemplate>
-                                            <TServerControl:TCheckBoxYN ID="chkis_showremark" runat="server" Text="備註" YesNo='<%# Bind("is_showremark") %>'
-                                                AutoPostBack="True" OnCheckedChanged="chkis_showremark_CheckedChanged" />
-                                            </div> &nbsp; 備註顯示名稱<asp:TextBox ID="txtremark_name" runat="server" Text='<%# Bind("remark_name") %>'
-                                                Width="50px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="chk_txtremark_name" runat="server" ControlToValidate="txtremark_name"
-                                                Display="Dynamic" ErrorMessage="備註顯示名稱必填" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                                            <table>
+                                                <tr>
+                                                    <td>
+                                                        <TServerControl:TCheckBoxYN ID="chkis_showremark" runat="server" AutoPostBack="True"
+                                                            OnCheckedChanged="chkis_showremark_CheckedChanged" Text="備註" YesNo='<%# Bind("is_showremark") %>' />
+                                                    </td>
+                                                    <td>
+                                                        &nbsp; 備註顯示名稱<asp:TextBox ID="txtremark_name" runat="server" Text='<%# Bind("remark_name") %>'
+                                                            Width="50px"></asp:TextBox>
+                                                        <asp:RequiredFieldValidator ID="chk_txtremark_name" runat="server" ControlToValidate="txtremark_name"
+                                                            Display="Dynamic" ErrorMessage="備註顯示名稱必填" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                         </ContentTemplate>
                                     </asp:UpdatePanel>
                                     <br />
@@ -324,12 +342,14 @@
                                                     Text='<%# Bind("teamextcount_max") %>' Width="50px"></asp:TextBox>
                                             人
                                             <asp:RequiredFieldValidator ID="chk_txtteamextcount_min" runat="server" ControlToValidate="txtteamextcount_min"
-                                                Display="Dynamic" ErrorMessage="攜伴人數限制必填" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                                                Display="Dynamic" ErrorMessage="最少攜伴人數限制必填" ValidationGroup="WizardNext" 
+                                                Visible="False"></asp:RequiredFieldValidator>
                                             <asp:CompareValidator ID="chk_txtteamextcount_min2" runat="server" ControlToValidate="txtteamextcount_min"
                                                 ErrorMessage="攜伴人數限制必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
                                                 Visible="False" Display="Dynamic"></asp:CompareValidator>
                                             <asp:RequiredFieldValidator ID="chk_txtteamextcount_max" runat="server" ControlToValidate="txtteamextcount_max"
-                                                Display="Dynamic" ErrorMessage="攜伴人數限制必填" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
+                                                Display="Dynamic" ErrorMessage="最多攜伴人數限制必填" ValidationGroup="WizardNext" 
+                                                Visible="False"></asp:RequiredFieldValidator>
                                             <asp:CompareValidator ID="chk_txtteamextcount_max2" runat="server" ControlToValidate="txtteamextcount_max"
                                                 ErrorMessage="攜伴人數限制必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
                                                 Visible="False" Display="Dynamic"></asp:CompareValidator>
@@ -406,7 +426,7 @@
                                     </asp:TemplateField>
                                     <asp:TemplateField HeaderStyle-Width="80px">
                                         <ItemTemplate>
-                                            <asp:LinkButton ID="lbtnEditItem" runat="server" Visible='<%# IsShowEdit( Eval("IsShowEdit") ) %>'
+                                            <asp:LinkButton ID="lbtnEditItem" runat="server" Visible='<%# Eval("IsShowEdit")%>'
                                                 OnClick="lbtnEditItem_Click" CommandArgument='<%# Eval("field_id") %>'>編輯選項</asp:LinkButton>
                                         </ItemTemplate>
                                         <HeaderStyle Width="80px"></HeaderStyle>
