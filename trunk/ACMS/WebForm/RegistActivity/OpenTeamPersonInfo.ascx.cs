@@ -14,33 +14,24 @@ public partial class WebForm_RegistActivity_OpenTeamPersonInfo : System.Web.UI.U
 
     protected void Page_Load(object sender, EventArgs e)
     {
-    }
 
-    protected void btnQuery_Click(object sender, EventArgs e)
-    {
-        this.mpSearch.Show();
 
-        //ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
-        //ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
-        //ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-
-        //GridView_Employee.DataBind();
     }
 
 
-    protected void GridView_Employee_PageIndexChanged(object sender, EventArgs e)
-    {
-        this.mpSearch.Show();   
-    }
 
     protected void btnOK_Click(object sender, EventArgs e)
     {
-        if (clsMyObj.IDChk(txtidno.Text) != "0")
+        if (rblidno_type.SelectedIndex == 0)
         {
-            clsMyObj.ShowMessage("身分證字號格式不正確!");
-            this.mpSearch.Show();  
-            return;
+            if (clsMyObj.IDChk(txtidno.Text) != "0")
+            {
+                clsMyObj.ShowMessage("身分證字號格式不正確!");
+                this.mpSearch.Show();
+                return;
+            }
         }
+
 
         UC_ActivityTeamMemberVO.WritePersonInfo = "是";
         UC_ActivityTeamMemberVO.idno_type = rblidno_type.SelectedIndex;
@@ -52,6 +43,21 @@ public partial class WebForm_RegistActivity_OpenTeamPersonInfo : System.Web.UI.U
             GetTeamPersonInfoClick(this, e);
         }
       
+    }
+
+    protected void rblidno_type_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        this.mpSearch.Show();   
+
+        if(rblidno_type.SelectedIndex==0)
+        {
+            chk_txtidno.ErrorMessage = "身分證字號必填";
+        }
+        else
+        {
+            chk_txtidno.ErrorMessage = "護照號碼必填";
+        }
+
     }
 }
 

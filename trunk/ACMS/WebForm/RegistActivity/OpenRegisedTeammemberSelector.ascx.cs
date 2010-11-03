@@ -1,0 +1,206 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+
+public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System.Web.UI.UserControl
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+    }
+
+
+    protected void btnOK_Click(object sender, EventArgs e)
+    {
+        string emp_id = "";
+
+        foreach (GridViewRow gvr in GridView1.Rows)
+        {
+            if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true)
+            {
+                emp_id += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
+            }
+
+            if (emp_id.EndsWith(","))
+            {
+                emp_id = emp_id.Substring(0, emp_id.Length - 1);
+            }
+        }
+
+        if (!string.IsNullOrEmpty(emp_id))
+        {
+            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null,null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline);
+            
+            GridView1.DataBind();  
+ 
+            if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
+            {
+                clsMyObj.ShowMessage("取消報名完成。");
+            }
+            else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail_DayOver)
+            {
+                clsMyObj.ShowMessage("取消報名截止日之後無法取消報名!。");
+            }
+            else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail)
+            {
+                clsMyObj.ShowMessage("取消報名失敗!。");
+            }     
+        
+        }
+
+
+
+
+
+
+
+    }
+    protected void GridView1_PageIndexChanged(object sender, EventArgs e)
+    {
+        this.mpSearch.Show();   
+    }
+
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            RadioButton RadioButton1 = (RadioButton)e.Row.FindControl("RadioButton1");
+            CheckBox CheckBox1 = (CheckBox)e.Row.FindControl("CheckBox1");
+
+            //给每个RadioButton1绑定setRadio事件
+            try
+            {
+                RadioButton1.Attributes.Add("onclick", "setRadio_GridView1(this)");
+            }
+            catch (Exception)
+            { }
+
+            DataRowView drv = (DataRowView)e.Row.DataItem;
+
+            //隊長
+            if (drv["emp_id"].ToString() == drv["boss_id"].ToString())
+            {
+                RadioButton1.Checked = true;
+            }
+
+            //是隊長才能更改誰當新隊長
+            RadioButton1.Enabled = (this.IsTeamBoss == "1");
+
+            
+            if (this.IsTeamBoss == "1")
+            {
+                //隊長不能取消自己，但可以取消其他任何人
+                if (drv["emp_id"].ToString() == clsAuth.ID)
+                {
+                    CheckBox1.Enabled = false;
+                }
+                else
+                {
+                    CheckBox1.Enabled = true;
+                }
+            }
+            else
+            {
+                //非隊長只能幫自己取消報名，並且預設勾選自己
+                CheckBox1.Enabled = (drv["emp_id"].ToString() == clsAuth.ID);
+                CheckBox1.Checked = (drv["emp_id"].ToString() == clsAuth.ID);
+            }
+
+        }
+    }
+    protected void RadioButton1_CheckedChanged(object sender, EventArgs e)
+    {
+        this.mpSearch.Show();  
+
+        //RadioButton RadioButton1 = sender as RadioButton;
+        //RadioButton1.Checked = true;
+
+        //更改隊長
+        ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
+
+
+        myActivityTeamMemberDAO.ChangeBoss(new Guid(activity_id), GridView1.DataKeys[((sender as RadioButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+
+
+        if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
+        {
+            IsTeamBoss = "1";
+        }
+        else
+        {
+            IsTeamBoss = "0";
+        }
+
+
+
+
+        GridView1.DataBind();
+
+        //GridView_RegisterPeoplinfo.SelectedIndex = (RadioButton1.NamingContainer as GridViewRow).RowIndex;
+
+        //EmpID = GridView_RegisterPeoplinfo.DataKeys[GridView_RegisterPeoplinfo.SelectedIndex].Value.ToString();
+    }
+}
+
+public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector 
+{
+    public string activity_id
+    {
+        get { return (ViewState["activity_id"] == null ? "" : ViewState["activity_id"].ToString()); }
+        set { ViewState["activity_id"] = value; }
+    }
+
+    public string emp_id
+    {
+        get { return (ViewState["emp_id"] == null ? "" : ViewState["emp_id"].ToString()); }
+        set { ViewState["emp_id"] = value; }
+    }
+
+    public string IsTeamBoss
+    {
+        get { return (ViewState["IsTeamBoss"] == null ? "0" : ViewState["IsTeamBoss"].ToString()); }
+        set { ViewState["IsTeamBoss"] = value; }
+    }
+
+
+    public string regist_deadline
+    {
+        get { return (ViewState["regist_deadline"] == null ? "" : ViewState["regist_deadline"].ToString()); }
+        set { ViewState["regist_deadline"] = value; }
+    }
+
+    public string cancelregist_deadline
+    {
+        get { return (ViewState["cancelregist_deadline"] == null ? "" : ViewState["cancelregist_deadline"].ToString()); }
+        set { ViewState["cancelregist_deadline"] = value; }
+    }
+
+    public void InitDataAndShow()
+    {
+        ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
+        ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = emp_id;
+
+        ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
+
+        if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
+        {
+            IsTeamBoss = "1";
+        }
+        else
+        {
+            IsTeamBoss = "0";
+        }
+
+
+
+
+        GridView1.DataBind();
+
+
+
+        this.mpSearch.Show();    
+    }
+
+}

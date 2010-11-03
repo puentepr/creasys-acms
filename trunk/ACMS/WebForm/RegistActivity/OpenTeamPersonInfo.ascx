@@ -7,7 +7,9 @@
             <td>
                <table align="center" cellpadding="5" cellspacing="5">
                             <tr ID="tr_idno" runat="server">
-                                <td width="150" align="right"><asp:RadioButtonList ID="rblidno_type" runat="server" RepeatDirection="Horizontal">
+                                <td width="150" align="right"><asp:RadioButtonList ID="rblidno_type" runat="server" 
+                                        RepeatDirection="Horizontal" AutoPostBack="True" 
+                                        onselectedindexchanged="rblidno_type_SelectedIndexChanged">
                                         <asp:ListItem>身分證字號</asp:ListItem>
                                         <asp:ListItem>護照號碼</asp:ListItem>
                                     </asp:RadioButtonList>

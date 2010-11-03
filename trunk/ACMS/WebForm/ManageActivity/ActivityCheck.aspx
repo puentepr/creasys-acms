@@ -65,7 +65,7 @@
             <TServerControl:TGridView ID="GridView1" runat="server" AutoGenerateColumns="False"
                 DataSourceID="ObjectDataSource1" SkinID="pager" Width="100%" AllowHoverEffect="True"
                 AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                TotalRowCount="0" DataKeyNames="emp_id">
+                TotalRowCount="0" DataKeyNames="emp_id,activity_type">
                 <Columns>
                     <asp:TemplateField>
                         <ItemTemplate>

@@ -18,10 +18,10 @@ namespace ACMS.BO
 
         //2.可報名活動查詢
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable RegistActivityQuery(string activity_name, string activity_startdate, string activity_enddate, string activity_type, string emp_id)
+        public DataTable RegistActivity_Query(string activity_name, string activity_startdate, string activity_enddate, string activity_type, string emp_id)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            DataTable DT = mySelectorDAO.RegistActivityQuery(activity_name, activity_startdate, activity_enddate, activity_type, emp_id);
+            DataTable DT = mySelectorDAO.RegistActivity_Query(activity_name, activity_startdate, activity_enddate, activity_type, emp_id);
             clsMyObj.CheckFull(ref DT, false, false);
             return DT;
         }
@@ -55,15 +55,28 @@ namespace ACMS.BO
         public DataTable RegistedActivityQuery(string activity_name, string activity_startdate, string activity_enddate, string activity_enddate_finish, string emp_id)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistedActivityQuery(activity_name, activity_startdate, activity_enddate, activity_enddate_finish, emp_id);
+            DataTable dt1 = mySelectorDAO.RegistedActivityQuery(activity_name, activity_startdate, activity_enddate, activity_enddate_finish, emp_id, "1");
+            DataTable dt2 = mySelectorDAO.RegistedActivityQuery(activity_name, activity_startdate, activity_enddate, activity_enddate_finish, emp_id, "2");
+
+            dt1.Merge(dt2);
+
+            return dt1;
         }
 
         //4.1由我報名的人員選單
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable RegistByMeEmpSelector(Guid activity_id, string regist_by)
+        public DataTable RegistedByMeEmpSelector(Guid activity_id, string regist_by)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistByMeEmpSelector(activity_id, regist_by);
+            return mySelectorDAO.RegistedByMeEmpSelector(activity_id, regist_by);
+        }
+
+        
+        //4.2該活動與我同團隊的人員選單
+        public DataTable RegistedMyTeamMemberSelector(Guid activity_id, string emp_id)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            return mySelectorDAO.RegistedMyTeamMemberSelector(activity_id, emp_id);
         }
 
         //5.1活動進度查詢-所有活動列表

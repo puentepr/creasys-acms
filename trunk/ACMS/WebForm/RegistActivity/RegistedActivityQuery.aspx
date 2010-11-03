@@ -3,7 +3,10 @@
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
-<%@ Register src="OpenRegistByMeEmpSelector.ascx" tagname="OpenRegistByMeEmpSelector" tagprefix="uc1" %>
+<%@ Register Src="OpenRegistedByMeEmpSelector.ascx" TagName="OpenRegistedByMeEmpSelector"
+    TagPrefix="uc1" %>
+<%@ Register Src="OpenRegisedTeammemberSelector.ascx" TagName="OpenRegisedTeammemberSelector"
+    TagPrefix="uc2" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -58,8 +61,7 @@
                 <TServerControl:TGridView ID="GridView1" runat="server" DataKeyNames="id,activity_type"
                     DataSourceID="ObjectDataSource1" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
                     SkinID="pager" Width="100%" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False"
-                    AllowHoverEffect="True" AllowHoverSelect="True" TotalRowCount="0" 
-                    onrowdatabound="GridView1_RowDataBound">
+                    AllowHoverEffect="True" AllowHoverSelect="True" TotalRowCount="0" OnRowDataBound="GridView1_RowDataBound">
                     <Columns>
                         <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                         <asp:BoundField DataField="people_type" HeaderText="活動對象" SortExpression="people_type">
@@ -88,7 +90,8 @@
                         </asp:TemplateField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="lbtnRegistCancel" runat="server" OnClick="lbtnRegistCancel_Click" CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>'>取消報名</asp:LinkButton>
+                                <asp:LinkButton ID="lbtnRegistCancel" runat="server" OnClick="lbtnRegistCancel_Click"
+                                    CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>'>取消報名</asp:LinkButton>
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
@@ -104,7 +107,8 @@
                         <asp:Parameter Name="emp_id" Type="String" ConvertEmptyStringToNull="false" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
-                <uc1:OpenRegistByMeEmpSelector ID="OpenRegistByMeEmpSelector1" runat="server" />
+                <uc1:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />
+                               <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" />
             </div>
         </ContentTemplate>
     </asp:UpdatePanel>

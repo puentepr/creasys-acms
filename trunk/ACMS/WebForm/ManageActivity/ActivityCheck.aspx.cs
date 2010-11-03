@@ -99,7 +99,9 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
                         if (gvr.RowType == DataControlRowType.DataRow && (gvr.FindControl("CheckBox1") as CheckBox).Checked)
                         {
-                            string emp_id = GridView1.DataKeys[gvr.RowIndex].Value.ToString();
+                            string emp_id = GridView1.DataKeys[gvr.RowIndex].Values[0].ToString();
+                            string activity_type = GridView1.DataKeys[gvr.RowIndex].Values[1].ToString();
+                            
                             string status = ddlcheck_status.SelectedValue;
 
                             SqlParameter[] sqlParams = new SqlParameter[3];
@@ -113,7 +115,15 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
                             StringBuilder sb = new StringBuilder();
 
-                            sb.AppendLine("UPDATE ActivityRegist ");
+                            if (activity_type == "1")
+                            {
+                                sb.AppendLine("UPDATE ActivityRegist ");
+                            }
+                            else
+                            {
+                                sb.AppendLine("UPDATE ActivityTeamMember ");
+                            }
+               
                             sb.AppendLine("set check_status=@check_status ");
                             sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@emp_id; ");
 

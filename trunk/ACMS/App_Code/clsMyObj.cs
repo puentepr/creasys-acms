@@ -256,7 +256,14 @@ public class MySingleton
                         else
                         {
                             int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "insert");
-                            return AlterRegistResult.RegistSucess;
+                            if (intSaveResult == 1)
+                            {
+                                return AlterRegistResult.RegistSucess;
+                            }
+                            else
+                            {
+                                return AlterRegistResult.RegistFail;
+                            }
                         }
 
                     }
@@ -264,7 +271,14 @@ public class MySingleton
                 else
                 {
                     int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "update");
-                    return AlterRegistResult.RegistSucess;
+                    if (intSaveResult == 1)
+                    {
+                        return AlterRegistResult.RegistSucess;
+                    }
+                    else
+                    {
+                        return AlterRegistResult.RegistFail;
+                    }
                 }           
 
 
@@ -362,7 +376,14 @@ public class MySingleton
                 {
                     int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "update");
 
-                    return AlterRegistResult.RegistSucess;
+                    if (intSaveResult == 1)
+                    {
+                        return AlterRegistResult.RegistSucess;
+                    }
+                    else
+                    {
+                        return AlterRegistResult.RegistFail;
+                    }
                 }
 
 

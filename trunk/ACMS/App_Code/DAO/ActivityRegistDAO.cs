@@ -55,7 +55,7 @@ namespace ACMS.DAO
 
         }
 
-        //取得報名資訊-為了組成個人固定欄位
+        //取得報名資訊-個人活動   為了組成個人固定欄位
         public VO.ActivityRegistVO SelectActivityRegistByPK(Guid activity_id,string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -84,6 +84,46 @@ namespace ACMS.DAO
                 myActivityRegistVO.emp_id = (string)MyDataReader["emp_id"];
                 myActivityRegistVO.regist_by = (string)MyDataReader["regist_by"];
                 myActivityRegistVO.idno = (string)MyDataReader["idno"];
+                myActivityRegistVO.ext_people = (int?)(MyDataReader["ext_people"] == DBNull.Value ? null : MyDataReader["ext_people"]);
+                myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
+                myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
+            }
+
+            return myActivityRegistVO;
+
+        }
+
+
+        //取得報名資訊-團隊活動 登入者帳號-團長帳號 找出報名資訊
+        public VO.ActivityRegistVO SelectActivityRegistByMemberID(Guid activity_id, string member_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@member_id", SqlDbType.NVarChar, 100);
+            sqlParams[1].Value = member_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT * ");
+            sb.AppendLine("FROM ActivityRegist ");
+            sb.AppendLine("WHERE 1=1 ");
+            sb.AppendLine("AND activity_id=@activity_id ");
+            sb.AppendLine("AND emp_id=(SELECT boss_id FROM ActivityTeamMember WHERE emp_id=@member_id and activity_id=@activity_id) ");
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
+
+            while (MyDataReader.Read())
+            {
+                myActivityRegistVO.id = (int)MyDataReader["id"];
+                myActivityRegistVO.activity_id = (Guid)MyDataReader["activity_id"];
+                myActivityRegistVO.emp_id = (string)MyDataReader["emp_id"];
+                myActivityRegistVO.regist_by = (string)MyDataReader["regist_by"];
+                myActivityRegistVO.idno = (string)MyDataReader["idno"];
+                myActivityRegistVO.team_name = (string)MyDataReader["team_name"];
                 myActivityRegistVO.ext_people = (int?)(MyDataReader["ext_people"] == DBNull.Value ? null : MyDataReader["ext_people"]);
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
@@ -236,7 +276,7 @@ namespace ACMS.DAO
                 sb.AppendLine(",idno=@idno ");
                 sb.AppendLine(",team_name=@team_name ");
                 sb.AppendLine(",ext_people=@ext_people ");
-                sb.AppendLine("WHERE id=@id; ");
+                sb.AppendLine("WHERE activity_d=@activity_d; ");
 
             }
 

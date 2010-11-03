@@ -75,7 +75,7 @@ using System.Collections.Generic;
                 clsAuth.C_NAME = DR["C_NAME"].ToString();
 
                 //取得角色ID與角色名稱
-                UserData = CheckRole(LoginID);
+                UserData = CheckRole(DR["ID"].ToString());
 
                 return true;
             }

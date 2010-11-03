@@ -2,7 +2,7 @@
     CodeFile="RegistActivity_Person.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Person"
     Title="未命名頁面" %>
 
-<%@ Register Src="RegistActivityQuery.ascx" TagName="RegistActivityQuery" TagPrefix="uc1" %>
+<%@ Register Src="RegistActivity_Query.ascx" TagName="RegistActivity_Query" TagPrefix="uc1" %>
 <%@ Register Src="OpenAgentSelector.ascx" TagName="OpenAgentSelector"
     TagPrefix="uc4" %>
 <%@ Register Src="../DatetimePicker.ascx" TagName="DatetimePicker" TagPrefix="uc3" %>
@@ -11,7 +11,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
+    <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
         ActivityType="1" />
     <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="2"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
@@ -87,7 +87,7 @@
                                         <asp:Label ID="limit2_countLabel" runat="server" Text='<%# Bind("limit2_count") %>' />
                                     </td>
                                 </tr>
-                                <tr id="trteam_member_max" runat="server">
+<%--                                <tr id="trteam_member_max" runat="server">
                                     <td>
                                         每隊人數限制
                                     </td>
@@ -95,7 +95,7 @@
                                         <asp:Label ID="team_member_minLabel" runat="server" Text='<%# Bind("team_member_min") %>' />
                                         ~<asp:Label ID="team_member_maxLabel" runat="server" Text='<%# Bind("team_member_max") %>' />
                                     </td>
-                                </tr>
+                                </tr>--%>
                                 <tr>
                                     <td style="height: 23px">
                                         報名日期
@@ -222,8 +222,13 @@
                                         <table>
                                             <tr id="tr_person_fix1" runat="server">
                                                 <td width="150">
-                                                    身分證字號/護照號碼
-                                                </td>
+                                                    <asp:RadioButtonList ID="rblidno_type" runat="server" AutoPostBack="True" 
+                                                        onselectedindexchanged="rblidno_type_SelectedIndexChanged" 
+                                                        RepeatDirection="Horizontal" SelectedIndex='<%# Bind("idno_type") %>'>
+                                                        <asp:ListItem Selected="True">身分證字號</asp:ListItem>
+                                                        <asp:ListItem>護照號碼</asp:ListItem>
+                                                    </asp:RadioButtonList>
+&nbsp;</td>
                                                 <td width="200">
                                                     <asp:TextBox ID="txtperson_fix1" runat="server" Text='<%# Bind("idno") %>'></asp:TextBox>
                                                     <asp:RequiredFieldValidator ID="chk_txtperson_fix1" runat="server" ControlToValidate="txtperson_fix1"

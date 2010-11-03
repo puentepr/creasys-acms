@@ -64,9 +64,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     //新增報名
     protected void GoSecondStep_Click(object sender, RegistGoSecondEventArgs e)
     {
-        Wizard1.MoveTo(Wizard1.WizardSteps[0]);
 
-        RegistActivityQuery1.Visible = false;
+
+        RegistActivity_Query1.Visible = false;
         Wizard1.Visible = true;
 
         //必要屬性
@@ -95,6 +95,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         myActivityTeamMemberVO.C_DEPT_ABBR = clsAuth.C_DEPT_ABBR;
         myActivityTeamMemberVO.WritePersonInfo = "否";
 
+        //新增時，預設帶入登入者當團長
         if (!Page_ActivityTeamMemberVOList.Exists(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == myActivityTeamMemberVO.emp_id; }))
         {
             Page_ActivityTeamMemberVOList.Add(myActivityTeamMemberVO);
@@ -103,29 +104,63 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
         GridView_TemMember.DataBind();
 
+        Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+
     }
 
 
     //編輯
     protected void GoThirdStep_Click(object sender, RegistGoSecondEventArgs e)
     {
-        Wizard1.MoveTo(Wizard1.WizardSteps[1]);
-
-        RegistActivityQuery1.Visible = false;
+        RegistActivity_Query1.Visible = false;
         Wizard1.Visible = true;
 
         //必要屬性
-        MyFormMode = FormViewMode.Insert;
-        ActivityID = new Guid(Session["activity_id"].ToString());
-        EmpID = clsAuth.ID;//預設是登入者 為了讓FormView顯示
-        RegistBy = clsAuth.ID;//執行是登入者
-
         MyFormMode = FormViewMode.Edit;
+        ActivityID = new Guid(Session["activity_id"].ToString());
+
+        //載入報名資訊
+        ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+        ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
+
+        myActivityRegistVO = myActivityRegistDAO.SelectActivityRegistByMemberID(ActivityID, clsAuth.ID);
+
+        EmpID = myActivityRegistVO.emp_id;
+        RegistBy = myActivityRegistVO.regist_by;
 
         MyHiddenField.Value = ActivityID.ToString();
 
+        txtteam_name.Text = myActivityRegistVO.team_name;
+        txtext_people.Text = myActivityRegistVO.ext_people.ToString();
+
+
+        //不是團長不可編輯
+        if (EmpID != clsAuth.ID)
+        {
+            txtteam_name.Enabled = false;
+            txtext_people.Enabled = false;
+        }
+
         //載入活動資訊
         GetActivityDefault();
+
+
+        //編輯時，帶入資料庫資料
+
+        ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
+
+        Page_ActivityTeamMemberVOList =  myActivityTeamMemberDAO.SelectActivityTeamMember(ActivityID);
+
+        GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
+        GridView_TemMember.DataBind();
+
+
+        Wizard1.MoveTo(Wizard1.WizardSteps[1]);
+
+        InitQueryBlock(ActivityID.ToString());
+
+        //編輯時載入動態欄位資料
+        GetDynamicValue();
 
     }
 
@@ -256,9 +291,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     //顯示活動資訊
     protected void FormView_ActivatyDetails_DataBound(object sender, EventArgs e)
     {
-        //隱藏每隊人數限制
-        (FormView_ActivatyDetails.FindControl("trteam_member_max")).Visible = false;
-
         //檔案下載是否出現
         DataRowView drv = (DataRowView)FormView_ActivatyDetails.DataItem;
 
@@ -338,20 +370,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     }
 
     //隊員RowDataBound
-    protected void GridView_RegisterPeoplinfo_RowDataBound(object sender, GridViewRowEventArgs e)
+    protected void GridView_TemMember_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        //RadioButton RadioButton1 = (RadioButton)e.Row.FindControl("RadioButton1");
-        ////给每个RadioButton1绑定setRadio事件
-        //try
-        //{
-        //    RadioButton1.Attributes.Add("onclick", "setRadio(this)");
-        //}
-        //catch (Exception)
-        //{ }
 
-        //團長不可刪除
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
+
+            //團長不可被刪除
             ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = (ACMS.VO.ActivityTeamMemberVO)(e.Row.DataItem);
 
             if (myActivityTeamMemberVO.emp_id == myActivityTeamMemberVO.boss_id)
@@ -359,7 +384,25 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
                 (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
             }
 
+
+
+            //團長能改大家的資料，但是團員只能改自己的資料
+            if (EmpID != clsAuth.ID)
+            {
+                if (GridView_TemMember.DataKeys[e.Row.RowIndex].Value.ToString() != clsAuth.ID)
+                {
+                    (e.Row.FindControl("lbtnVOedit") as LinkButton).Visible = false;
+
+                }
+                (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
+            }
+
+
+
+
         }
+
+
 
 
 
@@ -741,6 +784,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
 
 
+
 }
 
 
@@ -753,7 +797,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
         if (!string.IsNullOrEmpty(activity_id))
         { 
-
             ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
             List<ACMS.VO.CustomFieldVO> myCustomFieldVOList = new List<ACMS.VO.CustomFieldVO>();
             myCustomFieldVOList = myCustomFieldDAO.SelectByActivity_id(new Guid(activity_id));
@@ -780,11 +823,19 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
                     //Control
                     Control MyControl = new Control();
+                    Control MyControl_chk = new Control();
 
                     if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOX")
                     {
                         MyControl = new TextBox();
                         MyControl.ID = string.Format("txt{0}", myCustomFieldVO.field_id);
+
+                        MyControl_chk = new RequiredFieldValidator();
+                        MyControl_chk.ID = string.Format("chk_txt{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as RequiredFieldValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as RequiredFieldValidator).ValidationGroup = "WizardNext";
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOXLIST")
                     {
@@ -796,6 +847,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         (MyControl as TCheckBoxList).ClearSelection();
                         //(MyControl as TCheckBoxList).EnableViewState = false;
 
+                        MyControl_chk = new TCheckBoxListRequiredValidator();
+                        MyControl_chk.ID = string.Format("chk_plh{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
+
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "CHECKBOXLIST")
                     {
@@ -806,6 +864,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl.ID = string.Format("cbl{0}", myCustomFieldVO.field_id);
                         (MyControl as TCheckBoxList).ClearSelection();
                         //(MyControl as TCheckBoxList).EnableViewState = false;
+
+                        MyControl_chk = new TCheckBoxListRequiredValidator();
+                        MyControl_chk.ID = string.Format("chk_cbl{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "RADIOBUTTONLIST")
                     {
@@ -816,6 +881,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl.ID = string.Format("radl{0}", myCustomFieldVO.field_id);
                         (MyControl as TRadioButtonList).ClearSelection();
                         //(MyControl as TRadioButtonList).EnableViewState = false;
+
+                        MyControl_chk = new RequiredFieldValidator();
+                        MyControl_chk.ID = string.Format("chk_radl{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as RequiredFieldValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as RequiredFieldValidator).ValidationGroup = "WizardNext";
                     }
 
                     //每個 ORG_field_name 長出選項
@@ -845,6 +917,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                     }
 
                     MyTableCell_Control.Controls.Add(MyControl);
+                    MyTableCell_Control.Controls.Add(MyControl_chk);
 
                     if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOXLIST")
                     {

@@ -1,9 +1,10 @@
 <%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
     CodeFile="ActivityQuery.aspx.cs" Inherits="WebForm_ActivityQuery" %>
 
-<%@ Register src="OpenNameList.ascx" tagname="OpenNameList" tagprefix="uc1" %>
+<%--<%@ Register src="OpenNameList.ascx" tagname="OpenNameList" tagprefix="uc1" %>--%>
 
-<%@ Register src="../RegistActivity/OpenRegistByMeEmpSelector.ascx" tagname="OpenRegistByMeEmpSelector" tagprefix="uc2" %>
+<%@ Register src="../RegistActivity/OpenRegistedByMeEmpSelector.ascx" tagname="OpenRegistedByMeEmpSelector" tagprefix="uc2" %>
+<%@ Register src="../RegistActivity/OpenRegisedTeammemberSelector.ascx" tagname="OpenRegisedTeammemberSelector" tagprefix="uc3" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
 </asp:Content>
@@ -108,5 +109,6 @@
             <asp:Parameter Name="querytype" Type="String" ConvertEmptyStringToNull="false" />
         </SelectParameters>
     </asp:ObjectDataSource>
-    <uc2:OpenRegistByMeEmpSelector ID="OpenRegistByMeEmpSelector1" runat="server" />
+    <uc2:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />
+        <uc3:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" />
 </asp:Content>

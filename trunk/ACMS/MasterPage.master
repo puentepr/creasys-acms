@@ -73,6 +73,24 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     }
                 }
             }
+
+            function setRadio_GridView1(nowRadio) {
+                var myForm, objRadio;
+                myForm = document.forms[0];
+                /**////alert(myForm);
+                for (var i = 0; i < myForm.length; i++) {
+                    if (myForm.elements[i].type == "radio") {
+                        objRadio = myForm.elements[i];
+                        /**////alert(objRadio.name);
+                        if (objRadio != nowRadio && objRadio.name.indexOf("GridView1") > -1 && objRadio.name.indexOf("RadioButton1") > -1) {
+                            //alert(objRadio.name);
+                            if (objRadio.checked) {
+                                objRadio.checked = false;
+                            }
+                        }
+                    }
+                }
+            }
     </script>
 
     <style>

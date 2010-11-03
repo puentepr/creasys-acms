@@ -19,13 +19,14 @@
                 </asp:ObjectDataSource>
                 &nbsp;<asp:DataList ID="DataList1" runat="server" DataSourceID="ObjectDataSource_ActivityProcessQuery"
                     RepeatColumns="3" CellPadding="4" ForeColor="#333333" GridLines="Both"
-                    OnItemDataBound="DataList1_ItemDataBound" ShowFooter="False" ShowHeader="False">                
+                    OnItemDataBound="DataList1_ItemDataBound" ShowFooter="False" 
+                    ShowHeader="False" DataKeyField="emp_id">                
                     <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
                     <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" />
                     <ItemTemplate>
              
                          <asp:Label ID="NATIVE_NAMELabel" runat="server" Text='<%# Eval("NATIVE_NAME") %>' />                     
-                                   (<asp:Label ID="emp_idLabel" runat="server" Text='<%# Eval("emp_id") %>' />)-
+                                   (<asp:Label ID="emp_idLabel" runat="server" Text='<%# Eval("WORK_ID") %>' />)-
                         <asp:Label ID="check_statusLabel" runat="server" Text='<%# Eval("check_status") %>' />
                     </ItemTemplate>
                 </asp:DataList>

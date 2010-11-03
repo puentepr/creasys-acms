@@ -93,15 +93,19 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
 
         if (activity_type == "1")
         {
-            OpenRegistByMeEmpSelector1.activity_id = activity_id;
-            OpenRegistByMeEmpSelector1.regist_by = clsAuth.ID;
-            OpenRegistByMeEmpSelector1.regist_deadline =regist_deadline;
-            OpenRegistByMeEmpSelector1.cancelregist_deadline = cancelregist_deadline;
-            OpenRegistByMeEmpSelector1.InitDataAndShow();
+            OpenRegistedByMeEmpSelector1.activity_id = activity_id;
+            OpenRegistedByMeEmpSelector1.regist_by = clsAuth.ID;
+            OpenRegistedByMeEmpSelector1.regist_deadline =regist_deadline;
+            OpenRegistedByMeEmpSelector1.cancelregist_deadline = cancelregist_deadline;
+            OpenRegistedByMeEmpSelector1.InitDataAndShow();
         }
         else
         {
-            Response.Redirect("RegistActivity_Team.aspx");
+            OpenRegisedTeammemberSelector1.activity_id = activity_id;
+            OpenRegisedTeammemberSelector1.emp_id = clsAuth.ID;
+            OpenRegisedTeammemberSelector1.regist_deadline = regist_deadline;
+            OpenRegisedTeammemberSelector1.cancelregist_deadline = cancelregist_deadline;
+            OpenRegisedTeammemberSelector1.InitDataAndShow();
         }
 
 

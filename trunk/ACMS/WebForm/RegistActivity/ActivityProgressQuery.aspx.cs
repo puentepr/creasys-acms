@@ -22,7 +22,7 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : System.Web.U
     }
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
     {
-        if ((e.Item.FindControl("emp_idLabel") as Label).Text ==clsAuth.ID)
+        if (DataList1.DataKeys[e.Item.ItemIndex].ToString() ==clsAuth.ID)
         {
             e.Item.BackColor = System.Drawing.Color.Yellow;
         }

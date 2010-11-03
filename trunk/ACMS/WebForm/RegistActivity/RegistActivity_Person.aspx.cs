@@ -66,7 +66,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     {
         Wizard1.MoveTo(Wizard1.WizardSteps[0]);
 
-        RegistActivityQuery1.Visible = false;
+        RegistActivity_Query1.Visible = false;
         Wizard1.Visible = true;
 
         //必要屬性
@@ -91,7 +91,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     {
         Wizard1.MoveTo(Wizard1.WizardSteps[1]);
 
-        RegistActivityQuery1.Visible = false;
+        RegistActivity_Query1.Visible = false;
         Wizard1.Visible = true;
 
         //必要屬性
@@ -158,8 +158,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     //顯示活動資訊
     protected void FormView_ActivatyDetails_DataBound(object sender, EventArgs e)
     {
-        //隱藏每隊人數限制
-        (FormView_ActivatyDetails.FindControl("trteam_member_max")).Visible = false;
+        ////隱藏每隊人數限制
+        //(FormView_ActivatyDetails.FindControl("trteam_member_max")).Visible = false;
 
         //檔案下載是否出現
         DataRowView drv = (DataRowView)FormView_ActivatyDetails.DataItem;
@@ -272,14 +272,20 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     //[報名人事資料」區塊
     protected void GridView_RegisterPeoplinfo_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        RadioButton RadioButton1 = (RadioButton)e.Row.FindControl("RadioButton1");
-        //给每个RadioButton1绑定setRadio事件
-        try
+        if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            RadioButton1.Attributes.Add("onclick", "setRadio(this)");
+
+            RadioButton RadioButton1 = (RadioButton)e.Row.FindControl("RadioButton1");
+            //给每个RadioButton1绑定setRadio事件
+            try
+            {
+                RadioButton1.Attributes.Add("onclick", "setRadio(this)");
+            }
+            catch (Exception)
+            { }
+
         }
-        catch (Exception)
-        { }
+
 
 
 
@@ -316,15 +322,28 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
                 Wizard1.MoveTo(Wizard1.WizardSteps[0]);
             }
         }
-
         else if (Wizard1.ActiveStepIndex == 1 && MyFormMode != FormViewMode.Insert)
         {
 
-        if (GridView_RegisterPeoplinfo.SelectedIndex == -1)
-        {
-            clsMyObj.ShowMessage(@"請選擇要編輯的人員。");
-            Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+            if (GridView_RegisterPeoplinfo.SelectedIndex == -1)
+            {
+                clsMyObj.ShowMessage(@"請選擇要編輯的人員。");
+                Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+            }
         }
+
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+            RadioButtonList rblidno_type = (RadioButtonList)FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type");
+            TextBox txtidno = (TextBox)FormView_fixA.FindControl("tr_person_fix1").FindControl("txtidno");
+
+            if (rblidno_type.SelectedIndex == 0)
+            {
+                if (clsMyObj.IDChk(txtidno.Text) != "0")
+                {
+                    clsMyObj.ShowMessage("身分證字號格式不正確!");
+                }
+            }
         }
 
     }
@@ -337,6 +356,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         myActivityRegistVO.activity_id = ActivityID;
         myActivityRegistVO.emp_id = EmpID;
         myActivityRegistVO.regist_by = RegistBy;
+        myActivityRegistVO.idno_type = (FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type") as RadioButtonList).SelectedIndex;
         myActivityRegistVO.idno = (FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix1") as TextBox).Text;
         myActivityRegistVO.team_name = "";
         myActivityRegistVO.ext_people = Convert.ToInt32((FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix2") as TextBox).Text);
@@ -465,6 +485,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
            InitQueryBlock(ActivityID.ToString());
             RadioButton1_CheckedChanged(RadioButton1, null);
  
+        }
+    }
+    protected void rblidno_type_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        RadioButtonList rblidno_type = (RadioButtonList)FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type");
+        RequiredFieldValidator chk_txtperson_fix1 = (RequiredFieldValidator)FormView_fixA.FindControl("tr_person_fix1").FindControl("chk_txtperson_fix1");      
+
+
+        if (rblidno_type.SelectedIndex == 0)
+        {
+            chk_txtperson_fix1.ErrorMessage = "身分證字號必填";
+        }
+        else
+        {
+            chk_txtperson_fix1.ErrorMessage = "護照號碼必填";
         }
     }
 }

@@ -20,6 +20,7 @@ namespace ACMS.VO
         private Guid _activity_id;
         private string _emp_id;
         private string _regist_by;
+        public int _idno_type;
         private string _idno;
         private string _team_name;
         private int? _ext_people;
@@ -31,6 +32,7 @@ namespace ACMS.VO
         public Guid activity_id { get { return _activity_id; } set { _activity_id = value; } }
         public string emp_id { get { return _emp_id; } set { _emp_id = value; } }
         public string regist_by { get { return _regist_by; } set { _regist_by = value; } }
+        public int idno_type { get { return _idno_type; } set { _idno_type = value; } }
         public string idno { get { return _idno; } set { _idno = value; } }
         public string team_name { get { return _team_name; } set { _team_name = value; } } 
         public int? ext_people { get { return _ext_people; } set { _ext_people = value; } }

@@ -109,11 +109,11 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
 
         if (activity_type == "1")
         {
-            OpenRegistByMeEmpSelector1.activity_id = activity_id;
-            OpenRegistByMeEmpSelector1.regist_by = "";
-            OpenRegistByMeEmpSelector1.regist_deadline = regist_deadline;
-            OpenRegistByMeEmpSelector1.cancelregist_deadline = cancelregist_deadline;
-            OpenRegistByMeEmpSelector1.InitDataAndShow();
+            OpenRegistedByMeEmpSelector1.activity_id = activity_id;
+            OpenRegistedByMeEmpSelector1.regist_by = "";
+            OpenRegistedByMeEmpSelector1.regist_deadline = regist_deadline;
+            OpenRegistedByMeEmpSelector1.cancelregist_deadline = cancelregist_deadline;
+            OpenRegistedByMeEmpSelector1.InitDataAndShow();
         }
         else
         {

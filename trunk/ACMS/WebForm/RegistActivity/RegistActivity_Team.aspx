@@ -2,7 +2,7 @@
     CodeFile="RegistActivity_Team.aspx.cs" Inherits="WebForm_RegistActivity_RegistActivity_Team"
     Title="未命名頁面" %>
 
-<%@ Register Src="RegistActivityQuery.ascx" TagName="RegistActivityQuery" TagPrefix="uc1" %>
+<%@ Register Src="RegistActivity_Query.ascx" TagName="RegistActivity_Query" TagPrefix="uc1" %>
 <%@ Register Src="OpenAgentSelector.ascx" TagName="OpenAgentSelector" TagPrefix="uc4" %>
 <%@ Register Src="../DatetimePicker.ascx" TagName="DatetimePicker" TagPrefix="uc3" %>
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
@@ -12,7 +12,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <uc1:RegistActivityQuery ID="RegistActivityQuery1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
+    <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
         ActivityType="2" />
     <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="1"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
@@ -194,7 +194,7 @@
                         <TServerControl:TGridView ID="GridView_TemMember" runat="server" AllowHoverEffect="True"
                             AllowHoverSelect="True" AutoGenerateColumns="False"
                             EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                            SkinID="pager" TotalRowCount="0" Width="100%" DataKeyNames="emp_id" OnRowDataBound="GridView_RegisterPeoplinfo_RowDataBound"
+                            SkinID="pager" TotalRowCount="0" Width="100%" DataKeyNames="emp_id" OnRowDataBound="GridView_TemMember_RowDataBound"
                             OnDataBound="GridView_RegisterPeoplinfo_DataBound">
                             <Columns>
                                 <asp:BoundField DataField="WORK_ID" HeaderText="工號" />
