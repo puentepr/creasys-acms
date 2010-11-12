@@ -8,13 +8,13 @@ namespace ACMS.DAO
 {
     public class SelectorDAO : BaseDAO
     {
-
         //1.首頁-最新活動顯示
         public DataTable NewActivityList(string activity_type, string emp_id)
         {
             //1.列出登入者可報名的活動(不限族群or我在這個族群)
             //2.報名開始日~報名截止日
-            //3.若是團隊活動並且報過名，則不可再新增只能使用編輯模式
+            //3-1.若是個人活動可以一直報名，第一次是自己第二次之後是幫別人報名
+            //3-2.若是團隊活動並且報過名就不顯示了，只會顯示在"已報名活動查詢"然後使用編輯模式
 
             SqlParameter[] sqlParams = new SqlParameter[2];
 
@@ -26,7 +26,7 @@ namespace ACMS.DAO
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
-            sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人數
+            sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate ");
             sb.AppendLine("FROM ");
             sb.AppendLine("( ");
@@ -35,12 +35,12 @@ namespace ACMS.DAO
             sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and AA.regist_startdate<=getdate() ");//報名已開始
-            sb.AppendLine("  and AA.regist_deadline>getdate() ");//報名尚未截止
+            sb.AppendLine("  and dateadd(day,1,AA.regist_deadline)>getdate() ");//報名尚未截止
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//不限族群or我在這個族群
             sb.AppendLine(") A ");
             sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id ");
-            sb.AppendLine("WHERE A.active='Y' ");
+            sb.AppendLine("WHERE 1=1 ");
 
             if (activity_type == "2")//若是團隊活動並且報過名，則不出現
             {
@@ -62,13 +62,15 @@ namespace ACMS.DAO
             return DT;
         }
 
-        //2.可報名活動查詢
+        //2.個人報名 3.團隊報名
+        //可報名活動查詢
         public DataTable RegistActivity_Query(string activity_name, string activity_startdate, string activity_enddate, string activity_type, string emp_id)
         {
             //列出可報名的活動
             //1.列出登入者可報名的活動(不限族群or我在這個族群)
             //2.報名開始日~報名截止日
-            //3.若是團隊活動並且報過名，則不可再新增只能使用編輯模式
+            //3-1.若是個人活動可以一直報名，第一次是自己第二次之後是幫別人報名
+            //3-2.若是團隊活動並且報過名就不顯示了，只會顯示在"已報名活動查詢"然後使用編輯模式
             //4.未額滿
 
             SqlParameter[] sqlParams = new SqlParameter[5];
@@ -87,7 +89,7 @@ namespace ACMS.DAO
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
-            sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人數
+            sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
             sb.AppendLine("( ");
@@ -96,15 +98,22 @@ namespace ACMS.DAO
             sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and AA.regist_startdate<=getdate() ");//報名已開始
-            sb.AppendLine("  and AA.regist_deadline>getdate() ");//報名尚未截止
+            sb.AppendLine("  and dateadd(day,1,AA.regist_deadline)>getdate() ");//報名尚未截止
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//可報名的活動
             sb.AppendLine(") A ");
             sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id ");
-            sb.AppendLine("WHERE A.active='Y' ");
+            sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
-            //sb.AppendLine("and (A.activity_startdate>@activity_startdate or @activity_startdate='') ");
-            //sb.AppendLine("and (A.activity_enddate=@activity_enddate or @activity_enddate='') ");
+            sb.AppendLine("and ( ");
+            sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
+            sb.AppendLine("       or (@activity_startdate <= A.activity_startdate and @activity_enddate >= A.activity_enddate and @activity_startdate<>'' and @activity_enddate<>'') ");
+            sb.AppendLine("       or ( ");
+            sb.AppendLine("           ((@activity_startdate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_startdate<>'' ) ");
+            sb.AppendLine("           or ");
+            sb.AppendLine("           ((@activity_enddate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_enddate<>'' ) ");
+            sb.AppendLine("         ) ");
+            sb.AppendLine("    ) ");
 
             if (activity_type == "2")//若是團隊活動並且報過名，則不出現
             {
@@ -117,7 +126,14 @@ namespace ACMS.DAO
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
-            return clsMyObj.GetDataTable(DS);
+            DataTable DT = clsMyObj.GetDataTable(DS);
+
+            if (DT != null)
+            {
+                clsMyObj.CheckFull(ref DT, false, true);
+            }
+
+            return DT;
 
         }
 
@@ -221,7 +237,8 @@ namespace ACMS.DAO
         //4.已報名活動查詢
         public DataTable RegistedActivityQuery(string activity_name, string activity_startdate, string activity_enddate, string activity_enddate_finish, string emp_id, string activity_type)
         {
-            //列出regist_by=登入者的活動
+            //1.列出(被報名者=登入者)的活動
+            //2.但不含已取消的活動
 
             SqlParameter[] sqlParams = new SqlParameter[6];
 
@@ -240,52 +257,33 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
+            string strTableName = (activity_type == "1" ? "ActivityRegist" : "ActivityTeamMember");
+
             sb.AppendLine("SELECT A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
-            sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名成功人數
+            sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
             sb.AppendLine("( ");
             sb.AppendLine("  SELECT AA.* ");
             sb.AppendLine("  FROM Activity AA  ");
-
-            if (activity_type == "1")
-            {
-                sb.AppendLine("  left join ActivityRegist BB on AA.id=BB.activity_id ");
-            }
-            else
-            {
-                sb.AppendLine("  left join ActivityTeamMember BB on AA.id=BB.activity_id ");
-            }
- 
+            sb.AppendLine(string.Format("  inner join {0} BB on AA.id=BB.activity_id and BB.check_status>=0 ", strTableName));//不含已取消的活動
             sb.AppendLine("  WHERE AA.active='Y' ");
-            sb.AppendLine("  and (AA.activity_type=@activity_type ) ");
-            sb.AppendLine("  and ((AA.activity_enddate<=getdate() and @activity_enddate_finish='Y') or @activity_enddate_finish='N' ) ");//是否為活動已結束的歷史資料            
-
-            if (activity_type == "1")
-            {
-                sb.AppendLine("  and (BB.emp_id=@emp_id or BB.regist_by=@emp_id) ");//報名者是他們本人或報名者是我 注意:已取消的也會顯示
-            }
-            else
-            {
-                sb.AppendLine("  and (BB.emp_id=@emp_id or BB.boss_id=@emp_id) ");//報名者是他們本人或報名者是我 注意:已取消的也會顯示
-            }            
-
+            sb.AppendLine("  and (AA.activity_type=@activity_type) ");
+            sb.AppendLine("  and ((dateadd(day,1,AA.activity_enddate)>=getdate() and @activity_enddate_finish='N') or (dateadd(day,1,AA.activity_enddate)<getdate() and @activity_enddate_finish='Y') ) ");//執行中活動(N) 或 歷史資料查詢(Y)            
+            sb.AppendLine("  and BB.emp_id=@emp_id ");
             sb.AppendLine(") A ");
-
-            if (activity_type == "1")
-            {
-                sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id ");
-            }
-            else
-            {
-                sb.AppendLine("left join ActivityTeamMember B on A.id=B.activity_id ");            
-            }
-
-            sb.AppendLine("WHERE A.active='Y' ");
-            sb.AppendLine("and B.check_status>=0 ");//報名成功人數不含已取消
+            sb.AppendLine(string.Format("left join {0} B on A.id=B.activity_id ", strTableName));
+            sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
-            //sb.AppendLine("and (A.activity_startdate>@activity_startdate or @activity_startdate='') ");
-            //sb.AppendLine("and (A.activity_enddate=@activity_enddate or @activity_enddate='') ");
+            sb.AppendLine("and ( ");
+            sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
+            sb.AppendLine("       or (@activity_startdate <= A.activity_startdate and @activity_enddate >= A.activity_enddate and @activity_startdate<>'' and @activity_enddate<>'') ");
+            sb.AppendLine("       or ( ");
+            sb.AppendLine("           ((@activity_startdate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_startdate<>'' ) ");
+            sb.AppendLine("           or ");
+            sb.AppendLine("           ((@activity_enddate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_enddate<>'' ) ");
+            sb.AppendLine("         ) ");
+            sb.AppendLine("    ) ");
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("ORDER BY A.sn ");
 
@@ -360,9 +358,10 @@ namespace ACMS.DAO
         }
 
 
-        //5.1活動進度查詢-所有活動列表
+        //5.1活動進度查詢
         public DataTable GetAllMyActivity(string emp_id)
         {
+            //登入者所參加的所有活動列表
             SqlParameter[] sqlParams = new SqlParameter[1];
 
             sqlParams[0] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
@@ -379,7 +378,6 @@ namespace ACMS.DAO
             sb.AppendLine(" or id in (SELECT distinct activity_id FROM ActivityTeamMember WHERE emp_id=@emp_id) ");
             sb.AppendLine(") ");
 
-
             sb.AppendLine("ORDER BY sn ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -387,9 +385,10 @@ namespace ACMS.DAO
             return clsMyObj.GetDataTable(DS);
         }
 
-        //5.2.活動進度查詢-該活動報到進度情況
+        //5.2.活動進度查詢
         public DataTable ActivityProcessQuery(string activity_id)
         {
+            //該活動報到進度情況
             SqlParameter[] sqlParams = new SqlParameter[1];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
@@ -397,12 +396,12 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine("SELECT B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status ");
             sb.AppendLine("FROM Activity A ");
             sb.AppendLine("inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' ");
             sb.AppendLine("left join [V_ACSM_USER2] C on B.emp_id = C.id ");
             sb.AppendLine("Union ");
-            sb.AppendLine("SELECT B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine("SELECT B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status ");
             sb.AppendLine("FROM Activity A ");
             sb.AppendLine("inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' ");
             sb.AppendLine("left join [V_ACSM_USER2] C on B.emp_id = C.id ");

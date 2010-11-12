@@ -33,7 +33,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             }
 
             //編輯時須帶入activity_id
-            if (Session["form_mode"] != "new" && Session["activity_id"] == null)
+            if (Session["form_mode"].ToString() != "new" && Session["activity_id"] == null)
             {
                 Response.Redirect("ActivityEditQuery.aspx");
             }
@@ -42,7 +42,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
             ACMS.VO.ActivatyVO myActivatyVO = new ACMS.VO.ActivatyVO();
          
-            if (Session["form_mode"] == "new")
+            if (Session["form_mode"].ToString() == "new")
             {
                 //新增模式
                 MyFormMode = FormViewMode.Insert;
@@ -61,14 +61,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 ActivityID= new Guid(Session["activity_id"].ToString());
                 myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
 
-                if (Session["form_mode"] == "edit")
+                if (Session["form_mode"].ToString() == "edit")
                 {
                     //編輯模式
                     MyFormMode = FormViewMode.Edit;
                     ActivityType = myActivatyVO.activity_type;      
                 }
-                
-                if (Session["form_mode"] == "readonly" || myActivatyVO.activity_enddate <= DateTime.Now)
+
+                if (Session["form_mode"].ToString() == "readonly" || myActivatyVO.activity_enddate <= DateTime.Now)
                 {
                     //唯讀模式:活動已結束也要是唯讀
                     MyFormMode = FormViewMode.ReadOnly;

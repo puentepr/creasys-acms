@@ -32,4 +32,23 @@ public partial class _Default : System.Web.UI.Page
         Session["activity_id"] = activity_id;
         Response.Redirect("WebForm/RegistActivity/RegistActivity_Team.aspx");
     }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        DataRowView drv = (DataRowView)(e.Row.DataItem);
+
+        if (drv["registable_count"].ToString() == "額滿")
+        {
+            (e.Row.FindControl("lbtnRegist1") as ImageButton).Visible = false;
+        }
+
+    }
+    protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        DataRowView drv = (DataRowView)(e.Row.DataItem);
+
+        if (drv["registable_count"].ToString() == "額滿")
+        {
+            (e.Row.FindControl("lbtnRegist2") as ImageButton).Visible = false;
+        }
+    }
 }

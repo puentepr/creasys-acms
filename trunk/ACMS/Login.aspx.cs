@@ -17,15 +17,12 @@ public partial class Login : System.Web.UI.Page
         // 登入時清空所有 Session 資料
         Session.RemoveAll();
 
-
-
-        clsDBUtility dbUtil = new clsDBUtility();
+        ACMS.DAO.LoginDAO myLoginDAO=new ACMS.DAO.LoginDAO();
 
         string UserData;
 
-        if (dbUtil.CheckLogin(txtUserName.Text, txtPassword.Text, out UserData) == true)
+        if (myLoginDAO.CheckLogin(txtUserName.Text, txtPassword.Text, out UserData) == true)
         {
-
             // 將管理者登入的 Cookie 設定成 Session Cookie
             bool isPersistent = false;
 

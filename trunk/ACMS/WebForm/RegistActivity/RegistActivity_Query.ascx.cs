@@ -46,9 +46,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }
     }
-
-
-
 }
 
 public partial class WebForm_RegistActivity_RegistActivity_Query
@@ -57,15 +54,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Query
     {
         get { return (ViewState["ActivityType"] == null ? "" : ViewState["ActivityType"].ToString()); }
         set { ViewState["ActivityType"] = value; }
-    }
-
-    //public string NextURL
-    //{
-    //    get { return ViewState["NextURL"].ToString(); }
-    //    set { ViewState["NextURL"] = value; }
-    //}
-
-
+    }  
 
 }
 

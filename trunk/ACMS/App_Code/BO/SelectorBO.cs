@@ -22,7 +22,6 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.RegistActivity_Query(activity_name, activity_startdate, activity_enddate, activity_type, emp_id);
-            clsMyObj.CheckFull(ref DT, false, false);
             return DT;
         }
 

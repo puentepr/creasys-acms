@@ -48,7 +48,7 @@
                         </td>
                         <td>
                             <asp:RadioButtonList ID="rblFinish" runat="server" RepeatDirection="Horizontal">
-                                <asp:ListItem Selected="True" Value="N">執行中活動</asp:ListItem>
+                                <asp:ListItem Value="N" Selected="True">執行中活動</asp:ListItem>
                                 <asp:ListItem Value="Y">歷史資料查詢</asp:ListItem>
                             </asp:RadioButtonList>
                         </td>

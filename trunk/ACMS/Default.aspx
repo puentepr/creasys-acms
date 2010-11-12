@@ -9,7 +9,8 @@
             <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                 AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="ObjectDataSource1"
                 EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
-                SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" AllowSorting="True">
+                SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" 
+                AllowSorting="True" onrowdatabound="GridView1_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                     <asp:BoundField DataField="people_type" HeaderText="活動對象" SortExpression="people_type">
@@ -52,16 +53,14 @@
             <TServerControl:TGridView ID="GridView2" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                 AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="ObjectDataSource2"
                 EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
-                SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True">
+                SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" 
+                onrowdatabound="GridView2_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                     <asp:BoundField DataField="people_type" HeaderText="活動對象" SortExpression="people_type">
                     </asp:BoundField>
-                    <asp:BoundField DataField="limit_count" HeaderText="活動人數" SortExpression="limit_count">
+                    <asp:BoundField DataField="limit_count" HeaderText="活動隊數" SortExpression="limit_count">
                         <ItemStyle HorizontalAlign="Right" />
-                    </asp:BoundField>
-                    <asp:BoundField DataField="registed_count" HeaderText="已報名人數" SortExpression="registed_count">
-                        <ItemStyle HorizontalAlign="Center" />
                     </asp:BoundField>
                     <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
                         <ItemTemplate>
@@ -70,7 +69,13 @@
                         </ItemTemplate>
                         <ItemStyle HorizontalAlign="Center" />
                     </asp:TemplateField>
-                    <asp:BoundField DataField="registable_count" HeaderText="剩餘名額" SortExpression="registable_count">
+
+
+                    <asp:BoundField DataField="registed_count" HeaderText="已報名隊數" SortExpression="registed_count">
+                        <ItemStyle HorizontalAlign="Center" />
+                    </asp:BoundField>
+
+                    <asp:BoundField DataField="registable_count" HeaderText="剩餘隊數" SortExpression="registable_count">
                         <ItemStyle HorizontalAlign="Center" />
                     </asp:BoundField>
                     <asp:TemplateField>
