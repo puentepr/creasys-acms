@@ -1,0 +1,45 @@
+﻿using System;
+using System.Data;
+using System.Collections.Generic;
+using System.Web;
+
+/// <summary>
+/// Class1 的摘要描述
+/// </summary>
+
+[System.ComponentModel.DataObjectAttribute(true)]
+public partial class BLL_ManageRoleProgramMapping
+{
+    public  BLL_ManageRoleProgramMapping()
+    {
+        //
+        // TODO: 在此加入建構函式的程式碼
+        //
+    }
+
+    //SELECT
+    [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+    public DataTable BLL_Select(int RoleID, int Parent)
+    {
+        clsDBUtility dbUtil = clsDBUtility.GetInstance();
+        return dbUtil.ManageRoleProgramMapping_Select(RoleID, Parent);
+    }
+
+    //INSERT
+    [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Insert)]
+    public int BLL_Insert(int RoleID, int ProgramID)
+    {
+        clsDBUtility dbUtil = clsDBUtility.GetInstance();
+        return dbUtil.ManageRoleProgramMapping_Insert(RoleID, ProgramID);
+    }
+
+    //DELETE
+    [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Update)]
+    public int BLL_Delete(int original_RoleID, int original_ProgramID)
+    {
+        clsDBUtility dbUtil = clsDBUtility.GetInstance();
+        return dbUtil.ManageRoleProgramMapping_Delete(original_RoleID, original_ProgramID);
+    }
+
+
+}
