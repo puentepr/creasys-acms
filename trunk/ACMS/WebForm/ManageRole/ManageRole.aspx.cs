@@ -71,7 +71,7 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
     //變更選取角色
     protected void ddlRole_SelectedIndexChanged(object sender, EventArgs e)
     {
-        chk_ddlUnit.Visible = ((sender as DropDownList).SelectedIndex > 1);
+        PlaceHolder1.Visible = ((sender as DropDownList).SelectedIndex > 1);
     }
 
 

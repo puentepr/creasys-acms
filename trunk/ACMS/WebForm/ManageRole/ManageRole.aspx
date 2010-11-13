@@ -22,6 +22,7 @@
                     ErrorMessage="角色名稱必填" ValidationGroup="add" Display="None"></asp:RequiredFieldValidator>
                 <asp:ObjectDataSource ID="ObjectDataSource_RoleList" runat="server" OldValuesParameterFormatString="original_{0}"
                     SelectMethod="SelectRoleList" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                <asp:PlaceHolder ID="PlaceHolder1" runat="server">
                 主辦單位<asp:DropDownList ID="ddlUnit" runat="server" DataSourceID="ObjectDataSource_Unit"
                     DataTextField="name" DataValueField="id">
                 </asp:DropDownList>
@@ -29,7 +30,7 @@
                     ErrorMessage="新增[後台管理者]或[活動管理者時]主辦單位必填" ValidationGroup="add" Display="None"
                     Visible="False"></asp:RequiredFieldValidator>
                 <asp:ObjectDataSource ID="ObjectDataSource_Unit" runat="server" OldValuesParameterFormatString="original_{0}"
-                    SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                    SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource></asp:PlaceHolder>
                 人員<asp:TextBox ID="txtEmployee" runat="server"></asp:TextBox><asp:Button ID="btnQueryPerson"
                     runat="server" Text="..." Height="21px" OnClick="btnQueryPerson_Click" />
                 <uc2:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployeesClick="GetEmployees_Click"
