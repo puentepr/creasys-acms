@@ -622,8 +622,6 @@ namespace ACMS.DAO
 
 
 
-    
-     
 
 
 
@@ -632,11 +630,13 @@ namespace ACMS.DAO
 
 
 
-       
 
 
 
-        
+
+
+
+
 
 
 
@@ -660,7 +660,6 @@ namespace ACMS.DAO
                 myDDLVO.Text = MyDataReader["name"].ToString();
 
                 myDDLVOList.Add(myDDLVO);
-
             }
 
             return myDDLVOList;
@@ -854,7 +853,11 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT *");
             sb.AppendLine("FROM Unit A ");
-            sb.AppendLine("WHERE active='Y'; ");
+            sb.AppendLine("WHERE active='Y' ");
+            sb.AppendLine("and( ");
+            sb.AppendLine(string.Format("id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine("); ");
 
             IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
 
