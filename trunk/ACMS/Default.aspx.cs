@@ -34,21 +34,26 @@ public partial class _Default : System.Web.UI.Page
     }
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        DataRowView drv = (DataRowView)(e.Row.DataItem);
-
-        if (drv["registable_count"].ToString() == "額滿")
+        if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            (e.Row.FindControl("lbtnRegist1") as ImageButton).Visible = false;
-        }
+            DataRowView drv = (DataRowView)(e.Row.DataItem);
 
+            if (drv["registable_count"].ToString() == "額滿")
+            {
+                e.Row.FindControl("lbtnRegist1").Visible = false;
+            }
+        }
     }
     protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        DataRowView drv = (DataRowView)(e.Row.DataItem);
-
-        if (drv["registable_count"].ToString() == "額滿")
+        if (e.Row.RowType == DataControlRowType.DataRow)
         {
-            (e.Row.FindControl("lbtnRegist2") as ImageButton).Visible = false;
+            DataRowView drv = (DataRowView)(e.Row.DataItem);
+
+            if (drv["registable_count"].ToString() == "額滿")
+            {
+                e.Row.FindControl("lbtnRegist2").Visible = false;
+            }
         }
     }
 }

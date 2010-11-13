@@ -95,7 +95,6 @@ public class clsMyObj
                         }
 
                         DR["registable_count"] = string.Format("正({0})+備({1})", registableA, registableB);
-
                     }
                     else
                     {
