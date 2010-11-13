@@ -3,8 +3,7 @@
     Title="未命名頁面" %>
 
 <%@ Register Src="RegistActivity_Query.ascx" TagName="RegistActivity_Query" TagPrefix="uc1" %>
-<%@ Register Src="OpenAgentSelector.ascx" TagName="OpenAgentSelector"
-    TagPrefix="uc4" %>
+<%@ Register Src="OpenAgentSelector.ascx" TagName="OpenAgentSelector" TagPrefix="uc4" %>
 <%@ Register Src="../DatetimePicker.ascx" TagName="DatetimePicker" TagPrefix="uc3" %>
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
@@ -13,7 +12,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
         ActivityType="1" />
-    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="1"
+    <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="2"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步">
         <StartNavigationTemplate>
@@ -24,8 +23,7 @@
             <asp:Button ID="btnPrevious" runat="server" CommandName="MovePrevious" CssClass="WizardControlButton"
                 Text="上一步" />
             <asp:Button ID="btnNext" runat="server" CausesValidation="true" CommandName="MoveNext"
-                CssClass="WizardControlButton" Text="下一步" ValidationGroup="WizardNext" 
-                onclick="btnNext_Click" />
+                CssClass="WizardControlButton" Text="下一步" ValidationGroup="WizardNext" OnClick="btnNext_Click" />
         </StepNavigationTemplate>
         <WizardSteps>
             <asp:WizardStep runat="server" Title="Step 1" StepType="Start">
@@ -87,7 +85,7 @@
                                         <asp:Label ID="limit2_countLabel" runat="server" Text='<%# Bind("limit2_count") %>' />
                                     </td>
                                 </tr>
-<%--                                <tr id="trteam_member_max" runat="server">
+                                <%--                                <tr id="trteam_member_max" runat="server">
                                     <td>
                                         每隊人數限制
                                     </td>
@@ -186,14 +184,12 @@
                         <TServerControl:TGridView ID="GridView_RegisterPeoplinfo" runat="server" AllowHoverEffect="True"
                             AllowHoverSelect="True" AutoGenerateColumns="False" DataSourceID="ObjectDataSource_RegisterPeoplenfo"
                             EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                            SkinID="pager" TotalRowCount="0" Width="100%" DataKeyNames="ID" 
-                            OnRowDataBound="GridView_RegisterPeoplinfo_RowDataBound" 
+                            SkinID="pager" TotalRowCount="0" Width="100%" DataKeyNames="ID" OnRowDataBound="GridView_RegisterPeoplinfo_RowDataBound"
                             OnDataBound="GridView_RegisterPeoplinfo_DataBound">
                             <Columns>
                                 <asp:TemplateField>
                                     <ItemTemplate>
-                                        <asp:RadioButton ID="RadioButton1" runat="server" AutoPostBack="True" 
-                                            oncheckedchanged="RadioButton1_CheckedChanged" />
+                                        <asp:RadioButton ID="RadioButton1" runat="server" AutoPostBack="True" OnCheckedChanged="RadioButton1_CheckedChanged" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="WORK_ID" HeaderText="工號" />
@@ -212,63 +208,69 @@
                 </asp:Panel>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 3">
-                <asp:UpdatePanel ID="UpdatePanel_CustomField" runat="server">
-                    <ContentTemplate>
-                        <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="報名相關資料">
-                            <div>
-                                <asp:FormView ID="FormView_fixA" runat="server" 
-                                    DataSourceID="ObjectDataSource_fixA" ondatabound="FormView_fixA_DataBound">
+                <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="報名相關資料">  
+                    <table align="center">
+                        <tr>
+                            <td> <asp:UpdatePanel ID="UpdatePanel_CustomField" runat="server" UpdateMode="Conditional" EnableViewState="False">   <ContentTemplate> 
+                                <asp:FormView ID="FormView_fixA" runat="server" DataSourceID="ObjectDataSource_fixA"
+                                    OnDataBound="FormView_fixA_DataBound">
                                     <ItemTemplate>
-                                        <table>
-                                            <tr id="tr_person_fix1" runat="server">
-                                                <td width="150">
-                                                    <asp:RadioButtonList ID="rblidno_type" runat="server" AutoPostBack="True" 
-                                                        onselectedindexchanged="rblidno_type_SelectedIndexChanged" 
-                                                        RepeatDirection="Horizontal" SelectedIndex='<%# Bind("idno_type") %>'>
-                                                        <asp:ListItem Selected="True">身分證字號</asp:ListItem>
-                                                        <asp:ListItem>護照號碼</asp:ListItem>
-                                                    </asp:RadioButtonList>
-&nbsp;</td>
-                                                <td width="200">
-                                                    <asp:TextBox ID="txtperson_fix1" runat="server" Text='<%# Bind("idno") %>'></asp:TextBox>
-                                                    <asp:RequiredFieldValidator ID="chk_txtperson_fix1" runat="server" ControlToValidate="txtperson_fix1"
-                                                        Display="Dynamic" ErrorMessage="身分證字號必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                                </td>
-                                            </tr>
-                                            <tr id="tr_person_fix2" runat="server">
-                                                <td width="150">
-                                                    攜伴人數
-                                                </td>
-                                                <td width="200">
-                                                    <asp:TextBox ID="txtperson_fix2" runat="server" Text='<%# Bind("ext_people") %>'
-                                                        Width="50px"></asp:TextBox>
-                                                    (<asp:Label ID="lblAf2Start" runat="server" Text="Label"></asp:Label>
-                                                    ~<asp:Label ID="lblAf2End" runat="server" Text="Label"></asp:Label>
-                                                    )<asp:RequiredFieldValidator ID="chk_txtperson_fix2" runat="server" ControlToValidate="txtperson_fix2"
-                                                        Display="Dynamic" ErrorMessage="攜伴人數限制必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                                    <asp:CompareValidator ID="chk_txtperson_fix2_2" runat="server" ControlToValidate="txtperson_fix2"
-                                                        Display="Dynamic" ErrorMessage="攜伴人數限制必填數字" Operator="DataTypeCheck" Type="Integer"
-                                                        ValidationGroup="WizardNext"></asp:CompareValidator>
-                                                    <asp:RangeValidator ID="chk_txtperson_fix2_3" runat="server" ControlToValidate="txtperson_fix2"
-                                                        Display="Dynamic" ErrorMessage="人數必在限制範圍內" Type="Integer" ValidationGroup="WizardNext"></asp:RangeValidator>
-                                                </td>
-                                            </tr>
-                                        </table>
+                                  
+                                                <table> 
+                                         
+                                                    <tr id="tr_person_fix1" runat="server">
+                                                        <td width="150">
+                                                            <asp:RadioButtonList ID="rblidno_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblidno_type_SelectedIndexChanged"
+                                                                RepeatDirection="Horizontal" SelectedIndex='<%# Bind("idno_type") %>'>
+                                                                <asp:ListItem Selected="True">身分證字號</asp:ListItem>
+                                                                <asp:ListItem>護照號碼</asp:ListItem>
+                                                            </asp:RadioButtonList>
+                                                            &nbsp;
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtperson_fix1" runat="server" Text='<%# Bind("idno") %>'></asp:TextBox> 
+                                                            <asp:RequiredFieldValidator ID="chk_txtperson_fix1" runat="server" ControlToValidate="txtperson_fix1"
+                                                                Display="Dynamic" ErrorMessage="身分證字號必填" ValidationGroup="WizardNext" Text="*"></asp:RequiredFieldValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="tr_person_fix2" runat="server">
+                                                        <td width="150">
+                                                            攜伴人數
+                                                        </td>
+                                                        <td width="200">
+                                                            <asp:TextBox ID="txtperson_fix2" runat="server" Text='<%# Bind("ext_people") %>'
+                                                                Width="50px"></asp:TextBox>
+                                                            (<asp:Label ID="lblAf2Start" runat="server" Text="Label"></asp:Label>
+                                                            ~<asp:Label ID="lblAf2End" runat="server" Text="Label"></asp:Label>
+                                                            )<asp:RequiredFieldValidator ID="chk_txtperson_fix2" runat="server" ControlToValidate="txtperson_fix2"
+                                                                Display="Dynamic" ErrorMessage="攜伴人數限制必填" ValidationGroup="WizardNext" Text="*"></asp:RequiredFieldValidator>
+                                                            <asp:CompareValidator ID="chk_txtperson_fix2_2" runat="server" ControlToValidate="txtperson_fix2"
+                                                                Display="Dynamic" ErrorMessage="攜伴人數限制必填數字" Operator="DataTypeCheck" Type="Integer"
+                                                                ValidationGroup="WizardNext" Text="*"></asp:CompareValidator>
+                                                            <asp:RangeValidator ID="chk_txtperson_fix2_3" runat="server" ControlToValidate="txtperson_fix2"
+                                                                Display="Dynamic" ErrorMessage="人數必在限制範圍內" Type="Integer" ValidationGroup="WizardNext"
+                                                                Text="*"></asp:RangeValidator>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                       
                                     </ItemTemplate>
                                 </asp:FormView>
                                 <asp:ObjectDataSource ID="ObjectDataSource_fixA" runat="server" OldValuesParameterFormatString="original_{0}"
-                                    SelectMethod="SelectActivityRegistByPK" 
-                                    TypeName="ACMS.BO.ActivityRegistBO">
+                                    SelectMethod="SelectActivityRegistByPK" TypeName="ACMS.BO.ActivityRegistBO">
                                     <SelectParameters>
                                         <asp:Parameter DbType="Guid" Name="activity_id" />
                                         <asp:Parameter Name="emp_id" Type="String" />
                                     </SelectParameters>
-                                </asp:ObjectDataSource>
-                            </div>
-                            <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
-                        </asp:Panel>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
+                                </asp:ObjectDataSource> 
+         
+                                <asp:PlaceHolder ID="PlaceHolder1" runat="server" EnableViewState="False"></asp:PlaceHolder>
+                                 </ContentTemplate>
+                                        </asp:UpdatePanel>
+                            </td>
+                        </tr>
+                    </table>   
+                </asp:Panel>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 4">
                 注意事項:<br />
@@ -282,6 +284,6 @@
                 Text="完成" />
         </FinishNavigationTemplate>
     </asp:Wizard>
-    <asp:ValidationSummary ID="sum_WizardNext" runat="server" ShowMessageBox="True" 
-        ShowSummary="False" ValidationGroup="WizardNext" />
+    <asp:ValidationSummary ID="sum_WizardNext" runat="server" ShowMessageBox="True" ShowSummary="False"
+        ValidationGroup="WizardNext" />
 </asp:Content>
