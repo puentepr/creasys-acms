@@ -796,7 +796,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
         MyHashtable.Clear();
 
         if (!string.IsNullOrEmpty(activity_id))
-        { 
+        {
             ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
             List<ACMS.VO.CustomFieldVO> myCustomFieldVOList = new List<ACMS.VO.CustomFieldVO>();
             myCustomFieldVOList = myCustomFieldDAO.SelectByActivity_id(new Guid(activity_id));
@@ -833,8 +833,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl_chk = new RequiredFieldValidator();
                         MyControl_chk.ID = string.Format("chk_txt{0}", myCustomFieldVO.field_id);
                         (MyControl_chk as RequiredFieldValidator).ControlToValidate = MyControl.ID;
-                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.Dynamic;
                         (MyControl_chk as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as RequiredFieldValidator).Text = "*";
                         (MyControl_chk as RequiredFieldValidator).ValidationGroup = "WizardNext";
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOXLIST")
@@ -850,8 +851,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl_chk = new TCheckBoxListRequiredValidator();
                         MyControl_chk.ID = string.Format("chk_plh{0}", myCustomFieldVO.field_id);
                         (MyControl_chk as TCheckBoxListRequiredValidator).ControlToValidate = MyControl.ID;
-                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.Dynamic;
                         (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Text = "*";
                         (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
 
                     }
@@ -868,8 +870,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl_chk = new TCheckBoxListRequiredValidator();
                         MyControl_chk.ID = string.Format("chk_cbl{0}", myCustomFieldVO.field_id);
                         (MyControl_chk as TCheckBoxListRequiredValidator).ControlToValidate = MyControl.ID;
-                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.Dynamic;
                         (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Text = "*";
                         (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "RADIOBUTTONLIST")
@@ -885,8 +888,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl_chk = new RequiredFieldValidator();
                         MyControl_chk.ID = string.Format("chk_radl{0}", myCustomFieldVO.field_id);
                         (MyControl_chk as RequiredFieldValidator).ControlToValidate = MyControl.ID;
-                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.None;
+                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.Dynamic;
                         (MyControl_chk as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as RequiredFieldValidator).Text = "*";
                         (MyControl_chk as RequiredFieldValidator).ValidationGroup = "WizardNext";
                     }
 

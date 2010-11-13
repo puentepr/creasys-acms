@@ -335,13 +335,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         if (Wizard1.ActiveStepIndex == 2)
         {
             RadioButtonList rblidno_type = (RadioButtonList)FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type");
-            TextBox txtidno = (TextBox)FormView_fixA.FindControl("tr_person_fix1").FindControl("txtidno");
+            TextBox txtperson_fix1 = (TextBox)FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix1");
 
             if (rblidno_type.SelectedIndex == 0)
             {
-                if (clsMyObj.IDChk(txtidno.Text) != "0")
+                if (clsMyObj.IDChk(txtperson_fix1.Text) != "0")
                 {
                     clsMyObj.ShowMessage("身分證字號格式不正確!");
+                    Wizard1.MoveTo(Wizard1.WizardSteps[1]);
                 }
             }
         }
@@ -491,8 +492,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     {
         RadioButtonList rblidno_type = (RadioButtonList)FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type");
         RequiredFieldValidator chk_txtperson_fix1 = (RequiredFieldValidator)FormView_fixA.FindControl("tr_person_fix1").FindControl("chk_txtperson_fix1");      
-
-
+        
         if (rblidno_type.SelectedIndex == 0)
         {
             chk_txtperson_fix1.ErrorMessage = "身分證字號必填";
@@ -501,6 +501,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         {
             chk_txtperson_fix1.ErrorMessage = "護照號碼必填";
         }
+
+        //(FormView_fixA.FindControl("UpdatePanel_CustomField") as UpdatePanel).Update();
+        
     }
 }
 
@@ -510,9 +513,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
 {
     protected void InitQueryBlock(string activity_id)
     {
-        if (!string.IsNullOrEmpty(activity_id))
-        { 
+        MyHashtable.Clear();
 
+        if (!string.IsNullOrEmpty(activity_id))
+        {
             ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
             List<ACMS.VO.CustomFieldVO> myCustomFieldVOList = new List<ACMS.VO.CustomFieldVO>();
             myCustomFieldVOList = myCustomFieldDAO.SelectByActivity_id(new Guid(activity_id));
@@ -539,11 +543,20 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
 
                     //Control
                     Control MyControl = new Control();
+                    Control MyControl_chk = new Control();
 
                     if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOX")
                     {
                         MyControl = new TextBox();
                         MyControl.ID = string.Format("txt{0}", myCustomFieldVO.field_id);
+
+                        MyControl_chk = new RequiredFieldValidator();
+                        MyControl_chk.ID = string.Format("chk_txt{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as RequiredFieldValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.Dynamic;
+                        (MyControl_chk as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as RequiredFieldValidator).Text = "*";
+                        (MyControl_chk as RequiredFieldValidator).ValidationGroup = "WizardNext";
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOXLIST")
                     {
@@ -555,6 +568,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         (MyControl as TCheckBoxList).ClearSelection();
                         //(MyControl as TCheckBoxList).EnableViewState = false;
 
+                        MyControl_chk = new TCheckBoxListRequiredValidator();
+                        MyControl_chk.ID = string.Format("chk_plh{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.Dynamic;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Text = "*";
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
+                        (MyControl_chk as TCheckBoxListRequiredValidator).EnableViewState = false;
+
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "CHECKBOXLIST")
                     {
@@ -565,6 +587,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         MyControl.ID = string.Format("cbl{0}", myCustomFieldVO.field_id);
                         (MyControl as TCheckBoxList).ClearSelection();
                         //(MyControl as TCheckBoxList).EnableViewState = false;
+
+                        MyControl_chk = new TCheckBoxListRequiredValidator();
+                        MyControl_chk.ID = string.Format("chk_cbl{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Display = ValidatorDisplay.Dynamic;
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as TCheckBoxListRequiredValidator).Text = "*";
+                        (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
+                        (MyControl_chk as TCheckBoxListRequiredValidator).EnableViewState = false;
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "RADIOBUTTONLIST")
                     {
@@ -575,6 +606,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         MyControl.ID = string.Format("radl{0}", myCustomFieldVO.field_id);
                         (MyControl as TRadioButtonList).ClearSelection();
                         //(MyControl as TRadioButtonList).EnableViewState = false;
+
+                        MyControl_chk = new RequiredFieldValidator();
+                        MyControl_chk.ID = string.Format("chk_radl{0}", myCustomFieldVO.field_id);
+                        (MyControl_chk as RequiredFieldValidator).ControlToValidate = MyControl.ID;
+                        (MyControl_chk as RequiredFieldValidator).Display = ValidatorDisplay.Dynamic;
+                        (MyControl_chk as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
+                        (MyControl_chk as RequiredFieldValidator).Text = "*";
+                        (MyControl_chk as RequiredFieldValidator).ValidationGroup = "WizardNext";
                     }
 
                     //每個 ORG_field_name 長出選項
@@ -604,6 +643,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                     }
 
                     MyTableCell_Control.Controls.Add(MyControl);
+                    MyTableCell_Control.Controls.Add(MyControl_chk);
 
                     if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOXLIST")
                     {
