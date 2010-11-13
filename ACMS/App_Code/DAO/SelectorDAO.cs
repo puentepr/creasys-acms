@@ -107,11 +107,11 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
             sb.AppendLine("and ( ");
             sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
-            sb.AppendLine("       or (@activity_startdate <= A.activity_startdate and @activity_enddate >= A.activity_enddate and @activity_startdate<>'' and @activity_enddate<>'') ");
+            sb.AppendLine("       or (@activity_startdate <= cast(convert(varchar, A.activity_startdate, 102) as datetime) and @activity_enddate >= cast(convert(varchar, A.activity_enddate, 102) as datetime) and @activity_startdate<>'' and @activity_enddate<>'') ");
             sb.AppendLine("       or ( ");
-            sb.AppendLine("           ((@activity_startdate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_startdate<>'' ) ");
+            sb.AppendLine("           ((@activity_startdate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_startdate<>'' ) ");
             sb.AppendLine("           or ");
-            sb.AppendLine("           ((@activity_enddate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_enddate<>'' ) ");
+            sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
 
@@ -137,7 +137,7 @@ namespace ACMS.DAO
 
         }
 
-        //2.1報名者人事資料(個人活動新增-單一報名者個人資料)
+        //2.1個人報名-被報名者人事資料(個人活動新增時)
         public DataTable RegisterPersonInfo(string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -157,7 +157,7 @@ namespace ACMS.DAO
 
         }
 
-        //2.2報名者人事資料(個人活動編輯-列出所有由我報名的人的個人資料)
+        //2.2個人報名-所有由登入者代理報名的人事資料(個人活動編輯時)
         public DataTable RegisterPeopleInfo(string activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -173,13 +173,71 @@ namespace ACMS.DAO
             sb.AppendLine("FROM ActivityRegist A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE activity_id=@activity_id ");
-            sb.AppendLine("and (A.regist_by=@emp_id or A.emp_id=@emp_id) ");
+            sb.AppendLine("and (A.regist_by=@emp_id or A.emp_id=@emp_id) ");//登入者代理(含自己)的會列出 or 登入者被別人代理報名也會列出
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
             return clsMyObj.GetDataTable(DS);
 
         }
+
+        //2-3個人報名-開啟代理報名選單
+        public List<VO.EmployeeVO> SelectForOpenAgentSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
+        {
+            if (string.IsNullOrEmpty(activity_id))
+            {
+                return null;
+            }
+
+            SqlParameter[] sqlParams = new SqlParameter[4];
+
+            sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
+            sqlParams[0].Value = DEPT_ID;
+            sqlParams[1] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 36);
+            sqlParams[1].Value = WORK_ID;
+            sqlParams[2] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 200);
+            sqlParams[2].Value = NATIVE_NAME;
+            sqlParams[3] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[3].Value = new Guid(activity_id);
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT B.[ID],B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
+            sb.AppendLine("FROM ");
+            sb.AppendLine("( ");
+            sb.AppendLine("  SELECT AA.is_grouplimit,BB.emp_id ");
+            sb.AppendLine("  FROM Activity AA  ");
+            sb.AppendLine("  left join ActivityGroupLimit BB on AA.id=BB.activity_id ");
+            sb.AppendLine("  WHERE AA.active='Y' ");
+            sb.AppendLine("  and AA.id=@activity_id ");
+            sb.AppendLine(") A ");
+            sb.AppendLine("left join V_ACSM_USER2 B on CASE WHEN A.is_grouplimit='Y' THEN A.emp_id ELSE B.ID END = B.ID ");
+            sb.AppendLine("WHERE 1=1 ");
+            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
+            sb.AppendLine("and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
+
+            while (MyDataReader.Read())
+            {
+                VO.EmployeeVO myEmployeeVO = new ACMS.VO.EmployeeVO();
+
+                myEmployeeVO.ID = (string)MyDataReader["ID"];
+                myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
+                myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];
+                myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
+
+                myEmployeeVOList.Add(myEmployeeVO);
+
+            }
+
+            return myEmployeeVOList;
+        }
+
+
 
         //3.列出可加入此活動的隊員
         public List<VO.EmployeeVO> RegistableTeamMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
@@ -277,11 +335,11 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
             sb.AppendLine("and ( ");
             sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
-            sb.AppendLine("       or (@activity_startdate <= A.activity_startdate and @activity_enddate >= A.activity_enddate and @activity_startdate<>'' and @activity_enddate<>'') ");
+            sb.AppendLine("       or (@activity_startdate <= cast(convert(varchar, A.activity_startdate, 102) as datetime) and @activity_enddate >= cast(convert(varchar, A.activity_enddate, 102) as datetime) and @activity_startdate<>'' and @activity_enddate<>'') ");
             sb.AppendLine("       or ( ");
-            sb.AppendLine("           ((@activity_startdate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_startdate<>'' ) ");
+            sb.AppendLine("           ((@activity_startdate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_startdate<>'' ) ");
             sb.AppendLine("           or ");
-            sb.AppendLine("           ((@activity_enddate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_enddate<>'' ) ");
+            sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
@@ -441,14 +499,14 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
             sb.AppendLine("and ( ");
             sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
-            sb.AppendLine("       or (@activity_startdate <= A.activity_startdate and @activity_enddate >= A.activity_enddate and @activity_startdate<>'' and @activity_enddate<>'') ");
+            sb.AppendLine("       or (@activity_startdate <= cast(convert(varchar, A.activity_startdate, 102) as datetime) and @activity_enddate >= cast(convert(varchar, A.activity_enddate, 102) as datetime) and @activity_startdate<>'' and @activity_enddate<>'') ");
             sb.AppendLine("       or ( ");
-            sb.AppendLine("           ((@activity_startdate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_startdate<>'' ) ");
+            sb.AppendLine("           ((@activity_startdate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_startdate<>'' ) ");
             sb.AppendLine("           or ");
-            sb.AppendLine("           ((@activity_enddate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_enddate<>'' ) ");
+            sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
-            sb.AppendLine("and dateadd(day,1,A.activity_enddate)>getdate() ");//列出活動未結束的活動
+            sb.AppendLine("and A.activity_enddate>getdate() ");//列出活動未結束的活動
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline  ");
             sb.AppendLine("ORDER BY A.sn ");
 
@@ -485,22 +543,22 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE A.active='Y' ");
             sb.AppendLine("and ( ");
             sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
-            sb.AppendLine("       or (@activity_startdate <= A.activity_startdate and @activity_enddate >= A.activity_enddate and @activity_startdate<>'' and @activity_enddate<>'') ");
+            sb.AppendLine("       or (@activity_startdate <= cast(convert(varchar, A.activity_startdate, 102) as datetime) and @activity_enddate >= cast(convert(varchar, A.activity_enddate, 102) as datetime) and @activity_startdate<>'' and @activity_enddate<>'') ");
             sb.AppendLine("       or ( ");
-            sb.AppendLine("           ((@activity_startdate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_startdate<>'' ) ");
+            sb.AppendLine("           ((@activity_startdate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_startdate<>'' ) ");
             sb.AppendLine("           or ");
-            sb.AppendLine("           ((@activity_enddate between A.activity_startdate and dateadd(day,1,A.activity_enddate)) and @activity_enddate<>'' ) ");
+            sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
             sb.AppendLine("and (org_id=@org_id or @org_id='') ");
 
             if (querytype != "off")
             {
-                sb.AppendLine("and dateadd(day,1,A.activity_enddate)>getdate() ");//報名狀態查詢
+                sb.AppendLine("and A.activity_enddate>getdate() ");//報名狀態查詢
             }
             else
             {
-                sb.AppendLine("and dateadd(day,1,A.activity_enddate)<getdate() ");//歷史資料查詢
+                sb.AppendLine("and A.activity_enddate<getdate() ");//歷史資料查詢
             }
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -513,10 +571,15 @@ namespace ACMS.DAO
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT id,activity_name ");
-            sb.AppendLine("FROM Activity ");
-            sb.AppendLine("WHERE active='Y' ");
-            sb.AppendLine("ORDER BY sn ");
+            sb.AppendLine("SELECT A.id,A.activity_name ");
+            sb.AppendLine("FROM Activity A ");
+            sb.AppendLine("inner join Unit B on A.org_id=B.id ");
+            sb.AppendLine("WHERE A.active='Y' and B.active='Y' ");
+            sb.AppendLine("and( ");
+            sb.AppendLine(string.Format("B.id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine(") ");
+            sb.AppendLine("ORDER BY A.sn; ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), null);
 
@@ -568,61 +631,6 @@ namespace ACMS.DAO
 
 
 
-        public List<VO.EmployeeVO> SmallEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
-        {
-            if (string.IsNullOrEmpty(activity_id))
-            {
-                return null;
-            }
-
-            SqlParameter[] sqlParams = new SqlParameter[4];
-
-            sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
-            sqlParams[0].Value = DEPT_ID;
-            sqlParams[1] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 36);
-            sqlParams[1].Value = WORK_ID;
-            sqlParams[2] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 200);
-            sqlParams[2].Value = NATIVE_NAME;
-            sqlParams[3] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-            sqlParams[3].Value = new Guid(activity_id);
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT B.[ID],B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
-            sb.AppendLine("FROM ");
-            sb.AppendLine("( ");
-            sb.AppendLine("  SELECT AA.is_grouplimit,BB.emp_id ");
-            sb.AppendLine("  FROM Activity AA  ");
-            sb.AppendLine("  left join ActivityGroupLimit BB on AA.id=BB.activity_id ");
-            sb.AppendLine("  WHERE AA.active='Y' ");
-            sb.AppendLine("  and AA.id=@activity_id ");
-            sb.AppendLine(") A ");
-            sb.AppendLine("left join V_ACSM_USER2 B on CASE WHEN A.is_grouplimit='Y' THEN A.emp_id ELSE B.ID END = B.ID ");
-            sb.AppendLine("WHERE 1=1 ");
-            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
-            sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
-            sb.AppendLine("and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
-
-            while (MyDataReader.Read())
-            {
-                VO.EmployeeVO myEmployeeVO = new ACMS.VO.EmployeeVO();
-      
-                myEmployeeVO.ID = (string)MyDataReader["ID"];
-                myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
-                myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];          
-                myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];            
-
-                myEmployeeVOList.Add(myEmployeeVO);
-
-            }
-
-            return myEmployeeVOList;
-
-        }
 
 
 
@@ -748,29 +756,33 @@ namespace ACMS.DAO
 
         }
 
-        //7-1 主辦單位設定 角色 DDL DataSource
-        public List<VO.RoleListVO> SelectRoleList()
+        //6-1 主辦單位設定 主辦單位 DDL DataSource
+        public List<VO.UnitVO> SelectUnit()
         {
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT *");
-            sb.AppendLine("FROM RoleList A ");
+            sb.AppendLine("FROM Unit A ");
+            sb.AppendLine("WHERE active='Y' ");
+            sb.AppendLine("and( ");
+            sb.AppendLine(string.Format("id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine("); ");
 
             IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
 
-            List<VO.RoleListVO> myRoleListVOList = new List<ACMS.VO.RoleListVO>();
+            List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
 
             while (myIDataReader.Read())
             {
-                VO.RoleListVO myRoleListVO = new ACMS.VO.RoleListVO();
-                myRoleListVO.id = (int)myIDataReader["id"];
-                myRoleListVO.role_name = (string)myIDataReader["role_name"];
-                myRoleListVOList.Add(myRoleListVO);
+                VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
+                myUnitVO.id = (int)myIDataReader["id"];
+                myUnitVO.name = (string)myIDataReader["name"];
+                myUnitVOList.Add(myUnitVO);
             }
 
-            return myRoleListVOList;
+            return myUnitVOList;
         }
-
 
         //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
         public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_CNAME, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
@@ -849,36 +861,31 @@ namespace ACMS.DAO
             return myEmployeeVOList;
 
         }
-        
-        //7-1 主辦單位設定 主辦單位 DDL DataSource
-        public List<VO.UnitVO> SelectUnit()
+
+        //7-1 主辦單位設定 角色 DDL DataSource
+        public List<VO.RoleListVO> SelectRoleList()
         {
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT *");
-            sb.AppendLine("FROM Unit A ");
-            sb.AppendLine("WHERE active='Y' ");
-            sb.AppendLine("and( ");
-            sb.AppendLine(string.Format("id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
-            sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
-            sb.AppendLine("); ");
+            sb.AppendLine("FROM RoleList A ");
 
             IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
 
-            List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
+            List<VO.RoleListVO> myRoleListVOList = new List<ACMS.VO.RoleListVO>();
 
             while (myIDataReader.Read())
             {
-                VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
-                myUnitVO.id = (int)myIDataReader["id"];
-                myUnitVO.name = (string)myIDataReader["name"];
-                myUnitVOList.Add(myUnitVO);
+                VO.RoleListVO myRoleListVO = new ACMS.VO.RoleListVO();
+                myRoleListVO.id = (int)myIDataReader["id"];
+                myRoleListVO.role_name = (string)myIDataReader["role_name"];
+                myRoleListVOList.Add(myRoleListVO);
             }
 
-            return myUnitVOList;
+            return myRoleListVOList;
         }
 
-        //7-2 角色人員管理 選取所有在職員工
+       // 7-2 角色人員管理 選取所有在職員工
         public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];

@@ -133,10 +133,10 @@ namespace ACMS.BO
 
         //SELECT
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> SmallEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
+        public List<VO.EmployeeVO> SelectForOpenAgentSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.SmallEmployeeSelector(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id);
+            return mySelectorDAO.SelectForOpenAgentSelector(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id);
         }
 
         //SELECT
@@ -204,6 +204,32 @@ namespace ACMS.BO
             return myDDLVOList;
         }
 
+        //6-1 主辦單位設定 主辦單位 DDL DataSource
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.UnitVO> SelectUnit()
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+
+            List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
+
+            myUnitVOList = mySelectorDAO.SelectUnit();
+
+            VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
+
+            myUnitVO.id = null;
+            myUnitVO.name = "請選擇";
+            myUnitVOList.Insert(0, myUnitVO);
+
+            return myUnitVOList;
+        }
+
+        //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_CNAME, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_CNAME, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id);
+        }
 
         //7.角色 DDL DataSource
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
@@ -222,33 +248,6 @@ namespace ACMS.BO
             myRoleListVOList.Insert(0, myRoleListVO);
 
             return myRoleListVOList;
-        }
-
-        //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
-        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_CNAME, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
-        {
-            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_CNAME, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id);
-        }
-
-        //7-1 主辦單位設定 主辦單位 DDL DataSource
-        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.UnitVO> SelectUnit()
-        {
-            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-
-            List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
-
-            myUnitVOList = mySelectorDAO.SelectUnit();
-
-            VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
-
-            myUnitVO.id = null;
-            myUnitVO.name = "請選擇";
-            myUnitVOList.Insert(0, myUnitVO);
-
-            return myUnitVOList;
         }
 
         //7-2 角色人員管理 選取所有在職員工
