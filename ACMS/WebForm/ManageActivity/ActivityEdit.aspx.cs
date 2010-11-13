@@ -285,22 +285,22 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.is_showfile = ((CheckBox)FormView1.FindControl("chkis_showfile")).Checked == true ? "Y" : "N";
         myActivatyVO.is_showprogress = ((CheckBox)FormView1.FindControl("chkis_showprogres")).Checked == true ? "Y" : "N";
 
-        
-                    myActivatyVO.is_showperson_fix1 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix1")).Checked == true ? "Y" : "N";
-            myActivatyVO.is_showperson_fix2 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix2")).Checked == true ? "Y" : "N";
-        
+
+        myActivatyVO.is_showperson_fix1 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix1")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showperson_fix2 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix2")).Checked == true ? "Y" : "N";
+
         if (ActivityType == "1")
         {
 
             myActivatyVO.personextcount_max = Convert.ToInt32(((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text);
             myActivatyVO.personextcount_min = Convert.ToInt32(((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text);
         }
-            myActivatyVO.is_showidno = ((CheckBox)FormView2.FindControl("chkis_showidno")).Checked == true ? "Y" : "N";
-            myActivatyVO.is_showremark = ((CheckBox)FormView2.FindControl("chkis_showremark")).Checked == true ? "Y" : "N";
-            myActivatyVO.remark_name = ((TextBox)FormView2.FindControl("txtremark_name")).Text;
+        myActivatyVO.is_showidno = ((CheckBox)FormView2.FindControl("chkis_showidno")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showremark = ((CheckBox)FormView2.FindControl("chkis_showremark")).Checked == true ? "Y" : "N";
+        myActivatyVO.remark_name = ((TextBox)FormView2.FindControl("txtremark_name")).Text;
 
-            myActivatyVO.is_showteam_fix1 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix1")).Checked == true ? "Y" : "N";
-            myActivatyVO.is_showteam_fix2 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix2")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showteam_fix1 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix1")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showteam_fix2 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix2")).Checked == true ? "Y" : "N";
 
         if (ActivityType == "2")
         {
