@@ -332,7 +332,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
             }
         }
 
-        if (Wizard1.ActiveStepIndex == 1)
+        if (Wizard1.ActiveStepIndex == 2)
         {
             RadioButtonList rblidno_type = (RadioButtonList)FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type");
             TextBox txtidno = (TextBox)FormView_fixA.FindControl("tr_person_fix1").FindControl("txtidno");

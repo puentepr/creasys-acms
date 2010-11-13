@@ -83,7 +83,7 @@
                     
                     
                     <asp:ObjectDataSource ID="ObjectDataSource_Employee" runat="server" 
-                        OldValuesParameterFormatString="original_{0}" SelectMethod="SmallEmployeeSelector" 
+                        OldValuesParameterFormatString="original_{0}" SelectMethod="SelectForOpenAgentSelector" 
                         TypeName="ACMS.BO.SelectorBO">
                         <SelectParameters>
                             <asp:Parameter Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />                        
