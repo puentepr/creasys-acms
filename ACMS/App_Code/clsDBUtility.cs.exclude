@@ -1,0 +1,130 @@
+﻿using System;
+using System.Data;
+using System.Configuration;
+using System.Web;
+using System.Web.Security;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.UI.WebControls.WebParts;
+using System.Web.UI.HtmlControls;
+using System.Globalization;
+using System.Data.SqlClient;
+using System.Collections;
+using System.Text;
+using System.IO;
+using System.Collections.Generic;
+
+    /// <summary>
+    /// clsDBUtility 的摘要描述
+    /// </summary>
+    public partial class clsDBUtility
+    {
+        private SqlConnection conn;
+
+        public static clsDBUtility GetInstance()
+        {
+            return new clsDBUtility();
+        }
+
+        public clsDBUtility()
+        {
+            conn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connStr"].ConnectionString);
+        }
+
+        #region "Login相關"
+
+
+
+
+
+
+        //檢查帳號是否存在
+        //public Boolean IsIDExist(String LoginID)
+        //{
+        //    SqlParameter[] sqlParams = new SqlParameter[1];
+
+        //    sqlParams[0] = new SqlParameter("@LoginID", SqlDbType.NVarChar, 20);
+        //    sqlParams[0].Value = LoginID;
+
+        //    StringBuilder sb = new StringBuilder();
+
+        //    sb.AppendLine("SELECT COUNT(*) ");
+        //    sb.AppendLine("FROM V_ACSM_USER2 ");
+        //    sb.AppendLine("WHERE emp_id=@LoginID ");
+
+        //    return Convert.ToInt32(SqlHelper.ExecuteScalar(conn, CommandType.Text, sb.ToString(), sqlParams)) > 0 ? true : false;
+
+        //}
+
+
+
+
+        #endregion
+
+
+
+        //public DataTable GetCustomField(int activity_id)
+        //{
+        //    SqlParameter[] sqlParams = new SqlParameter[1];
+
+        //    sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.Int);
+        //    sqlParams[0].Value = activity_id;
+
+        //    StringBuilder sb = new StringBuilder();
+
+        //    sb.AppendLine("SELECT * ");
+        //    sb.AppendLine("FROM CustomField A ");
+        //    sb.AppendLine("WHERE activity_id=@activity_id ");
+
+        //    DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
+
+        //    if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
+        //    {
+        //        return DS.Tables[0];
+
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+
+
+
+        //}
+
+
+        //public DataTable GetCustomFieldItem(int field_id)
+        //{
+        //    SqlParameter[] sqlParams = new SqlParameter[2];
+
+        //    sqlParams[0] = new SqlParameter("@field_id", SqlDbType.Int);
+        //    sqlParams[0].Value = field_id;
+
+        //    StringBuilder sb = new StringBuilder();
+
+        //    sb.AppendLine("SELECT * ");
+        //    sb.AppendLine("FROM CustomFieldItem A ");
+        //    sb.AppendLine("WHERE field_id=@field_id ");
+
+        //    DataSet DS = SqlHelper.ExecuteDataset(conn, CommandType.Text, sb.ToString(), sqlParams);
+
+        //    if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
+        //    {
+        //        return DS.Tables[0];
+
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+
+
+
+        //}
+
+
+
+
+
+
+}

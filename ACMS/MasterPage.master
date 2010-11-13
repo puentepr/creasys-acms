@@ -1,0 +1,169 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+
+<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <link rel="stylesheet" type="text/css" href="Scripts/jqueryslidemenu.css" />
+    <!--[if lte IE 7]>
+<style type="text/css">
+html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
+</style>
+<![endif]-->
+
+    <script type="text/javascript" src="/ACMS/Scripts/jquery-1.4.1.min.js"></script>
+
+    <script type="text/javascript" src="/ACMS/Scripts/jqueryslidemenu.js"></script>
+
+    <script type="text/javascript" src="/ACMS/js/jquery-ui.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" media="screen" href="/ACMS/js/jquery-ui.css" />
+
+    <script type="text/javascript">
+        $(function () {
+            $('.date-picker').datepicker({
+                changeMonth: true,
+                changeYear: true,
+                showButtonPanel: false,
+                dateFormat: 'yy/MM',
+                onClose: function (dateText, inst) {
+                    var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+                    var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+                    $(this).datepicker('setDate', new Date(year, month, 1));
+                }
+//            ,
+//                beforeShow: function (input, inst) {
+//                    if ((datestr = $(this).val()).length > 0) {
+//                        year = datestr.substring(0, 4);
+//                        month = jQuery.inArray(datestr.substring(0, datestr.length - 5), $(this).datepicker('option', 'monthNames'));
+//                        $(this).datepicker('option', 'defaultDate', new Date(year, month, 1));
+//                        $(this).datepicker('setDate', new Date(year, month, 1));
+//                    }
+//                }
+
+            });
+        }); 
+
+    </script>
+
+    <script type="text/javascript">
+            function setRadio(nowRadio)
+            {
+                var myForm,objRadio;
+                myForm=document.forms[0];
+                /**////alert(myForm);
+                for(var i=0;i<myForm.length;i++)
+                {
+                    if(myForm.elements[i].type=="radio")
+                    {
+                        objRadio=myForm.elements[i];
+                        /**////alert(objRadio.name);
+                        if (objRadio != nowRadio && objRadio.name.indexOf("GridView_RegisterPeoplinfo") > -1 && objRadio.name.indexOf("RadioButton1") > -1)
+                        {
+                        //alert(objRadio.name);
+                            if(objRadio.checked)
+                            {
+                                objRadio.checked=false;
+                            }
+                        }
+                    }
+                }
+            }
+
+            function setRadio_GridView1(nowRadio) {
+                var myForm, objRadio;
+                myForm = document.forms[0];
+                /**////alert(myForm);
+                for (var i = 0; i < myForm.length; i++) {
+                    if (myForm.elements[i].type == "radio") {
+                        objRadio = myForm.elements[i];
+                        /**////alert(objRadio.name);
+                        if (objRadio != nowRadio && objRadio.name.indexOf("GridView1") > -1 && objRadio.name.indexOf("RadioButton1") > -1) {
+                            //alert(objRadio.name);
+                            if (objRadio.checked) {
+                                objRadio.checked = false;
+                            }
+                        }
+                    }
+                }
+            }
+    </script>
+
+    <style>
+        .ui-datepicker-calendar
+        {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form id="form1" runat="server" enctype="multipart/form-data">
+    <asp:ScriptManager ID="ScriptManager1" runat="server">
+    </asp:ScriptManager>
+    <div id="main_container">
+        <div id="header">
+            <div id="logo">
+                <a href="/ACMS/Default.aspx">
+                    <img src="/ACMS/images/logo.gif" alt="" title="" border="0" style="width: 373px" /></a>
+                <span id="login">登入者資訊:
+                    <asp:Label ID="Label1" runat="server" Text="Label" />
+                </span>
+            </div>
+            <div id="myslidemenu" class="jqueryslidemenu">
+                <ul>
+                    <li><a href="/ACMS/Default.aspx">首頁</a></li>
+                    <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Person.aspx">個人報名</a></li>
+                    <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Team.aspx">團隊報名</a></li>
+                    <li><a href="/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx">已報名活動查詢</a></li>
+                    <li><a href="/ACMS/WebForm/RegistActivity/ActivityProgressQuery.aspx">活動進度查詢</a></li>
+                    <li><a href="#">活動資料管理</a>
+                        <ul>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityEditQuery.aspx">新增/修改活動</a></li>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityQuery.aspx">報名狀態查詢</a></li>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityCheck.aspx">活動進度登錄</a></li>
+                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityQuery.aspx?type=off">歷史資料查詢</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">權限管理</a>
+                        <ul>
+                        <li><a href="/ACMS/WebForm/ManageRole/ManageUnit.aspx">主辦單位設定</a></li>
+                            <li><a href="/ACMS/WebForm/ManageRole/ManageRole.aspx">角色人員管理</a></li>
+                        </ul>
+                    </li>
+                    <li></li>
+                </ul>
+                <br style="clear: left" />
+            </div>
+        </div>
+        <div id="MyContentPlaceHolder">
+            <table width="100%">
+                <tr>
+                    <td valign="top">
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+                    </td>
+                    <td valign="top" width="20%">
+                        <asp:Panel ID="Panel3" runat="server" GroupingText="日曆及熱門連結">
+                            <div class="SpaceDiv">
+                                <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
+                            </div>
+                        </asp:Panel>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="footer">
+            <div class="copyright">
+                &nbsp;</div>
+            <div class="footer_links">
+                <%-- <a href="#">Contact us </a>--%>
+            </div>
+        </div>
+    </div>
+    </form>
+</body>
+</html>

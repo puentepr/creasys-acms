@@ -1,0 +1,3 @@
+        <ajaxToolkit:ModalPopupExtender runat="server" 
+            BackgroundCssClass="modalBackground" 
+ />
