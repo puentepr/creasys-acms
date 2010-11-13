@@ -388,6 +388,10 @@ namespace ACMS.DAO
         //5.2.活動進度查詢
         public DataTable ActivityProcessQuery(string activity_id)
         {
+            if (string.IsNullOrEmpty(activity_id))
+            {
+                return null;
+            }
             //該活動報到進度情況
             SqlParameter[] sqlParams = new SqlParameter[1];
 
