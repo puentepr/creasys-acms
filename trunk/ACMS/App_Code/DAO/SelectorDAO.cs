@@ -520,8 +520,7 @@ namespace ACMS.DAO
             return DT;
 
         }
-
-
+        
         //6-2活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢
         public DataTable ActivityQuery(string activity_startdate, string activity_enddate, string org_id, string querytype)
         {
@@ -552,11 +551,11 @@ namespace ACMS.DAO
 
             if (querytype != "off")
             {
-                sb.AppendLine("and A.activity_enddate>getdate() ");//報名狀態查詢
+                sb.AppendLine("and A.activity_enddate>getdate() ");//報名狀態查詢(活動未結束)
             }
             else
             {
-                sb.AppendLine("and A.activity_enddate<getdate() ");//歷史資料查詢
+                sb.AppendLine("and A.activity_enddate<=getdate() ");//歷史資料查詢(活動已結束)
             }
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -587,6 +586,11 @@ namespace ACMS.DAO
         //6-3報名登錄狀態管理 
         public DataTable ActivityCheckQuery(string activity_id,string DEPT_ID, string emp_id, string emp_name)
         {
+            if (string.IsNullOrEmpty(activity_id))
+            {
+                return null;
+            }
+
             SqlParameter[] sqlParams = new SqlParameter[4];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
@@ -602,18 +606,18 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT * FROM ");
             sb.AppendLine("( ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.WINDOWS_ID,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");
             sb.AppendLine(" Union ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.WINDOWS_ID,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");
             sb.AppendLine(") AA");
             sb.AppendLine("where 1=1 ");
-            sb.AppendLine("and (emp_id=@emp_id or @emp_id='') ");
+            sb.AppendLine("and (WINDOWS_ID=@emp_id or @emp_id='') ");
             sb.AppendLine("and (DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
             sb.AppendLine("and (NATIVE_NAME like '%'+@emp_name +'%'or @emp_name='') ");
             sb.AppendLine("order by id ");
