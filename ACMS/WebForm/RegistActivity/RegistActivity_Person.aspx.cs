@@ -451,7 +451,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         }
 
 
-        Response.Redirect("ActivityEditQuery.aspx");
+        Response.Redirect("RegistedActivityQuery.aspx");
 
     }
 
@@ -575,8 +575,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
                         (MyControl_chk as TCheckBoxListRequiredValidator).Text = "*";
                         (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
-                        (MyControl_chk as TCheckBoxListRequiredValidator).EnableViewState = false;
-
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "CHECKBOXLIST")
                     {
@@ -595,7 +593,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         (MyControl_chk as TCheckBoxListRequiredValidator).ErrorMessage = string.Format("{0}必填!", myCustomFieldVO.field_name);
                         (MyControl_chk as TCheckBoxListRequiredValidator).Text = "*";
                         (MyControl_chk as TCheckBoxListRequiredValidator).ValidationGroup = "WizardNext";
-                        (MyControl_chk as TCheckBoxListRequiredValidator).EnableViewState = false;
                     }
                     else if (myCustomFieldVO.field_control.ToUpper() == "RADIOBUTTONLIST")
                     {

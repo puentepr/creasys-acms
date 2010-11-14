@@ -211,7 +211,7 @@
                 <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="報名相關資料">  
                     <table align="center">
                         <tr>
-                            <td> <asp:UpdatePanel ID="UpdatePanel_CustomField" runat="server" UpdateMode="Conditional" EnableViewState="False">   <ContentTemplate> 
+                            <td> <asp:UpdatePanel ID="UpdatePanel_CustomField" runat="server" UpdateMode="Conditional">   <ContentTemplate> 
                                 <asp:FormView ID="FormView_fixA" runat="server" DataSourceID="ObjectDataSource_fixA"
                                     OnDataBound="FormView_fixA_DataBound">
                                     <ItemTemplate>
@@ -262,9 +262,11 @@
                                         <asp:Parameter DbType="Guid" Name="activity_id" />
                                         <asp:Parameter Name="emp_id" Type="String" />
                                     </SelectParameters>
-                                </asp:ObjectDataSource> 
-         
-                                <asp:PlaceHolder ID="PlaceHolder1" runat="server" EnableViewState="False"></asp:PlaceHolder>
+                                </asp:ObjectDataSource>                             
+                             
+                                <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder> 
+              
+                                
                                  </ContentTemplate>
                                         </asp:UpdatePanel>
                             </td>
