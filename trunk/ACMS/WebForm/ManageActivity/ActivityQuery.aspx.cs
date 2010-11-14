@@ -122,6 +122,10 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
     }
 
 
-
+    ////取消個人報名後
+    //protected void CancelPersonRegist_OnClick(object sender, EventArgs e)
+    //{
+    //    GridView1.DataBind();
+    //}
 
 }

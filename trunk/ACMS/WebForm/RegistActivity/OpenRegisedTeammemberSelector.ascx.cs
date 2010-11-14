@@ -5,7 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System.Web.UI.UserControl
+public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : System.Web.UI.UserControl
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -144,7 +144,7 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     }
 }
 
-public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector 
+public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
 {
     public string activity_id
     {
