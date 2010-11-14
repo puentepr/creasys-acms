@@ -18,8 +18,6 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
         }
     }
 
-
-
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if(e.Row.RowType== DataControlRowType.DataRow)
@@ -35,7 +33,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
             //}
 
             //取消報名截止日後，誰都不能再取消報名
-            if (Convert.ToDateTime(drv["cancelregist_deadline"]).AddDays(1) <= DateTime.Today)
+            if (Convert.ToDateTime(drv["cancelregist_deadline"]) < DateTime.Today)
             {
                 (e.Row.FindControl("lbtnRegistCancel") as LinkButton).Visible = false;
             }

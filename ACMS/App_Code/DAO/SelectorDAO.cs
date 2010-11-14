@@ -137,7 +137,7 @@ namespace ACMS.DAO
 
         }
 
-        //2.1個人報名-被報名者人事資料(個人活動新增時)
+        //2.1個人報名-(個人活動新增時)被報名者人事資料
         public DataTable RegisterPersonInfo(string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -157,7 +157,7 @@ namespace ACMS.DAO
 
         }
 
-        //2.2個人報名-所有由登入者代理報名的人事資料(個人活動編輯時)
+        //2.2個人報名-(個人活動編輯時)//登入者代理(含自己)的會列出 or 登入者被別人代理報名也會列出
         public DataTable RegisterPeopleInfo(string activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -202,20 +202,20 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT B.[ID],B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
-            sb.AppendLine("FROM ");
+            sb.AppendLine("SELECT A.[ID],A.[C_DEPT_ABBR],A.[WORK_ID],A.[NATIVE_NAME] ");
+            sb.AppendLine("FROM V_ACSM_USER2 A ");
+            sb.AppendLine("WHERE A.ID in ");
             sb.AppendLine("( ");
-            sb.AppendLine("  SELECT AA.is_grouplimit,BB.emp_id ");
-            sb.AppendLine("  FROM Activity AA  ");
-            sb.AppendLine("  left join ActivityGroupLimit BB on AA.id=BB.activity_id ");
-            sb.AppendLine("  WHERE AA.active='Y' ");
-            sb.AppendLine("  and AA.id=@activity_id ");
-            sb.AppendLine(") A ");
-            sb.AppendLine("left join V_ACSM_USER2 B on CASE WHEN A.is_grouplimit='Y' THEN A.emp_id ELSE B.ID END = B.ID ");
-            sb.AppendLine("WHERE 1=1 ");
-            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
-            sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
-            sb.AppendLine("and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
+            sb.AppendLine("SELECT CASE WHEN AA.is_grouplimit='Y' THEN BB.emp_id ELSE A.ID END ");
+            sb.AppendLine("FROM Activity AA ");
+            sb.AppendLine("left join ActivityGroupLimit BB on AA.id=BB.activity_id ");//區分是否有族群限制
+            sb.AppendLine("WHERE AA.active='Y' ");
+            sb.AppendLine("and AA.id=@activity_id ");
+            sb.AppendLine(") ");
+            sb.AppendLine("and A.status <2 ");//不為離職或留職停薪
+            sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
+            sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
@@ -236,9 +236,7 @@ namespace ACMS.DAO
 
             return myEmployeeVOList;
         }
-
-
-
+        
         //3.列出可加入此活動的隊員
         public List<VO.EmployeeVO> RegistableTeamMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
         {
@@ -263,7 +261,7 @@ namespace ACMS.DAO
             sb.AppendLine("SELECT A.[ID],A.[C_DEPT_ABBR],A.[WORK_ID],A.[NATIVE_NAME],CASE WHEN B.emp_id is null THEN 'true' ELSE 'false' END as theEnable  ");
             sb.AppendLine("FROM V_ACSM_USER2 A ");
             sb.AppendLine("left join (SELECT emp_id FROM ActivityTeamMember WHERE activity_id=@activity_id) B on A.ID = B.emp_id ");
-            sb.AppendLine("WHERE A.status <>2 ");//不為離職  
+            sb.AppendLine("WHERE A.status <2 ");//不為離職或留職停薪
             sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
             sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
@@ -327,8 +325,8 @@ namespace ACMS.DAO
             sb.AppendLine(string.Format("  inner join {0} BB on AA.id=BB.activity_id and BB.check_status>=0 ", strTableName));//不含已取消的活動
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and (AA.activity_type=@activity_type) ");
-            sb.AppendLine("  and ((dateadd(day,1,AA.activity_enddate)>=getdate() and @activity_enddate_finish='N') or (dateadd(day,1,AA.activity_enddate)<getdate() and @activity_enddate_finish='Y') ) ");//執行中活動(N) 或 歷史資料查詢(Y)            
-            sb.AppendLine("  and BB.emp_id=@emp_id ");
+            sb.AppendLine("  and ((AA.activity_enddate>getdate() and @activity_enddate_finish='N') or (AA.activity_enddate<=getdate() and @activity_enddate_finish='Y') ) ");//執行中活動(N) 或 歷史資料查詢(Y)            
+            sb.AppendLine("  and BB.emp_id=@emp_id ");//(被報名者=登入者)的活動
             sb.AppendLine(") A ");
             sb.AppendLine(string.Format("left join {0} B on A.id=B.activity_id ", strTableName));
             sb.AppendLine("WHERE 1=1 ");
@@ -358,15 +356,15 @@ namespace ACMS.DAO
 
         }
 
-        //4.1由我報名的人員選單
-        public DataTable RegistedByMeEmpSelector(Guid activity_id, string regist_by)
+        //4.1已報名活動查詢-取消個人報名-由登入者代理報名的人員(及本人)選單
+        public DataTable RegistedByMeEmpSelector(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@regist_by", SqlDbType.NVarChar, 100);
-            sqlParams[1].Value = regist_by;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+            sqlParams[1].Value = emp_id;
 
             StringBuilder sb = new StringBuilder();
 
@@ -375,9 +373,9 @@ namespace ACMS.DAO
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and A.activity_id=@activity_id ");
-            sb.AppendLine("and (A.regist_by=@regist_by or @regist_by='') ");
-            sb.AppendLine("and A.check_status>=0 ");
-            sb.AppendLine("ORDER BY A.id ");
+            sb.AppendLine("and ((A.regist_by=@emp_id or A.emp_id=@emp_id) or @emp_id='') ");//由登入者代理報名的人員(及本人)選單 管理員執行時 @regist_by=''
+            //sb.AppendLine("and A.check_status>=0 ");//離職的人應該可以幫他取消報名
+            sb.AppendLine("ORDER BY A.id ");//按照報名順序
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
@@ -901,7 +899,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT B.[ID],B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
             sb.AppendLine("FROM V_ACSM_USER2 B ");
-            sb.AppendLine("WHERE status<>2 ");//在職員工
+            sb.AppendLine("WHERE status<2 ");//在職員工
             sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
             sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");

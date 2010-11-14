@@ -26,11 +26,12 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
                 emp_id += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
             }
 
+        }
+
             if (emp_id.EndsWith(","))
             {
                 emp_id = emp_id.Substring(0, emp_id.Length - 1);
             }
-        }
 
         if (!string.IsNullOrEmpty(emp_id))
         {

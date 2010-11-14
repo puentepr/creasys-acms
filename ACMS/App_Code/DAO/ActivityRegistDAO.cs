@@ -273,14 +273,14 @@ namespace ACMS.DAO
             else
             {
                 sb.AppendLine("UPDATE ActivityRegist ");
-                sb.AppendLine("set activity_id=@activity_id ");
-                sb.AppendLine(",emp_id=@emp_id ");
-                sb.AppendLine(",regist_by=@regist_by ");
-                sb.AppendLine(",idno_type=@idno_type ");
+                //sb.AppendLine("set activity_id=@activity_id ");
+                //sb.AppendLine(",emp_id=@emp_id ");
+                //sb.AppendLine(",regist_by=@regist_by ");
+                sb.AppendLine("set idno_type=@idno_type ");
                 sb.AppendLine(",idno=@idno ");
                 sb.AppendLine(",team_name=@team_name ");
                 sb.AppendLine(",ext_people=@ext_people ");
-                sb.AppendLine("WHERE activity_id=@activity_id; ");
+                sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@emp_id; ");
 
             }
 
