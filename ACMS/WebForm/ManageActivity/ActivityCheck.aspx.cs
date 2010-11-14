@@ -18,7 +18,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            (this.Master as MyMasterPage).PanelMainGroupingText = "報名登錄狀態管理";
+            (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度登錄";
             ddlActivity.DataBind();
             btnQuery_Click(null, null);
         }
