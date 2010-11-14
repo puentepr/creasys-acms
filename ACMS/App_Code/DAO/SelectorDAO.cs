@@ -130,7 +130,7 @@ namespace ACMS.DAO
 
             if (DT != null)
             {
-                clsMyObj.CheckFull(ref DT, false, true);
+                clsMyObj.CheckFull(ref DT, true, true);
             }
 
             return DT;

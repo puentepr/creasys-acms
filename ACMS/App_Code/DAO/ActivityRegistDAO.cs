@@ -83,6 +83,7 @@ namespace ACMS.DAO
                 myActivityRegistVO.activity_id = (Guid)MyDataReader["activity_id"];
                 myActivityRegistVO.emp_id = (string)MyDataReader["emp_id"];
                 myActivityRegistVO.regist_by = (string)MyDataReader["regist_by"];
+                myActivityRegistVO.idno_type = (int)MyDataReader["idno_type"];
                 myActivityRegistVO.idno = (string)MyDataReader["idno"];
                 myActivityRegistVO.ext_people = (int?)(MyDataReader["ext_people"] == DBNull.Value ? null : MyDataReader["ext_people"]);
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
@@ -241,7 +242,7 @@ namespace ACMS.DAO
         //完成時存檔
         public int UpdateActivityRegist(VO.ActivityRegistVO myActivityRegistVO, List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList, List<ACMS.VO.ActivityTeamMemberVO> myActivityTeamMemberVOList, string type)
         {
-            SqlParameter[] sqlParams = new SqlParameter[7];
+            SqlParameter[] sqlParams = new SqlParameter[8];
 
             sqlParams[0] = new SqlParameter("@id", SqlDbType.Int);
             sqlParams[0].Value = myActivityRegistVO.id;
@@ -251,21 +252,23 @@ namespace ACMS.DAO
             sqlParams[2].Value = myActivityRegistVO.emp_id;
             sqlParams[3] = new SqlParameter("@regist_by", SqlDbType.NVarChar, 100);
             sqlParams[3].Value = myActivityRegistVO.regist_by;
-            sqlParams[4] = new SqlParameter("@idno", SqlDbType.NVarChar, 20);
-            sqlParams[4].Value = myActivityRegistVO.idno;
-            sqlParams[5] = new SqlParameter("@team_name", SqlDbType.NVarChar, 100);
-            sqlParams[5].Value = myActivityRegistVO.team_name;
-            sqlParams[6] = new SqlParameter("@ext_people", SqlDbType.Int);
-            sqlParams[6].Value = myActivityRegistVO.ext_people;
+            sqlParams[4] = new SqlParameter("@idno_type", SqlDbType.Int);
+            sqlParams[4].Value = myActivityRegistVO.idno_type;
+            sqlParams[5] = new SqlParameter("@idno", SqlDbType.NVarChar, 20);
+            sqlParams[5].Value = myActivityRegistVO.idno;
+            sqlParams[6] = new SqlParameter("@team_name", SqlDbType.NVarChar, 100);
+            sqlParams[6].Value = myActivityRegistVO.team_name;
+            sqlParams[7] = new SqlParameter("@ext_people", SqlDbType.Int);
+            sqlParams[7].Value = myActivityRegistVO.ext_people;
 
             StringBuilder sb = new StringBuilder();
 
             if (type == "insert")
             {
                 sb.AppendLine("INSERT ActivityRegist ");
-                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno],[team_name],[ext_people],[createat],[check_status]) ");
+                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno_type],[idno],[team_name],[ext_people],[createat],[check_status]) ");
                 sb.AppendLine("Values ");
-                sb.AppendLine("(@activity_id,@emp_id,@regist_by,@idno,@team_name,@ext_people,getdate(),0); ");
+                sb.AppendLine("(@activity_id,@emp_id,@regist_by,@idno_type,@idno,@team_name,@ext_people,getdate(),0); ");
             }
             else
             {
@@ -273,10 +276,11 @@ namespace ACMS.DAO
                 sb.AppendLine("set activity_id=@activity_id ");
                 sb.AppendLine(",emp_id=@emp_id ");
                 sb.AppendLine(",regist_by=@regist_by ");
+                sb.AppendLine(",idno_type=@idno_type ");
                 sb.AppendLine(",idno=@idno ");
                 sb.AppendLine(",team_name=@team_name ");
                 sb.AppendLine(",ext_people=@ext_people ");
-                sb.AppendLine("WHERE activity_d=@activity_d; ");
+                sb.AppendLine("WHERE activity_id=@activity_id; ");
 
             }
 

@@ -10,9 +10,9 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-        <ContentTemplate>
-            <div class="SpaceDiv">
+    <div class="SpaceDiv">
+        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
                 <table align="center">
                     <tr>
                         <td>
@@ -107,9 +107,10 @@
                         <asp:Parameter Name="emp_id" Type="String" ConvertEmptyStringToNull="false" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
-                <uc1:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />
-                               <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" />
-            </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
+                <uc1:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server"
+                    OnCancelPersonRegistClick="CancelPersonRegist_Click" />
+                <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" />
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
 </asp:Content>

@@ -1,4 +1,4 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegisedTeammemberSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenRegistedByMeEmpSelector" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegisedTeammemberSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenRegisedTeammemberSelector" %>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
     " Width="400" Height="500"><!--display: none;-->
     <br />
