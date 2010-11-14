@@ -330,39 +330,43 @@ namespace ACMS.DAO
 
                         }
 
-                        //重製ActivityTeamMember
-                        foreach (ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO in myActivityTeamMemberVOList)
+                        if (myActivityTeamMemberVOList != null)
                         {
-                            SqlParameter[] sqlParams3 = new SqlParameter[7];
+                            //重製ActivityTeamMember
+                            foreach (ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO in myActivityTeamMemberVOList)
+                            {
+                                SqlParameter[] sqlParams3 = new SqlParameter[7];
 
-                            sqlParams3[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-                            sqlParams3[0].Value = myActivityTeamMemberVO.activity_id;
-                            sqlParams3[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
-                            sqlParams3[1].Value = myActivityTeamMemberVO.emp_id;
-                            sqlParams3[2] = new SqlParameter("@boss_id", SqlDbType.NVarChar, 100);
-                            sqlParams3[2].Value = myActivityTeamMemberVO.boss_id;
-                            sqlParams3[3] = new SqlParameter("@idno_type", SqlDbType.SmallInt);
-                            sqlParams3[3].Value = myActivityTeamMemberVO.idno_type;
-                            sqlParams3[4] = new SqlParameter("@idno", SqlDbType.NVarChar, 20);
-                            sqlParams3[4].Value = myActivityTeamMemberVO.idno;
-                            sqlParams3[5] = new SqlParameter("@remark", SqlDbType.NVarChar,500);
-                            sqlParams3[5].Value = myActivityTeamMemberVO.remark;
-                            sqlParams3[6] = new SqlParameter("@check_status", SqlDbType.Int);
-                            sqlParams3[6].Value = myActivityTeamMemberVO.check_status;
-                       
-                            StringBuilder sb3 = new StringBuilder();
+                                sqlParams3[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+                                sqlParams3[0].Value = myActivityTeamMemberVO.activity_id;
+                                sqlParams3[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+                                sqlParams3[1].Value = myActivityTeamMemberVO.emp_id;
+                                sqlParams3[2] = new SqlParameter("@boss_id", SqlDbType.NVarChar, 100);
+                                sqlParams3[2].Value = myActivityTeamMemberVO.boss_id;
+                                sqlParams3[3] = new SqlParameter("@idno_type", SqlDbType.SmallInt);
+                                sqlParams3[3].Value = myActivityTeamMemberVO.idno_type;
+                                sqlParams3[4] = new SqlParameter("@idno", SqlDbType.NVarChar, 20);
+                                sqlParams3[4].Value = myActivityTeamMemberVO.idno;
+                                sqlParams3[5] = new SqlParameter("@remark", SqlDbType.NVarChar, 500);
+                                sqlParams3[5].Value = myActivityTeamMemberVO.remark;
+                                sqlParams3[6] = new SqlParameter("@check_status", SqlDbType.Int);
+                                sqlParams3[6].Value = myActivityTeamMemberVO.check_status;
 
-                            sb3.AppendLine("INSERT ActivityTeamMember ");
-                            sb3.AppendLine("VALUES ");
-                            sb3.AppendLine("(@activity_id,@emp_id,@boss_id,@idno_type,@idno,@remark,@check_status) ");
+                                StringBuilder sb3 = new StringBuilder();
 
-                            cmd.CommandText = sb3.ToString();
-                            cmd.Parameters.Clear();
-                            cmd.Parameters.AddRange(sqlParams3);
-                            cmd.ExecuteNonQuery();
+                                sb3.AppendLine("INSERT ActivityTeamMember ");
+                                sb3.AppendLine("VALUES ");
+                                sb3.AppendLine("(@activity_id,@emp_id,@boss_id,@idno_type,@idno,@remark,@check_status) ");
+
+                                cmd.CommandText = sb3.ToString();
+                                cmd.Parameters.Clear();
+                                cmd.Parameters.AddRange(sqlParams3);
+                                cmd.ExecuteNonQuery();
+
+                            }
 
                         }
-
+                  
                         trans.Commit();
                     }
                     catch (Exception ex)
