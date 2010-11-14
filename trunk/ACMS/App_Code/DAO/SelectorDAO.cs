@@ -62,8 +62,7 @@ namespace ACMS.DAO
             return DT;
         }
 
-        //2.個人報名 3.團隊報名
-        //可報名活動查詢
+        //2.個人報名 3.團隊報名 可報名活動查詢
         public DataTable RegistActivity_Query(string activity_name, string activity_startdate, string activity_enddate, string activity_type, string emp_id)
         {
             //列出可報名的活動
@@ -288,8 +287,7 @@ namespace ACMS.DAO
             return myEmployeeVOList;
         
         }
-
-
+        
         //4.已報名活動查詢
         public DataTable RegistedActivityQuery(string activity_name, string activity_startdate, string activity_enddate, string activity_enddate_finish, string emp_id, string activity_type)
         {
@@ -413,7 +411,6 @@ namespace ACMS.DAO
 
         }
 
-
         //5.1活動進度查詢
         public DataTable GetAllMyActivity(string emp_id)
         {
@@ -470,8 +467,7 @@ namespace ACMS.DAO
 
             return clsMyObj.GetDataTable(DS);
         }
-
-
+        
         //6-1活動資料管理-新增修改活動查詢
         public DataTable ActivityEditQuery(string activity_name, string activity_startdate, string activity_enddate)
         {
@@ -518,243 +514,6 @@ namespace ACMS.DAO
             }
 
             return DT;
-
-        }
-        
-        //6-2活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢
-        public DataTable ActivityQuery(string activity_startdate, string activity_enddate, string org_id, string querytype)
-        {
-            SqlParameter[] sqlParams = new SqlParameter[3];
-
-            sqlParams[0] = new SqlParameter("@activity_startdate", SqlDbType.NVarChar, 20);
-            sqlParams[0].Value = activity_startdate;
-            sqlParams[1] = new SqlParameter("@activity_enddate", SqlDbType.NVarChar, 20);
-            sqlParams[1].Value = activity_enddate;
-            sqlParams[2] = new SqlParameter("@org_id", SqlDbType.NVarChar, 50);
-            sqlParams[2].Value = org_id;
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline ");
-            sb.AppendLine("FROM [Activity] A ");
-            sb.AppendLine("WHERE A.active='Y' ");
-            sb.AppendLine("and ( ");
-            sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
-            sb.AppendLine("       or (@activity_startdate <= cast(convert(varchar, A.activity_startdate, 102) as datetime) and @activity_enddate >= cast(convert(varchar, A.activity_enddate, 102) as datetime) and @activity_startdate<>'' and @activity_enddate<>'') ");
-            sb.AppendLine("       or ( ");
-            sb.AppendLine("           ((@activity_startdate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_startdate<>'' ) ");
-            sb.AppendLine("           or ");
-            sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
-            sb.AppendLine("         ) ");
-            sb.AppendLine("    ) ");
-            sb.AppendLine("and (org_id=@org_id or @org_id='') ");
-
-            if (querytype != "off")
-            {
-                sb.AppendLine("and A.activity_enddate>getdate() ");//報名狀態查詢(活動未結束)
-            }
-            else
-            {
-                sb.AppendLine("and A.activity_enddate<=getdate() ");//歷史資料查詢(活動已結束)
-            }
-
-            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            return clsMyObj.GetDataTable(DS);
-        }
-
-        //6-3報名登錄狀態管理 - 所有活動的DataSource
-        public DataTable GetAllActivity()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT A.id,A.activity_name ");
-            sb.AppendLine("FROM Activity A ");
-            sb.AppendLine("inner join Unit B on A.org_id=B.id ");
-            sb.AppendLine("WHERE A.active='Y' and B.active='Y' ");
-            sb.AppendLine("and( ");
-            sb.AppendLine(string.Format("B.id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
-            sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
-            sb.AppendLine(") ");
-            sb.AppendLine("ORDER BY A.sn; ");
-
-            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), null);
-
-            return clsMyObj.GetDataTable(DS);
-        }
-
-        //6-3報名登錄狀態管理 
-        public DataTable ActivityCheckQuery(string activity_id,string DEPT_ID, string emp_id, string emp_name)
-        {
-            if (string.IsNullOrEmpty(activity_id))
-            {
-                return null;
-            }
-
-            SqlParameter[] sqlParams = new SqlParameter[4];
-
-            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-            sqlParams[0].Value = new Guid(activity_id);
-            sqlParams[1] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
-            sqlParams[1].Value = DEPT_ID;
-            sqlParams[2] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
-            sqlParams[2].Value = emp_id;
-            sqlParams[3] = new SqlParameter("@emp_name", SqlDbType.NVarChar, 200);
-            sqlParams[3].Value = emp_name;
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT * FROM ");
-            sb.AppendLine("( ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.WINDOWS_ID,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
-            sb.AppendLine(" FROM Activity A ");
-            sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
-            sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");
-            sb.AppendLine(" Union ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.WINDOWS_ID,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
-            sb.AppendLine(" FROM Activity A ");
-            sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
-            sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");
-            sb.AppendLine(") AA");
-            sb.AppendLine("where 1=1 ");
-            sb.AppendLine("and (WINDOWS_ID=@emp_id or @emp_id='') ");
-            sb.AppendLine("and (DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
-            sb.AppendLine("and (NATIVE_NAME like '%'+@emp_name +'%'or @emp_name='') ");
-            sb.AppendLine("order by id ");
-
-            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            return clsMyObj.GetDataTable(DS);
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public List<VO.DDLVO> UnitSelector()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT [id],[name] ");
-            sb.AppendLine("FROM Unit  ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
-
-            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
-
-            while (MyDataReader.Read())
-            {
-                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
-
-                myDDLVO.Value = MyDataReader["id"].ToString();
-                myDDLVO.Text = MyDataReader["name"].ToString();
-
-                myDDLVOList.Add(myDDLVO);
-            }
-
-            return myDDLVOList;
-
-        }
-
-        public List<VO.DDLVO> DeptSelector()
-        { 
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT distinct [DEPT_ID],[C_DEPT_ABBR] ");
-            sb.AppendLine("FROM V_ACSM_USER2  ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
-
-            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
-
-            while (MyDataReader.Read())
-            {
-                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
-
-                myDDLVO.Value = (string)MyDataReader["DEPT_ID"];
-                myDDLVO.Text = (string)MyDataReader["C_DEPT_ABBR"];
-
-                myDDLVOList.Add(myDDLVO);
-
-            }
-
-            return myDDLVOList;
-
-        }
-
-        public List<VO.DDLVO> JOBCNAMESelector()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT distinct [JOB_CNAME] ");
-            sb.AppendLine("FROM V_ACSM_USER2  ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
-
-            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
-
-            while (MyDataReader.Read())
-            {
-                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
-
-                myDDLVO.Value = (string)MyDataReader["JOB_CNAME"];
-                myDDLVO.Text = (string)MyDataReader["JOB_CNAME"];
-
-                myDDLVOList.Add(myDDLVO);
-
-            }
-
-            return myDDLVOList;
-
-        }
-
-        public List<VO.DDLVO> CNAMESelector()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT distinct [C_NAME] ");
-            sb.AppendLine("FROM V_ACSM_USER2  ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
-
-            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
-
-            while (MyDataReader.Read())
-            {
-                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
-
-                myDDLVO.Value = (string)MyDataReader["C_NAME"];
-                myDDLVO.Text = (string)MyDataReader["C_NAME"];
-
-                myDDLVOList.Add(myDDLVO);
-
-            }
-
-            return myDDLVOList;
 
         }
 
@@ -863,8 +622,114 @@ namespace ACMS.DAO
             return myEmployeeVOList;
 
         }
+                
+        //6-2活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢
+        public DataTable ActivityQuery(string activity_startdate, string activity_enddate, string org_id, string querytype)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[3];
 
-        //7-1 主辦單位設定 角色 DDL DataSource
+            sqlParams[0] = new SqlParameter("@activity_startdate", SqlDbType.NVarChar, 20);
+            sqlParams[0].Value = activity_startdate;
+            sqlParams[1] = new SqlParameter("@activity_enddate", SqlDbType.NVarChar, 20);
+            sqlParams[1].Value = activity_enddate;
+            sqlParams[2] = new SqlParameter("@org_id", SqlDbType.NVarChar, 50);
+            sqlParams[2].Value = org_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline ");
+            sb.AppendLine("FROM [Activity] A ");
+            sb.AppendLine("WHERE A.active='Y' ");
+            sb.AppendLine("and ( ");
+            sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
+            sb.AppendLine("       or (@activity_startdate <= cast(convert(varchar, A.activity_startdate, 102) as datetime) and @activity_enddate >= cast(convert(varchar, A.activity_enddate, 102) as datetime) and @activity_startdate<>'' and @activity_enddate<>'') ");
+            sb.AppendLine("       or ( ");
+            sb.AppendLine("           ((@activity_startdate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_startdate<>'' ) ");
+            sb.AppendLine("           or ");
+            sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
+            sb.AppendLine("         ) ");
+            sb.AppendLine("    ) ");
+            sb.AppendLine("and (org_id=@org_id or @org_id='') ");
+
+            if (querytype != "off")
+            {
+                sb.AppendLine("and A.activity_enddate>getdate() ");//報名狀態查詢(活動未結束)
+            }
+            else
+            {
+                sb.AppendLine("and A.activity_enddate<=getdate() ");//歷史資料查詢(活動已結束)
+            }
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            return clsMyObj.GetDataTable(DS);
+        }
+
+        //6-3活動進度登錄 - 所有活動的DataSource
+        public DataTable GetAllActivity()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT A.id,A.activity_name ");
+            sb.AppendLine("FROM Activity A ");
+            sb.AppendLine("inner join Unit B on A.org_id=B.id ");
+            sb.AppendLine("WHERE A.active='Y' and B.active='Y' ");
+            sb.AppendLine("and( ");
+            sb.AppendLine(string.Format("B.id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
+            sb.AppendLine(") ");
+            sb.AppendLine("ORDER BY A.sn; ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), null);
+
+            return clsMyObj.GetDataTable(DS);
+        }
+
+        //6-3活動進度登錄 
+        public DataTable ActivityCheckQuery(string activity_id,string DEPT_ID, string emp_id, string emp_name)
+        {
+            if (string.IsNullOrEmpty(activity_id))
+            {
+                return null;
+            }
+
+            SqlParameter[] sqlParams = new SqlParameter[4];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = new Guid(activity_id);
+            sqlParams[1] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
+            sqlParams[1].Value = DEPT_ID;
+            sqlParams[2] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+            sqlParams[2].Value = emp_id;
+            sqlParams[3] = new SqlParameter("@emp_name", SqlDbType.NVarChar, 200);
+            sqlParams[3].Value = emp_name;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT * FROM ");
+            sb.AppendLine("( ");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" FROM Activity A ");
+            sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
+            sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");
+            sb.AppendLine(" Union ");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" FROM Activity A ");
+            sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
+            sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");
+            sb.AppendLine(") AA");
+            sb.AppendLine("where 1=1 ");
+            sb.AppendLine("and (WORK_ID like '%'+@emp_id+'%' or @emp_id='') ");
+            sb.AppendLine("and (DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            sb.AppendLine("and (NATIVE_NAME like '%'+@emp_name +'%'or @emp_name='') ");
+            sb.AppendLine("order by id ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            return clsMyObj.GetDataTable(DS);
+        }         
+                
+        //7-2 主辦單位設定 角色 DDL DataSource
         public List<VO.RoleListVO> SelectRoleList()
         {
             StringBuilder sb = new StringBuilder();
@@ -929,6 +794,108 @@ namespace ACMS.DAO
 
         }
 
+        public List<VO.DDLVO> UnitSelector()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT [id],[name] ");
+            sb.AppendLine("FROM Unit  ");
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+
+            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
+
+            while (MyDataReader.Read())
+            {
+                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
+
+                myDDLVO.Value = MyDataReader["id"].ToString();
+                myDDLVO.Text = MyDataReader["name"].ToString();
+
+                myDDLVOList.Add(myDDLVO);
+            }
+
+            return myDDLVOList;
+
+        }
+
+        public List<VO.DDLVO> DeptSelector()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT distinct [DEPT_ID],[C_DEPT_ABBR] ");
+            sb.AppendLine("FROM V_ACSM_USER2  ");
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+
+            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
+
+            while (MyDataReader.Read())
+            {
+                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
+
+                myDDLVO.Value = (string)MyDataReader["DEPT_ID"];
+                myDDLVO.Text = (string)MyDataReader["C_DEPT_ABBR"];
+
+                myDDLVOList.Add(myDDLVO);
+
+            }
+
+            return myDDLVOList;
+
+        }
+
+        public List<VO.DDLVO> JOBCNAMESelector()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT distinct [JOB_CNAME] ");
+            sb.AppendLine("FROM V_ACSM_USER2  ");
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+
+            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
+
+            while (MyDataReader.Read())
+            {
+                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
+
+                myDDLVO.Value = (string)MyDataReader["JOB_CNAME"];
+                myDDLVO.Text = (string)MyDataReader["JOB_CNAME"];
+
+                myDDLVOList.Add(myDDLVO);
+
+            }
+
+            return myDDLVOList;
+
+        }
+
+        public List<VO.DDLVO> CNAMESelector()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT distinct [C_NAME] ");
+            sb.AppendLine("FROM V_ACSM_USER2  ");
+
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+
+            List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
+
+            while (MyDataReader.Read())
+            {
+                VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
+
+                myDDLVO.Value = (string)MyDataReader["C_NAME"];
+                myDDLVO.Text = (string)MyDataReader["C_NAME"];
+
+                myDDLVOList.Add(myDDLVO);
+
+            }
+
+            return myDDLVOList;
+
+        }
 
     }
 }
