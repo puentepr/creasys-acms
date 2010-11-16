@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegisedTeammemberSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenRegisedTeammemberSelector" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    " Width="400" Height="500"><!--display: none;-->
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
+    " Width="400" Height="500"><!---->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="取消團隊報名" SkinID="title"></asp:Label>

@@ -9,19 +9,22 @@ namespace ACMS.DAO
     public class ActivityTeamMemberDAO : BaseDAO
     {
         //編輯團隊活動時，要帶入該團隊的所有成員
-        public List<VO.ActivityTeamMemberVO> SelectActivityTeamMember(Guid activity_id)
+        public List<VO.ActivityTeamMemberVO> SelectActivityTeamMember(Guid activity_id, string RegistBy)
         {
-            SqlParameter[] sqlParams = new SqlParameter[1];
+            SqlParameter[] sqlParams = new SqlParameter[2];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@RegistBy", SqlDbType.NVarChar, 200);
+            sqlParams[1].Value = RegistBy;
 
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT A.*,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_ABBR ");
             sb.AppendLine("FROM ActivityTeamMember A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID "); 
-            sb.AppendLine("WHERE activity_id=@activity_id ");
+            sb.AppendLine("WHERE A.activity_id=@activity_id ");
+            sb.AppendLine("and A.boss_id=@RegistBy ");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
@@ -82,24 +85,28 @@ namespace ACMS.DAO
         }
 
         //變更隊長
-        public void ChangeBoss(Guid activity_id, string emp_id)
+        public void ChangeBoss(Guid activity_id, string NewBossID, string ExBossID)
         {
-            SqlParameter[] sqlParams = new SqlParameter[2];
+            SqlParameter[] sqlParams = new SqlParameter[3];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
-            sqlParams[1].Value = emp_id;
+            sqlParams[1] = new SqlParameter("@NewBossID", SqlDbType.NVarChar, 200);
+            sqlParams[1].Value = NewBossID;
+            sqlParams[2] = new SqlParameter("@ExBossID", SqlDbType.NVarChar, 200);
+            sqlParams[2].Value = ExBossID;
 
             StringBuilder sb = new StringBuilder();
 
+            sb.AppendLine("UPDATE ActivityRegist ");
+            sb.AppendLine("set emp_id=@NewBossID,regist_by=@NewBossID ");
+            sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@ExBossID; ");
+
             sb.AppendLine("UPDATE ActivityTeamMember ");
-            sb.AppendLine("set boss_id=@emp_id ");
-            sb.AppendLine("WHERE activity_id=@activity_id ");
+            sb.AppendLine("set boss_id=@NewBossID ");
+            sb.AppendLine("WHERE activity_id=@activity_id and boss_id=@ExBossID; ");
 
             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-          
         }
 
     }

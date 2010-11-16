@@ -118,5 +118,12 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
         GridView1.DataBind();    
     }
 
+    //取消團隊報名後
+    public void CancelTeamRegist_Click(object sender, EventArgs e)
+    {
+        GridView1.DataBind();
+    }
+
+
   
 }

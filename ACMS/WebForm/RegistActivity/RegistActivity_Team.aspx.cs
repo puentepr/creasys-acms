@@ -139,6 +139,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         {
             txtteam_name.Enabled = false;
             txtext_people.Enabled = false;
+
+            btnAddTeamMember.Visible = false;
+            //自訂欄位
+            PanelCustomFieldA1.Enabled = false;
         }
 
         //載入活動資訊
@@ -149,7 +153,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
         ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
 
-        Page_ActivityTeamMemberVOList =  myActivityTeamMemberDAO.SelectActivityTeamMember(ActivityID);
+        Page_ActivityTeamMemberVOList =  myActivityTeamMemberDAO.SelectActivityTeamMember(ActivityID,RegistBy);
 
         GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
         GridView_TemMember.DataBind();

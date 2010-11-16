@@ -7,6 +7,9 @@ using System.Data;
 
 public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : System.Web.UI.UserControl
 {
+    public delegate void CancelTeamRegistDelegate(object sender, EventArgs e);
+    public event CancelTeamRegistDelegate CancelTeamRegistClick;
+
     protected void Page_Load(object sender, EventArgs e)
     {
     }
@@ -22,19 +25,19 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
             {
                 emp_id += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
             }
+        }
 
-            if (emp_id.EndsWith(","))
-            {
-                emp_id = emp_id.Substring(0, emp_id.Length - 1);
-            }
+        if (emp_id.EndsWith(","))
+        {
+            emp_id = emp_id.Substring(0, emp_id.Length - 1);
         }
 
         if (!string.IsNullOrEmpty(emp_id))
         {
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null,null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline);
-            
-            GridView1.DataBind();  
- 
+            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline);
+
+            GridView1.DataBind();
+
             if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
             {
                 clsMyObj.ShowMessage("取消報名完成。");
@@ -46,11 +49,14 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
             else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail)
             {
                 clsMyObj.ShowMessage("取消報名失敗!。");
-            }     
-        
+            }
+
         }
 
-
+        if (CancelTeamRegistClick != null)
+        {
+            CancelTeamRegistClick(this, e);
+        }
 
 
 
@@ -87,7 +93,6 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
             //是隊長才能更改誰當新隊長
             RadioButton1.Enabled = (this.IsTeamBoss == "1");
-
             
             if (this.IsTeamBoss == "1")
             {
@@ -120,9 +125,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         //更改隊長
         ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
 
-
-        myActivityTeamMemberDAO.ChangeBoss(new Guid(activity_id), GridView1.DataKeys[((sender as RadioButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
-
+        myActivityTeamMemberDAO.ChangeBoss(new Guid(activity_id), GridView1.DataKeys[((sender as RadioButton).NamingContainer as GridViewRow).RowIndex].Value.ToString(), emp_id);
 
         if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
         {
@@ -193,13 +196,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
             IsTeamBoss = "0";
         }
 
-
-
-
         GridView1.DataBind();
-
-
-
         this.mpSearch.Show();    
     }
 

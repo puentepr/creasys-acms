@@ -41,20 +41,12 @@ namespace ACMS.BO
             return mySelectorDAO.RegisterPeopleInfo(activity_id, emp_id);
         }
 
-        //2-3個人報名-開啟代理報名選單
+        //2-3個人報名-開啟代理報名選單 或 開啟選擇隊員-列出可加入此活動的隊員
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> SelectForOpenAgentSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
+        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id, string activity_type)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.SelectForOpenAgentSelector(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id);
-        }
-
-        //3.列出可加入此活動的隊員
-        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> RegistableTeamMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
-        {
-            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistableTeamMember(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id);
+            return mySelectorDAO.RegistableMember(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id, activity_type);
         }
 
         //4.已報名活動查詢

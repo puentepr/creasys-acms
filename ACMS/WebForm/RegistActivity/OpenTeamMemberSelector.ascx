@@ -91,13 +91,14 @@
                     
                     
                     <asp:ObjectDataSource ID="ObjectDataSource_Employee" runat="server" 
-                        OldValuesParameterFormatString="original_{0}" SelectMethod="RegistableTeamMember" 
+                        OldValuesParameterFormatString="original_{0}" SelectMethod="RegistableMember" 
                         TypeName="ACMS.BO.SelectorBO">
                         <SelectParameters>
                              <asp:Parameter Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />
                              <asp:Parameter Name="WORK_ID" Type="String" ConvertEmptyStringToNull="false"/>
                              <asp:Parameter Name="NATIVE_NAME" Type="String" ConvertEmptyStringToNull="false"/>
                              <asp:Parameter Name="activity_id" Type="String" ConvertEmptyStringToNull="false" />                      
+                             <asp:Parameter DefaultValue="2" Name="activity_type" Type="String" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
             </td>

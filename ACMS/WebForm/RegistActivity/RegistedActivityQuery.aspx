@@ -109,7 +109,7 @@
                 </asp:ObjectDataSource>
                 <uc1:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server"
                     OnCancelPersonRegistClick="CancelPersonRegist_Click" />
-                <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" />
+                <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" OnCancelTeamRegistClick="CancelTeamRegist_Click"  />
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>
