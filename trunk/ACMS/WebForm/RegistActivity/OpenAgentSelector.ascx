@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenAgentSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenAgentSelector" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
-    " Width="400" Height="500"><!---->
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
+    " Width="400" Height="500"><!--display: none;-->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" SkinID="title"></asp:Label>
@@ -74,7 +74,7 @@
                                 SortExpression="NATIVE_NAME" />
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtnSelect" runat="server" onclick="lbtnSelect_Click">選擇</asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnSelect" Enabled='<%#Eval("keyValue") %>' runat="server" onclick="lbtnSelect_Click">選擇</asp:LinkButton>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         
@@ -83,13 +83,14 @@
                     
                     
                     <asp:ObjectDataSource ID="ObjectDataSource_Employee" runat="server" 
-                        OldValuesParameterFormatString="original_{0}" SelectMethod="SelectForOpenAgentSelector" 
+                        OldValuesParameterFormatString="original_{0}" SelectMethod="RegistableMember" 
                         TypeName="ACMS.BO.SelectorBO">
                         <SelectParameters>
                             <asp:Parameter Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />                        
                             <asp:Parameter Name="WORK_ID" Type="String" ConvertEmptyStringToNull="false" />
                             <asp:Parameter Name="NATIVE_NAME" Type="String" ConvertEmptyStringToNull="false" />          
-                             <asp:Parameter Name="activity_id" Type="String" ConvertEmptyStringToNull="false" />                      
+                             <asp:Parameter Name="activity_id" Type="String" ConvertEmptyStringToNull="false" />                                               
+                            <asp:Parameter DefaultValue="1" Name="activity_type" Type="String" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
             </td>

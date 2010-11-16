@@ -240,7 +240,7 @@ namespace ACMS.DAO
         }
 
         //完成時存檔
-        public int UpdateActivityRegist(VO.ActivityRegistVO myActivityRegistVO, List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList, List<ACMS.VO.ActivityTeamMemberVO> myActivityTeamMemberVOList, string type)
+        public int UpdateActivityRegist(VO.ActivityRegistVO myActivityRegistVO, List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList, List<ACMS.VO.ActivityTeamMemberVO> myActivityTeamMemberVOList, string type,string activity_type)
         {
             SqlParameter[] sqlParams = new SqlParameter[8];
 
@@ -251,7 +251,7 @@ namespace ACMS.DAO
             sqlParams[2] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
             sqlParams[2].Value = myActivityRegistVO.emp_id;
             sqlParams[3] = new SqlParameter("@regist_by", SqlDbType.NVarChar, 100);
-            sqlParams[3].Value = myActivityRegistVO.regist_by;
+            sqlParams[3].Value = myActivityRegistVO.regist_by;  
             sqlParams[4] = new SqlParameter("@idno_type", SqlDbType.Int);
             sqlParams[4].Value = myActivityRegistVO.idno_type;
             sqlParams[5] = new SqlParameter("@idno", SqlDbType.NVarChar, 20);
@@ -286,11 +286,22 @@ namespace ACMS.DAO
 
             sb.AppendLine("DELETE A ");
             sb.AppendLine("FROM CustomFieldValue A ");
-            sb.AppendLine("inner join CustomField B on A.field_id=B.field_id and A.emp_id=@emp_id and B.activity_id=@activity_id; ");
 
-            sb.AppendLine("DELETE A ");
-            sb.AppendLine("FROM ActivityTeamMember A ");
-            sb.AppendLine("inner join Activity B on A.activity_id=B.id and A.activity_id=@activity_id; ");
+            if (activity_type == "1")
+            {
+                sb.AppendLine("inner join CustomField B on A.field_id=B.field_id and A.emp_id=@emp_id and B.activity_id=@activity_id; ");
+            }
+            else
+            {
+                sb.AppendLine("inner join CustomField B on A.field_id=B.field_id and A.emp_id=@regist_by and B.activity_id=@activity_id; ");
+            }
+
+            if (activity_type == "2")
+            {
+                sb.AppendLine("DELETE A ");
+                sb.AppendLine("FROM ActivityTeamMember A ");
+                sb.AppendLine("inner join Activity B on A.activity_id=B.id and A.boss_id=(SELECT emp_id FROM ActivityRegist WHERE activity_id=@activity_id) and A.activity_id=@activity_id; ");
+            }
 
             using (SqlConnection myConn = MyConn())
             {
@@ -393,7 +404,7 @@ namespace ACMS.DAO
 
 
         //取消報名-刪除
-        public int DeleteRegist(Guid activity_id, string emp_id)
+        public int DeleteRegist(Guid activity_id, string emp_id,string activity_type)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
 
@@ -404,8 +415,16 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("DELETE ActivityRegist WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
-            sb.AppendLine("DELETE A FROM CustomFieldValue A inner join CustomField B on A.field_id=B.field_id WHERE B.activity_id=@activity_id and A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+            if (activity_type == "1")
+            {
+                sb.AppendLine("DELETE ActivityRegist WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+                sb.AppendLine("DELETE A FROM CustomFieldValue A inner join CustomField B on A.field_id=B.field_id WHERE B.activity_id=@activity_id and A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+            }
+            else
+            {
+                sb.AppendLine("DELETE ActivityTeamMember WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+                sb.AppendLine("DELETE A FROM CustomFieldValue A inner join CustomField B on A.field_id=B.field_id WHERE B.activity_id=@activity_id and A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+            }
 
             using (SqlConnection myConn = MyConn())
             {
@@ -440,9 +459,8 @@ namespace ACMS.DAO
         }
 
         //取消報名-狀態改取消
-        public int CancelRegist(Guid activity_id, string emp_id)
+        public int CancelRegist(Guid activity_id, string emp_id, string activity_type)
         {
-
             SqlParameter[] sqlParams = new SqlParameter[2];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
@@ -452,7 +470,14 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("UPDATE ActivityRegist SET check_status=-1 WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+            if (activity_type == "1")
+            {
+                sb.AppendLine("UPDATE ActivityRegist SET check_status=-1 WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+            }
+            else
+            {
+                sb.AppendLine("UPDATE ActivityTeamMember SET check_status=-1 WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
+            }
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }

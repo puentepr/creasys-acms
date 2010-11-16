@@ -254,7 +254,7 @@ public class MySingleton
                         }
                         else
                         {
-                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "insert");
+                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "insert","1");
                             if (intSaveResult == 1)
                             {
                                 return AlterRegistResult.RegistSucess;
@@ -269,7 +269,7 @@ public class MySingleton
                 }
                 else
                 {
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "update");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "update","1");
                     if (intSaveResult == 1)
                     {
                         return AlterRegistResult.RegistSucess;
@@ -294,7 +294,7 @@ public class MySingleton
                 if (Convert.ToDateTime(cancelregist_deadline) > DateTime.Today)
                 {
                     //取消報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id) > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"1") > 0)
                     {
                         return AlterRegistResult.CancelRegistSucess;
                     }
@@ -306,7 +306,7 @@ public class MySingleton
                 else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
                 {
                     //取消報名截止日之後-狀態改取消
-                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id) > 0)
+                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"1") > 0)
                     {
                         return AlterRegistResult.CancelRegistSucess;
                     }
@@ -356,7 +356,7 @@ public class MySingleton
                         }
                         else
                         {                          
-                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "insert");
+                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "insert","2");
 
                             if (intSaveResult == 1)
                             {
@@ -373,7 +373,7 @@ public class MySingleton
                 }
                 else
                 {
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "update");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "update","2");
 
                     if (intSaveResult == 1)
                     {
@@ -399,7 +399,7 @@ public class MySingleton
                 if (Convert.ToDateTime(cancelregist_deadline) > DateTime.Today)
                 {
                     //取消報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id) > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2") > 0)
                     {
                         return AlterRegistResult.CancelRegistSucess;
                     }
@@ -411,7 +411,7 @@ public class MySingleton
                 else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
                 {
                     //取消報名截止日之後-狀態改取消
-                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id) > 0)
+                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2") > 0)
                     {
                         return AlterRegistResult.CancelRegistSucess;
                     }

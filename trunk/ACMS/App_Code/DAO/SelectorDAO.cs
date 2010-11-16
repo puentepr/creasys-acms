@@ -180,69 +180,15 @@ namespace ACMS.DAO
 
         }
 
-        //2-3個人報名-開啟代理報名選單
-        public List<VO.EmployeeVO> SelectForOpenAgentSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
+        //2-3個人報名-開啟代理報名選單 或 開啟選擇隊員-列出可加入此活動的隊員
+        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id,string activity_type)
         {
             if (string.IsNullOrEmpty(activity_id))
             {
                 return null;
             }
 
-            SqlParameter[] sqlParams = new SqlParameter[4];
-
-            sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
-            sqlParams[0].Value = DEPT_ID;
-            sqlParams[1] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 36);
-            sqlParams[1].Value = WORK_ID;
-            sqlParams[2] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 200);
-            sqlParams[2].Value = NATIVE_NAME;
-            sqlParams[3] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-            sqlParams[3].Value = new Guid(activity_id);
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT A.[ID],A.[C_DEPT_ABBR],A.[WORK_ID],A.[NATIVE_NAME] ");
-            sb.AppendLine("FROM V_ACSM_USER2 A ");
-            sb.AppendLine("WHERE A.ID in ");
-            sb.AppendLine("( ");
-            sb.AppendLine("SELECT CASE WHEN AA.is_grouplimit='Y' THEN BB.emp_id ELSE A.ID END ");
-            sb.AppendLine("FROM Activity AA ");
-            sb.AppendLine("left join ActivityGroupLimit BB on AA.id=BB.activity_id ");//區分是否有族群限制
-            sb.AppendLine("WHERE AA.active='Y' ");
-            sb.AppendLine("and AA.id=@activity_id ");
-            sb.AppendLine(") ");
-            sb.AppendLine("and A.status <2 ");//不為離職或留職停薪
-            sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
-            sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
-            sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
-
-            while (MyDataReader.Read())
-            {
-                VO.EmployeeVO myEmployeeVO = new ACMS.VO.EmployeeVO();
-
-                myEmployeeVO.ID = (string)MyDataReader["ID"];
-                myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
-                myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];
-                myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
-
-                myEmployeeVOList.Add(myEmployeeVO);
-
-            }
-
-            return myEmployeeVOList;
-        }
-        
-        //3.列出可加入此活動的隊員
-        public List<VO.EmployeeVO> RegistableTeamMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id)
-        {
-            if (string.IsNullOrEmpty(activity_id))
-            {
-                return null;
-            }
+            string tablename = (activity_type == "1" ? "ActivityRegist" : "ActivityTeamMember");
 
             SqlParameter[] sqlParams = new SqlParameter[4];
 
@@ -259,12 +205,19 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT A.[ID],A.[C_DEPT_ABBR],A.[WORK_ID],A.[NATIVE_NAME],CASE WHEN B.emp_id is null THEN 'true' ELSE 'false' END as theEnable  ");
             sb.AppendLine("FROM V_ACSM_USER2 A ");
-            sb.AppendLine("left join (SELECT emp_id FROM ActivityTeamMember WHERE activity_id=@activity_id) B on A.ID = B.emp_id ");
-            sb.AppendLine("WHERE A.status <2 ");//不為離職或留職停薪
+            sb.AppendLine(string.Format("left join (SELECT emp_id FROM {0} WHERE activity_id=@activity_id) B on A.ID = B.emp_id ",tablename));//已報名過不可再選
+            sb.AppendLine("WHERE A.ID in ");
+            sb.AppendLine("( ");
+            sb.AppendLine("SELECT CASE WHEN AA.is_grouplimit='Y' THEN BB.emp_id ELSE A.ID END ");
+            sb.AppendLine("FROM Activity AA ");
+            sb.AppendLine("left join ActivityGroupLimit BB on AA.id=BB.activity_id ");//區分是否有族群限制
+            sb.AppendLine("WHERE AA.active='Y' ");
+            sb.AppendLine("and AA.id=@activity_id ");
+            sb.AppendLine(") ");
+            sb.AppendLine("and A.status <2 ");//不為離職或留職停薪
             sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
             sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
-
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
