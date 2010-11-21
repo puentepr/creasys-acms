@@ -125,10 +125,10 @@ namespace ACMS.BO
 
         //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_CNAME, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
+        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_CNAME, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id);
+            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id);
         }
 
         //6-2活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢
@@ -225,14 +225,14 @@ namespace ACMS.BO
 
         //SELECT
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.DDLVO> JOBCNAMESelector()
+        public List<VO.DDLVO> JOB_GRADE_GROUPSelector()
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
 
             List<VO.DDLVO> myDDLVOList = new List<VO.DDLVO>();
             VO.DDLVO myDDLVO = new VO.DDLVO();
 
-            myDDLVOList = mySelectorDAO.JOBCNAMESelector();
+            myDDLVOList = mySelectorDAO.JOB_GRADE_GROUPSelector();
             myDDLVO.Value = "";
             myDDLVO.Text = "請選擇";
             myDDLVOList.Insert(0, myDDLVO);

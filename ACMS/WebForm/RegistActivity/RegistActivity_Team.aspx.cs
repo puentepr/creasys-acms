@@ -195,7 +195,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         tr_showteam_fix1.Visible=( myActivatyVO.is_showteam_fix1=="Y");
         tr_showteam_fix2.Visible = (myActivatyVO.is_showteam_fix2 == "Y");
 
-        if (tr_showteam_fix1.Visible == false && tr_showteam_fix2.Visible==false)
+        if (myActivatyVO.is_showteam_fix1 != "Y" && myActivatyVO.is_showteam_fix2 != "Y")
         {
             Panel_TeamFix.Visible = false;
         }

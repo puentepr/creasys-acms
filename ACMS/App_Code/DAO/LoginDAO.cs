@@ -9,14 +9,12 @@ namespace ACMS.DAO
     public class LoginDAO : BaseDAO
     {
         //人員登入並取得登入者資訊
-        public bool CheckLogin(String LoginID, String LoginPwd, out string UserData)
+        public bool CheckLogin(String LoginID, out string UserData)
         {
-            SqlParameter[] sqlParams = new SqlParameter[2];
+            SqlParameter[] sqlParams = new SqlParameter[1];
 
             sqlParams[0] = new SqlParameter("@LoginID", SqlDbType.NVarChar, 50);
             sqlParams[0].Value = LoginID;
-            sqlParams[1] = new SqlParameter("@LoginPwd", SqlDbType.NVarChar, 50);
-            sqlParams[1].Value = LoginPwd;
 
             StringBuilder sb = new StringBuilder();
 

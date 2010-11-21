@@ -302,7 +302,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.is_showteam_fix1 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix1")).Checked == true ? "Y" : "N";
         myActivatyVO.is_showteam_fix2 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix2")).Checked == true ? "Y" : "N";
 
-        if (ActivityType == "2")
+        if (ActivityType == "2" && chkis_showteam_fix2.Checked==true)
         {
             myActivatyVO.teamextcount_max = Convert.ToInt32(((TextBox)FormView2.FindControl("txtteamextcount_max")).Text);
             myActivatyVO.teamextcount_min = Convert.ToInt32(((TextBox)FormView2.FindControl("txtteamextcount_min")).Text);

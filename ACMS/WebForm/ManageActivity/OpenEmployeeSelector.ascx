@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_ManageActivity_OpenEmployeeSelector" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
-    " Width="500" Height="500"><!---->
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
+    " Width="800" Height="500"><!--display: none;-->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="人員選取" SkinID="title"></asp:Label>
@@ -28,12 +28,12 @@
                             <asp:Label ID="lblJOB_CNAME" runat="server" Text="職稱"></asp:Label>
                         </td>
                         <td>
-                            <asp:DropDownList ID="ddlJOB_CNAME" runat="server" 
-                                DataSourceID="ObjectDataSource_JOBCNAME" DataTextField="Text" 
+                            <asp:DropDownList ID="ddlJOB_GRADE_GROUP" runat="server" 
+                                DataSourceID="ObjectDataSource_JOB_GRADE_GROUP" DataTextField="Text" 
                                 DataValueField="Value">
                             </asp:DropDownList>
-                            <asp:ObjectDataSource ID="ObjectDataSource_JOBCNAME" runat="server" 
-                                OldValuesParameterFormatString="original_{0}" SelectMethod="JOBCNAMESelector" 
+                            <asp:ObjectDataSource ID="ObjectDataSource_JOB_GRADE_GROUP" runat="server" 
+                                OldValuesParameterFormatString="original_{0}" SelectMethod="JOB_GRADE_GROUPSelector" 
                                 TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                         </td>
                         <td>
@@ -86,12 +86,6 @@
                               <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" 
                                 Format="yyyy/MM" TargetControlID="txtBIRTHDAY_end">
                             </ajaxToolkit:CalendarExtender>
-                            <asp:CompareValidator ID="chk_txtBIRTHDAY_start" runat="server" 
-                                ControlToValidate="txtBIRTHDAY_start" Display="None" ErrorMessage="生日必填日期格式" 
-                                Operator="DataTypeCheck" Type="Date" ValidationGroup="Query"></asp:CompareValidator>
-                            <asp:CompareValidator ID="chk_txtBIRTHDAY_end" runat="server" 
-                                ControlToValidate="txtBIRTHDAY_end" Display="None" ErrorMessage="生日必填日期格式" 
-                                Operator="DataTypeCheck" Type="Date" ValidationGroup="Query"></asp:CompareValidator>
                         </td>
                         <td>
                             &nbsp;</td>

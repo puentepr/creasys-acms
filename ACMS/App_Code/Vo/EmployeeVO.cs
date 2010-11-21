@@ -21,7 +21,7 @@ namespace ACMS.VO
         private string _C_DEPT_ABBR;
         private string _OFFICE_PHONE;
         private DateTime? _EXPERIENCE_START_DATE;
-        private DateTime? _BIRTHDAY;
+        private string _BIRTHDAY;
         private string _SEX;
         private string _JOB_CNAME;
         private string _STATUS;
@@ -41,7 +41,7 @@ namespace ACMS.VO
         public string C_DEPT_ABBR { get { return _C_DEPT_ABBR; } set { _C_DEPT_ABBR = value; } }
         public string OFFICE_PHONE { get { return _OFFICE_PHONE; } set { _OFFICE_PHONE = value; } }
         public DateTime? EXPERIENCE_START_DATE { get { return _EXPERIENCE_START_DATE; } set { _EXPERIENCE_START_DATE = value; } }
-        public DateTime? BIRTHDAY { get { return _BIRTHDAY; } set { _BIRTHDAY = value; } }
+        public string BIRTHDAY { get { return _BIRTHDAY; } set { _BIRTHDAY = value; } }
         public string SEX { get { return _SEX; } set { _SEX = value; } }
         public string JOB_CNAME { get { return _JOB_CNAME; } set { _JOB_CNAME = value; } }
         public string STATUS { get { return _STATUS; } set { _STATUS = value; } }
