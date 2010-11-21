@@ -499,14 +499,14 @@ namespace ACMS.DAO
         }
 
         //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
-        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_CNAME, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
+        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[10];
 
             sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
             sqlParams[0].Value = DEPT_ID;
-            sqlParams[1] = new SqlParameter("@JOB_CNAME", SqlDbType.NVarChar, 200);
-            sqlParams[1].Value = JOB_CNAME;
+            sqlParams[1] = new SqlParameter("@JOB_GRADE_GROUP", SqlDbType.NVarChar, 200);
+            sqlParams[1].Value = JOB_GRADE_GROUP;
             sqlParams[2] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 36);
             sqlParams[2].Value = WORK_ID;
             sqlParams[3] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 200);
@@ -529,9 +529,9 @@ namespace ACMS.DAO
             sb.AppendLine("SELECT CASE WHEN B.emp_id is null THEN 'true' ELSE 'false' END as YN, A.[ID],A.[NATIVE_NAME],A.[ENGLISH_NAME],A.[WORK_ID],A.[OFFICE_MAIL],A.[DEPT_ID],A.[C_DEPT_NAME],A.[C_DEPT_ABBR],A.[OFFICE_PHONE],A.[EXPERIENCE_START_DATE],A.[BIRTHDAY],A.[SEX],A.[JOB_CNAME],A.[STATUS],A.[WORK_END_DATE],A.[COMPANY_CODE],A.[C_NAME] ");
             sb.AppendLine("FROM V_ACSM_USER2 A ");
             sb.AppendLine("left join (SELECT * FROM ActivityGroupLimit WHERE activity_id=@activity_id) B on A.ID=B.emp_id ");
-            sb.AppendLine("WHERE A.STATUS!=2 ");
+            sb.AppendLine("WHERE A.STATUS<2 ");
             sb.AppendLine("and (A.DEPT_ID =@DEPT_ID or @DEPT_ID='') ");
-            sb.AppendLine("and (A.JOB_CNAME = @JOB_CNAME or @JOB_CNAME='') ");
+            sb.AppendLine("and (A.JOB_GRADE_GROUP = @JOB_GRADE_GROUP or @JOB_GRADE_GROUP='') ");
             sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
             sb.AppendLine("and (A.SEX=@SEX or @SEX='') ");
@@ -560,7 +560,7 @@ namespace ACMS.DAO
                 myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
                 myEmployeeVO.OFFICE_PHONE = (string)MyDataReader["OFFICE_PHONE"];
                 myEmployeeVO.EXPERIENCE_START_DATE = (DateTime?)(MyDataReader["EXPERIENCE_START_DATE"] == DBNull.Value ? null : MyDataReader["EXPERIENCE_START_DATE"]);
-                myEmployeeVO.BIRTHDAY = (DateTime?)(MyDataReader["BIRTHDAY"] == DBNull.Value ? null : MyDataReader["BIRTHDAY"]);
+                myEmployeeVO.BIRTHDAY = (string)MyDataReader["BIRTHDAY"];
                 myEmployeeVO.SEX = (string)MyDataReader["SEX"];
                 myEmployeeVO.JOB_CNAME = (string)MyDataReader["JOB_CNAME"];
                 myEmployeeVO.STATUS = (string)MyDataReader["STATUS"];
@@ -798,12 +798,12 @@ namespace ACMS.DAO
 
         }
 
-        public List<VO.DDLVO> JOBCNAMESelector()
+        public List<VO.DDLVO> JOB_GRADE_GROUPSelector()
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT distinct [JOB_CNAME] ");
-            sb.AppendLine("FROM V_ACSM_USER2  ");
+            sb.AppendLine("SELECT * ");
+            sb.AppendLine("FROM JOB_GRADE_GROUP ");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
 
@@ -813,8 +813,8 @@ namespace ACMS.DAO
             {
                 VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
 
-                myDDLVO.Value = (string)MyDataReader["JOB_CNAME"];
-                myDDLVO.Text = (string)MyDataReader["JOB_CNAME"];
+                myDDLVO.Value = (string)MyDataReader["GROUP_CODE"];
+                myDDLVO.Text = (string)MyDataReader["GROUP_DESCRIPTION"];
 
                 myDDLVOList.Add(myDDLVO);
 

@@ -15,8 +15,7 @@
         <br />
         <asp:Label ID="lblPassword" runat="server" Text="密碼"></asp:Label>
         <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
-        <asp:Button ID="btnLogin" runat="server" Text="登入" onclick="btnLogin_Click" />
-    
+        <asp:Button ID="btnLogin" runat="server" Text="登入" onclick="btnLogin_Click"/>    
     </div>
     </form>
 </body>

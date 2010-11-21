@@ -23,7 +23,7 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
 
         //ObjectDataSource_Employee.SelectMethod = this.SelectMethod;      
         ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
-        ObjectDataSource_Employee.SelectParameters["JOB_CNAME"].DefaultValue = ddlJOB_CNAME.SelectedValue;
+        ObjectDataSource_Employee.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
         ObjectDataSource_Employee.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
@@ -31,11 +31,8 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         ObjectDataSource_Employee.SelectParameters["BIRTHDAY_E"].DefaultValue = txtBIRTHDAY_end.Text;
         ObjectDataSource_Employee.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
         ObjectDataSource_Employee.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
-
-
+        
         GridView_Employee.DataBind();
-
-
 
     }
 
