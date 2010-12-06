@@ -22,9 +22,18 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : System.Web.U
     }
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
     {
-        if (DataList1.DataKeys[e.Item.ItemIndex].ToString() ==clsAuth.ID)
+        if (DataList1.DataKeys[e.Item.ItemIndex].ToString() == clsAuth.ID)
         {
             e.Item.BackColor = System.Drawing.Color.Yellow;
         }
+        else
+        {
+            Label NATIVE_NAMELabel = e.Item.FindControl("NATIVE_NAMELabel") as Label;
+            Label emp_idLabel = e.Item.FindControl("emp_idLabel") as Label;
+
+            NATIVE_NAMELabel.Text = NATIVE_NAMELabel.Text.Substring(0,1) + "XX";
+            emp_idLabel.Text = "";
+        }
     }
+
 }

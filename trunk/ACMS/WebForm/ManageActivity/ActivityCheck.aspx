@@ -59,7 +59,6 @@
                     <asp:ListItem Value="0">未報到</asp:ListItem>
                     <asp:ListItem Value="1">已報到</asp:ListItem>
                     <asp:ListItem Value="2">已完成</asp:ListItem>
-                    <asp:ListItem Value="4">已離職</asp:ListItem>
                 </asp:DropDownList>
                 <asp:Button ID="btnUpdate" runat="server" Text="更新" OnClick="btnUpdate_Click" /></div>
             <TServerControl:TGridView ID="GridView1" runat="server" AutoGenerateColumns="False"

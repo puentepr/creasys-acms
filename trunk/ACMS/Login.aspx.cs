@@ -74,7 +74,7 @@ public partial class Login : System.Web.UI.Page
         }
         else
         {
-            //clsMyObj.ShowMessage("帳號密碼錯誤!");
+            Response.Redirect("NoID.aspx");
         }
     
     }

@@ -79,13 +79,39 @@
                             <asp:Label ID="lblBIRTHDAY" runat="server" Text="生日"></asp:Label>
                         </td>
                         <td colspan="3">
-                            <asp:TextBox ID="txtBIRTHDAY_start" runat="server"></asp:TextBox>~<asp:TextBox ID="txtBIRTHDAY_end" runat="server"></asp:TextBox>
-                              <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" 
-                                Format="yyyy/MM" TargetControlID="txtBIRTHDAY_start">
-                            </ajaxToolkit:CalendarExtender>
-                              <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" 
-                                Format="yyyy/MM" TargetControlID="txtBIRTHDAY_end">
-                            </ajaxToolkit:CalendarExtender>
+                            <asp:DropDownList ID="ddlBIRTHDAY_start_year" runat="server">
+                            </asp:DropDownList>
+                            <asp:DropDownList ID="ddlBIRTHDAY_start_month" runat="server">
+                                <asp:ListItem>01</asp:ListItem>
+                                 <asp:ListItem>02</asp:ListItem>
+                                <asp:ListItem>03</asp:ListItem>
+                                <asp:ListItem>04</asp:ListItem>
+                                <asp:ListItem>05</asp:ListItem>
+                                <asp:ListItem>06</asp:ListItem>
+                                <asp:ListItem>07</asp:ListItem>
+                                <asp:ListItem>08</asp:ListItem>
+                                <asp:ListItem>09</asp:ListItem>
+                                <asp:ListItem>10</asp:ListItem>
+                                <asp:ListItem>11</asp:ListItem>
+                                <asp:ListItem>12</asp:ListItem>
+                            </asp:DropDownList>
+                            ~<asp:DropDownList 
+                                ID="ddlBIRTHDAY_end_year" runat="server">
+                            </asp:DropDownList>
+                            <asp:DropDownList ID="ddlBIRTHDAY_end_month" runat="server">
+                                <asp:ListItem>01</asp:ListItem>
+                                 <asp:ListItem>02</asp:ListItem>
+                                <asp:ListItem>03</asp:ListItem>
+                                <asp:ListItem>04</asp:ListItem>
+                                <asp:ListItem>05</asp:ListItem>
+                                <asp:ListItem>06</asp:ListItem>
+                                <asp:ListItem>07</asp:ListItem>
+                                <asp:ListItem>08</asp:ListItem>
+                                <asp:ListItem>09</asp:ListItem>
+                                <asp:ListItem>10</asp:ListItem>
+                                <asp:ListItem>11</asp:ListItem>
+                                <asp:ListItem Selected="True">12</asp:ListItem>
+                            </asp:DropDownList>
                         </td>
                         <td>
                             &nbsp;</td>
@@ -157,7 +183,7 @@
                     >
                     <SelectParameters>
                         <asp:Parameter  Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />
-                        <asp:Parameter  Name="JOB_CNAME" Type="String" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter  Name="JOB_GRADE_GROUP" Type="String" ConvertEmptyStringToNull="false" />
                         <asp:Parameter   Name="WORK_ID" Type="String" ConvertEmptyStringToNull="false" />
                         <asp:Parameter   Name="NATIVE_NAME" Type="String" ConvertEmptyStringToNull="false" />
                         <asp:Parameter Name="SEX" Type="String" ConvertEmptyStringToNull="false" />

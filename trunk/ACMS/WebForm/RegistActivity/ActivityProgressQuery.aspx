@@ -25,8 +25,7 @@
                     <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" />
                     <ItemTemplate>
              
-                         <asp:Label ID="NATIVE_NAMELabel" runat="server" Text='<%# Eval("NATIVE_NAME") %>' />                     
-                                   (<asp:Label ID="emp_idLabel" runat="server" Text='<%# Eval("WORK_ID") %>' />)-
+                         <asp:Label ID="NATIVE_NAMELabel" runat="server" Text='<%# Eval("NATIVE_NAME") %>' /><asp:Label ID="emp_idLabel" runat="server" Text='<%# Eval("WORK_ID") %>' />-
                         <asp:Label ID="check_statusLabel" runat="server" Text='<%# Eval("check_status") %>' />
                     </ItemTemplate>
                 </asp:DataList>

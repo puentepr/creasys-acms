@@ -56,7 +56,10 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
     protected void lbtnViewActivity_Click(object sender, EventArgs e)
     {
         string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
+
         Session["activity_id"] = activity_id;
+        Session["activity_type"] = activity_type;
         Session["form_mode"] = "readonly";
         Response.Redirect("ActivityEdit.aspx");
     }

@@ -13,7 +13,13 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
     {
         if (!IsPostBack)
         {
-
+            for (int i = DateTime.Now.Year; i >= 1930; i--)
+            {
+                ddlBIRTHDAY_start_year.Items.Insert(0,new ListItem(i.ToString()));
+                ddlBIRTHDAY_end_year.Items.Insert(0, new ListItem(i.ToString()));
+            }
+            ddlBIRTHDAY_start_year.SelectedValue = "1930";
+            ddlBIRTHDAY_end_year.SelectedValue = DateTime.Now.Year.ToString();
         }
     }
 
@@ -27,8 +33,8 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
         ObjectDataSource_Employee.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
-        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_S"].DefaultValue = txtBIRTHDAY_start.Text;
-        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_E"].DefaultValue = txtBIRTHDAY_end.Text;
+        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_S"].DefaultValue = ddlBIRTHDAY_start_year.SelectedValue + "/" + ddlBIRTHDAY_start_month;
+        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_E"].DefaultValue = ddlBIRTHDAY_end_year.SelectedValue + "/" + ddlBIRTHDAY_end_month;
         ObjectDataSource_Employee.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
         ObjectDataSource_Employee.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
         
@@ -68,8 +74,6 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector
     public void InitDataAndShow(Guid activity_id)
     {
         ObjectDataSource_Employee.SelectParameters["activity_id"].DefaultValue = activity_id.ToString();
-
-        btnQuery_Click(null, null);
         this.mpSearch.Show();    
     }
 

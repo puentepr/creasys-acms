@@ -9,6 +9,7 @@ using ACMS;
 using NPOI.HSSF.UserModel;
 using System.Transactions;
 using System.Data.SqlClient;
+using System.Configuration;
 
 public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 {
@@ -61,11 +62,13 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 ActivityID= new Guid(Session["activity_id"].ToString());
                 myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
 
+                ActivityType = myActivatyVO.activity_type;
+
                 if (Session["form_mode"].ToString() == "edit")
                 {
                     //編輯模式
                     MyFormMode = FormViewMode.Edit;
-                    ActivityType = myActivatyVO.activity_type;      
+   
                 }
 
                 if (Session["form_mode"].ToString() == "readonly" || myActivatyVO.activity_enddate <= DateTime.Now)
@@ -171,6 +174,13 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
         if (myFileUpload.HasFile)
         {
+            if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) <= 0)
+            {
+                clsMyObj.ShowMessage(string.Format("副檔名只能是[{0}]!", ConfigurationManager.AppSettings["ValidExtention"]));
+                return;
+            }
+
+
             try
             {
                 DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("/ACMS/UpFiles", ActivityID.ToString())));
@@ -326,6 +336,29 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
     }
 
+    protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
+    {
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+            WebForm_DatetimePicker txtactivity_startdate = (FormView1.FindControl("txtactivity_startdate") as WebForm_DatetimePicker);
+            WebForm_DatetimePicker txtactivity_enddate = (FormView1.FindControl("txtactivity_enddate") as WebForm_DatetimePicker);
+            TextBox txtcancelregist_deadline = (FormView1.FindControl("txtcancelregist_deadline") as TextBox);
+
+            if (txtactivity_startdate.DateTimeValue > txtactivity_enddate.DateTimeValue)
+            {
+                clsMyObj.ShowMessage("「活動日期(起)」不能大於「活動日期(迄)」");
+       
+                e.Cancel = true;
+            }
+
+            if (txtactivity_startdate.DateTimeValue.Value.Date <=Convert.ToDateTime(txtcancelregist_deadline.Text).Date)
+            {
+                clsMyObj.ShowMessage("「取消報名截止日」需早於「活動日期(起)」");
+
+                e.Cancel = true;
+            }
+        }
+    }
 }
 
 
