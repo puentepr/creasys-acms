@@ -13,7 +13,8 @@
     <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步" 
-        OnFinishButtonClick="Wizard1_FinishButtonClick">
+        OnFinishButtonClick="Wizard1_FinishButtonClick" 
+        onnextbuttonclick="Wizard1_NextButtonClick">
         <WizardSteps>
             <asp:WizardStep runat="server" Title="Step 1">
                 <FTB:FreeTextBox ID="FTB_FreeTextBox" runat="server" AllowHtmlMode="False" AssemblyResourceHandlerPath=""
@@ -467,6 +468,10 @@
                         <asp:Panel ID="Panel_GroupLimit" runat="server" GroupingText="族群限定名單">
                             檔案上傳<asp:FileUpload ID="FileUpload_GroupLimit" runat="server" />
                             <asp:Button ID="btnUpload_GroupLimit" runat="server" Text="上傳" OnClick="btnUpload_GroupLimit_Click" />
+                            &nbsp;
+                            <asp:HyperLink ID="HyperLink1" runat="server" 
+                                NavigateUrl="~/Public/NameListSample.xls">上傳範例檔</asp:HyperLink>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <asp:Button ID="btnAdd_GroupLimit" runat="server" OnClick="btnAddGroupLimit_Click"
                                 Text="新增族群" />
                             <asp:Button ID="btnExport_GroupLimit" runat="server" Text="匯出族群名單" OnClick="btnExport_GroupLimit_Click" />

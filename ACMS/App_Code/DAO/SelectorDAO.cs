@@ -505,7 +505,7 @@ namespace ACMS.DAO
 
             sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
             sqlParams[0].Value = DEPT_ID;
-            sqlParams[1] = new SqlParameter("@JOB_GRADE_GROUP", SqlDbType.NVarChar, 200);
+            sqlParams[1] = new SqlParameter("@JOB_GRADE_GROUP", SqlDbType.NVarChar, 36);
             sqlParams[1].Value = JOB_GRADE_GROUP;
             sqlParams[2] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 36);
             sqlParams[2].Value = WORK_ID;
@@ -536,7 +536,6 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
             sb.AppendLine("and (A.SEX=@SEX or @SEX='') ");
             sb.AppendLine("and (A.BIRTHDAY >= @BIRTHDAY_S or @BIRTHDAY_S='') ");
-            sb.AppendLine("and (A.BIRTHDAY <= @BIRTHDAY_E or @BIRTHDAY_E='') ");
             sb.AppendLine("and (A.BIRTHDAY <= @BIRTHDAY_E or @BIRTHDAY_E='') ");
             sb.AppendLine("and (A.EXPERIENCE_START_DATE >=@EXPERIENCE_START_DATE or @EXPERIENCE_START_DATE='') ");
             sb.AppendLine("and (A.C_NAME = @C_NAME or @C_NAME='') ");
@@ -813,8 +812,8 @@ namespace ACMS.DAO
             {
                 VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
 
-                myDDLVO.Value = (string)MyDataReader["GROUP_CODE"];
-                myDDLVO.Text = (string)MyDataReader["GROUP_DESCRIPTION"];
+                myDDLVO.Value = MyDataReader["GROUP_CODE"].ToString();
+                myDDLVO.Text = MyDataReader["GROUP_DESCRIPTION"].ToString();
 
                 myDDLVOList.Add(myDDLVO);
 

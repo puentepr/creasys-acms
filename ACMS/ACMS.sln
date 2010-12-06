@@ -1,0 +1,50 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ACMS", "D:\Creasys\Project4\ACMS\", "{61E5DC78-7298-4BFF-939B-0C46E7A403F2}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
+		Debug.AspNetCompiler.VirtualPath = "/ACMS"
+		Debug.AspNetCompiler.PhysicalPath = "..\ACMS\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\ACMS\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/ACMS"
+		Release.AspNetCompiler.PhysicalPath = "..\ACMS\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\ACMS\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "2018"
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACMS_DailyUpdate", "..\ACMS_DailyUpdate\ACMS_DailyUpdate\ACMS_DailyUpdate.csproj", "{B70E8FFD-C981-418D-9DFB-ED33701A822F}"
+EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ACMS_DailyUpdateSetup", "..\ACMS_DailyUpdate\ACMS_DailyUpdateSetup\ACMS_DailyUpdateSetup.vdproj", "{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
+		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Release|Any CPU.Build.0 = Debug|Any CPU
+		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Debug|Any CPU.ActiveCfg = Debug
+		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Debug|Any CPU.Build.0 = Debug
+		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Release|Any CPU.ActiveCfg = Release
+		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Release|Any CPU.Build.0 = Release
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

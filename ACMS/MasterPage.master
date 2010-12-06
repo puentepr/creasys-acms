@@ -91,6 +91,16 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     }
                 }
             }
+
+            function checkFile(sizeLimit) {
+                var img = new Image();
+                document.MM_returnValue = false;
+                img.sizeLimit = sizeLimit;
+                img.src = 'file:///' + document.frmMain.File1.value;
+                img.onload = showImageDimensions;
+            }
+
+
     </script>
 
     <style>
