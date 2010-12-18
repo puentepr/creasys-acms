@@ -109,5 +109,32 @@ namespace ACMS.DAO
             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
 
+        //舊成員若不在新成員名單就要寄取消報名信
+        //新成員若不在舊成員資料表就要寄報名成功信
+        public void SendMailWhenTeamMemberChanged(Guid activity_id, string NewEmp_idList)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@NewEmp_idList", SqlDbType.NVarChar, -1);
+            sqlParams[1].Value = NewEmp_idList;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT emp_id ");
+            sb.AppendLine("FROM dbo.ActivityTeamMember ");
+            sb.AppendLine("WHERE activity_id=@activity_id ");
+            sb.AppendLine("and emp_id not in (SELECT * FROM dbo.UTILfn_Split(@NewEmp_idList,',')) ");
+
+            SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+        }
+
+
+
+
+
+
+
     }
 }

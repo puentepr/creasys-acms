@@ -119,10 +119,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
 
         //報名截止日後要唯讀
-        //if (myActivatyVO.regist_deadline <= DateTime.Today)
-        //{
-        //    MyFormMode = FormViewMode.ReadOnly;
-        //}
+        if (myActivatyVO.regist_deadline < DateTime.Today)
+        {
+            MyFormMode = FormViewMode.ReadOnly;
+            GridView_RegisterPeoplinfo.Enabled=false;
+            PanelCustomFieldA1.Enabled = false;
+        }
 
         //活動海報訊息
         Literal1.Text = myActivatyVO.activity_info;
@@ -316,7 +318,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         {
             ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
-            if (myActivityRegistDAO.IsPersonRegisted(ActivityID, EmpID) > 0)
+            if (myActivityRegistDAO.IsPersonRegisted(ActivityID, EmpID,"","1") > 0)
             {
                 clsMyObj.ShowMessage(@"已存在此員工的報名成功紀錄!\n請選擇其他員工執行代理報名。");
                 Wizard1.MoveTo(Wizard1.WizardSteps[0]);
@@ -420,6 +422,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
+        if (MyFormMode == FormViewMode.ReadOnly)
+        {
+            Response.Redirect("RegistedActivityQuery.aspx");
+        }
 
         ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
         List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
@@ -449,9 +455,16 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         {
             clsMyObj.ShowMessage(@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
         }
+        else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
+        {
+            clsMyObj.ShowMessage(@"資料存檔發生錯誤，無法完成報名。");
+        }
+        else
+        {
+            Response.Redirect("RegistedActivityQuery.aspx");
+        }
 
 
-        Response.Redirect("RegistedActivityQuery.aspx");
 
     }
 

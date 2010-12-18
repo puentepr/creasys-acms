@@ -325,7 +325,7 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and A.activity_id=@activity_id ");
             sb.AppendLine("and ((A.regist_by=@emp_id or A.emp_id=@emp_id) or @emp_id='') ");//由登入者代理報名的人員(及本人)選單 管理員執行時 @regist_by=''
-            //sb.AppendLine("and A.check_status>=0 ");//離職的人應該可以幫他取消報名
+            sb.AppendLine("and A.check_status>=0 ");//已取消就不要再出現了
             sb.AppendLine("ORDER BY A.id ");//按照報名順序
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -354,7 +354,7 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and A.activity_id=@activity_id ");
             sb.AppendLine("and (A.boss_id=(SELECT boss_id FROM ActivityTeamMember WHERE activity_id=@activity_id and emp_id=@emp_id )) ");
-            //sb.AppendLine("and A.check_status>=0 ");
+            sb.AppendLine("and A.check_status>=0 ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
