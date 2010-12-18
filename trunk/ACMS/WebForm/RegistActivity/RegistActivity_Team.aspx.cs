@@ -125,7 +125,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
         myActivityRegistVO = myActivityRegistDAO.SelectActivityRegistByMemberID(ActivityID, clsAuth.ID);
 
-        EmpID = myActivityRegistVO.emp_id;
+        EmpID =clsAuth.ID;
         RegistBy = myActivityRegistVO.regist_by;
 
         MyHiddenField.Value = ActivityID.ToString();
@@ -135,7 +135,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
 
         //不是團長不可編輯
-        if (EmpID != clsAuth.ID)
+        if (EmpID != RegistBy)
         {
             txtteam_name.Enabled = false;
             txtext_people.Enabled = false;
@@ -175,10 +175,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
 
         //報名截止日後要唯讀
-        //if (myActivatyVO.regist_deadline <= DateTime.Today)
-        //{
-        //    MyFormMode = FormViewMode.ReadOnly;
-        //}
+        if (myActivatyVO.regist_deadline < DateTime.Today)
+        {
+            MyFormMode = FormViewMode.ReadOnly;
+            Panel_TeamFix.Enabled = false;
+            PanelTeamMember.Enabled = false;
+            PanelCustomFieldA1.Enabled = false;
+        }
 
         //活動海報訊息
         Literal1.Text = myActivatyVO.activity_info;
@@ -247,12 +250,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         //myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
     }
     
-        //編輯時載入動態欄位資料
+    //編輯時載入自訂欄位資料
     private void GetDynamicValue()
     {
         ACMS.DAO.CustomFieldValueDAO myCustomFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
 
-        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustomFieldValueDAO.SelectCustomFieldValue(ActivityID, EmpID);
+        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustomFieldValueDAO.SelectCustomFieldValue(ActivityID, RegistBy);
 
         foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
         {
@@ -391,12 +394,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
 
             //團長能改大家的資料，但是團員只能改自己的資料
-            if (EmpID != clsAuth.ID)
+            if (EmpID != RegistBy)
             {
-                if (GridView_TemMember.DataKeys[e.Row.RowIndex].Value.ToString() != clsAuth.ID)
+                if (GridView_TemMember.DataKeys[e.Row.RowIndex].Value.ToString() != EmpID)
                 {
                     (e.Row.FindControl("lbtnVOedit") as LinkButton).Visible = false;
-
                 }
                 (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
             }
@@ -578,29 +580,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
                 }
             }
 
-            
-
-            //團隊成員人數符合限制,才能按下一步
-            if (!(GridView_TemMember.Rows.Count >= Page_team_member_min && GridView_TemMember.Rows.Count <= Page_team_member_max))
+            //當團長在操作此畫面時
+            if (EmpID == RegistBy)
             {
-
-                clsMyObj.ShowMessage(string.Format(@"團隊成員人數必須介於{0}~{1}人!", Page_team_member_min, Page_team_member_max));
-                Wizard1.MoveTo(Wizard1.WizardSteps[0]);
-                return;
-            }
-
-            //檢查欲報名者是否已經報過名
-            if (MyFormMode == FormViewMode.Insert)
-            {
-                ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
-
-                if (myActivityRegistDAO.IsPersonRegisted(ActivityID, EmpID) > 0)
+                //因為有可能更改團員，團隊成員人數符合限制,才能按下一步
+                if (!(GridView_TemMember.Rows.Count >= Page_team_member_min && GridView_TemMember.Rows.Count <= Page_team_member_max))
                 {
-                    clsMyObj.ShowMessage(@"您已經以團長的身分報名報名過該活動!\n");
+                    clsMyObj.ShowMessage(string.Format(@"團隊成員人數必須介於{0}~{1}人!", Page_team_member_min, Page_team_member_max));
                     Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                     return;
                 }
 
+
+                //因為有可能更改團員，所以要檢查欲報名者是否已經報過名
+
+                ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
                 string strEmp_id = "";
                 foreach (ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO in Page_ActivityTeamMemberVOList)
@@ -613,9 +607,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
                     strEmp_id = strEmp_id.Substring(0, strEmp_id.Length - 1);
                 }
 
-
-
-                string strDouble = myActivityRegistDAO.IsTeamRegisted(ActivityID, strEmp_id);
+                string strDouble = myActivityRegistDAO.IsTeamRegisted(ActivityID, strEmp_id, RegistBy);
 
                 if (!string.IsNullOrEmpty(strDouble))
                 {
@@ -627,12 +619,6 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
             }
 
         }
-
-
-
-
-
-
 
         //else if (Wizard1.ActiveStepIndex == 1 && MyFormMode != FormViewMode.Insert)
         //{
@@ -652,7 +638,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
 
         myActivityRegistVO.activity_id = ActivityID;
-        myActivityRegistVO.emp_id = EmpID;
+        myActivityRegistVO.emp_id = EmpID;//若是團員近來修改個人欄位時，此值會是團員ID,所以不能存ActivityRegist 只能存ActivityTeamMember
         myActivityRegistVO.regist_by = RegistBy;
         myActivityRegistVO.idno = "";
         myActivityRegistVO.team_name = txtteam_name.Text;
@@ -715,6 +701,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
+        if (MyFormMode == FormViewMode.ReadOnly)
+        {
+            Response.Redirect("RegistedActivityQuery.aspx");        
+        }
+        
         ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
         List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
         //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
@@ -746,10 +737,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         {
             clsMyObj.ShowMessage(@"資料存檔發生錯誤，無法完成報名。");
         }
-
-
-        Response.Redirect("RegistedActivityQuery.aspx");
-
+        else
+        {
+            Response.Redirect("RegistedActivityQuery.aspx");
+        }
     }
 
     //protected void FormView_fixA_DataBound(object sender, EventArgs e)

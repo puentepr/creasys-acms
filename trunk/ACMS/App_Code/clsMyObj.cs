@@ -5,6 +5,8 @@ using System.Web.UI;
 using System.Data;
 using System.Web.UI.WebControls;
 using ACMS.VO;
+using System.Net.Mail;
+using System.Transactions;
 
 /// <summary>
 /// clsMyObj 的摘要描述
@@ -206,6 +208,8 @@ public class MySingleton
         RegistFail,
         RegistFail_Already,
         RegistFail_Full,
+        UpdateRegistSucess,
+        UpdateRegistFail,
         CancelRegistSucess,
         CancelRegistFail,
         CancelRegistFail_DayOver,
@@ -225,7 +229,7 @@ public class MySingleton
         return _singleton;
     }
 
-    
+    //個人活動報名或取消報名
     public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline)
     {
         lock (this)
@@ -236,49 +240,59 @@ public class MySingleton
 
                 if (myAlterRegistType == AlterRegistType.RegistInsert)
                 {
-                    //是否重複報名
-                    int RegistCount = myActivityRegistDAO.IsPersonRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id);
-
-                    if (RegistCount > 0)
+                    //先Insert報名資訊看是否成功
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, null, "insert", "1");
+                    if (intSaveResult == 1)
                     {
-                        return AlterRegistResult.RegistFail_Already;
+                        //andy-報名成功寄信
+                        RegistSuccess(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
+
+                        return AlterRegistResult.RegistSucess;
                     }
                     else
                     {
+                        //若失敗可能是重複報名或額滿
+
+                        //是否重複報名
+                        int RegistCount = myActivityRegistDAO.IsPersonRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id,"", "1");
+
+                        if (RegistCount > 0)
+                        {
+                            //andy-報名失敗寄信
+                            RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
+
+                            return AlterRegistResult.RegistFail_Already;
+                        }
+
                         //是否已額滿
                         int RegistableCount = myActivityRegistDAO.RegistableCount(myActivityRegistVO.activity_id);
 
                         if (RegistableCount <= 0)
                         {
+                            //andy-報名失敗寄信
+                            RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
                             return AlterRegistResult.RegistFail_Full;
                         }
-                        else
-                        {
-                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "insert","1");
-                            if (intSaveResult == 1)
-                            {
-                                return AlterRegistResult.RegistSucess;
-                            }
-                            else
-                            {
-                                return AlterRegistResult.RegistFail;
-                            }
-                        }
 
+                        //andy-報名失敗寄信
+                        RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
+
+                        return AlterRegistResult.RegistFail;
                     }
+
                 }
                 else
                 {
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList,null, "update","1");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, null, "update", "1");
                     if (intSaveResult == 1)
                     {
-                        return AlterRegistResult.RegistSucess;
+                        return AlterRegistResult.UpdateRegistSucess;
                     }
                     else
                     {
-                        return AlterRegistResult.RegistFail;
+                        return AlterRegistResult.UpdateRegistFail;
                     }
-                }           
+                }
 
 
             }
@@ -290,12 +304,29 @@ public class MySingleton
 
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
+                if (Convert.ToDateTime(regist_deadline) > DateTime.Today)
+                {
+                    //報名截止日之前-刪除
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1") > 0)
+                    {
+                        //andy-取消報名寄信
+                        CancelRegist( activity_id.ToString(),  emp_id, clsAuth.ID);
 
-                if (Convert.ToDateTime(cancelregist_deadline) > DateTime.Today)
-                {
-                    //取消報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"1") > 0)
+                        return AlterRegistResult.CancelRegistSucess;
+                    }
+                    else
                     {
+                        return AlterRegistResult.CancelRegistFail;
+                    }
+                }
+                else if (Convert.ToDateTime(regist_deadline) <= DateTime.Today)
+                {
+                    //報名截止日之後-狀態改取消
+                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id, "1") > 0)
+                    {
+                        //andy-取消報名寄信
+                        CancelRegist(activity_id.ToString(), emp_id, clsAuth.ID);
+
                         return AlterRegistResult.CancelRegistSucess;
                     }
                     else
@@ -305,18 +336,7 @@ public class MySingleton
                 }
                 else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
                 {
-                    //取消報名截止日之後-狀態改取消
-                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"1") > 0)
-                    {
-                        return AlterRegistResult.CancelRegistSucess;
-                    }
-                    else
-                    {
-                        return AlterRegistResult.CancelRegistFail;
-                    }
-                }
-                else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
-                {
+                    //取消報名截止日之後-不可以取消
                     return AlterRegistResult.CancelRegistFail_DayOver;
                 }
 
@@ -324,52 +344,75 @@ public class MySingleton
 
             }
 
-        }
 
+        }
     }
 
+    //團隊活動報名或取消報名
     public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline)
     {
         lock (this)
         {
             if (myAlterRegistType == AlterRegistType.RegistInsert || myAlterRegistType == AlterRegistType.RegistUpdate)
             {
+                string strEmp_id = "";
+                foreach (ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO in myActivityTeamMemberVOList)
+                {
+                    strEmp_id += string.Format("{0},", myActivityTeamMemberVO.emp_id);
+                }
+
+                if (strEmp_id.EndsWith(","))
+                {
+                    strEmp_id = strEmp_id.Substring(0, strEmp_id.Length - 1);
+                }
+
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
                 if (myAlterRegistType == AlterRegistType.RegistInsert)
                 {
-                    //是否重複報名
-                    int RegistCount = myActivityRegistDAO.IsPersonRegisted(myActivityRegistVO.activity_id, myActivityRegistVO.emp_id);
+                    //先Insert報名資訊看是否成功
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "insert", "2");
 
-                    if (RegistCount > 0)
+                    if (intSaveResult == 1)
                     {
-                        return AlterRegistResult.RegistFail_Already;
+                        //andy-報名成功寄信
+                        RegistSuccess_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+
+                        return AlterRegistResult.RegistSucess;
                     }
                     else
                     {
+                        //若失敗可能是重複報名或額滿
+
+                        //是否重複報名
+
+                        int RegistCount = myActivityRegistDAO.IsPersonRegisted(myActivityRegistVO.activity_id, strEmp_id, myActivityRegistVO.regist_by, "2");
+
+                        if (RegistCount > 0)
+                        {
+                            //andy-報名失敗寄信
+                            RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+
+                            return AlterRegistResult.RegistFail_Already;
+                        }
+
                         //是否已額滿
                         int RegistableCount = myActivityRegistDAO.RegistableCount(myActivityRegistVO.activity_id);
 
                         if (RegistableCount <= 0)
                         {
+                            //andy-報名失敗寄信
+                            RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+
                             return AlterRegistResult.RegistFail_Full;
                         }
-                        else
-                        {                          
-                            int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "insert","2");
 
-                            if (intSaveResult == 1)
-                            {
-                                return AlterRegistResult.RegistSucess;
-                            }
-                            else
-                            {
-                                return AlterRegistResult.RegistFail;
-                            }
-                        
-                        }
+                        //andy-報名失敗寄信
+                        RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
 
+                        return AlterRegistResult.RegistFail;
                     }
+          
                 }
                 else
                 {
@@ -377,11 +420,27 @@ public class MySingleton
 
                     if (intSaveResult == 1)
                     {
-                        return AlterRegistResult.RegistSucess;
+                        return AlterRegistResult.UpdateRegistSucess;
                     }
                     else
                     {
-                        return AlterRegistResult.RegistFail;
+                        //因為團長會異動報名的人，所以要檢查是否選到重複的人
+                        if (myActivityRegistVO.emp_id == myActivityRegistVO.regist_by)
+                        {
+                            //是否重複報名
+
+                            int RegistCount = myActivityRegistDAO.IsPersonRegisted(myActivityRegistVO.activity_id, strEmp_id, myActivityRegistVO.regist_by, "2");
+
+                            if (RegistCount > 0)
+                            {
+                                //andy-報名失敗寄信
+                                RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+
+                                return AlterRegistResult.RegistFail_Already;
+                            }
+                        }                   
+
+                        return AlterRegistResult.UpdateRegistFail;
                     }
                 }
 
@@ -395,12 +454,14 @@ public class MySingleton
 
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
-
-                if (Convert.ToDateTime(cancelregist_deadline) > DateTime.Today)
+                if (Convert.ToDateTime(regist_deadline) > DateTime.Today)
                 {
                     //取消報名截止日之前-刪除
                     if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2") > 0)
                     {
+                        //andy-取消報名寄信
+                        RegistFail_Team(activity_id.ToString(), emp_id, clsAuth.ID);
+
                         return AlterRegistResult.CancelRegistSucess;
                     }
                     else
@@ -408,11 +469,14 @@ public class MySingleton
                         return AlterRegistResult.CancelRegistFail;
                     }
                 }
-                else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
+                else if (Convert.ToDateTime(regist_deadline) <= DateTime.Today)
                 {
                     //取消報名截止日之後-狀態改取消
                     if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2") > 0)
                     {
+                        //andy-取消報名寄信
+                        RegistFail_Team(activity_id.ToString(), emp_id, clsAuth.ID);
+
                         return AlterRegistResult.CancelRegistSucess;
                     }
                     else
@@ -422,6 +486,7 @@ public class MySingleton
                 }
                 else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
                 {
+                    //取消報名截止日之後-不可以取消
                     return AlterRegistResult.CancelRegistFail_DayOver;
                 }
 
@@ -433,6 +498,128 @@ public class MySingleton
 
     }
 
+    //個人報名成功寄信
+    public void RegistSuccess(string activity_id, string emp_id, string regist_by)
+    {
+        MailMessage mail = new MailMessage();
+
+        //收件者
+        mail.To.Add("t134089109@hotmail.com");
+        mail.Subject = "報名成功通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.IsBodyHtml = true;
+        mail.Body = "message";
+
+        SmtpClient smtp = new SmtpClient();
+        smtp.EnableSsl = true;
+
+        smtp.Send(mail);   
+    
+    }
+
+    //個人報名失敗寄信
+    public void RegistFail(string activity_id, string emp_id, string regist_by)
+    {
+        MailMessage mail = new MailMessage();
+
+        //收件者
+        mail.To.Add("t134089109@hotmail.com");
+        mail.Subject = "報名失敗通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.IsBodyHtml = true;
+        mail.Body = "message";
+
+        SmtpClient smtp = new SmtpClient();
+        smtp.EnableSsl = true;
+
+        smtp.Send(mail);
+
+
+    }
+
+    //個人取消報名寄信
+    public void CancelRegist(string activity_id, string emp_id, string cancel_by)
+    {
+        MailMessage mail = new MailMessage();
+
+        //收件者
+        mail.To.Add("t134089109@hotmail.com");
+        mail.Subject = "取消報名通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.IsBodyHtml = true;
+        mail.Body = "message";
+
+        SmtpClient smtp = new SmtpClient();
+        smtp.EnableSsl = true;
+
+        smtp.Send(mail);
+
+    }
+
+
+    //團隊報名成功寄信
+    public void RegistSuccess_Team(string activity_id, string emp_id, string regist_by)
+    {
+        MailMessage mail = new MailMessage();
+
+        //收件者
+        mail.To.Add("t134089109@hotmail.com");
+        mail.Subject = "報名成功通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.IsBodyHtml = true;
+        mail.Body = "message";
+
+        SmtpClient smtp = new SmtpClient();
+        smtp.EnableSsl = true;
+
+        smtp.Send(mail);
+
+    }
+
+    //團隊報名失敗寄信
+    public void RegistFail_Team(string activity_id, string emp_id, string regist_by)
+    {
+        MailMessage mail = new MailMessage();
+
+        //收件者
+        mail.To.Add("t134089109@hotmail.com");
+        mail.Subject = "報名失敗通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.IsBodyHtml = true;
+        mail.Body = "message";
+
+        SmtpClient smtp = new SmtpClient();
+        smtp.EnableSsl = true;
+
+        smtp.Send(mail);
+
+
+    }
+
+    //團隊取消報名寄信
+    public void CancelRegist_Team(string activity_id, string emp_id, string cancel_by)
+    {
+        MailMessage mail = new MailMessage();
+
+        //收件者
+        mail.To.Add("t134089109@hotmail.com");
+        mail.Subject = "取消報名通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.IsBodyHtml = true;
+        mail.Body = "message";
+
+        SmtpClient smtp = new SmtpClient();
+        smtp.EnableSsl = true;
+
+        smtp.Send(mail);
+
+    }
 }
 
 public class RegistGoSecondEventArgs : EventArgs
