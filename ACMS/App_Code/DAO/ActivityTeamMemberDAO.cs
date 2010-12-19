@@ -22,7 +22,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT A.*,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_ABBR ");
             sb.AppendLine("FROM ActivityTeamMember A ");
-            sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID "); 
+            sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE A.activity_id=@activity_id ");
             sb.AppendLine("and A.boss_id=@RegistBy ");
 
@@ -62,7 +62,7 @@ namespace ACMS.DAO
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar,100);
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
             sqlParams[1].Value = emp_id;
 
             StringBuilder sb = new StringBuilder();
@@ -81,7 +81,7 @@ namespace ACMS.DAO
             {
                 return false;
             }
-        
+
         }
 
         //變更隊長
@@ -108,33 +108,6 @@ namespace ACMS.DAO
 
             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
-
-        //舊成員若不在新成員名單就要寄取消報名信
-        //新成員若不在舊成員資料表就要寄報名成功信
-        public void SendMailWhenTeamMemberChanged(Guid activity_id, string NewEmp_idList)
-        {
-            SqlParameter[] sqlParams = new SqlParameter[2];
-
-            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-            sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@NewEmp_idList", SqlDbType.NVarChar, -1);
-            sqlParams[1].Value = NewEmp_idList;
-
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine("SELECT emp_id ");
-            sb.AppendLine("FROM dbo.ActivityTeamMember ");
-            sb.AppendLine("WHERE activity_id=@activity_id ");
-            sb.AppendLine("and emp_id not in (SELECT * FROM dbo.UTILfn_Split(@NewEmp_idList,',')) ");
-
-            SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-        }
-
-
-
-
-
-
-
+    
     }
 }
