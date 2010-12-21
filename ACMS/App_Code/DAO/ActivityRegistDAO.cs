@@ -313,7 +313,7 @@ namespace ACMS.DAO
                 if (activity_type == "1")
                 {
                     //個人
-                    sb.AppendLine("and not exists(SELECt * FROM ActivityRegist where activity_id=@activity_id and emp_id=@emp_id) ");
+                   sb.AppendLine("and not exists(SELECt * FROM ActivityRegist where activity_id=@activity_id and emp_id=@emp_id) ");
                 }
                 else
                 {
@@ -396,8 +396,8 @@ namespace ACMS.DAO
                 }
             }
 
-            using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
-            {
+            //using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
+            //{
 
                 using (SqlConnection myConn = MyConn())
                 {
@@ -540,9 +540,9 @@ namespace ACMS.DAO
                         return 0;
                     }
 
-                }
+                //}
 
-                trans.Complete();
+                //trans.Complete();
             }
 
             return 1;
@@ -575,8 +575,8 @@ namespace ACMS.DAO
                 sb.AppendLine("DELETE A FROM CustomFieldValue A inner join CustomField B on A.field_id=B.field_id WHERE B.activity_id=@activity_id and A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
             }
 
-            using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
-            {
+            //using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
+            //{
                 using (SqlConnection myConn = MyConn())
                 {
                     myConn.Open();
@@ -638,9 +638,9 @@ namespace ACMS.DAO
                     {
                         return 0;
                     }
-                }
+                //}
 
-                trans.Complete();
+                //trans.Complete();
             }
             return 1;
         }
@@ -755,7 +755,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT emp_id ");
             sb.AppendLine("FROM ActivityTeamMember ");
-            sb.AppendLine("where activity_id=@activity_id and boss_id =( ");
+            sb.AppendLine("where activity_id=@activity_id and boss_id in ( ");
             sb.AppendLine("SELECT distinct boss_id ");
             sb.AppendLine("FROM ActivityTeamMember ");
             sb.AppendLine("WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) ");

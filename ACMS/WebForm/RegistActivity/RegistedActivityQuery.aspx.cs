@@ -12,6 +12,20 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
     {
         if (!IsPostBack)
         {
+            //andy 
+            if (!(string.IsNullOrEmpty(Request.QueryString["ActID"])))
+            {
+
+                ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+                ACMS.BO.ActivatyBO bo= new ACMS.BO.ActivatyBO ();
+                Guid id = new Guid(Request.QueryString["ActID"]);
+                vo = bo.SelectActivatyByActivatyID(id);
+
+
+                txtactivity_name.Text =  vo.activity_name;
+            }
+
+            //===========================================
             (this.Master as MyMasterPage).PanelMainGroupingText = "已報名活動查詢";
             ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
             btnQuery_Click(null, null);

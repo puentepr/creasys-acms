@@ -17,6 +17,9 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : System.Web.U
         {
             ObjectDataSource_Activity.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
             (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度查詢";
+           
+
+
         }
 
     }

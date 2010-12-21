@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
+﻿<%@ Page Title="主辦單位設定" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
     CodeFile="ManageUnit.aspx.cs" Inherits="WebForm_ManageRole_ManageUnit" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
@@ -19,8 +19,7 @@
                                 <td>
                                     <asp:RequiredFieldValidator ID="chk_txtname" runat="server" ControlToValidate="txtname"
                                         Display="None" ErrorMessage="主辦單位名稱必填" ValidationGroup="add"></asp:RequiredFieldValidator>
-                                    <asp:Button ID="btnInsert" runat="server" Text="新增" ValidationGroup="add" 
-                                        onclick="btnInsert_Click" />
+                                    <asp:Button ID="btnInsert" runat="server" Text="新增" ValidationGroup="add" OnClick="btnInsert_Click" />
                                 </td>
                             </tr>
                         </table>
@@ -28,17 +27,16 @@
                 </tr>
                 <tr>
                     <td align="center">
-                        <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True"
-                            AllowHoverSelect="True" AutoGenerateColumns="False" DataSourceID="ObjectDataSource1"
-                            ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0"
-                            AllowPaging="True" AllowSorting="True" DataKeyNames="id">
+                        <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
+                            AutoGenerateColumns="False" DataSourceID="ObjectDataSource1" ShowFooterWhenEmpty="False"
+                            ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" AllowPaging="True"
+                            AllowSorting="True" DataKeyNames="id">
                             <Columns>
                                 <asp:TemplateField HeaderText="單位名稱" SortExpression="name">
                                     <EditItemTemplate>
                                         <asp:TextBox ID="txtname_edit" runat="server" Text='<%# Bind("name") %>'></asp:TextBox>
-                                        <asp:RequiredFieldValidator ID="chk_txtname_edit" runat="server" 
-                                            ControlToValidate="txtname_edit" Display="None" ErrorMessage="主辦單位名稱必填" 
-                                            ValidationGroup="edit"></asp:RequiredFieldValidator>
+                                        <asp:RequiredFieldValidator ID="chk_txtname_edit" runat="server" ControlToValidate="txtname_edit"
+                                            Display="None" ErrorMessage="主辦單位名稱必填" ValidationGroup="edit"></asp:RequiredFieldValidator>
                                     </EditItemTemplate>
                                     <ItemTemplate>
                                         <asp:Label ID="Label1" runat="server" Text='<%# Bind("name") %>'></asp:Label>
@@ -47,24 +45,22 @@
                                 </asp:TemplateField>
                                 <asp:TemplateField HeaderText="啟用">
                                     <EditItemTemplate>
-                                        <TServerControl:TCheckBoxYN ID="cbactive_edit" runat="server" 
-                                           YesNo=<%# Bind("active") %> />
+                                        <TServerControl:TCheckBoxYN ID="cbactive_edit" runat="server" YesNo='<%# Bind("active") %>' />
                                     </EditItemTemplate>
                                     <ItemTemplate>
-                                        <TServerControl:TCheckBoxYN ID="cbactive" runat="server" Enabled="False" 
-                                            YesNo=<%# Eval("active") %> />
+                                        <TServerControl:TCheckBoxYN ID="cbactive" runat="server" Enabled="False" YesNo='<%# Eval("active") %>' />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                                 <asp:TemplateField ShowHeader="False">
                                     <EditItemTemplate>
-                                        <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" 
-                                            CommandName="Update" Text="更新" ValidationGroup="edit"></asp:LinkButton>
-                                        &nbsp;<asp:LinkButton ID="lbtnCancel" runat="server" CausesValidation="False" 
-                                            CommandName="Cancel" Text="取消"></asp:LinkButton>
+                                        <asp:LinkButton ID="lbtnUpdate" runat="server" CausesValidation="True" CommandName="Update"
+                                            Text="更新" ValidationGroup="edit"></asp:LinkButton>
+                                        &nbsp;<asp:LinkButton ID="lbtnCancel" runat="server" CausesValidation="False" CommandName="Cancel"
+                                            Text="取消"></asp:LinkButton>
                                     </EditItemTemplate>
                                     <ItemTemplate>
-                                        <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" 
-                                            CommandName="Edit" Text="編輯"></asp:LinkButton>
+                                        <asp:LinkButton ID="lbtnEdit" runat="server" CausesValidation="False" CommandName="Edit"
+                                            Text="編輯"></asp:LinkButton>
                                     </ItemTemplate>
                                     <ItemStyle Width="100px" />
                                 </asp:TemplateField>

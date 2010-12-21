@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
+﻿<%@ Page Title="已報名查詢" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
     CodeFile="RegistedActivityQuery.aspx.cs" Inherits="WebForm_RegistActivity_RegistedActivityQuery" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"

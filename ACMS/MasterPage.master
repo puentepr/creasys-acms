@@ -23,8 +23,6 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
 
     <link rel="stylesheet" type="text/css" media="screen" href="/ACMS/js/jquery-ui.css" />
 
-
-
     <script type="text/javascript">
             function setRadio(nowRadio)
             {
@@ -83,6 +81,10 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
         {
             display: none;
         }
+        .banner
+        {
+            background-color:#D7DFE2;
+        }
     </style>
 </head>
 <body>
@@ -90,13 +92,22 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
     <div id="main_container">
-        <div id="header">
+        <div id="header" class ="banner">
             <div id="logo">
-                <a href="/ACMS/Default.aspx">
-                    <img src="/ACMS/images/logo.gif" alt="" title="" border="0" style="width: 373px" /></a>
-                <span id="login">登入者資訊:
-                    <asp:Label ID="Label1" runat="server" Text="Label" />
-                </span>
+                <!-- <a href="/ACMS/Default.aspx">
+                    <img src="/ACMS/images/logo.gif" alt="" title="" border="0"  /></a>-->
+                <table width ="100%" >
+                    <tr>
+                        
+                        <td><img src="/ACMS/images/banner.jpg" alt="" title="" border="0" width="450px" height="100px" />
+                        </td>
+                        <td valign ="bottom" align="left">
+                          
+                              登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" />
+                            <!-- <span  id="login"> </span>-->
+                        </td>
+                    </tr>
+                </table>
             </div>
             <div id="myslidemenu" class="jqueryslidemenu">
                 <ul>
@@ -115,7 +126,7 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     </li>
                     <li><a href="#">權限管理</a>
                         <ul>
-                        <li><a href="/ACMS/WebForm/ManageRole/ManageUnit.aspx">主辦單位設定</a></li>
+                            <li><a href="/ACMS/WebForm/ManageRole/ManageUnit.aspx">主辦單位設定</a></li>
                             <li><a href="/ACMS/WebForm/ManageRole/ManageRole.aspx">角色人員管理</a></li>
                         </ul>
                     </li>
@@ -131,13 +142,14 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
                         </asp:ContentPlaceHolder>
                     </td>
+                    <!-- 
                     <td valign="top" width="20%">
                         <asp:Panel ID="Panel3" runat="server" GroupingText="日曆及熱門連結">
                             <div class="SpaceDiv">
-                                <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
+                             <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
                             </div>
                         </asp:Panel>
-                    </td>
+                    </td>-->
                 </tr>
             </table>
         </div>
