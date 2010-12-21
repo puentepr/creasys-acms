@@ -188,19 +188,28 @@ public class clsMyObj
 
     //個人報名成功寄信
     public static void RegistSuccess(string activity_id, string emp_id, string regist_by)
-    {
+    {//andy 
+
+
+        ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+        ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        Guid id = new Guid(activity_id);
+        vo = bo.SelectActivatyByActivatyID(id);
+
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add("t134089109@hotmail.com");
-        mail.Subject = "報名成功通知";
+        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        mail.Subject = vo.activity_name +":個人報名成功通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "message";
+        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by )
+            + "'>"+vo.activity_name +":個人報名成功通知</a>";
 
-        SmtpClient smtp = new SmtpClient();
-        smtp.EnableSsl = true;
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+       // smtp.EnableSsl = true;
 
         smtp.Send(mail);
 
@@ -209,18 +218,27 @@ public class clsMyObj
     //個人報名失敗寄信
     public static void RegistFail(string activity_id, string emp_id, string regist_by)
     {
+
+        //andy
+        ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+        ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        Guid id = new Guid(activity_id);
+        vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add("t134089109@hotmail.com");
-        mail.Subject = "報名失敗通知";
+        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        mail.Subject = vo.activity_name + ":報名失敗通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "message";
+        mail.Body  = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by )
+            + "'>" + vo.activity_name + ":個人報名失敗通知</a>";
 
-        SmtpClient smtp = new SmtpClient();
-        smtp.EnableSsl = true;
+
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        //smtp.EnableSsl = true;
 
         smtp.Send(mail);
 
@@ -229,19 +247,27 @@ public class clsMyObj
 
     //個人取消報名寄信
     public static void CancelRegist(string activity_id, string emp_id, string cancel_by)
-    {
+    {//andy 
+
+        ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+        ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        Guid id = new Guid(activity_id);
+        vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add("t134089109@hotmail.com");
-        mail.Subject = "取消報名通知";
+        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        mail.Subject = vo.activity_name + ":取消報名通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "message";
+        mail.Body = mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+            + "'>"+ vo.activity_name + ":取消報名通知</a>";
 
-        SmtpClient smtp = new SmtpClient();
-        smtp.EnableSsl = true;
+
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        //smtp.EnableSsl = true;
 
         smtp.Send(mail);
 
@@ -250,19 +276,24 @@ public class clsMyObj
 
     //團隊報名成功寄信
     public static void RegistSuccess_Team(string activity_id, string emp_id, string regist_by)
-    {
+    {//andy 
+        ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+        ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        Guid id = new Guid(activity_id);
+        vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add("t134089109@hotmail.com");
-        mail.Subject = "報名成功通知";
+        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        mail.Subject = vo.activity_name + ":團隊報名成功通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "message";
-
-        SmtpClient smtp = new SmtpClient();
-        smtp.EnableSsl = true;
+        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
+            + "'>" + vo.activity_name + ":團隊報名成功通知</a>";
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        //smtp.EnableSsl = true;
 
         smtp.Send(mail);
 
@@ -270,19 +301,27 @@ public class clsMyObj
 
     //團隊報名失敗寄信
     public static void RegistFail_Team(string activity_id, string emp_id, string regist_by)
-    {
+    {//andy 
+        ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+        ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        Guid id = new Guid(activity_id);
+        vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
-        //收件者
-        mail.To.Add("t134089109@hotmail.com");
-        mail.Subject = "報名失敗通知";
-        //寄件者
-        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
-        mail.IsBodyHtml = true;
-        mail.Body = "message";
+        
 
-        SmtpClient smtp = new SmtpClient();
-        smtp.EnableSsl = true;
+        //收件者
+        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        mail.Subject = vo.activity_name + ":團隊報名失敗通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
+        mail.IsBodyHtml = true;
+        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
+            + "'>" + vo.activity_name + ":團隊報名失敗通知</a>";
+
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        //smtp.EnableSsl = true;
 
         smtp.Send(mail);
 
@@ -292,18 +331,25 @@ public class clsMyObj
     //團隊取消報名寄信
     public static void CancelRegist_Team(string activity_id, string emp_id, string cancel_by)
     {
+        //andy 
+        ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+        ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        Guid id = new Guid(activity_id);
+        vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add("t134089109@hotmail.com");
-        mail.Subject = "取消報名通知";
+        mail.To.Add("andy.wang@gamil.com.tw");
+        mail.Subject = vo.activity_name + ":團隊取消報名通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress("tommyisme@gmail.com");
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "message";
+        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+            + "'>" + vo.activity_name + ":團隊取消報名通知</a>";
 
-        SmtpClient smtp = new SmtpClient();
-        smtp.EnableSsl = true;
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings ["SMTPServer"]);
+        //smtp.EnableSsl = true;
 
         smtp.Send(mail);
 

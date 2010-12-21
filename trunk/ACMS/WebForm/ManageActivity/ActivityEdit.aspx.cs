@@ -280,8 +280,25 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.people_type = ((TextBox)FormView1.FindControl("txtpeople_type")).Text;
         myActivatyVO.activity_startdate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_startdate")).DateTimeValue;
         myActivatyVO.activity_enddate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_enddate")).DateTimeValue;
+        if (((TextBox)FormView1.FindControl("txtlimit_count")).Text=="")
+        {
+            ((TextBox)FormView1.FindControl("txtlimit_count")).Text="0";
+        }
+       if( ( (TextBox)FormView1.FindControl("txtlimit2_count")).Text=="")
+        {
+            ((TextBox)FormView1.FindControl("txtlimit2_count")).Text="0";
+        }
         myActivatyVO.limit_count = Convert.ToInt32(((TextBox)FormView1.FindControl("txtlimit_count")).Text);
         myActivatyVO.limit2_count = Convert.ToInt32(((TextBox)FormView1.FindControl("txtlimit2_count")).Text);
+
+        if (((TextBox)FormView1.FindControl("txtteam_member_max")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtteam_member_max")).Text = "0";
+        }
+        if (((TextBox)FormView1.FindControl("txtteam_member_min")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtteam_member_min")).Text = "0";
+        }
 
         if (ActivityType == "2")
         {
@@ -299,6 +316,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.is_showperson_fix1 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix1")).Checked == true ? "Y" : "N";
         myActivatyVO.is_showperson_fix2 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix2")).Checked == true ? "Y" : "N";
 
+       if (((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text=="")
+        {
+            ((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text="0";
+        }
+       if (((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text == "")
+       {
+           ((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text = "0";
+       }
         if (ActivityType == "1")
         {
 
@@ -311,6 +336,18 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
         myActivatyVO.is_showteam_fix1 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix1")).Checked == true ? "Y" : "N";
         myActivatyVO.is_showteam_fix2 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix2")).Checked == true ? "Y" : "N";
+
+        if (((TextBox)FormView2.FindControl("txtteamextcount_max")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtteamextcount_max")).Text="0";
+        }
+
+        if (((TextBox)FormView2.FindControl("txtteamextcount_min")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtteamextcount_min")).Text = "0";
+        }
+       
+
 
         if (ActivityType == "2" && chkis_showteam_fix2.Checked==true)
         {
