@@ -174,7 +174,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
         if (myFileUpload.HasFile)
         {
-            if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) <= 0)
+            if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) ==-1)
             {
                 clsMyObj.ShowMessage(string.Format("副檔名只能是[{0}]!", ConfigurationManager.AppSettings["ValidExtention"]));
                 return;
