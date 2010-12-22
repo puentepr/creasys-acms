@@ -7,7 +7,10 @@
             <td>
                <table align="center" cellpadding="5" cellspacing="5">
                             <tr ID="tr_idno" runat="server">
-                                <td width="150" align="right"><asp:RadioButtonList ID="rblidno_type" runat="server" 
+                                
+                                <td width="150" align="right">
+                                您所提供的身份證字號將僅做為此次活動之使用!!<br />
+                                <asp:RadioButtonList ID="rblidno_type" runat="server" 
                                         RepeatDirection="Horizontal" AutoPostBack="True" 
                                         onselectedindexchanged="rblidno_type_SelectedIndexChanged">
                                         <asp:ListItem>身分證字號</asp:ListItem>

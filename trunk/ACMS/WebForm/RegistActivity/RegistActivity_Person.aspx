@@ -222,12 +222,13 @@
                                                         <table>
                                                             <tr id="tr_person_fix1" runat="server">
                                                                 <td width="150">
+                                                                您所提供的身份證字號將僅做為此次活動之使用!!<br />
                                                                     <asp:RadioButtonList ID="rblidno_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblidno_type_SelectedIndexChanged"
                                                                         RepeatDirection="Horizontal" SelectedIndex='<%# Bind("idno_type") %>'>
                                                                         <asp:ListItem Selected="True">身分證字號</asp:ListItem>
                                                                         <asp:ListItem>護照號碼</asp:ListItem>
                                                                     </asp:RadioButtonList>
-                                                                    &nbsp;
+                                                                    
                                                                 </td>
                                                                 <td>
                                                                     <asp:TextBox ID="txtperson_fix1" runat="server" Text='<%# Bind("idno") %>'></asp:TextBox>
