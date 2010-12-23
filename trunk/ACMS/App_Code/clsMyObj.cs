@@ -20,6 +20,8 @@ public class clsMyObj
         //
     }
 
+   
+
     public static void ShowMessage(string message)
     {
         string js = null;
@@ -187,24 +189,45 @@ public class clsMyObj
     }
 
     //個人報名成功寄信
-    public static void RegistSuccess(string activity_id, string emp_id, string regist_by)
+    public static void RegistSuccess(string activity_id, string emp_id, string regist_by,string webPath)
     {//andy 
 
-
+       
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
 
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
+        {
+            foreach (string st1 in smtpto)
+            {
+                mail.To.Add(st1);
+            }
+
+        }
+        else
+        {
+            EmployeeVO empVO = new EmployeeVO();
+            EMPloyeeDAO empDAO = new EMPloyeeDAO();
+            empVO = empDAO.getEmployee(emp_id);
+            mail.To.Add(empVO.OFFICE_MAIL);
+            if (emp_id != regist_by)
+            {
+                empVO = empDAO.getEmployee(regist_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
+        }
         mail.Subject = vo.activity_name +":個人報名成功通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+        mail.Body = "<a href='" + webPath +"?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by )
             + "'>"+vo.activity_name +":個人報名成功通知</a>";
 
@@ -216,23 +239,45 @@ public class clsMyObj
     }
 
     //個人報名失敗寄信
-    public static void RegistFail(string activity_id, string emp_id, string regist_by)
+    public static void RegistFail(string activity_id, string emp_id, string regist_by, string webPath)
     {
 
         //andy
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
+
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
+        {
+            foreach (string st1 in smtpto)
+            {
+                mail.To.Add(st1);
+            }
+        }
+        else
+        {
+            EmployeeVO empVO = new EmployeeVO();
+            EMPloyeeDAO empDAO = new EMPloyeeDAO();
+            empVO = empDAO.getEmployee(emp_id);
+            mail.To.Add(empVO.OFFICE_MAIL);
+            if (emp_id != regist_by)
+            {
+                empVO = empDAO.getEmployee(regist_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
+        }
+
         mail.Subject = vo.activity_name + ":報名失敗通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body  = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+        mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by )
             + "'>" + vo.activity_name + ":個人報名失敗通知</a>";
 
@@ -246,22 +291,42 @@ public class clsMyObj
     }
 
     //個人取消報名寄信
-    public static void CancelRegist(string activity_id, string emp_id, string cancel_by)
+    public static void CancelRegist(string activity_id, string emp_id, string cancel_by, string webPath)
     {//andy 
 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
+        {
+            foreach (string st1 in smtpto)
+            {
+                mail.To.Add(st1);
+            }
+        }
+        else
+        {
+            EmployeeVO empVO = new EmployeeVO();
+            EMPloyeeDAO empDAO = new EMPloyeeDAO();
+            empVO = empDAO.getEmployee(emp_id);
+            mail.To.Add(empVO.OFFICE_MAIL);
+            if (emp_id != cancel_by)
+            {
+                empVO = empDAO.getEmployee(cancel_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
+        }
         mail.Subject = vo.activity_name + ":取消報名通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+        mail.Body = mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>"+ vo.activity_name + ":取消報名通知</a>";
 
@@ -275,21 +340,49 @@ public class clsMyObj
 
 
     //團隊報名成功寄信
-    public static void RegistSuccess_Team(string activity_id, string emp_id, string regist_by)
+    public static void RegistSuccess_Team(string activity_id, string emp_id, string regist_by, string webPath)
     {//andy 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+       string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+       if ((string.Compare(mailtype, "online") != 0))
+       {
+           foreach (string st1 in smtpto)
+           {
+               mail.To.Add(st1);
+           }
+       }
+
+       else
+       {
+           EmployeeVO empVO = new EmployeeVO();
+           EMPloyeeDAO empDAO = new EMPloyeeDAO();
+           empVO = empDAO.getEmployee(regist_by);
+           mail.To.Add(empVO.OFFICE_MAIL);
+           string[] emps = emp_id.Split(',');
+
+           foreach (string emp in emps)
+           {
+               if (emp != regist_by)
+               {
+                   empVO = empDAO.getEmployee(emp);
+                   mail.To.Add(empVO.OFFICE_MAIL);
+               }
+           }
+
+       }
+
         mail.Subject = vo.activity_name + ":團隊報名成功通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+        mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
             + "'>" + vo.activity_name + ":團隊報名成功通知</a>";
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
@@ -300,10 +393,11 @@ public class clsMyObj
     }
 
     //團隊報名失敗寄信
-    public static void RegistFail_Team(string activity_id, string emp_id, string regist_by)
+    public static void RegistFail_Team(string activity_id, string emp_id, string regist_by, string webPath)
     {//andy 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
@@ -311,12 +405,38 @@ public class clsMyObj
         
 
         //收件者
-        mail.To.Add(System.Configuration.ConfigurationManager.AppSettings["SMTPTo"]);
+        string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
+        {
+            foreach (string st1 in smtpto)
+            {
+                mail.To.Add(st1);
+            }
+        }
+
+        else
+        {
+            EmployeeVO empVO = new EmployeeVO();
+            EMPloyeeDAO empDAO = new EMPloyeeDAO();
+            empVO = empDAO.getEmployee(regist_by);
+            mail.To.Add(empVO.OFFICE_MAIL);
+            string[] emps = emp_id.Split(',');
+
+            foreach (string emp in emps)
+            {
+                if (emp != regist_by)
+                {
+                    empVO = empDAO.getEmployee(emp);
+                    mail.To.Add(empVO.OFFICE_MAIL);
+                }
+            }
+
+        }
         mail.Subject = vo.activity_name + ":團隊報名失敗通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+        mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
             + "'>" + vo.activity_name + ":團隊報名失敗通知</a>";
 
@@ -329,22 +449,48 @@ public class clsMyObj
     }
 
     //團隊取消報名寄信
-    public static void CancelRegist_Team(string activity_id, string emp_id, string cancel_by)
+    public static void CancelRegist_Team(string activity_id, string emp_id, string cancel_by, string webPath)
     {
         //andy 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
         //收件者
-        mail.To.Add("andy.wang@gamil.com.tw");
+      string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
+        {
+            foreach (string st1 in smtpto)
+            {
+                mail.To.Add(st1);
+            }
+        }
+        else
+        {
+            EmployeeVO empVO = new EmployeeVO();
+            EMPloyeeDAO empDAO = new EMPloyeeDAO();
+            empVO = empDAO.getEmployee(cancel_by);
+            mail.To.Add(empVO.OFFICE_MAIL);
+            string[] emps = emp_id.Split(',');
+
+            foreach (string emp in emps)
+            {
+                if (emp != cancel_by)
+                {
+                    empVO = empDAO.getEmployee(emp);
+                    mail.To.Add(empVO.OFFICE_MAIL);
+                }
+            }
+
+        }
         mail.Subject = vo.activity_name + ":團隊取消報名通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + System.Configuration.ConfigurationManager.AppSettings["WebServer"] + "WebForm/RegistActivity/RegistedActivityQuery.aspx?ActID="
+        mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + ":團隊取消報名通知</a>";
 
@@ -399,7 +545,7 @@ public class MySingleton
     }
 
     //個人活動報名或取消報名
-    public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline)
+    public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline, string webPath )
     {
         lock (this)
         {
@@ -410,11 +556,11 @@ public class MySingleton
                 if (myAlterRegistType == AlterRegistType.RegistInsert)
                 {
                     //先Insert報名資訊看是否成功
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, null, "insert", "1");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, null, "insert", "1",webPath );
                     if (intSaveResult == 1)
                     {
                         //andy-報名成功寄信
-                        clsMyObj.RegistSuccess(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
+                        clsMyObj.RegistSuccess(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath);
 
                         return AlterRegistResult.RegistSucess;
                     }
@@ -428,7 +574,7 @@ public class MySingleton
                         if (RegistCount > 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
+                            clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
 
                             return AlterRegistResult.RegistFail_Already;
                         }
@@ -439,12 +585,12 @@ public class MySingleton
                         if (RegistableCount <= 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
+                            clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
                             return AlterRegistResult.RegistFail_Full;
                         }
 
                         //andy-報名失敗寄信
-                        clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by);
+                        clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
 
                         return AlterRegistResult.RegistFail;
                     }
@@ -452,7 +598,7 @@ public class MySingleton
                 }
                 else
                 {
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, null, "update", "1");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, null, "update", "1",webPath);
                     if (intSaveResult == 1)
                     {
                         return AlterRegistResult.UpdateRegistSucess;
@@ -476,10 +622,10 @@ public class MySingleton
                 if (Convert.ToDateTime(regist_deadline) > DateTime.Today)
                 {
                     //報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1") > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1",webPath ) > 0)
                     {
                         //andy-取消報名寄信
-                        clsMyObj.CancelRegist( activity_id.ToString(),  emp_id, clsAuth.ID);
+                        clsMyObj.CancelRegist( activity_id.ToString(),  emp_id, clsAuth.ID,webPath );
 
                         return AlterRegistResult.CancelRegistSucess;
                     }
@@ -491,10 +637,10 @@ public class MySingleton
                 else if (Convert.ToDateTime(regist_deadline) <= DateTime.Today)
                 {
                     //報名截止日之後-狀態改取消
-                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id, "1") > 0)
+                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id, "1",webPath) > 0)
                     {
                         //andy-取消報名寄信
-                        clsMyObj.CancelRegist(activity_id.ToString(), emp_id, clsAuth.ID);
+                        clsMyObj.CancelRegist(activity_id.ToString(), emp_id, clsAuth.ID,webPath);
 
                         return AlterRegistResult.CancelRegistSucess;
                     }
@@ -518,7 +664,7 @@ public class MySingleton
     }
 
     //團隊活動報名或取消報名
-    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline)
+    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline ,string webPath)
     {
         lock (this)
         {
@@ -540,12 +686,12 @@ public class MySingleton
                 if (myAlterRegistType == AlterRegistType.RegistInsert)
                 {
                     //先Insert報名資訊看是否成功
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "insert", "2");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "insert", "2",webPath);
 
                     if (intSaveResult == 1)
                     {
                         //andy-報名成功寄信
-                        clsMyObj.RegistSuccess_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+                        clsMyObj.RegistSuccess_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                         return AlterRegistResult.RegistSucess;
                     }
@@ -560,7 +706,7 @@ public class MySingleton
                         if (RegistCount > 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+                            clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                             return AlterRegistResult.RegistFail_Already;
                         }
@@ -571,13 +717,13 @@ public class MySingleton
                         if (RegistableCount <= 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+                            clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                             return AlterRegistResult.RegistFail_Full;
                         }
 
                         //andy-報名失敗寄信
-                        clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+                        clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                         return AlterRegistResult.RegistFail;
                     }
@@ -585,7 +731,7 @@ public class MySingleton
                 }
                 else
                 {
-                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "update","2");
+                    int intSaveResult = myActivityRegistDAO.UpdateActivityRegist(myActivityRegistVO, myCustomFieldValueVOList, myActivityTeamMemberVOList, "update","2",webPath);
 
                     if (intSaveResult == 1)
                     {
@@ -603,7 +749,7 @@ public class MySingleton
                             if (RegistCount > 0)
                             {
                                 //andy-報名失敗寄信
-                                clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by);
+                                clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                                 return AlterRegistResult.RegistFail_Already;
                             }
@@ -626,7 +772,7 @@ public class MySingleton
                 if (Convert.ToDateTime(regist_deadline) > DateTime.Today)
                 {
                     //取消報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2") > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath ) > 0)
                     {
                         return AlterRegistResult.CancelRegistSucess;
                     }
@@ -638,7 +784,7 @@ public class MySingleton
                 else if (Convert.ToDateTime(regist_deadline) <= DateTime.Today)
                 {
                     //取消報名截止日之後-狀態改取消
-                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2") > 0)
+                    if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2",webPath) > 0)
                     {
                         return AlterRegistResult.CancelRegistSucess;
                     }

@@ -15,10 +15,11 @@
             <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
                 StepPreviousButtonText="上一步" OnFinishButtonClick="Wizard1_FinishButtonClick"
-                OnNextButtonClick="Wizard1_NextButtonClick">
+                OnNextButtonClick="Wizard1_NextButtonClick" 
+                onactivestepchanged="Wizard1_ActiveStepChanged">
                 <WizardSteps>
                     <asp:WizardStep runat="server" Title="Step 1">
-                        請透過頁面上的文字編輯器，新增/修改此次活動的內容<br />
+                        <font color="blue">請透過頁面上的文字編輯器，新增/修改此次活動的內容</font><br />
                         <FTB:FreeTextBox ID="FTB_FreeTextBox" runat="server" AllowHtmlMode="False" AssemblyResourceHandlerPath=""
                             AutoConfigure="" AutoGenerateToolbarsFromString="True" AutoHideToolbar="True"
                             AutoParseStyles="True" BackColor="158, 190, 245" BaseUrl="" BreakMode="Paragraph"
@@ -43,7 +44,7 @@
                         </FTB:FreeTextBox>
                     </asp:WizardStep>
                     <asp:WizardStep runat="server" Title="Step 2">
-                        請填寫本次活動的基本資訊，同時亦可上傳活動相關檔案<br />
+                      <font color="blue">  請填寫本次活動的基本資訊，同時亦可上傳活動相關檔案 </font></font><br />
                         <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="ObjectDataSource_Activaty"
                             EnableModelValidation="True" OnPreRender="FormView1_PreRender">
                             <ItemTemplate>
@@ -279,7 +280,7 @@
                     <asp:WizardStep runat="server" Title="Step 3">
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                             <ContentTemplate>
-                                請決定同仁報名本次活動時，所必須填寫的欄位內容<br />
+                                <font color="blue">請決定同仁報名本次活動時，所必須填寫的欄位內容</font></font><br />
                                 <asp:FormView ID="FormView2" runat="server" DataSourceID="ObjectDataSource_Activaty2"
                                     DataKeyNames="id">
                                     <ItemTemplate>
@@ -460,7 +461,7 @@
                     <asp:WizardStep runat="server" Title="Step 4">
                         <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                             <ContentTemplate>
-                                請決定是否需限定可報名本次活動的同仁名單（亦即族群名單）<br />
+                                <font color="blue">請決定是否需限定可報名本次活動的同仁名單（亦即族群名單）</font><br />
                                 <asp:RadioButtonList ID="rblgrouplimit" runat="server" RepeatDirection="Horizontal">
                                     <asp:ListItem Selected="True" Value="Y">使用族群限定名單</asp:ListItem>
                                     <asp:ListItem Value="N">不使用族群限定名單</asp:ListItem>
@@ -512,7 +513,7 @@
                         </asp:UpdatePanel>
                     </asp:WizardStep>
                     <asp:WizardStep runat="server" Title="Step 5">
-                        請註明同仁於報名本次活動時，所需留意的事項或要點<br /><asp:RequiredFieldValidator ID="chk_txtnotice" runat="server"
+                       <font color="blue"> 請註明同仁於報名本次活動時，所需留意的事項或要點</font><br /><asp:RequiredFieldValidator ID="chk_txtnotice" runat="server"
                             ControlToValidate="txtnotice" ErrorMessage="注意事項必填" ValidationGroup="WizardNext">*</asp:RequiredFieldValidator>
                         <br />
                         <asp:TextBox ID="txtnotice" runat="server" Height="300px" TextMode="MultiLine" Width="400px"></asp:TextBox>
@@ -533,6 +534,6 @@
                 ShowMessageBox="True" ShowSummary="False" />
             <asp:ValidationSummary ID="sum_Query" runat="server" DisplayMode="List" ShowMessageBox="True"
                 ShowSummary="False" ValidationGroup="Query" />
-        </ContentTemplate>
+         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

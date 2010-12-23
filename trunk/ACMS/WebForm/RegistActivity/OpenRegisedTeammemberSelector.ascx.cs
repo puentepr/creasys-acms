@@ -34,7 +34,8 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
         if (!string.IsNullOrEmpty(emp_id))
         {
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline);
+            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page .Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+            //.ResolveUrl("~/WebForm/RegistActivity/RegistedActivityQuery.aspx"));
 
             GridView1.DataBind();
 
