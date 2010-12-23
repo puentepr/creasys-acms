@@ -35,7 +35,7 @@ namespace ACMS.DAO
             sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and AA.regist_startdate<=getdate() ");//報名已開始
-            sb.AppendLine("  and dateadd(day,1,AA.regist_deadline)>getdate() ");//報名尚未截止
+            sb.AppendLine("  and dateadd(day,1,AA.regist_deadline)>=convert(datetime,convert(varchar(10),getdate(),111)) ");//報名尚未截止
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//不限族群or我在這個族群
             sb.AppendLine(") A ");
@@ -46,7 +46,7 @@ namespace ACMS.DAO
             {
                 sb.AppendLine("and A.id not in (SELECT distinct activity_id FROM ActivityTeamMember WHERE emp_id=@emp_id )");
             }
-
+            //sb.AppendLine(" and A.regist_deadline>=convert(datetime,convert(varchar(10),getdate(),111))");
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate ");
             sb.AppendLine("ORDER BY A.sn ");
 
@@ -215,7 +215,8 @@ namespace ACMS.DAO
             sb.AppendLine("and AA.id=@activity_id ");
             sb.AppendLine(") ");
             sb.AppendLine("and A.status <2 ");//不為離職或留職停薪
-            sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+           // sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            sb.AppendLine("and (A.DEPT_ID=@DEPT_ID ) ");
             sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
 
@@ -453,7 +454,7 @@ namespace ACMS.DAO
             sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
-            sb.AppendLine("and A.activity_enddate>getdate() ");//列出活動未結束的活動
+            sb.AppendLine("and A.activity_enddate>=  Convert(Datetime,Convert(varchar(10),getDate(),111)) and A.regist_startdate>Convert(Datetime,Convert(varchar(10),getDate(),111))");//列出活動未結束的活動
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline  ");
             sb.AppendLine("ORDER BY A.sn ");
 
@@ -721,7 +722,8 @@ namespace ACMS.DAO
             sb.AppendLine("SELECT B.[ID],B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
             sb.AppendLine("FROM V_ACSM_USER2 B ");
             sb.AppendLine("WHERE status<2 ");//在職員工
-            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+           // sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID ) ");
             sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
 

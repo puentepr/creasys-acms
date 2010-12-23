@@ -27,7 +27,7 @@ namespace ACMS.DAO
             {
                 VO.RoleUserMappingVO myRoleUserMappingVO = new ACMS.VO.RoleUserMappingVO();
                 myRoleUserMappingVO.id = (int)myIDataReader["id"];
-                myRoleUserMappingVO.role_name = (string)myIDataReader["role_name"];
+                myRoleUserMappingVO.role_name = (string)myIDataReader["role_name"] ;
                 myRoleUserMappingVO.unit_name = clsMyObj.GetStringObject(myIDataReader["unit_name"]);
                 myRoleUserMappingVO.emp_id = (string)myIDataReader["emp_id"];
                 myRoleUserMappingVO.C_DEPT_ABBR = clsMyObj.GetStringObject(myIDataReader["C_DEPT_ABBR"]);

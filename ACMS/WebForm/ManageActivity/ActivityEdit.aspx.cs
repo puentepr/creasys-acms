@@ -79,7 +79,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                     FTB_FreeTextBox.ReadOnly = true;
                     rblgrouplimit.Enabled = false;
                     Panel_GroupLimit.Enabled = false;
-                    txtnotice.Enabled = false;
+                   // txtnotice.Enabled = false;
                 }
 
             }
@@ -265,6 +265,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
     //存檔
     protected void Wizard1_FinishButtonClick(object sender, WizardNavigationEventArgs e)
     {
+       
         if (MyFormMode == FormViewMode.ReadOnly)
         {
             Response.Redirect("ActivityEditQuery.aspx");
@@ -280,25 +281,25 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.people_type = ((TextBox)FormView1.FindControl("txtpeople_type")).Text;
         myActivatyVO.activity_startdate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_startdate")).DateTimeValue;
         myActivatyVO.activity_enddate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_enddate")).DateTimeValue;
-       // if (((TextBox)FormView1.FindControl("txtlimit_count")).Text=="")
-       // {
-       //     ((TextBox)FormView1.FindControl("txtlimit_count")).Text="0";
-       // }
-       //if( ( (TextBox)FormView1.FindControl("txtlimit2_count")).Text=="")
-       // {
-       //     ((TextBox)FormView1.FindControl("txtlimit2_count")).Text="0";
-       // }
+        if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "0";
+        }
+        if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
+        }
         myActivatyVO.limit_count = Convert.ToInt32(((TextBox)FormView1.FindControl("txtlimit_count")).Text);
         myActivatyVO.limit2_count = Convert.ToInt32(((TextBox)FormView1.FindControl("txtlimit2_count")).Text);
 
-        //if (((TextBox)FormView1.FindControl("txtteam_member_max")).Text == "")
-        //{
-        //    ((TextBox)FormView1.FindControl("txtteam_member_max")).Text = "0";
-        //}
-        //if (((TextBox)FormView1.FindControl("txtteam_member_min")).Text == "")
-        //{
-        //    ((TextBox)FormView1.FindControl("txtteam_member_min")).Text = "0";
-        //}
+        if (((TextBox)FormView1.FindControl("txtteam_member_max")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtteam_member_max")).Text = "0";
+        }
+        if (((TextBox)FormView1.FindControl("txtteam_member_min")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtteam_member_min")).Text = "0";
+        }
 
         if (ActivityType == "2")
         {
@@ -316,14 +317,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.is_showperson_fix1 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix1")).Checked == true ? "Y" : "N";
         myActivatyVO.is_showperson_fix2 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix2")).Checked == true ? "Y" : "N";
 
-       //if (((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text=="")
-       // {
-       //     ((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text="0";
-       // }
-       //if (((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text == "")
-       //{
-       //    ((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text = "0";
-       //}
+        if (((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text = "0";
+        }
+        if (((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text = "0";
+        }
         if (ActivityType == "1")
         {
 
@@ -337,15 +338,15 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.is_showteam_fix1 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix1")).Checked == true ? "Y" : "N";
         myActivatyVO.is_showteam_fix2 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix2")).Checked == true ? "Y" : "N";
 
-        //if (((TextBox)FormView2.FindControl("txtteamextcount_max")).Text == "")
-        //{
-        //    ((TextBox)FormView2.FindControl("txtteamextcount_max")).Text="0";
-        //}
+        if (((TextBox)FormView2.FindControl("txtteamextcount_max")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtteamextcount_max")).Text = "0";
+        }
 
-        //if (((TextBox)FormView2.FindControl("txtteamextcount_min")).Text == "")
-        //{
-        //    ((TextBox)FormView2.FindControl("txtteamextcount_min")).Text = "0";
-        //}
+        if (((TextBox)FormView2.FindControl("txtteamextcount_min")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtteamextcount_min")).Text = "0";
+        }
        
 
 
@@ -375,12 +376,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
     protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
     {
+        
         if (Wizard1.ActiveStepIndex == 1)
         {
+            
             WebForm_DatetimePicker txtactivity_startdate = (FormView1.FindControl("txtactivity_startdate") as WebForm_DatetimePicker);
             WebForm_DatetimePicker txtactivity_enddate = (FormView1.FindControl("txtactivity_enddate") as WebForm_DatetimePicker);
             TextBox txtcancelregist_deadline = (FormView1.FindControl("txtcancelregist_deadline") as TextBox);
-
+            TextBox txtregist_startdate = (FormView1.FindControl("txtregist_startdate") as TextBox);
             if (txtactivity_startdate.DateTimeValue > txtactivity_enddate.DateTimeValue)
             {
                 clsMyObj.ShowMessage("「活動日期(起)」不能大於「活動日期(迄)」");
@@ -394,6 +397,35 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
                 e.Cancel = true;
             }
+            if (FormView1.Enabled  == true )
+            {
+                if (Convert.ToDateTime(txtregist_startdate.Text).Date <= DateTime.Today)
+                {
+                    clsMyObj.ShowMessage("「報名開始日不可」需晚於「今日」");
+
+                    e.Cancel = true;
+                }
+
+            }
+        }
+
+       
+
+    }
+
+    protected void Wizard1_ActiveStepChanged(object sender, EventArgs e)
+    {
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+            if (string.Compare(FTB_FreeTextBox.Text.Trim(), "") == 0)
+            {
+
+                Wizard1.ActiveStepIndex =0;
+                //clsMyObj.ShowMessage("活動內容不可空白");
+              
+
+            }
+
         }
     }
 }
@@ -530,7 +562,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
         {
             myConn.Open();
 
-            SqlTransaction trans = myConn.BeginTransaction();
+           SqlTransaction trans = myConn.BeginTransaction();
 
             ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
 

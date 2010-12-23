@@ -11,6 +11,7 @@ namespace ACMS.DAO
         //人員登入並取得登入者資訊
         public bool CheckLogin(String LoginID, out string UserData)
         {
+            
             SqlParameter[] sqlParams = new SqlParameter[1];
 
             sqlParams[0] = new SqlParameter("@LoginID", SqlDbType.NVarChar, 50);

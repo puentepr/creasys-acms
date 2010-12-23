@@ -437,12 +437,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         if (MyFormMode == FormViewMode.Insert)
         {
 
-            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "");
+            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
 
         }
         else
         {
-            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "");
+            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
 
         }
 
@@ -544,7 +544,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                     MyTableRow = new TableRow();
                     System.Web.UI.WebControls.TableCell MyTableCell_Title = new TableCell();
                     System.Web.UI.WebControls.TableCell MyTableCell_Control = new TableCell();
-                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(150);// "40%";
+                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(100);// "40%";
                     MyTableCell_Control.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
 
                     //Title

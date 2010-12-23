@@ -5,7 +5,7 @@
     void Application_Start(object sender, EventArgs e) 
     {
         // 應用程式啟動時執行的程式碼
-
+       
     }
     
     void Application_End(object sender, EventArgs e) 
@@ -46,7 +46,36 @@
             // 將儲存在 FormsAuthenticationTicket 中的角色定義取出，並轉成字串陣列
             string[] roles = ticket.UserData.Split(new char[] { ',' });
             // 指派角色到目前這個 HttpContext 的 User 物件去
+
             Context.User = new System.Security.Principal.GenericPrincipal(Context.User.Identity, roles);
+            //System.Security.Principal.WindowsIdentity windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
+            //string[] roles = new string[1];
+            //ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
+            //string UserData;
+
+
+
+            //// Construct a GenericIdentity object based on the current Windows
+            //// identity name and authentication type.
+            //string authenticationType = windowsIdentity.AuthenticationType;
+            //string userName = windowsIdentity.Name;
+            //userName = userName.Substring(userName.IndexOf("\\") + 1);
+            //myLoginDAO.CheckLogin(userName, out UserData);
+            //if (windowsIdentity.IsAuthenticated)
+            //{
+            //    // Add custom NetworkUser role.
+            //    roles[0] = UserData;
+            //}
+            //System.Security.Principal.GenericIdentity genericIdentity =
+            //    new System.Security.Principal.GenericIdentity(userName, authenticationType);
+
+            //// Construct a GenericPrincipal object based on the generic identity
+            //// and custom roles for the user.
+            //System.Security.Principal.GenericPrincipal genericPrincipal =
+            //    new System.Security.Principal.GenericPrincipal(genericIdentity, roles);
+
+            //Context.User = genericPrincipal;
+
         }
     }
        

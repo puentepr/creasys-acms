@@ -56,7 +56,7 @@
                             <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日"  SortExpression="regist_deadline" DataFormatString="{0:d}" />
                             <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日"  SortExpression="cancelregist_deadline" DataFormatString="{0:d}" />
                     <asp:BoundField DataField="registable_count" HeaderText="剩餘名額" SortExpression="registable_count">
-                        <ItemStyle HorizontalAlign="Center" />
+                        <ItemStyle HorizontalAlign="Left" />
                     </asp:BoundField>
                             <asp:TemplateField>
                                 <ItemTemplate>

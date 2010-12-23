@@ -15,7 +15,15 @@ public partial class Login : System.Web.UI.Page
         {
             if (Page.User.Identity.IsAuthenticated)
             {
+           
                 Response.Redirect("NoPermission.aspx");
+                //System.Security.Principal.WindowsIdentity windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
+
+
+                //string userName = windowsIdentity.Name;
+                //userName = userName.Substring(userName.IndexOf("\\") + 1); ;
+                //UserLogin(userName);
+                //Response.Redirect("Default.aspx");
             }
             else
             {
@@ -56,7 +64,7 @@ public partial class Login : System.Web.UI.Page
             bool isPersistent = false;
 
             FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
-             LoginID,
+             LoginID,             
               DateTime.Now,
               DateTime.Now.AddMinutes(30),
               isPersistent,
