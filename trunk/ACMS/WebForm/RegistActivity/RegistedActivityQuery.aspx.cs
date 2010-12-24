@@ -84,11 +84,11 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
 
         if (activity_type == "1")
         {
-            Response.Redirect("RegistActivity_Person.aspx");
+            Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Person.aspx");
         }
         else
         {
-            Response.Redirect("RegistActivity_Team.aspx");
+            Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Team.aspx");
         }       
 
     }
