@@ -119,7 +119,7 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("RegistActivity_Team.aspx");
+            Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Team.aspx");
         }
 
     }
