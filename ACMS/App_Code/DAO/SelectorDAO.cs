@@ -308,6 +308,55 @@ namespace ACMS.DAO
 
         }
 
+        //4.2已報名活動查詢-取消個人報名-由管理者取消選單
+        public DataTable RegistedByMeEmpSelectorByManage(Guid activity_id, string emp_id, string DEPT_ID, int JOB_GRADE_GROUP, string WINDOWS_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[9];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+            sqlParams[1].Value = emp_id;
+            sqlParams[2] = new SqlParameter("@Dept_ID", SqlDbType.NVarChar, 100);
+            sqlParams[2].Value = DEPT_ID;
+            sqlParams[3] = new SqlParameter("@JOB_GRADE_GROUP", SqlDbType.Int);
+            sqlParams[3].Value = JOB_GRADE_GROUP;
+            sqlParams[4] = new SqlParameter("@WINDOWS_ID", SqlDbType.NVarChar, 100);
+            sqlParams[4].Value = WINDOWS_ID;
+            sqlParams[5] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 100);
+            sqlParams[5].Value = NATIVE_NAME;
+            sqlParams[6] = new SqlParameter("@SEX", SqlDbType.NVarChar, 100);
+            sqlParams[6].Value = SEX;
+            sqlParams[7] = new SqlParameter("@EXPERIENCE_START_DATE", SqlDbType.DateTime);
+            sqlParams[7].Value = EXPERIENCE_START_DATE;
+            sqlParams[8] = new SqlParameter("@C_NAME", SqlDbType.NVarChar,100);
+            sqlParams[8].Value = C_NAME;
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT A.activity_id,A.emp_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+            sb.AppendLine("FROM ActivityRegist A ");
+            sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
+            sb.AppendLine("WHERE 1=1 ");
+            sb.AppendLine("and A.activity_id=@activity_id ");
+            sb.AppendLine("and ((A.regist_by=@emp_id or A.emp_id=@emp_id) or @emp_id='') ");//由登入者代理報名的人員(及本人)選單 管理員執行時 @regist_by=''
+            sb.AppendLine(" and B.DEPT_ID=@Dept_ID");
+            sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
+            sb.AppendLine(" and (B.WINDOWS_ID like '%'+@WINDOWS_ID+'%' or @WINDOWS_ID='')");
+            sb.AppendLine(" and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
+            sb.AppendLine(" and (B.SEX= @SEX or @SEX='')");
+            sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
+            sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");            
+            sb.AppendLine("and A.check_status>=0 ");//已取消就不要再出現了
+            sb.AppendLine("ORDER BY A.id ");//按照報名順序
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            DataTable DT = clsMyObj.GetDataTable(DS);
+
+            return DT;
+
+        }
+
         //4.1已報名活動查詢-取消個人報名-由登入者代理報名的人員(及本人)選單
         public DataTable RegistedByMeEmpSelector(Guid activity_id, string emp_id)
         {
@@ -335,6 +384,52 @@ namespace ACMS.DAO
 
             return DT; 
         
+        }
+        //4.2該活動由管理者的選單
+        public DataTable RegistedMyTeamMemberSelectorByManage(Guid activity_id, string DEPT_ID, int JOB_GRADE_GROUP, string WINDOWS_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[8];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;          
+            sqlParams[1] = new SqlParameter("@Dept_ID", SqlDbType.NVarChar, 100);
+            sqlParams[1].Value = DEPT_ID;
+            sqlParams[2] = new SqlParameter("@JOB_GRADE_GROUP", SqlDbType.Int);
+            sqlParams[2].Value = JOB_GRADE_GROUP;
+            sqlParams[3] = new SqlParameter("@WINDOWS_ID", SqlDbType.NVarChar, 100);
+            sqlParams[3].Value = WINDOWS_ID;
+            sqlParams[4] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 100);
+            sqlParams[4].Value = NATIVE_NAME;
+            sqlParams[5] = new SqlParameter("@SEX", SqlDbType.NVarChar, 100);
+            sqlParams[5].Value = SEX;
+            sqlParams[6] = new SqlParameter("@EXPERIENCE_START_DATE", SqlDbType.DateTime);
+            sqlParams[6].Value = EXPERIENCE_START_DATE;
+            sqlParams[7] = new SqlParameter("@C_NAME", SqlDbType.NVarChar, 100);
+            sqlParams[7].Value = C_NAME;
+           
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT A.activity_id,A.emp_id,A.boss_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+            sb.AppendLine("FROM ActivityTeamMember A ");
+            sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
+            sb.AppendLine("WHERE 1=1 ");
+            sb.AppendLine("and A.activity_id=@activity_id ");
+            sb.AppendLine("and (A.boss_id <>B.ID)");
+            sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
+            sb.AppendLine(" and (B.WINDOWS_ID like '%'+@WINDOWS_ID+'%' or @WINDOWS_ID='')");
+            sb.AppendLine(" and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
+            sb.AppendLine(" and (B.SEX= @SEX or @SEX='')");
+            sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
+            sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");     
+            sb.AppendLine("and A.check_status>=0 ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+            DataTable DT = clsMyObj.GetDataTable(DS);
+
+            return DT;
+
         }
 
         //4.2該活動與我同團隊的人員選單
