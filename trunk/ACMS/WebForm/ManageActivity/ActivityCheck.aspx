@@ -9,54 +9,54 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-        <ContentTemplate>
-            <div class="SpaceDiv">
-                <table align="center">
-                    <tr>
-                        <td>
-                            活動名稱
-                        </td>
-                        <td>
-                            <asp:DropDownList ID="ddlActivity" runat="server" DataSourceID="ObjectDataSource_Activity"
-                                DataTextField="activity_name" DataValueField="id">
-                            </asp:DropDownList>
-                            <asp:ObjectDataSource ID="ObjectDataSource_Activity" runat="server" OldValuesParameterFormatString="original_{0}"
-                                SelectMethod="GetAllActivity" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
-                        </td>
-                        <td>
-                            部門
-                        </td>
-                        <td>
-                            <asp:DropDownList ID="ddlDEPT_ID" runat="server" DataSourceID="ObjectDataSource_Dept"
-                                DataTextField="Text" DataValueField="Value">
-                            </asp:DropDownList>
-                            <asp:ObjectDataSource ID="ObjectDataSource_Dept" runat="server" OldValuesParameterFormatString="original_{0}"
-                                SelectMethod="DeptSelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            員工工號
-                        </td>
-                        <td>
-                            <asp:TextBox ID="txtemp_id" runat="server"></asp:TextBox>
-                        </td>
-                        <td>
-                            員工姓名
-                        </td>
-                        <td>
-                            <asp:TextBox ID="txtemp_name" runat="server"></asp:TextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td align="center" colspan="4">
-                            <asp:Button ID="btnQuery" runat="server" Text="查詢" OnClick="btnQuery_Click" />
-                            &nbsp;&nbsp;&nbsp;&nbsp;
-                            <asp:Button ID="btnExport" runat="server" Text="匯出" OnClick="btnExport_Click" />
-                        </td>
-                    </tr>
-                </table>
+    <div class="SpaceDiv">
+        <table align="center">
+            <tr>
+                <td>
+                    活動名稱
+                </td>
+                <td>
+                    <asp:DropDownList ID="ddlActivity" runat="server" DataSourceID="ObjectDataSource_Activity"
+                        DataTextField="activity_name" DataValueField="id">
+                    </asp:DropDownList>
+                    <asp:ObjectDataSource ID="ObjectDataSource_Activity" runat="server" OldValuesParameterFormatString="original_{0}"
+                        SelectMethod="GetAllActivity" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                </td>
+                <td>
+                    部門
+                </td>
+                <td>
+                    <asp:DropDownList ID="ddlDEPT_ID" runat="server" DataSourceID="ObjectDataSource_Dept"
+                        DataTextField="Text" DataValueField="Value">
+                    </asp:DropDownList>
+                    <asp:ObjectDataSource ID="ObjectDataSource_Dept" runat="server" OldValuesParameterFormatString="original_{0}"
+                        SelectMethod="DeptSelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    員工工號
+                </td>
+                <td>
+                    <asp:TextBox ID="txtemp_id" runat="server"></asp:TextBox>
+                </td>
+                <td>
+                    員工姓名
+                </td>
+                <td>
+                    <asp:TextBox ID="txtemp_name" runat="server"></asp:TextBox>
+                </td>
+            </tr>
+            <tr>
+                <td align="center" colspan="4">
+                    <asp:Button ID="btnQuery" runat="server" Text="查詢" OnClick="btnQuery_Click" />
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:Button ID="btnExport" runat="server" Text="匯出" OnClick="btnExport_Click" />
+                </td>
+            </tr>
+        </table>
+        <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
+            <ContentTemplate>
                 <asp:Panel ID="Panel1" runat="server" GroupingText="登錄狀態人員列表" Width="400px">
                     <div align="center">
                         登錄狀態:<asp:DropDownList ID="ddlcheck_status" runat="server">
@@ -94,7 +94,7 @@
                         </SelectParameters>
                     </asp:ObjectDataSource>
                 </asp:Panel>
-            </div>
-        </ContentTemplate>
-    </asp:UpdatePanel>
+            </ContentTemplate>
+        </asp:UpdatePanel>
+    </div>
 </asp:Content>

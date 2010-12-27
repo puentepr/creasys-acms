@@ -24,7 +24,17 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
 
                 txtactivity_name.Text =  vo.activity_name;
             }
+            if (!(string.IsNullOrEmpty(Session["ActID"].ToString () )))
+            {
 
+                ACMS.VO.ActivatyVO vo1 = new ACMS.VO.ActivatyVO();
+                ACMS.BO.ActivatyBO bo1 = new ACMS.BO.ActivatyBO();
+                Guid id1 = new Guid(Session["ActID"].ToString ());
+                vo1 = bo1.SelectActivatyByActivatyID(id1);
+
+
+                txtactivity_name.Text = vo1.activity_name;
+            }
             //===========================================
             (this.Master as MyMasterPage).PanelMainGroupingText = "已報名活動查詢";
             ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
