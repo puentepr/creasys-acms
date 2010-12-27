@@ -363,8 +363,12 @@ public class clsMyObj
        {
            EmployeeVO empVO = new EmployeeVO();
            EMPloyeeDAO empDAO = new EMPloyeeDAO();
-           empVO = empDAO.getEmployee(regist_by);
-           mail.To.Add(empVO.OFFICE_MAIL);
+           if (string.Compare(regist_by, "") != 0)
+           { 
+             empVO = empDAO.getEmployee(regist_by);
+             mail.To.Add(empVO.OFFICE_MAIL);
+           }
+         
            string[] emps = emp_id.Split(',');
 
            foreach (string emp in emps)
@@ -418,8 +422,11 @@ public class clsMyObj
         {
             EmployeeVO empVO = new EmployeeVO();
             EMPloyeeDAO empDAO = new EMPloyeeDAO();
-            empVO = empDAO.getEmployee(regist_by);
-            mail.To.Add(empVO.OFFICE_MAIL);
+            if (string.Compare(regist_by, "") != 0)
+            {
+                empVO = empDAO.getEmployee(regist_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
             string[] emps = emp_id.Split(',');
 
             foreach (string emp in emps)
@@ -472,8 +479,12 @@ public class clsMyObj
         {
             EmployeeVO empVO = new EmployeeVO();
             EMPloyeeDAO empDAO = new EMPloyeeDAO();
-            empVO = empDAO.getEmployee(cancel_by);
-            mail.To.Add(empVO.OFFICE_MAIL);
+            if (string.Compare(cancel_by, "") != 0)
+            {
+                empVO = empDAO.getEmployee(cancel_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
+         
             string[] emps = emp_id.Split(',');
 
             foreach (string emp in emps)
@@ -774,6 +785,9 @@ public class MySingleton
                     //取消報名截止日之前-刪除
                     if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath ) > 0)
                     {
+                        //寄信
+                        clsMyObj.RegistSuccess_Team(activity_id.ToString (), emp_id, "", webPath);
+
                         return AlterRegistResult.CancelRegistSucess;
                     }
                     else
@@ -786,6 +800,8 @@ public class MySingleton
                     //取消報名截止日之後-狀態改取消
                     if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2",webPath) > 0)
                     {
+                        //寄信
+                        clsMyObj.RegistSuccess_Team(activity_id.ToString(), emp_id,"", webPath);
                         return AlterRegistResult.CancelRegistSucess;
                     }
                     else

@@ -69,6 +69,20 @@ namespace ACMS.BO
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             return mySelectorDAO.RegistedByMeEmpSelector(activity_id, regist_by);
         }
+        //4.2已報名活動查詢-取消個人報名-由管理者取消選單
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public DataTable RegistedByMeEmpSelectorByManage(Guid activity_id, string regist_by, string DEPT_ID, int JOB_GRADE_GROUP,string WINDOWS_ID, string NATIVE_NAME,string SEX,DateTime EXPERIENCE_START_DATE, string C_NAME)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            return mySelectorDAO.RegistedByMeEmpSelectorByManage(activity_id, regist_by, DEPT_ID, JOB_GRADE_GROUP, WINDOWS_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME);
+        }
+
+        //4.2該活動由管理者的選單
+        public DataTable RegistedMyTeamMemberSelectorByManage(Guid activity_id, string DEPT_ID, int JOB_GRADE_GROUP, string WINDOWS_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            return mySelectorDAO.RegistedMyTeamMemberSelectorByManage(activity_id, DEPT_ID, JOB_GRADE_GROUP, WINDOWS_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME);
+        }
 
         //4.2該活動與我同團隊的人員選單
         public DataTable RegistedMyTeamMemberSelector(Guid activity_id, string emp_id)
