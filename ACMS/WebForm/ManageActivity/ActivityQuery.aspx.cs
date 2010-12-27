@@ -119,7 +119,10 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
         }
         else
         {
-            Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Team.aspx");
+           // Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Team.aspx?ActID=" + activity_id);
+            Session["ActID"] = activity_id;
+            Response.Redirect("~/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+            
         }
 
     }
