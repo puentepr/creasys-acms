@@ -120,8 +120,14 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
         else
         {
            // Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Team.aspx?ActID=" + activity_id);
-            Session["ActID"] = activity_id;
-            Response.Redirect("~/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+            //Session["ActID"] = activity_id;
+            //Response.Redirect("~/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+
+            OpenRegisedTeammemberSelector1.activity_id = activity_id;
+            OpenRegisedTeammemberSelector1.emp_id = clsAuth.ID;
+            OpenRegisedTeammemberSelector1.regist_deadline = regist_deadline;
+            OpenRegisedTeammemberSelector1.cancelregist_deadline = cancelregist_deadline;
+            OpenRegisedTeammemberSelector1.InitDataAndShow();
             
         }
 
