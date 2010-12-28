@@ -12,17 +12,37 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
     {
         if (!IsPostBack)
         {
+            if (Session["EmpID"] != null)
+            {
+                btnQuery.Visible = false;
+                OpenRegisedTeammemberSelector1.activity_id = Session["ActID"].ToString();
+                OpenRegisedTeammemberSelector1.emp_id = Session["EmpID"].ToString();
+                ACMS.VO.ActivatyVO vo1 = new ACMS.VO.ActivatyVO();
+                ACMS.BO.ActivatyBO bo1 = new ACMS.BO.ActivatyBO();
+                Guid id1 = new Guid(Session["ActID"].ToString());
+                vo1 = bo1.SelectActivatyByActivatyID(id1);
+
+                OpenRegisedTeammemberSelector1.regist_deadline = vo1.regist_deadline.ToString();
+                OpenRegisedTeammemberSelector1.cancelregist_deadline = vo1.cancelregist_deadline.ToString();
+                OpenRegisedTeammemberSelector1.InitDataAndShow();
+                Session.Remove("ActID");
+                Session.Remove("EmpID");
+                return;
+            }
+
+
+
             //andy 
             if (!(string.IsNullOrEmpty(Request.QueryString["ActID"])))
             {
 
                 ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
-                ACMS.BO.ActivatyBO bo= new ACMS.BO.ActivatyBO ();
+                ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
                 Guid id = new Guid(Request.QueryString["ActID"]);
                 vo = bo.SelectActivatyByActivatyID(id);
 
 
-                txtactivity_name.Text =  vo.activity_name;
+                txtactivity_name.Text = vo.activity_name;
             }
             if (Session["ActID"] != null)
             {
@@ -43,6 +63,8 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
             (this.Master as MyMasterPage).PanelMainGroupingText = "已報名活動查詢";
             ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
             btnQuery_Click(null, null);
+
+
         }
     }
 

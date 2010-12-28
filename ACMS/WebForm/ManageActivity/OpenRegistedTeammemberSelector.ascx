@@ -3,7 +3,7 @@
     " Width="800" Height="500"><!---->
     <br />
     <div align="center">
-        <asp:Label ID="lblTitle" runat="server" Text="取消團隊報名andy" SkinID="title"></asp:Label>
+        <asp:Label ID="lblTitle" runat="server" Text="取消團隊報名" SkinID="title"></asp:Label>
     </div>
      <table align="center">
         <tr>
@@ -119,7 +119,7 @@
                                     <asp:TemplateField HeaderText="隊長">
                                     <ItemTemplate>
                                         <asp:RadioButton  Enabled ="False" ID="RadioButton1" runat="server" AutoPostBack="True" 
-                                            oncheckedchanged="RadioButton1_CheckedChanged" />
+                                            oncheckedchanged="RadioButton1_CheckedChanged" Checked ="True" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
                             <asp:TemplateField>

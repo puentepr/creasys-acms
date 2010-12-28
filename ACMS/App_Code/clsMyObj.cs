@@ -786,7 +786,7 @@ public class MySingleton
                     if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath ) > 0)
                     {
                         //寄信
-                        clsMyObj.RegistSuccess_Team(activity_id.ToString (), emp_id, "", webPath);
+                       // clsMyObj.RegistSuccess_Team(activity_id.ToString (), emp_id, "", webPath);
 
                         return AlterRegistResult.CancelRegistSucess;
                     }

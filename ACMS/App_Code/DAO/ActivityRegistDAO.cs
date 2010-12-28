@@ -484,7 +484,7 @@ namespace ACMS.DAO
                                 ListOriginMembers.RemoveAll(delegate(string e) { return ListNewEmp_id.Contains(e); });
 
                                 //andy-取消報名寄信
-                                clsMyObj.CancelRegist(myActivityRegistVO.activity_id.ToString(), string.Join(",", ListOriginMembers.ToArray()), myActivityRegistVO.regist_by,webPath);
+                                //clsMyObj.CancelRegist(myActivityRegistVO.activity_id.ToString(), string.Join(",", ListOriginMembers.ToArray()), myActivityRegistVO.regist_by,webPath);
                                  
 
                                 sb.Length = 0;
@@ -623,12 +623,12 @@ namespace ACMS.DAO
                                 cmd.ExecuteNonQuery();
 
                                 //團隊瓦解要寄信給所有人
-                                clsMyObj.RegistFail_Team(activity_id.ToString(), OriginMembers, clsAuth.ID,webPath);                                
+                                clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID,webPath);                                
                             }
                             else
                             {
                                 //一般取消報名寄給取消的那些人
-                                clsMyObj.RegistFail_Team(activity_id.ToString(), emp_id, clsAuth.ID,webPath);
+                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID,webPath);
                             }
 
                         }
@@ -717,12 +717,12 @@ namespace ACMS.DAO
                                 cmd.ExecuteNonQuery();
 
                                 //andy-團隊瓦解要寄信給所有人
-                                clsMyObj.RegistFail_Team(activity_id.ToString(), OriginMembers, clsAuth.ID,webPath);
+                                clsMyObj.CancelRegist_Team (activity_id.ToString(), OriginMembers, clsAuth.ID,webPath);
                             }
                             else
                             {
                                 //andy-一般取消報名寄給取消的那些人
-                                clsMyObj.RegistFail_Team(activity_id.ToString(), emp_id, clsAuth.ID,webPath);
+                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath);
                             }
 
                         }
