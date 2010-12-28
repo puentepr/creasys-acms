@@ -26,41 +26,51 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         {
             if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true)
             {
-                emp_id += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
+                emp_id += string.Format("{0}", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
+                break;
             }
         }
-
-        if (emp_id.EndsWith(","))
+        if (string.Compare(emp_id, "") == 0)
         {
-            emp_id = emp_id.Substring(0, emp_id.Length - 1);
+            return;
         }
+        Session["ActID"] = activity_id;
+        Session["EmpID"] = emp_id;
+        Response.Redirect("~/WebForm/RegistActivity/RegistedActivityQuery.aspx");
 
-        if (!string.IsNullOrEmpty(emp_id))
-        {
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page .Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
-            //.ResolveUrl("~/WebForm/RegistActivity/RegistedActivityQuery.aspx"));
 
-            GridView1.DataBind();
 
-            if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
-            {
-                clsMyObj.ShowMessage("取消報名完成。");
-            }
-            else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail_DayOver)
-            {
-                clsMyObj.ShowMessage("取消報名截止日之後無法取消報名!。");
-            }
-            else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail)
-            {
-                clsMyObj.ShowMessage("取消報名失敗!。");
-            }
+        //if (emp_id.EndsWith(","))
+        //{
+        //    emp_id = emp_id.Substring(0, emp_id.Length - 1);
+        //}
 
-        }
+        //if (!string.IsNullOrEmpty(emp_id))
+        //{
+        //    MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page .Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+        //    //.ResolveUrl("~/WebForm/RegistActivity/RegistedActivityQuery.aspx"));
 
-        if (CancelTeamRegistClick != null)
-        {
-            CancelTeamRegistClick(this, e);
-        }
+        //    GridView1.DataBind();
+
+        //    if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
+        //    {
+        //        clsMyObj.ShowMessage("取消報名完成。");
+        //    }
+        //    else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail_DayOver)
+        //    {
+        //        clsMyObj.ShowMessage("取消報名截止日之後無法取消報名!。");
+        //    }
+        //    else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail)
+        //    {
+        //        clsMyObj.ShowMessage("取消報名失敗!。");
+        //    }
+
+        //}
+
+        //if (CancelTeamRegistClick != null)
+        //{
+        //    CancelTeamRegistClick(this, e);
+        //}
 
 
 

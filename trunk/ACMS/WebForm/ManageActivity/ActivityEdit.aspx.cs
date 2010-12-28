@@ -401,7 +401,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             {
                 if (Convert.ToDateTime(txtregist_startdate.Text).Date <= DateTime.Today)
                 {
-                    clsMyObj.ShowMessage("「報名開始日不可」需晚於「今日」");
+                    clsMyObj.ShowMessage("「報名開始日」需晚於「今日」");
 
                     e.Cancel = true;
                 }
