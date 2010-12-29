@@ -416,6 +416,7 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and A.activity_id=@activity_id ");
             sb.AppendLine("and (A.boss_id =B.ID)");
+            sb.AppendLine(" and B.DEPT_ID=@Dept_ID");
             sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
             sb.AppendLine(" and (B.WINDOWS_ID like '%'+@WINDOWS_ID+'%' or @WINDOWS_ID='')");
             sb.AppendLine(" and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
