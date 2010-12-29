@@ -10,6 +10,48 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+
+        if (Session["EmpID"] != null)
+        {
+            //btnQuery.Visible = false;
+            OpenRegisedTeammemberSelector1.activity_id = Session["ActID"].ToString();
+            OpenRegisedTeammemberSelector1.emp_id = Session["EmpID"].ToString();
+            ACMS.VO.ActivatyVO vo1 = new ACMS.VO.ActivatyVO();
+            ACMS.BO.ActivatyBO bo1 = new ACMS.BO.ActivatyBO();
+            Guid id1 = new Guid(Session["ActID"].ToString());
+            vo1 = bo1.SelectActivatyByActivatyID(id1);
+
+            OpenRegisedTeammemberSelector1.regist_deadline = vo1.regist_deadline.ToString();
+            OpenRegisedTeammemberSelector1.cancelregist_deadline = vo1.cancelregist_deadline.ToString();
+            OpenRegisedTeammemberSelector1.InitDataAndShow();
+            Session.Remove("ActID");
+            Session.Remove("EmpID");
+            for (int i = 2010; i <= DateTime.Now.Year + 1; i++)
+            {
+                ddlYear.Items.Add(i.ToString());
+            }
+
+            ddlYear.SelectedValue = Session["YearNo"].ToString();
+            ddlMonth.SelectedValue = Session["MonthNo"].ToString();
+            ddlUnit.SelectedValue = Session["Unit"].ToString();
+
+            if (Request["type"] != null && Request["type"] == "off")
+            {
+                (this.Master as MyMasterPage).PanelMainGroupingText = "歷史資料查詢";
+                GridView1.Columns[7].Visible = false;
+                ObjectDataSource1.SelectParameters["querytype"].DefaultValue = "off";
+            }
+            else
+            {
+                (this.Master as MyMasterPage).PanelMainGroupingText = "報名狀態查詢";
+                ObjectDataSource1.SelectParameters["querytype"].DefaultValue = "";
+            }
+
+            btnQuery_Click(null, null);
+            return;
+
+        }
+
         if (!IsPostBack)
         {
             for(int i=2010 ;i<=DateTime.Now.Year+1;i++)
@@ -47,7 +89,9 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
         ObjectDataSource1.SelectParameters["activity_startdate"].DefaultValue = startdate;
         ObjectDataSource1.SelectParameters["activity_enddate"].DefaultValue = enddate;
         ObjectDataSource1.SelectParameters["org_id"].DefaultValue = ddlUnit.SelectedValue;
-
+        Session["YearNo"] = ddlYear.SelectedValue;
+        Session["MonthNo"] = ddlMonth.SelectedValue;
+        Session["Unit"] = ddlUnit.SelectedValue;
         GridView1.DataBind();
 
     }
