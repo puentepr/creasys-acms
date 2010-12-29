@@ -3,11 +3,13 @@
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
+<%@ Register src="../RegistActivity/OpenRegisedTeammemberSelector.ascx" tagname="OpenRegisedTeammemberSelector" tagprefix="uc1" %>
 <%--<%@ Register src="OpenNameList.ascx" tagname="OpenNameList" tagprefix="uc1" %>--%>
-<%@ Register Src="../ManageActivity/OpenRegistedByMeEmpSelector.ascx" TagName="OpenRegistedByMeEmpSelector"
+<%@ Register Src="OpenRegistedByMeEmpSelector.ascx" TagName="OpenRegistedByMeEmpSelector"
     TagPrefix="uc2" %>
-<%@ Register Src="../ManageActivity/OpenRegistedTeammemberSelector.ascx" TagName="OpenRegistedTeammemberSelector"
+<%@ Register Src="OpenRegistedTeammemberSelector.ascx" TagName="OpenRegistedTeammemberSelector"
     TagPrefix="uc3" %>
+    
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -102,5 +104,8 @@
             </asp:ObjectDataSource>
             <uc2:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />
             <uc3:OpenRegistedTeammemberSelector ID="OpenRegistedTeammemberSelector1" runat="server" />
+      
+            <uc1:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" 
+                runat="server" />
       
 </asp:Content>

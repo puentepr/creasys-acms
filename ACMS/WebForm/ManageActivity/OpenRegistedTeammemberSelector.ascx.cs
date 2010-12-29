@@ -36,7 +36,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         }
         Session["ActID"] = activity_id;
         Session["EmpID"] = emp_id;
-        Response.Redirect("~/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+        Response.Redirect("~/WebForm/ManageActivity/ActivityQuery.aspx");
 
 
 
