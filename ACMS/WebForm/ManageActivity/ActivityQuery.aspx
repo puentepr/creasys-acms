@@ -104,8 +104,5 @@
             </asp:ObjectDataSource>
             <uc2:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />
             <uc3:OpenRegistedTeammemberSelector ID="OpenRegistedTeammemberSelector1" runat="server" />
-      
-            <uc1:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" 
-                runat="server" />
-      
+      <uc1:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server"  />
 </asp:Content>

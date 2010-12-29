@@ -234,7 +234,16 @@ public class clsMyObj
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
        // smtp.EnableSsl = true;
 
-        smtp.Send(mail);
+        try
+        {
+            smtp.Send(mail);
+
+        }
+        catch
+        {
+
+        }
+     
 
     }
 
@@ -285,7 +294,16 @@ public class clsMyObj
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         //smtp.EnableSsl = true;
 
-        smtp.Send(mail);
+        try
+        {
+            smtp.Send(mail);
+
+        }
+        catch
+        {
+
+        }
+     
 
 
     }
@@ -334,7 +352,16 @@ public class clsMyObj
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         //smtp.EnableSsl = true;
 
-        smtp.Send(mail);
+        try
+        {
+            smtp.Send(mail);
+
+        }
+        catch
+        {
+
+        }
+     
 
     }
 
@@ -350,37 +377,37 @@ public class clsMyObj
         MailMessage mail = new MailMessage();
 
         //收件者
-       string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
-       if ((string.Compare(mailtype, "online") != 0))
-       {
-           foreach (string st1 in smtpto)
-           {
-               mail.To.Add(st1);
-           }
-       }
+        string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
+        {
+            foreach (string st1 in smtpto)
+            {
+                mail.To.Add(st1);
+            }
+        }
 
-       else
-       {
-           EmployeeVO empVO = new EmployeeVO();
-           EMPloyeeDAO empDAO = new EMPloyeeDAO();
-           if (string.Compare(regist_by, "") != 0)
-           { 
-             empVO = empDAO.getEmployee(regist_by);
-             mail.To.Add(empVO.OFFICE_MAIL);
-           }
-         
-           string[] emps = emp_id.Split(',');
+        else
+        {
+            EmployeeVO empVO = new EmployeeVO();
+            EMPloyeeDAO empDAO = new EMPloyeeDAO();
+            if (string.Compare(regist_by, "") != 0)
+            {
+                empVO = empDAO.getEmployee(regist_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
 
-           foreach (string emp in emps)
-           {
-               if (emp != regist_by)
-               {
-                   empVO = empDAO.getEmployee(emp);
-                   mail.To.Add(empVO.OFFICE_MAIL);
-               }
-           }
+            string[] emps = emp_id.Split(',');
 
-       }
+            foreach (string emp in emps)
+            {
+                if (emp != regist_by)
+                {
+                    empVO = empDAO.getEmployee(emp);
+                    mail.To.Add(empVO.OFFICE_MAIL);
+                }
+            }
+
+        }
 
         mail.Subject = vo.activity_name + ":團隊報名成功通知";
         //寄件者
@@ -392,7 +419,16 @@ public class clsMyObj
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         //smtp.EnableSsl = true;
 
-        smtp.Send(mail);
+        try
+        {
+            smtp.Send(mail);
+
+        }
+        catch
+        {
+
+        }
+
 
     }
 
@@ -406,7 +442,7 @@ public class clsMyObj
         vo = bo.SelectActivatyByActivatyID(id);
         MailMessage mail = new MailMessage();
 
-        
+
 
         //收件者
         string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
@@ -450,7 +486,16 @@ public class clsMyObj
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         //smtp.EnableSsl = true;
 
-        smtp.Send(mail);
+        try
+        {
+            smtp.Send(mail);
+
+        }
+        catch
+        {
+
+        }
+
 
 
     }
@@ -507,8 +552,16 @@ public class clsMyObj
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings ["SMTPServer"]);
         //smtp.EnableSsl = true;
+        try
+        {
+            smtp.Send(mail);
 
-        smtp.Send(mail);
+        }
+        catch
+        {
+
+        }
+     
 
     }
 
