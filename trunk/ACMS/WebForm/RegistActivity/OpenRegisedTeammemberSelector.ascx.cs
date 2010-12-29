@@ -98,7 +98,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
             if (this.IsTeamBoss == "1")
             {
                 //隊長不能取消自己，但可以取消其他任何人
-                if (drv["emp_id"].ToString() == clsAuth.ID)
+                if (drv["emp_id"].ToString() == drv["boss_id"].ToString())
                 {
                     CheckBox1.Enabled = false;
                 }
