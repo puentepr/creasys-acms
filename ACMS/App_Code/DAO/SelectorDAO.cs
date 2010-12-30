@@ -35,7 +35,7 @@ namespace ACMS.DAO
             sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and AA.regist_startdate<=getdate() ");//報名已開始
-            sb.AppendLine("  and dateadd(day,1,AA.regist_deadline)>=convert(datetime,convert(varchar(10),getdate(),111)) ");//報名尚未截止
+            sb.AppendLine("  and dateadd(day,0,AA.regist_deadline)>=convert(datetime,convert(varchar(10),getdate(),111)) ");//報名尚未截止
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//不限族群or我在這個族群
             sb.AppendLine(") A ");

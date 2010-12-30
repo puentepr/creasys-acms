@@ -97,4 +97,11 @@ public partial class WebForm_ActivityEditQuery : System.Web.UI.Page
     }
 
 
+    protected void GridView1_DataBound(object sender, EventArgs e)
+    {
+        foreach ( GridViewRow gr in GridView1.Rows )
+        {
+            ((Label)gr.FindControl("Label2")).Text = ((Label)gr.FindControl("Label2")).Text.Replace("\r\n", "<br/>");
+        }
+    }
 }

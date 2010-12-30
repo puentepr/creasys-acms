@@ -12,7 +12,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
-            <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
+            <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1" DisplaySideBar="False"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
                 StepPreviousButtonText="上一步" OnFinishButtonClick="Wizard1_FinishButtonClick"
                 OnNextButtonClick="Wizard1_NextButtonClick" 
@@ -68,7 +68,8 @@
                                             活動名稱&nbsp;&nbsp;
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="txtactivity_name" runat="server" Text='<%# Bind("activity_name") %>'></asp:TextBox>
+                                            <asp:TextBox ID="txtactivity_name" runat="server" 
+                                                Text='<%# Bind("activity_name") %>' Width="350px"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="chk_txtactivity_name" runat="server" ControlToValidate="txtactivity_name"
                                                 Display="Dynamic" ErrorMessage="活動名稱必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                         </td>
@@ -78,7 +79,9 @@
                                             活動對象
                                         </td>
                                         <td>
-                                            <asp:TextBox ID="txtpeople_type" runat="server" Text='<%# Bind("people_type") %>'></asp:TextBox>
+                                            <asp:TextBox ID="txtpeople_type" runat="server" 
+                                                Text='<%# Bind("people_type") %>' Height="47px" 
+                                                TextMode="MultiLine" Width="350px"></asp:TextBox>
                                             <asp:RequiredFieldValidator ID="chk_txtpeople_type" runat="server" ControlToValidate="txtpeople_type"
                                                 Display="Dynamic" ErrorMessage="活動對象必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                         </td>
@@ -506,7 +509,7 @@
                                             <asp:Parameter DbType="Guid" Name="activity_id" />
                                         </SelectParameters>
                                     </asp:ObjectDataSource>
-                                    <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployeesClick="GetEmployees_Click"
+                                    <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployeesClick="GetEmployees_Click" 
                                         runat="server" />
                                 </asp:Panel>
                             </ContentTemplate>

@@ -42,10 +42,16 @@
                     <TServerControl:TGridView ID="GridView1" runat="server" DataKeyNames="id" DataSourceID="ObjectDataSource1"
                         ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True" SkinID="pager" Width="100%"
                         AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" AllowHoverEffect="True"
-                        AllowHoverSelect="True" TotalRowCount="0" EnableModelValidation="True">
+                        AllowHoverSelect="True" TotalRowCount="0" EnableModelValidation="True" 
+                        onrowdatabound="GridView1_RowDataBound">
                         <Columns>
                             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
-                            <asp:BoundField DataField="people_type" HeaderText="活動對象" SortExpression="people_type" />
+                            <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
+                               
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                             <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
                                 <ItemTemplate>
                                     <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>

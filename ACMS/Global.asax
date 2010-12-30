@@ -60,42 +60,62 @@
 
 
 
-            System.Security.Principal.WindowsIdentity windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
-            string[] roles = new string[1];
-            ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
-            string UserData;
+           // System.Security.Principal.WindowsIdentity windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
+           // string[] roles = new string[1];
+           // ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
+           // string UserData;
 
 
 
-            // Construct a GenericIdentity object based on the current Windows
-            // identity name and authentication type.
-            string authenticationType = windowsIdentity.AuthenticationType;
-            string userName = windowsIdentity.Name;
-            userName = userName.Substring(userName.IndexOf("\\") + 1);
-            if (!myLoginDAO.CheckLogin(userName, out UserData))
-            {
-                Response.Redirect("~/NoID.aspx");
-            }
-            if (windowsIdentity.IsAuthenticated)
-            {
-                // Add custom NetworkUser role.
-                roles[0] = UserData;
-            }
-            System.Security.Principal.GenericIdentity genericIdentity =
-                new System.Security.Principal.GenericIdentity(userName, authenticationType);
+           // // Construct a GenericIdentity object based on the current Windows
+           // // identity name and authentication type.
+           // string authenticationType = windowsIdentity.AuthenticationType;
+           // string userName = windowsIdentity.Name;
+           // userName = userName.Substring(userName.IndexOf("\\") + 1);
+           // if (!myLoginDAO.CheckLogin(userName, out UserData))
+           // {
+           //     Response.Redirect("~/NoID.aspx");
+           // }
+           // if (windowsIdentity.IsAuthenticated)
+           // {
+           //     // Add custom NetworkUser role.
+           //     roles[0] = UserData;
+           // }
+           // System.Security.Principal.GenericIdentity genericIdentity =
+           //     new System.Security.Principal.GenericIdentity(userName, authenticationType);
 
-            // Construct a GenericPrincipal object based on the generic identity
-            // and custom roles for the user.
-            System.Security.Principal.GenericPrincipal genericPrincipal =
-                new System.Security.Principal.GenericPrincipal(genericIdentity, roles);
+           // // Construct a GenericPrincipal object based on the generic identity
+           // // and custom roles for the user.
+           // System.Security.Principal.GenericPrincipal genericPrincipal =
+           //     new System.Security.Principal.GenericPrincipal(genericIdentity, roles);
 
-            Context.User = genericPrincipal;
+           //// Context.User = genericPrincipal;
 
         }
     }
 
     void Application_AuthorizeRequest(object sender, EventArgs e)
     {
+
+        if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("aspx".ToLower()) ==-1)
+        {
+            return;
+        }
+        
+       
+        ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
+        string UserData;
+
+
+
+        // Construct a GenericIdentity object based on the current Windows
+        // identity name and authentication type.
+        string userName = Context.User.Identity.Name;
+        userName = userName.Substring(userName.IndexOf("\\") + 1);
+        myLoginDAO.CheckLogin(userName, out UserData);
+        
+
+
         if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("NoPermission.aspx".ToLower()) >= 0)
         {
             return;
@@ -114,8 +134,8 @@
         //{
         //    Response.Redirect("~/NoPermission.aspx");
         //}
-        
-        if (Context.User.IsInRole("3") || Context.User.IsInRole(""))//活動管理人及無群組
+
+        if (UserData == "3" || UserData=="")//活動管理人及無群組
         {
             if (string.Compare(Context.Request.AppRelativeCurrentExecutionFilePath.ToLower(), "~/WebForm/ManageActivity/ActivityEditQuery.aspx".ToLower()) == 0)//新增修改活動
             {
@@ -127,7 +147,7 @@
             }
         }
 
-        if (Context.User.IsInRole(""))//無群組
+        if (UserData=="")//無群組
         {
 
             if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/ActivityCheck.aspx".ToLower()) >= 0)//活動進度紀錄
@@ -149,7 +169,7 @@
             
         }
         
-        if (! Context.User.IsInRole("1"))//非權限管理者不可進入權限管理
+        if (UserData!="1")//非權限管理者不可進入權限管理
         {
             if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageRole".ToLower()) >= 0)
                 {

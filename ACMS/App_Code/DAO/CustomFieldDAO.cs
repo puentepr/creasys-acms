@@ -81,7 +81,26 @@ namespace ACMS.DAO
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
+        /// <summary>
+        /// 選出某一活動有選項的欄位但是尚未編輯選項的資料有多少個欄位
+        /// </summary>
+        /// <param name="activity_id">活動編號</param>
+        /// <returns></returns>
+        public DataTable CheckCustFieldItemEmpty(Guid activity_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[1];
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
 
+            StringBuilder sb = new StringBuilder();
 
+            sb.AppendLine(" Select *  from CustomField A ");
+            sb.AppendLine(" left join CustomFieldItem B on A.field_id =B.field_id ");
+            sb.AppendLine(" where A.activity_id ='8fa49664-3e88-4be7-8f4c-af923ee4885f'  and A.field_control like '%list%'");
+            sb.AppendLine(" and B.field_id  is null  ");
+
+            return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
+        }
+        
     }
 }

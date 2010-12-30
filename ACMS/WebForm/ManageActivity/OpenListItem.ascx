@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenListItem.ascx.cs"
     Inherits="WebForm_ManageActivity_OpenListItem" %>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;"
-     Width="300" Height="350">
+     Width="450" Height="350">
     <!--display: none-->
     <div align="center">
         <table width="100%" cellpadding="10" cellspacing="10">
@@ -20,7 +20,7 @@
                                     ErrorMessage="選項名稱必填" ValidationGroup="CustomFieldItemAdd" Display="None"></asp:RequiredFieldValidator>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtfield_item_name" runat="server" Width="95%"></asp:TextBox>
+                                <asp:TextBox ID="txtfield_item_name" runat="server" ></asp:TextBox>
                             </td>
                         </tr>
                         <tr>
@@ -28,7 +28,7 @@
                                 <asp:Label ID="lblValue" runat="server" Text="金額" Visible="False"></asp:Label>
                             </td>
                             <td>
-                                <asp:TextBox ID="txtfield_item_text" runat="server" Visible="False" Width="95%"></asp:TextBox>
+                                <asp:TextBox ID="txtfield_item_text" runat="server" Visible="False" ></asp:TextBox>
                                 <asp:RequiredFieldValidator ID="chk_txtfield_item_text" runat="server" Display="None"
                                     ErrorMessage="金額必填" ValidationGroup="CustomFieldItemAdd" 
                                     ControlToValidate="txtfield_item_text"></asp:RequiredFieldValidator>
