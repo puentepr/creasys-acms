@@ -33,8 +33,8 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
         ObjectDataSource_Employee.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
-        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_S"].DefaultValue = ddlBIRTHDAY_start_year.SelectedValue + "/" + ddlBIRTHDAY_start_month;
-        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_E"].DefaultValue = ddlBIRTHDAY_end_year.SelectedValue + "/" + ddlBIRTHDAY_end_month;
+        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_S"].DefaultValue = ddlBIRTHDAY_start_year.SelectedValue + "/" + ddlBIRTHDAY_start_month.SelectedValue;
+        ObjectDataSource_Employee.SelectParameters["BIRTHDAY_E"].DefaultValue = ddlBIRTHDAY_end_year.SelectedValue + "/" + ddlBIRTHDAY_end_month.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
         ObjectDataSource_Employee.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
         
@@ -65,6 +65,20 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
     }
     protected void GridView_Employee_PageIndexChanged(object sender, EventArgs e)
     {
+        this.mpSearch.Show();   
+    }
+
+   
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        foreach (GridViewRow gr in GridView_Employee.Rows)
+        {
+            if (((CheckBox)(gr.FindControl("chkRJRA"))).Enabled)
+            {
+                ((CheckBox)(gr.FindControl("chkRJRA"))).Checked = true;
+            }
+
+        }
         this.mpSearch.Show();   
     }
 }

@@ -42,6 +42,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 e.Row.FindControl("lbtnRegist1").Visible = false;
             }
+            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace ("\r\n","<br/>");
         }
     }
     protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -54,6 +55,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 e.Row.FindControl("lbtnRegist2").Visible = false;
             }
+            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
         }
     }
 }

@@ -1,7 +1,16 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_ManageActivity_OpenEmployeeSelector" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    " Width="800" Height="500"><!--display: none;-->
+ <script type="text/javascript" >
+ <!--
+ function CheckAll() {
+            for (c in document.all.getElementsByTagName("input"))
+                if (c.indexOf("chkRJRA") > 0)
+                document.all[c].checked = event.srcElement.checked;
+        }
+       -->
+    </script>
+<asp:Panel ID="panel1" runat="server" Height="550px" BackColor="white" BorderWidth="1" Style="cursor: move;
+    " Width="900px" ><!--display: none;-->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="人員選取" SkinID="title"></asp:Label>
@@ -157,7 +166,7 @@
                     ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID"
                     SkinID="pager" DataSourceID="ObjectDataSource_Employee" 
                     EnableModelValidation="True" AllowPaging="True" AllowSorting="True" 
-                    onpageindexchanged="GridView_Employee_PageIndexChanged">
+                    onpageindexchanged="GridView_Employee_PageIndexChanged" PageSize="5">
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
                             SortExpression="WORK_ID" />
@@ -167,11 +176,10 @@
                           <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
                         <asp:TemplateField>
                             <ItemTemplate>
-                                    <TServerControl:TCheckBoxYN ID="CheckBox1" runat="server" Enabled='<%# Eval("keyValue") %>' />
+                                    <TServerControl:TCheckBoxYN ID="chkRJRA" runat="server" Enabled='<%# Eval("keyValue") %>' />
                             </ItemTemplate>
                             <HeaderTemplate>
-                                <input id="cbCheckAll" onclick="Check2(this,'GridView_Employee','CheckBox1');"
-                                runat="server" type="checkbox" /><asp:Literal ID="Literal1" runat="server">全選</asp:Literal>
+                                <asp:Button ID="Button1" runat="server" Text="全選" onclick="Button1_Click" />
                             </HeaderTemplate>
                         </asp:TemplateField>
                     </Columns>

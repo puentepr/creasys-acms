@@ -46,6 +46,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }
     }
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            
+            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+        }
+    }
 }
 
 public partial class WebForm_RegistActivity_RegistActivity_Query

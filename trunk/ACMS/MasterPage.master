@@ -91,21 +91,18 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
     <form id="form1" runat="server" enctype="multipart/form-data">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <div id="main_container">
+    <div id="main_container" >
         <div id="header" class ="banner">
             <div id="logo">
                 <!-- <a href="/ACMS/Default.aspx">
                     <img src="/ACMS/images/logo.gif" alt="" title="" border="0"  /></a>-->
-                <table width ="100%" >
+                <table width ="100%" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;" >
                     <tr>
                         
-                        <td><img src="/ACMS/images/banner.jpg" alt="" title="" border="0" width="450px" height="100px" />
+                        <td style ="width:800px"><!--<img src="/ACMS/images/banner.jpg" alt="" title="" border="0" width="800px" 
+                                height="100px" />-->
                         </td>
-                        <td valign ="bottom" align="left">
-                          
-                              登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" />
-                            <!-- <span  id="login"> </span>-->
-                        </td>
+                        
                     </tr>
                 </table>
             </div>
@@ -131,9 +128,15 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                         </ul>
                     </li>
                     <li></li>
-                </ul>
-                <br style="clear: left" />
+                </ul> <div   valign ="bottom" align="right">
+                          <font color="White"
+                            登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" />   &nbsp; &nbsp; 
+                            <!-- <span  id="login"> </span>-->
+                            </font>
+                        </div>
+                <br style="clear: left" /> 
             </div>
+           
         </div>
         <div id="MyContentPlaceHolder">
             <table width="100%">

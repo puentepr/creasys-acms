@@ -8,6 +8,9 @@ public partial class NoID : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            Response.Write(Context.User.Identity.Name.ToString());   
+        }
     }
 }

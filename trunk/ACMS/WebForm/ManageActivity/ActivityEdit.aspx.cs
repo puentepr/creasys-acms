@@ -376,10 +376,10 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
     protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
     {
-        
+
         if (Wizard1.ActiveStepIndex == 1)
         {
-            
+
             WebForm_DatetimePicker txtactivity_startdate = (FormView1.FindControl("txtactivity_startdate") as WebForm_DatetimePicker);
             WebForm_DatetimePicker txtactivity_enddate = (FormView1.FindControl("txtactivity_enddate") as WebForm_DatetimePicker);
             TextBox txtcancelregist_deadline = (FormView1.FindControl("txtcancelregist_deadline") as TextBox);
@@ -387,17 +387,17 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             if (txtactivity_startdate.DateTimeValue > txtactivity_enddate.DateTimeValue)
             {
                 clsMyObj.ShowMessage("「活動日期(起)」不能大於「活動日期(迄)」");
-       
+
                 e.Cancel = true;
             }
 
-            if (txtactivity_startdate.DateTimeValue.Value.Date <=Convert.ToDateTime(txtcancelregist_deadline.Text).Date)
+            if (txtactivity_startdate.DateTimeValue.Value.Date <= Convert.ToDateTime(txtcancelregist_deadline.Text).Date)
             {
                 clsMyObj.ShowMessage("「取消報名截止日」需早於「活動日期(起)」");
 
                 e.Cancel = true;
             }
-            if (FormView1.Enabled  == true )
+            if (FormView1.Enabled == true)
             {
                 if (Convert.ToDateTime(txtregist_startdate.Text).Date <= DateTime.Today)
                 {
@@ -409,9 +409,25 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             }
         }
 
-       
+        if (Wizard1.ActiveStepIndex == 2)
+        {
+            string errMsg = "";
+            ACMS.DAO.CustomFieldDAO cDAO = new ACMS.DAO.CustomFieldDAO();
+            DataTable dt = cDAO.CheckCustFieldItemEmpty(ActivityID);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    errMsg += dr["field_name"].ToString() +"\\r\\n";
 
+                }
+
+                clsMyObj.ShowMessage(errMsg+"以上欄位沒有編輯選項");
+                e.Cancel = true;
+            }
+        }
     }
+
 
     protected void Wizard1_ActiveStepChanged(object sender, EventArgs e)
     {
@@ -570,7 +586,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
             {
                 for (i = 0; i < GridView_Employee.Rows.Count; i++)
                 {
-                    if (((CheckBox)GridView_Employee.Rows[i].FindControl("CheckBox1")).Checked)
+                    if (((CheckBox)GridView_Employee.Rows[i].FindControl("chkRJRA")).Checked)
                     {
                         ACMS.VO.ActivityGroupLimitVO myActivityGroupLimitVO = new ACMS.VO.ActivityGroupLimitVO();
 

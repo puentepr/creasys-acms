@@ -13,30 +13,32 @@ public partial class Login : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            if (Page.User.Identity.IsAuthenticated)
-            {
-           
-                //Response.Redirect("NoPermission.aspx");
-                System.Security.Principal.WindowsIdentity windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
-
-
-                string userName = windowsIdentity.Name;
+            string userName = Context.User.Identity.Name ;
                 userName = userName.Substring(userName.IndexOf("\\") + 1); ;
                 UserLogin(userName);
                 Response.Redirect("Default.aspx");
-            }
-            else
-            {
-                if (ConfigurationManager.AppSettings["PerformType"] == "TrailRun")
-                {
-                    return;
-                }
+            //if (Page.User.Identity.IsAuthenticated)
+            //{
+           
+            //    //Response.Redirect("NoPermission.aspx");
+                
 
-                string LoginID = Request.ServerVariables["LOGON_USER"].ToString();
-                LoginID = LoginID.Substring(LoginID.IndexOf("\\") + 1);
+                
+            //}
+            //else
+            //{
+            //    if (ConfigurationManager.AppSettings["PerformType"] == "TrailRun")
+            //    {
+            //        return;
+            //    }
 
-                UserLogin(LoginID);
-            }
+            //    string LoginID = Request.ServerVariables["LOGON_USER"].ToString();
+            //    LoginID = LoginID.Substring(LoginID.IndexOf("\\") + 1);
+
+            //    //UserLogin(LoginID);
+            //    UserLogin(LoginID);
+
+            //}
 
         }
 
@@ -84,32 +86,32 @@ public partial class Login : System.Web.UI.Page
 
 
 
-            System.Security.Principal.WindowsIdentity windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
-            string[] roles = new string[1];
+           // System.Security.Principal.WindowsIdentity windowsIdentity = System.Security.Principal.WindowsIdentity.GetCurrent();
+           // string[] roles = new string[1];
             
 
 
 
-            // Construct a GenericIdentity object based on the current Windows
-            // identity name and authentication type.
-            string authenticationType = windowsIdentity.AuthenticationType;
-            string userName = windowsIdentity.Name;
-            userName = userName.Substring(userName.IndexOf("\\") + 1);
-            myLoginDAO.CheckLogin(userName, out UserData);
-            if (windowsIdentity.IsAuthenticated)
-            {
-                // Add custom NetworkUser role.
-                roles[0] = UserData;
-            }
-            System.Security.Principal.GenericIdentity genericIdentity =
-                new System.Security.Principal.GenericIdentity(userName, authenticationType);
+           // // Construct a GenericIdentity object based on the current Windows
+           // // identity name and authentication type.
+           // string authenticationType = windowsIdentity.AuthenticationType;
+           // string userName = LoginID;
+           // userName = userName.Substring(userName.IndexOf("\\") + 1);
+           // myLoginDAO.CheckLogin(userName, out UserData);
+           // if (windowsIdentity.IsAuthenticated)
+           // {
+           //     // Add custom NetworkUser role.
+           //     roles[0] = UserData;
+           // }
+           // System.Security.Principal.GenericIdentity genericIdentity =
+           //     new System.Security.Principal.GenericIdentity(userName, authenticationType);
 
-            // Construct a GenericPrincipal object based on the generic identity
-            // and custom roles for the user.
-            System.Security.Principal.GenericPrincipal genericPrincipal =
-                new System.Security.Principal.GenericPrincipal(genericIdentity, roles);
+           // // Construct a GenericPrincipal object based on the generic identity
+           // // and custom roles for the user.
+           // System.Security.Principal.GenericPrincipal genericPrincipal =
+           //     new System.Security.Principal.GenericPrincipal(genericIdentity, roles);
 
-            Context.User = genericPrincipal;
+           //// Context.User = genericPrincipal;
         }
         else
         {
