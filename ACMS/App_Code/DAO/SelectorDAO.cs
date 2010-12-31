@@ -757,13 +757,13 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT * FROM ");
             sb.AppendLine("( ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(" ,convert(varchar(30),B.createat,120) as createat,C.OFFICE_MAIL ,C.OFFICE_PHONE,B.team_name,A.limit2_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id  ");
             sb.AppendLine(" Union ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(",convert(varchar(30),D.createat,120) as createat ,C.OFFICE_MAIL ,C.OFFICE_PHONE ,D.team_name,A.team_member_max as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
