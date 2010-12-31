@@ -79,8 +79,10 @@
                                         type="checkbox" /><asp:Literal ID="Literal1" runat="server">全選</asp:Literal>
                                 </HeaderTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="NATIVE_NAME" HeaderText="員工姓名" SortExpression="NATIVE_NAME" />
                             <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" SortExpression="C_DEPT_ABBR" />
+                            <asp:BoundField DataField="WORK_ID" HeaderText="工號" SortExpression="NATIVE_NAME" />
+                            <asp:BoundField DataField="NATIVE_NAME" HeaderText="員工姓名" SortExpression="NATIVE_NAME" />
+                            <asp:BoundField DataField="createat" HeaderText="建檔時間" SortExpression="NATIVE_NAME" />
                             <asp:BoundField DataField="check_status" HeaderText="登錄狀態" ReadOnly="True" SortExpression="check_status" />
                         </Columns>
                     </TServerControl:TGridView>
