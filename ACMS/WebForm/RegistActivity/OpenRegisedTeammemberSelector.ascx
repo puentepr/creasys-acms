@@ -29,8 +29,8 @@
                                             oncheckedchanged="RadioButton1_CheckedChanged" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                            <asp:TemplateField>
-                                <ItemTemplate>
+                            <asp:TemplateField HeaderText="取消報名">
+                                <ItemTemplate >
                                     <asp:CheckBox ID="CheckBox1" runat="server" />
                                 </ItemTemplate>
                             </asp:TemplateField>

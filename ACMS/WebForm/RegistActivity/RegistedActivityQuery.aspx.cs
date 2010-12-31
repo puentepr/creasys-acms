@@ -87,7 +87,11 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
             {
                 (e.Row.FindControl("lbtnRegistCancel") as LinkButton).Visible = false;
             }
-        
+
+            
+
+                ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+         
         }
 
 

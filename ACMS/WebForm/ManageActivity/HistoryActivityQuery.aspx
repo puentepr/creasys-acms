@@ -1,4 +1,4 @@
-<%@ Page Title="報名狀況查詢" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
+<%@ Page Title="歷史資料查詢" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
     CodeFile="HistoryActivityQuery.aspx.cs" Inherits="HistoryWebForm_ActivityQuery" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
@@ -58,10 +58,17 @@
             <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                 AutoGenerateColumns="False" DataKeyNames="id,activity_type" DataSourceID="ObjectDataSource1"
                 EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                SkinID="pager" TotalRowCount="0" Width="100%">
+                SkinID="pager" TotalRowCount="0" Width="100%" 
+                onrowdatabound="GridView1_RowDataBound">
                 <Columns>
                     <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
-                    <asp:BoundField DataField="people_type" HeaderText="活動對象" SortExpression="people_type" />
+                    
+                    <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
+                               
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                     <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
                         <ItemTemplate>
                             <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>~<br />

@@ -22,6 +22,7 @@ public partial class _Default : System.Web.UI.Page
         string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
         Session["form_mode"] = "regist";
         Session["activity_id"] = activity_id;
+        Session.Remove("Agent");
         Response.Redirect("WebForm/RegistActivity/RegistActivity_Person.aspx");
     }
 
@@ -32,6 +33,7 @@ public partial class _Default : System.Web.UI.Page
         Session["activity_id"] = activity_id;
         Response.Redirect("WebForm/RegistActivity/RegistActivity_Team.aspx");
     }
+   
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -57,5 +59,13 @@ public partial class _Default : System.Web.UI.Page
             }
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
         }
+    }
+    protected void lbtnRegist2Agent_Click(object sender, EventArgs e)
+    {
+        string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        Session["form_mode"] = "regist";
+        Session["activity_id"] = activity_id;
+        Session["Agent"] = "Yes";
+        Response.Redirect("WebForm/RegistActivity/RegistActivity_Person.aspx");
     }
 }

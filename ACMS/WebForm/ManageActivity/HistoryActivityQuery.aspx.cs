@@ -61,6 +61,7 @@ public partial class HistoryWebForm_ActivityQuery : System.Web.UI.Page
         Session["activity_id"] = activity_id;
         Session["activity_type"] = activity_type;
         Session["form_mode"] = "readonly";
+        Session["History"] = "History";
         Response.Redirect("ActivityEdit.aspx");
     }
 
@@ -103,24 +104,24 @@ public partial class HistoryWebForm_ActivityQuery : System.Web.UI.Page
     //取消報名
     protected void lbtnCancelRegist_Click(object sender, EventArgs e)
     {
-        string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[0].ToString();
-        string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
+        //string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[0].ToString();
+        //string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
 
-        string regist_deadline = (sender as LinkButton).CommandArgument;
-        string cancelregist_deadline = (sender as LinkButton).CommandName;
+        //string regist_deadline = (sender as LinkButton).CommandArgument;
+        //string cancelregist_deadline = (sender as LinkButton).CommandName;
 
-        if (activity_type == "1")
-        {
-            OpenRegistedByMeEmpSelector1.activity_id = activity_id;
-            OpenRegistedByMeEmpSelector1.regist_by = "";
-            OpenRegistedByMeEmpSelector1.regist_deadline = regist_deadline;
-            OpenRegistedByMeEmpSelector1.cancelregist_deadline = cancelregist_deadline;
-            OpenRegistedByMeEmpSelector1.InitDataAndShow();
-        }
-        else
-        {
-            Response.Redirect("RegistActivity_Team.aspx");
-        }
+        //if (activity_type == "1")
+        //{
+        //    OpenRegistedByMeEmpSelector1.activity_id = activity_id;
+        //    OpenRegistedByMeEmpSelector1.regist_by = "";
+        //    OpenRegistedByMeEmpSelector1.regist_deadline = regist_deadline;
+        //    OpenRegistedByMeEmpSelector1.cancelregist_deadline = cancelregist_deadline;
+        //    OpenRegistedByMeEmpSelector1.InitDataAndShow();
+        //}
+        //else
+        //{
+        //    Response.Redirect("RegistActivity_Team.aspx");
+        //}
 
     }
 
@@ -131,4 +132,12 @@ public partial class HistoryWebForm_ActivityQuery : System.Web.UI.Page
     //    GridView1.DataBind();
     //}
 
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+
+            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+        }
+    }
 }

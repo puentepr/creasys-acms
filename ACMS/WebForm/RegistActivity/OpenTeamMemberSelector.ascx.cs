@@ -50,6 +50,18 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
 
         //this.mpSearch.Show();
     }
+    protected void Button1_Click(object sender, EventArgs e)
+    {
+        foreach (GridViewRow gr in GridView_Employee.Rows)
+        {
+            if (((CheckBox)(gr.FindControl("chkRJRA"))).Enabled)
+            {
+                ((CheckBox)(gr.FindControl("chkRJRA"))).Checked = true;
+            }
+
+        }
+        this.mpSearch.Show();  
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenTeamMemberSelector

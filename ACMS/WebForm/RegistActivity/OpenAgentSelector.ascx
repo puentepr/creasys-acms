@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenAgentSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenAgentSelector" %>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    " Width="400" Height="500"><!--display: none;-->
+    " Width="750" Height="500"><!--display: none;-->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" SkinID="title"></asp:Label>
@@ -13,7 +13,7 @@
                         <td align="right">
                             <asp:Label ID="lblProgramGroup2" runat="server" Text="部門"></asp:Label>
                         </td>
-                        <td>
+                        <td colspan="3">
                             <asp:DropDownList ID="ddlDEPT_ID" runat="server" 
                                 DataSourceID="ObjectDataSource_Dept" DataTextField="Text" 
                                 DataValueField="Value">
@@ -22,23 +22,19 @@
                                 OldValuesParameterFormatString="original_{0}" SelectMethod="DeptSelector" 
                                 TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                         </td>
+                    </tr>
+                    <tr>
                         <td align="right">
                             <asp:Label ID="lblProgramGroup0" runat="server" Text="員工編號"></asp:Label>
                         </td>
                         <td>
                             <asp:TextBox ID="txtWORK_ID" runat="server" Width="120px"></asp:TextBox>
                         </td>
-                    </tr>
-                    <tr>
                         <td align="right">
                             <asp:Label ID="lblProgramGroup1" runat="server" Text="員工姓名"></asp:Label>
                         </td>
-                        <td>
+                        <td align="right">
                             <asp:TextBox ID="txtNATIVE_NAME" runat="server" Width="120px"></asp:TextBox>
-                        </td>
-                        <td align="right">
-                            &nbsp;</td>
-                        <td align="right">
                             <asp:Button ID="btnQuery" runat="server" onclick="btnQuery_Click" Text="查詢" />
                         </td>
                     </tr>
@@ -64,6 +60,9 @@
                     EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" 
                     AllowPaging="True" AllowSorting="True" 
                     onpageindexchanged="GridView_Employee_PageIndexChanged">
+                    <EmptyDataTemplate>
+                        查詢結果無資料
+                    </EmptyDataTemplate>
                     <Columns>
                 
                                                     <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 

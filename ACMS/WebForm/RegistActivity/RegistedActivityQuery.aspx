@@ -64,8 +64,12 @@
                     AllowHoverEffect="True" AllowHoverSelect="True" TotalRowCount="0" OnRowDataBound="GridView1_RowDataBound">
                     <Columns>
                         <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
-                        <asp:BoundField DataField="people_type" HeaderText="活動對象" SortExpression="people_type">
-                        </asp:BoundField>
+                       <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
+                               
+                                <ItemTemplate>
+                                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                         <asp:BoundField DataField="limit_count" HeaderText="活動人數" SortExpression="limit_count">
                             <ItemStyle HorizontalAlign="Right" />
                         </asp:BoundField>

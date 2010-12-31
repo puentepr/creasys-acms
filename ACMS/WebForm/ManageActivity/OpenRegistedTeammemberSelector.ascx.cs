@@ -196,14 +196,14 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
 
     public void InitDataAndShow()
     {
-        if (string.Compare(ddlDEPT_ID.SelectedValue, "") == 0)
-        {
-            GridView1.Visible = false;
-        }
-        else
-        {
-            GridView1.Visible = true;
-        }
+        //if (string.Compare(ddlDEPT_ID.SelectedValue, "") == 0)
+        //{
+        //    GridView1.Visible = false;
+        //}
+        //else
+        //{
+        //    GridView1.Visible = true;
+        //}
 
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
         

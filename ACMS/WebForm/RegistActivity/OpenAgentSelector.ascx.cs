@@ -16,9 +16,20 @@ public partial class WebForm_RegistActivity_OpenAgentSelector : System.Web.UI.Us
     }
 
     protected void btnQuery_Click(object sender, EventArgs e)
-    {
+    {  
         this.mpSearch.Show();
+        if (ddlDEPT_ID.SelectedValue == "" && txtNATIVE_NAME.Text == "" && txtWORK_ID.Text == "")
+        {
+            if (sender != null)
+            {
+                clsMyObj.ShowMessage("查詢條件至少要輸入1個條件");
+            }
+            GridView_Employee.Visible = false;
+            return;
+        }
 
+
+        GridView_Employee.Visible = true;
         ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;

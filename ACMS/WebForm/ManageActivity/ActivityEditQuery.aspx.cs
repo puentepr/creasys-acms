@@ -13,6 +13,7 @@ public partial class WebForm_ActivityEditQuery : System.Web.UI.Page
         //(this.Master as MyMasterPage).PanelMainGroupingText = "活動紀錄查詢";
         if (!IsPostBack)
         {
+            Session.Remove("History");
             btnQuery_Click(null, null);
         }
 
@@ -22,7 +23,7 @@ public partial class WebForm_ActivityEditQuery : System.Web.UI.Page
     protected void btnAddActivity_Click(object sender, EventArgs e)
     {
         Session["form_mode"] = "new";
-        Session["activity_type"] = "1";
+        Session["activity_type"] = "1";       
         Response.Redirect("ActivityEdit.aspx");
     }
 
