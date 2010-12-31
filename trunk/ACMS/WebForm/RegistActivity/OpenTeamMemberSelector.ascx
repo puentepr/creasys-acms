@@ -1,7 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenTeamMemberSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenTeamMemberSelector" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    " Width="400" Height="500"><!--display: none;-->
+    " Width="800" Height="600"><!--display: none;-->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" SkinID="title"></asp:Label>
@@ -34,7 +34,7 @@
                         <td align="right">
                             <asp:Label ID="lblProgramGroup1" runat="server" Text="員工姓名"></asp:Label>
                         </td>
-                        <td>
+                        <td align="left">
                             <asp:TextBox ID="txtNATIVE_NAME" runat="server" Width="120px"></asp:TextBox>
                         </td>
                         <td align="right">
@@ -76,13 +76,11 @@
                                                     <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
                                                     <asp:TemplateField>
                                                         <ItemTemplate>
-                                                            <TServerControl:TCheckBoxYN ID="CheckBox1" runat="server" 
-                                                                Enabled='<%#Eval("keyValue") %>' />
+                                                            <TServerControl:TCheckBoxYN ID="chkRJRA" runat="server" 
+                                                                Enabled='<%# Eval("keyValue") %>' />
                                                         </ItemTemplate>
                                                         <HeaderTemplate>
-                                                            <input ID="cbCheckAll" runat="server" 
-                                                                onclick="Check2(this,'GridView_Employee','CheckBox1');" type="checkbox" /><asp:Literal 
-                                                                ID="Literal1" runat="server">全選</asp:Literal>
+                                                            <asp:Button ID="Button1" runat="server" onclick="Button1_Click" Text="全選" />
                                                         </HeaderTemplate>
                                                     </asp:TemplateField>
                         

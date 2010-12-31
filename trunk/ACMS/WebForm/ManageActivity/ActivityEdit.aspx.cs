@@ -79,8 +79,9 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                     FTB_FreeTextBox.ReadOnly = true;
                     rblgrouplimit.Enabled = false;
                     Panel_GroupLimit.Enabled = false;
-                   // txtnotice.Enabled = false;
+                    txtnotice.Enabled = false;
                 }
+              
 
             }
             
@@ -156,6 +157,17 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
             }
 
+            //andy 從報名狀況查詢進來的即使已經開始報名也要新增限制人員群組//原來活動是要有限制族群的才需要打開限制人群的管制
+            if (MyFormMode == FormViewMode.ReadOnly &&  myActivatyVO.activity_enddate > DateTime.Now && myActivatyVO .is_grouplimit =="Y")
+            {
+
+
+
+                rblgrouplimit.Enabled = true;
+                Panel_GroupLimit.Enabled = true;
+                GridView_GroupLimit.Columns[3].Visible = false;
+
+            }
         }
     }
    
@@ -183,19 +195,28 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
             try
             {
-                DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("/ACMS/UpFiles", ActivityID.ToString())));
-
-                if (!myDirectoryInfo.Exists)
+                try
                 {
-                    myDirectoryInfo.Create();
-                }
+                    DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("/ACMS/UpFiles", ActivityID.ToString())));
 
-                FileStream myFileStream = new FileStream(Path.Combine(myDirectoryInfo.FullName, myFileUpload.FileName), FileMode.Create);
-                myFileStream.Write(myFileUpload.FileBytes, 0, myFileUpload.FileBytes.Length);
+                    if (!myDirectoryInfo.Exists)
+                    {
+                        myDirectoryInfo.Create();
+                    }
+
+                    FileStream myFileStream = new FileStream(Path.Combine(myDirectoryInfo.FullName, myFileUpload.FileName), FileMode.Create);
+                    myFileStream.Write(myFileUpload.FileBytes, 0, myFileUpload.FileBytes.Length);
+                }
+                catch
+                {
+                    clsMyObj.ShowMessage("目錄權限不足.無法寫入檔案!");
+                    
+ 
+                }
             }
             catch (Exception ex)
             {
-                clsMyObj.ShowMessage("檔案上傳時發生錯誤!");
+                clsMyObj.ShowMessage("檔案上傳時發生錯誤!:" + ex.Message );
             }
 
             GridView GridView_UpFiles = (GridView)FormView1.FindControl("GridView_UpFiles");
@@ -268,7 +289,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
        
         if (MyFormMode == FormViewMode.ReadOnly)
         {
-            Response.Redirect("ActivityEditQuery.aspx");
+            if (Session["History"] == null)
+            {
+                Response.Redirect("ActivityEditQuery.aspx");
+            }
+            else
+            {
+                Response.Redirect("HistoryActivityQuery.aspx?type=off");
+            }
         }
 
         ACMS.VO.ActivatyVO myActivatyVO = new ACMS.VO.ActivatyVO();

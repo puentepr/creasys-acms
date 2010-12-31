@@ -30,6 +30,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     {
         if (!IsPostBack)
         {
+            Session["Team"] = "Yes";
             (this.Master as MyMasterPage).PanelMainGroupingText = "團隊報名";
             Wizard1.Visible = false;
 
@@ -338,7 +339,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         {
             for (i = 0; i < GridView_Employee.Rows.Count; i++)
             {
-                if (((CheckBox)GridView_Employee.Rows[i].FindControl("CheckBox1")).Checked)
+                if (((CheckBox)GridView_Employee.Rows[i].FindControl("chkRJRA")).Checked)
                 {
                     ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = new ACMS.VO.ActivityTeamMemberVO();
 

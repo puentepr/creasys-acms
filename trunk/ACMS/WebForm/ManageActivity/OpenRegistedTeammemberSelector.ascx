@@ -101,7 +101,7 @@
     <table width="100%">
         <tr>
             <td align="center">
-                    <TServerControl:TGridView ID="GridView1"  Visible ="False" runat="server" 
+                    <TServerControl:TGridView ID="GridView1"   runat="server" 
                         AllowHoverEffect="True" AllowHoverSelect="True" AutoGenerateColumns="False" 
                         DataKeyNames="ID" DataSourceID="ObjectDataSource1" 
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" 
@@ -122,7 +122,7 @@
                                             oncheckedchanged="RadioButton1_CheckedChanged" Checked ="True" />
                                     </ItemTemplate>
                                 </asp:TemplateField>
-                            <asp:TemplateField>
+                            <asp:TemplateField  HeaderText="選定隊別">
                                 <ItemTemplate>
                                     <asp:CheckBox ID="CheckBox1" runat="server" />
                                 </ItemTemplate>

@@ -216,7 +216,7 @@ namespace ACMS.DAO
             sb.AppendLine(") ");
             sb.AppendLine("and A.status <2 ");//不為離職或留職停薪
            // sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
-            sb.AppendLine("and (A.DEPT_ID=@DEPT_ID ) ");
+            sb.AppendLine("and (A.DEPT_ID=@DEPT_ID  or @DEPT_ID='') ");
             sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
 
@@ -339,7 +339,7 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and A.activity_id=@activity_id ");
             sb.AppendLine("and ((A.regist_by=@emp_id or A.emp_id=@emp_id) or @emp_id='') ");//由登入者代理報名的人員(及本人)選單 管理員執行時 @regist_by=''
-            sb.AppendLine(" and B.DEPT_ID=@Dept_ID");
+            sb.AppendLine(" and (B.DEPT_ID=@Dept_ID or @DEPT_ID ='')");
             sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
             sb.AppendLine(" and (B.WINDOWS_ID like '%'+@WINDOWS_ID+'%' or @WINDOWS_ID='')");
             sb.AppendLine(" and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
@@ -416,7 +416,7 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and A.activity_id=@activity_id ");
             sb.AppendLine("and (A.boss_id =B.ID)");
-            sb.AppendLine(" and B.DEPT_ID=@Dept_ID");
+            sb.AppendLine(" and (B.DEPT_ID=@Dept_ID or @DEPT_ID='')");
             sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
             sb.AppendLine(" and (B.WINDOWS_ID like '%'+@WINDOWS_ID+'%' or @WINDOWS_ID='')");
             sb.AppendLine(" and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");

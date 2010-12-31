@@ -57,7 +57,7 @@
         </table>
         <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
             <ContentTemplate>
-                <asp:Panel ID="Panel1" runat="server" GroupingText="登錄狀態人員列表" Width="400px">
+                <asp:Panel ID="Panel1" runat="server" GroupingText="登錄狀態人員列表">
                     <div align="center">
                         登錄狀態:<asp:DropDownList ID="ddlcheck_status" runat="server">
                             <asp:ListItem Value="0">未報到</asp:ListItem>

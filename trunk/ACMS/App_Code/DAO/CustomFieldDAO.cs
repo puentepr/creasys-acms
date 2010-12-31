@@ -96,7 +96,7 @@ namespace ACMS.DAO
 
             sb.AppendLine(" Select *  from CustomField A ");
             sb.AppendLine(" left join CustomFieldItem B on A.field_id =B.field_id ");
-            sb.AppendLine(" where A.activity_id ='8fa49664-3e88-4be7-8f4c-af923ee4885f'  and A.field_control like '%list%'");
+            sb.AppendLine(" where A.activity_id =@activity_id  and A.field_control like '%list%'");
             sb.AppendLine(" and B.field_id  is null  ");
 
             return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];

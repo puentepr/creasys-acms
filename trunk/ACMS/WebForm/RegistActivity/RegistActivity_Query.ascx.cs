@@ -20,6 +20,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
 
         if (!IsPostBack)
         {
+            if (Session["Team"]!=null)
+            {
+                GridView1 .Columns [7].Visible =false ;
+            }
             ObjectDataSource1.SelectParameters["activity_type"].DefaultValue = ActivityType;
             ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
 
@@ -42,6 +46,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
     {
         if (GoSecondStep_Click != null)
         {
+            Session.Remove("Agent");
+            Session.Remove("Team");
             Guid activity_id = new Guid(GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }
@@ -52,6 +58,17 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
         {
             
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+        }
+    }
+    protected void lbtnRegistAgent_Click(object sender, EventArgs e)
+    {
+      
+        if (GoSecondStep_Click != null)
+        {
+            Session["Agent"] = "Yes";
+            Session.Remove("Team");
+            Guid activity_id = new Guid(GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+            GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }
     }
 }

@@ -29,6 +29,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     {
         if (!IsPostBack)
         {
+            Session.Remove("Team");
             (this.Master as MyMasterPage).PanelMainGroupingText = "個人報名";
             Wizard1.Visible = false;
 
@@ -71,12 +72,17 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
         //必要屬性
         MyFormMode = FormViewMode.Insert;
+
+
         ActivityID = e.activity_id;
+
         EmpID = clsAuth.ID;//預設是登入者
         RegistBy = clsAuth.ID;//執行是登入者
 
         PanelRegisterInfoA.Visible = true;
         PanelRegisterInfoB.Visible = false;
+
+
 
         MyHiddenField.Value = ActivityID.ToString();
 
@@ -97,6 +103,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         //必要屬性
         MyFormMode = FormViewMode.Insert;
         ActivityID = new Guid(Session["activity_id"].ToString());
+
         EmpID = clsAuth.ID;//預設是登入者 為了讓FormView顯示
         RegistBy = clsAuth.ID;//執行是登入者
 
@@ -104,6 +111,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
         PanelRegisterInfoA.Visible = false;
         PanelRegisterInfoB.Visible = true;
+
+
 
         MyHiddenField.Value = ActivityID.ToString();
 
@@ -122,7 +131,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         if (myActivatyVO.regist_deadline < DateTime.Today)
         {
             MyFormMode = FormViewMode.ReadOnly;
-            GridView_RegisterPeoplinfo.Enabled=false;
+            GridView_RegisterPeoplinfo.Enabled = false;
             PanelCustomFieldA1.Enabled = false;
         }
 
@@ -263,10 +272,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
                 (MyControl as TRadioButtonList).ClearSelection();
                 (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
             }
-        
+
         }
 
-    
+
 
 
     }
@@ -318,7 +327,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         {
             ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
-            if (myActivityRegistDAO.IsPersonRegisted(ActivityID, EmpID,"","1") > 0)
+            if (myActivityRegistDAO.IsPersonRegisted(ActivityID, EmpID, "", "1") > 0)
             {
                 clsMyObj.ShowMessage(@"已存在此員工的報名成功紀錄!\n請選擇其他員工執行代理報名。");
                 Wizard1.MoveTo(Wizard1.WizardSteps[0]);
@@ -362,7 +371,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         myActivityRegistVO.idno_type = (FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type") as RadioButtonList).SelectedIndex;
         myActivityRegistVO.idno = (FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix1") as TextBox).Text;
         myActivityRegistVO.team_name = "";
-        myActivityRegistVO.ext_people = Convert.ToInt32((FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix2") as TextBox).Text);
+        try
+        {
+            myActivityRegistVO.ext_people = Convert.ToInt32((FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix2") as TextBox).Text);
+        }
+        catch
+        {
+            myActivityRegistVO.ext_people = 0;
+        }
+
 
         return myActivityRegistVO;
 
@@ -437,7 +454,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         if (MyFormMode == FormViewMode.Insert)
         {
 
-            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
 
         }
         else
@@ -493,19 +510,19 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     protected void GridView_RegisterPeoplinfo_DataBound(object sender, EventArgs e)
     {
         if (GridView_RegisterPeoplinfo.Rows.Count > 0)
-        {  
+        {
             //系統預設會勾選第一筆資料
-            RadioButton RadioButton1 = (RadioButton)GridView_RegisterPeoplinfo.Rows[0].FindControl("RadioButton1");         
-           InitQueryBlock(ActivityID.ToString());
+            RadioButton RadioButton1 = (RadioButton)GridView_RegisterPeoplinfo.Rows[0].FindControl("RadioButton1");
+            InitQueryBlock(ActivityID.ToString());
             RadioButton1_CheckedChanged(RadioButton1, null);
- 
+
         }
     }
     protected void rblidno_type_SelectedIndexChanged(object sender, EventArgs e)
     {
         RadioButtonList rblidno_type = (RadioButtonList)FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type");
-        RequiredFieldValidator chk_txtperson_fix1 = (RequiredFieldValidator)FormView_fixA.FindControl("tr_person_fix1").FindControl("chk_txtperson_fix1");      
-        
+        RequiredFieldValidator chk_txtperson_fix1 = (RequiredFieldValidator)FormView_fixA.FindControl("tr_person_fix1").FindControl("chk_txtperson_fix1");
+
         if (rblidno_type.SelectedIndex == 0)
         {
             chk_txtperson_fix1.ErrorMessage = "身分證字號必填";
@@ -516,10 +533,23 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
         }
 
         //(FormView_fixA.FindControl("UpdatePanel_CustomField") as UpdatePanel).Update();
-        
+
+    }
+
+    protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
+    {
+        if (Wizard1.ActiveStepIndex == 0)
+        {
+            if (Session["Agent"] != null)
+            {
+                OpenAgentSelector1.TitleName = "代理報名";
+                //OpenAgentSelector1.OkName = "報名";
+                OpenAgentSelector1.InitDataAndShow(ActivityID.ToString());
+                btnAgent.Visible = true;
+            }
+        }
     }
 }
-
 
 //自訂欄位設定
 public partial class WebForm_RegistActivity_RegistActivity_Person

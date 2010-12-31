@@ -14,7 +14,7 @@
         ActivityType="1" />
     <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="0"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
-        StepPreviousButtonText="上一步">
+        StepPreviousButtonText="上一步" onnextbuttonclick="Wizard1_NextButtonClick">
         <StartNavigationTemplate>
             <asp:Button ID="btnStart" runat="server" CausesValidation="true" CommandName="MoveNext"
                 CssClass="WizardControlButton" Text="下一步" />
@@ -166,7 +166,7 @@
                                             </asp:FormView>
                                         </td>
                                         <td>
-                                            <asp:Button ID="btnAgent" runat="server" OnClick="btnAgent_Click" Text="代理報名" />
+                                            <asp:Button ID="btnAgent" runat="server" OnClick="btnAgent_Click" Text="代理報名" Visible="False"/>
                                             <uc4:OpenAgentSelector ID="OpenAgentSelector1" runat="server" OnGetSmallEmployeesClick="GetSmallEmployees_Click" />
                                         </td>
                                     </tr>

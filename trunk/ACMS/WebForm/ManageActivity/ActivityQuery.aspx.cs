@@ -54,6 +54,7 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
 
         if (!IsPostBack)
         {
+            Session.Remove("History");
             for(int i=2010 ;i<=DateTime.Now.Year+1;i++)
             {
                 ddlYear.Items.Add(i.ToString());
@@ -186,4 +187,12 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
     //    GridView1.DataBind();
     //}
 
+    protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+
+            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+        }
+    }
 }
