@@ -92,7 +92,8 @@
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtnCancelRegist" runat="server" OnClick="lbtnCancelRegist_Click"
-                                CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>'>取消報名</asp:LinkButton>
+                                CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' 
+                                CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>' Visible="False">取消報名</asp:LinkButton>
                         </ItemTemplate>
                         <ItemStyle HorizontalAlign="Center" />
                     </asp:TemplateField>
