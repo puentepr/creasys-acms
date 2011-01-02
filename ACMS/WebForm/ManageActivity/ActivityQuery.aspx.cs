@@ -195,4 +195,16 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
         }
     }
+    protected void lbtnViewActivityList_Click(object sender, EventArgs e)
+    {
+        string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[0].ToString();
+        string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
+
+        string regist_deadline = (sender as LinkButton).CommandArgument;
+        string cancelregist_deadline = (sender as LinkButton).CommandName;
+        OpenRegistedList1.activity_id = activity_id;
+        OpenRegistedList1.activity_type = activity_type;
+        OpenRegistedList1.InitDataAndShow();
+
+    }
 }

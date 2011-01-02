@@ -268,6 +268,13 @@ namespace ACMS.BO
             myDDLVOList.Insert(0, myDDLVO);
             return myDDLVOList;
         }
+        //已報名活動查詢-查詢已報名或者未報名清單
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public DataTable RegistedList(Guid activity_id,  string DEPT_ID, int JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME,string  RegistedType)
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            return mySelectorDAO.RegistedList(activity_id, DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME, RegistedType);
+        }
 
     }
 }
