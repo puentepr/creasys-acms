@@ -1,5 +1,5 @@
-Ôªø<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
-    CodeFile="ActivityCheck.aspx.cs" Inherits="WebForm_ActivityCheck" Title="Ê¥ªÂãïÈÄ≤Â∫¶ÁôªÈåÑ" %>
+<%@ Page Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
+    CodeFile="ActivityCheck.aspx.cs" Inherits="WebForm_ActivityCheck" Title="¨°∞ ∂i´◊µnø˝" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
@@ -13,7 +13,7 @@
         <table align="center">
             <tr>
                 <td>
-                    Ê¥ªÂãïÂêçÁ®±
+                    ¨°∞ ¶W∫Ÿ
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlActivity" runat="server" DataSourceID="ObjectDataSource_Activity"
@@ -23,7 +23,7 @@
                         SelectMethod="GetAllActivity" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                 </td>
                 <td>
-                    ÈÉ®ÈñÄ
+                    ≥°™˘
                 </td>
                 <td>
                     <asp:DropDownList ID="ddlDEPT_ID" runat="server" DataSourceID="ObjectDataSource_Dept"
@@ -35,13 +35,13 @@
             </tr>
             <tr>
                 <td>
-                    Âì°Â∑•Â∑•Ëôü
+                    ≠˚§u§u∏π
                 </td>
                 <td>
                     <asp:TextBox ID="txtemp_id" runat="server"></asp:TextBox>
                 </td>
                 <td>
-                    Âì°Â∑•ÂßìÂêç
+                    ≠˚§u©m¶W
                 </td>
                 <td>
                     <asp:TextBox ID="txtemp_name" runat="server"></asp:TextBox>
@@ -49,26 +49,27 @@
             </tr>
             <tr>
                 <td align="center" colspan="4">
-                    <asp:Button ID="btnQuery" runat="server" Text="Êü•Ë©¢" OnClick="btnQuery_Click" />
+                    <asp:Button ID="btnQuery" runat="server" Text="¨d∏ﬂ" OnClick="btnQuery_Click" />
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:Button ID="btnExport" runat="server" Text="ÂåØÂá∫" OnClick="btnExport_Click" />
+                    <asp:Button ID="btnExport" runat="server" Text="∂◊•X" OnClick="btnExport_Click" />
                 </td>
             </tr>
         </table>
         <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
             <ContentTemplate>
-                <asp:Panel ID="Panel1" runat="server" GroupingText="ÁôªÈåÑÁãÄÊÖã‰∫∫Âì°ÂàóË°®">
+                <asp:Panel ID="Panel1" runat="server" GroupingText="µnø˝™¨∫A§H≠˚¶C™Ì">
                     <div align="center">
-                        ÁôªÈåÑÁãÄÊÖã:<asp:DropDownList ID="ddlcheck_status" runat="server">
-                            <asp:ListItem Value="0">Êú™Â†±Âà∞</asp:ListItem>
-                            <asp:ListItem Value="1">Â∑≤Â†±Âà∞</asp:ListItem>
-                            <asp:ListItem Value="2">Â∑≤ÂÆåÊàê</asp:ListItem>
+                        µnø˝™¨∫A:<asp:DropDownList ID="ddlcheck_status" runat="server">
+                            <asp:ListItem Value="0">•º≥¯®Ï</asp:ListItem>
+                            <asp:ListItem Value="1">§w≥¯®Ï</asp:ListItem>
+                            <asp:ListItem Value="2">§wßπ¶®</asp:ListItem>
                         </asp:DropDownList>
-                        <asp:Button ID="btnUpdate" runat="server" Text="Êõ¥Êñ∞" OnClick="btnUpdate_Click" /></div>
+                        <asp:Button ID="btnUpdate" runat="server" Text="ßÛ∑s" OnClick="btnUpdate_Click" /></div>
                     <TServerControl:TGridView ID="GridView1" runat="server" AutoGenerateColumns="False"
                         DataSourceID="ObjectDataSource1" SkinID="pager" Width="100%" AllowHoverEffect="True"
                         AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                        TotalRowCount="0" DataKeyNames="emp_id,activity_type">
+                        TotalRowCount="0" DataKeyNames="emp_id,activity_type" AllowPaging="True" 
+                        AllowSorting="True">
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
@@ -76,14 +77,15 @@
                                 </ItemTemplate>
                                 <HeaderTemplate>
                                     <input id="cbCheckAll" onclick="Check2(this,'GridView1','CheckBox1');" runat="server"
-                                        type="checkbox" /><asp:Literal ID="Literal1" runat="server">ÂÖ®ÈÅ∏</asp:Literal>
+                                        type="checkbox" /><asp:Literal ID="Literal1" runat="server">•˛øÔ</asp:Literal>
                                 </HeaderTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="C_DEPT_NAME" HeaderText="ÈÉ®ÈñÄ" SortExpression="C_DEPT_NAME" />
-                            <asp:BoundField DataField="WORK_ID" HeaderText="Â∑•Ëôü" SortExpression="NATIVE_NAME" />
-                            <asp:BoundField DataField="NATIVE_NAME" HeaderText="Âì°Â∑•ÂßìÂêç" SortExpression="NATIVE_NAME" />
-                            <asp:BoundField DataField="createat" HeaderText="Â†±ÂêçÊôÇÈñì" SortExpression="NATIVE_NAME" />
-                            <asp:BoundField DataField="check_status" HeaderText="ÁôªÈåÑÁãÄÊÖã" ReadOnly="True" SortExpression="check_status" />
+                            <asp:BoundField DataField="C_DEPT_NAME" HeaderText="≥°™˘" SortExpression="C_DEPT_NAME" />
+                            <asp:BoundField DataField="WORK_ID" HeaderText="§u∏π" SortExpression="WORK_ID" />
+                            <asp:BoundField DataField="NATIVE_NAME" HeaderText="≠˚§u©m¶W" SortExpression="NATIVE_NAME" />
+                            <asp:BoundField DataField="createat" HeaderText="≥¯¶WÆ…∂°" 
+                                SortExpression="createat" />
+                            <asp:BoundField DataField="check_status" HeaderText="µnø˝™¨∫A" ReadOnly="True" SortExpression="check_status" />
                         </Columns>
                     </TServerControl:TGridView>
                     <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" OldValuesParameterFormatString="original_{0}"

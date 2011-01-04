@@ -22,10 +22,11 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
     {
         if (rblgrouplimit.SelectedValue == "Y")
         {
-            btnUpload_GroupLimit.Enabled = true;
+            FileUpload_GroupLimit.Enabled = true;
             HyperLink1.Enabled = true;
             btnAdd_GroupLimit.Enabled = true;
             btnExport_GroupLimit.Enabled = true;
+            btnUpload_GroupLimit.Enabled = true;
         }
         else
         {
@@ -33,6 +34,8 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             HyperLink1.Enabled = false;
             btnAdd_GroupLimit.Enabled = false;
             btnExport_GroupLimit.Enabled = false;
+            FileUpload_GroupLimit.Enabled = false;
+          
         }
     }
     protected void Page_Load(object sender, EventArgs e)
@@ -123,6 +126,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             rblgrouplimit.SelectedValue = myActivatyVO.is_grouplimit;
             if (rblgrouplimit.SelectedValue == "Y")//檢查是否可以運作
             {
+                FileUpload_GroupLimit.Enabled = true;
                 btnUpload_GroupLimit.Enabled = true;
                 HyperLink1.Enabled = true;
                 btnAdd_GroupLimit.Enabled = true;
@@ -130,6 +134,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             }
             else
             {
+                FileUpload_GroupLimit.Enabled = false;
                 btnUpload_GroupLimit.Enabled = false;
                 HyperLink1.Enabled = false;
                 btnAdd_GroupLimit.Enabled = false;
@@ -467,6 +472,38 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
                     e.Cancel = true;
                 }
+                decimal max = 0;
+                decimal min = 0;
+                if (ActivityType == "2")
+                {
+                    if (((TextBox)FormView1.FindControl("txtteam_member_max")).Text == "")
+                    {
+                        ((TextBox)FormView1.FindControl("txtteam_member_max")).Text = "0";
+                    }
+                    if (((TextBox)FormView1.FindControl("txtteam_member_min")).Text == "")
+                    {
+                        ((TextBox)FormView1.FindControl("txtteam_member_min")).Text = "0";
+                    }
+
+                  
+                    max = decimal.Parse(((TextBox)FormView1.FindControl("txtteam_member_max")).Text);
+                    min = decimal.Parse(((TextBox)FormView1.FindControl("txtteam_member_min")).Text);
+
+                    if (max < min)
+                    {
+                        clsMyObj.ShowMessage("每隊上限不可小於下限");
+                        e.Cancel = true;
+                        return;
+                    }
+
+
+                    
+
+
+                }
+                
+               
+
 
             }
         }
@@ -486,6 +523,65 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
                 clsMyObj.ShowMessage(errMsg+"以上欄位沒有編輯選項");
                 e.Cancel = true;
+            }
+
+            if (FormView2.Enabled == true)
+            {
+                
+                decimal max = 0;
+                decimal min = 0;
+                if (ActivityType == "2")
+                {
+                    if (((TextBox)FormView2.FindControl("txtteamextcount_max")).Text == "")
+                    {
+                        ((TextBox)FormView2.FindControl("txtteamextcount_max")).Text = "0";
+                    }
+                    if (((TextBox)FormView2.FindControl("txtteamextcount_min")).Text == "")
+                    {
+                        ((TextBox)FormView2.FindControl("txtteamextcount_min")).Text = "0";
+                    }
+
+
+                    max = decimal.Parse(((TextBox)FormView2.FindControl("txtteamextcount_max")).Text);
+                    min = decimal.Parse(((TextBox)FormView2.FindControl("txtteamextcount_min")).Text);
+
+                    if (max < min)
+                    {
+                        clsMyObj.ShowMessage("每隊攜伴上限不可小於下限");
+                        e.Cancel = true;
+                        return;
+                    }
+
+
+
+                }
+                else
+                {
+                    if (((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text == "")
+                    {
+                        ((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text = "0";
+                    }
+                    if (((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text == "")
+                    {
+                        ((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text = "0";
+                    }
+
+
+                    max = decimal.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text);
+                    min = decimal.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text);
+
+                    if (max < min)
+                    {
+                        clsMyObj.ShowMessage("攜伴上限不可小於下限");
+                        e.Cancel = true;
+                        return;
+                    }
+
+                }
+
+
+
+
             }
         }
     }
