@@ -65,8 +65,8 @@
                     </EmptyDataTemplate>
                     <Columns>
                 
-                                                    <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
-                                SortExpression="C_DEPT_ABBR" />
+                                                    <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
+                                SortExpression="C_DEPT_NAME" />
                             <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
                                 SortExpression="WORK_ID" />
                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 

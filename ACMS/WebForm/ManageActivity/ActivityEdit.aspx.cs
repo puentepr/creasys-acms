@@ -18,7 +18,23 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         //FormView1.EditItemTemplate = FormView1.ItemTemplate;
         //FormView2.EditItemTemplate = FormView2.ItemTemplate;
     }
-
+    protected void rblgrouplimit_Change(object sender, EventArgs e)
+    {
+        if (rblgrouplimit.SelectedValue == "Y")
+        {
+            btnUpload_GroupLimit.Enabled = true;
+            HyperLink1.Enabled = true;
+            btnAdd_GroupLimit.Enabled = true;
+            btnExport_GroupLimit.Enabled = true;
+        }
+        else
+        {
+            btnUpload_GroupLimit.Enabled = false ;
+            HyperLink1.Enabled = false;
+            btnAdd_GroupLimit.Enabled = false;
+            btnExport_GroupLimit.Enabled = false;
+        }
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
         //族群限定的上傳與匯出
@@ -76,12 +92,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                     //唯讀模式:活動已結束也要是唯讀
                     MyFormMode = FormViewMode.ReadOnly;
 
-                    FTB_FreeTextBox.ReadOnly = true;
+                    //FCKeditor1.Visible = false;
+                    plFCKEditor.Enabled = false;
+                    
                     rblgrouplimit.Enabled = false;
                     Panel_GroupLimit.Enabled = false;
                     txtnotice.Enabled = false;
                 }
-              
+                
 
             }
             
@@ -100,8 +118,24 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             }
 
             //取得FormView外的欄位初始值
-            FTB_FreeTextBox.Text = myActivatyVO.activity_info;
+            FCKeditor1.Value = myActivatyVO.activity_info;
+            
             rblgrouplimit.SelectedValue = myActivatyVO.is_grouplimit;
+            if (rblgrouplimit.SelectedValue == "Y")//檢查是否可以運作
+            {
+                btnUpload_GroupLimit.Enabled = true;
+                HyperLink1.Enabled = true;
+                btnAdd_GroupLimit.Enabled = true;
+                btnExport_GroupLimit.Enabled = true;
+            }
+            else
+            {
+                btnUpload_GroupLimit.Enabled = false;
+                HyperLink1.Enabled = false;
+                btnAdd_GroupLimit.Enabled = false;
+                btnExport_GroupLimit.Enabled = false;
+            }
+
             txtnotice.Text = myActivatyVO.notice;
 
             //活動資訊-活動內容
@@ -303,7 +337,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
         myActivatyVO.id = ActivityID;
         myActivatyVO.activity_type = ActivityType;
-        myActivatyVO.activity_info = FTB_FreeTextBox.Text;
+        myActivatyVO.activity_info = FCKeditor1.Value ;
         myActivatyVO.org_id = ((DropDownList)FormView1.FindControl("ddlorg_id")).SelectedValue;
         myActivatyVO.activity_name = ((TextBox)FormView1.FindControl("txtactivity_name")).Text;
         myActivatyVO.people_type = ((TextBox)FormView1.FindControl("txtpeople_type")).Text;
@@ -461,7 +495,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
     {
         if (Wizard1.ActiveStepIndex == 1)
         {
-            if (string.Compare(FTB_FreeTextBox.Text.Trim(), "") == 0)
+            if (string.Compare(FCKeditor1.Value.Trim(), "") == 0)
             {
 
                 Wizard1.ActiveStepIndex =0;

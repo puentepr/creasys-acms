@@ -94,6 +94,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         myActivityTeamMemberVO.WORK_ID =clsAuth.WORK_ID;
         myActivityTeamMemberVO.NATIVE_NAME = clsAuth.NATIVE_NAME;
         myActivityTeamMemberVO.C_DEPT_ABBR = clsAuth.C_DEPT_ABBR;
+        myActivityTeamMemberVO.C_DEPT_NAME = clsAuth.C_DEPT_NAME;
+
         myActivityTeamMemberVO.WritePersonInfo = "否";
 
         //新增時，預設帶入登入者當團長
@@ -354,7 +356,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
                     myActivityTeamMemberVO.WORK_ID = GridView_Employee.Rows[i].Cells[0].Text.ToString();
                     myActivityTeamMemberVO.NATIVE_NAME = GridView_Employee.Rows[i].Cells[1].Text.ToString();
-                    myActivityTeamMemberVO.C_DEPT_ABBR = GridView_Employee.Rows[i].Cells[2].Text.ToString();
+                    myActivityTeamMemberVO.C_DEPT_NAME = GridView_Employee.Rows[i].Cells[2].Text.ToString();
 
                     if (!Page_ActivityTeamMemberVOList.Exists(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == myActivityTeamMemberVO.emp_id; }))
                     {
@@ -437,6 +439,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         myActivityTeamMemberVO.idno_type = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno_type;
         myActivityTeamMemberVO.idno = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno;
         myActivityTeamMemberVO.remark = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.remark;
+        //myActivityTeamMemberVO.C_DEPT_NAME = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.C_DEPT_NAME;
 
 
         GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
@@ -713,15 +716,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
         //報名
         MySingleton.AlterRegistResult MyResult;
-
+        string path = Server.MapPath("~/UpFiles");
         if (MyFormMode == FormViewMode.Insert)
         {
-            MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+            MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
 
         }
         else
         {
-            MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+            MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
 
         }
 

@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenEmployeeSelector" %>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;" 
-   Width="400" Height="500"><!---->
+   Width="800" Height="550"><!---->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" SkinID="title"></asp:Label>
@@ -66,8 +66,8 @@
                     onpageindexchanged="GridView_Employee_PageIndexChanged" Width="90%">
                     <Columns>
                 
-                                                    <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
-                                SortExpression="C_DEPT_ABBR" />
+                                                    <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
+                                SortExpression="C_DEPT_NAME" />
                             <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
                                 SortExpression="WORK_ID" />
                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 

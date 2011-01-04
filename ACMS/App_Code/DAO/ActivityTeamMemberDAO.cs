@@ -20,7 +20,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.*,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_ABBR ");
+            sb.AppendLine("SELECT A.*,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_NAME,B.C_DEPT_ABBR ");
             sb.AppendLine("FROM ActivityTeamMember A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE A.activity_id=@activity_id ");
@@ -46,7 +46,7 @@ namespace ACMS.DAO
                 myActivityTeamMemberVO.WORK_ID = (string)MyDataReader["WORK_ID"];
                 myActivityTeamMemberVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
                 myActivityTeamMemberVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
-
+                myActivityTeamMemberVO.C_DEPT_NAME = (string)MyDataReader["C_DEPT_NAME"];
                 myActivityTeamMemberVOList.Add(myActivityTeamMemberVO);
 
             }

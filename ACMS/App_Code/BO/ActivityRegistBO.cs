@@ -26,5 +26,12 @@ namespace ACMS.BO
             DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
             return myActivityRegistDAO.SelectEmployeesByID(activity_id, activity_type);
         }
+
+        public string getSNByActivity(Guid activity_id, string emp_id)
+        {  
+            DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+            return myActivityRegistDAO.getSNByActivity(activity_id, emp_id);
+        
+        }
     }
 }

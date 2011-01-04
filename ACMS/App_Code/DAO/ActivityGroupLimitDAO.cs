@@ -74,7 +74,7 @@ namespace ACMS.DAO
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
 
-            sb.AppendLine("SELECT B.WORK_ID,B.NATIVE_NAME,B.OFFICE_PHONE,B.OFFICE_MAIL,B.DEPT_ID,B.C_DEPT_ABBR ");
+            sb.AppendLine("SELECT B.WORK_ID,B.NATIVE_NAME,B.OFFICE_PHONE,B.OFFICE_MAIL,B.DEPT_ID,B.C_DEPT_NAME,B.C_DEPT_ABBR ");
             sb.AppendLine("FROM ActivityGroupLimit A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE activity_id = @activity_id ");
@@ -103,7 +103,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.id as keyID,B.ID,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_ABBR ");
+            sb.AppendLine("SELECT A.id as keyID,B.ID,B.WORK_ID,B.NATIVE_NAME,B.C_DEPT_NAME,B.C_DEPT_ABBR ");
             sb.AppendLine("FROM ActivityGroupLimit A ");
             sb.AppendLine("inner join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE A.activity_id = @activity_id ");
@@ -121,7 +121,7 @@ namespace ACMS.DAO
                 myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];
                 myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
                 myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
-
+                myEmployeeVO.C_DEPT_NAME = (string)MyDataReader["C_DEPT_NAME"];
                 myEmployeeVOList.Add(myEmployeeVO);
 
             }

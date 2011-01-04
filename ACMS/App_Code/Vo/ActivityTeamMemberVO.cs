@@ -22,6 +22,8 @@ namespace ACMS.VO
         private string _WORK_ID;
         private string _NATIVE_NAME;
         private string _C_DEPT_ABBR;
+        private string _C_DEPT_NAME;
+
 
         private string _WritePersonInfo;
 
@@ -38,6 +40,7 @@ namespace ACMS.VO
         public string WORK_ID { get { return _WORK_ID; } set { _WORK_ID = value; } }
         public string NATIVE_NAME { get { return _NATIVE_NAME; } set { _NATIVE_NAME = value; } }
         public string C_DEPT_ABBR { get { return _C_DEPT_ABBR; } set { _C_DEPT_ABBR = value; } }
+        public string C_DEPT_NAME { get { return _C_DEPT_NAME; } set { _C_DEPT_NAME = value; } }
 
         public string WritePersonInfo { get { return _WritePersonInfo; } set { _WritePersonInfo = value; } }
 

@@ -19,7 +19,7 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     {
         
         string emp_id = "";
-
+        string path = Server.MapPath("~/UpFiles");
         foreach (GridViewRow gvr in GridView1.Rows)
         {
             if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true)
@@ -36,7 +36,7 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
 
         if (!string.IsNullOrEmpty(emp_id))
         {
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist(null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx");
+            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist(null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
             
             
             GridView1.DataBind();  

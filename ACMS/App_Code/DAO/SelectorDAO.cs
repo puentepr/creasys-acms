@@ -203,7 +203,7 @@ namespace ACMS.DAO
             
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.[ID],A.[C_DEPT_ABBR],A.[WORK_ID],A.[NATIVE_NAME],CASE WHEN B.emp_id is null THEN 'true' ELSE 'false' END as theEnable  ");
+            sb.AppendLine("SELECT A.[ID],A.[C_DEPT_NAME],A.[C_DEPT_ABBR],A.[WORK_ID],A.[NATIVE_NAME],CASE WHEN B.emp_id is null THEN 'true' ELSE 'false' END as theEnable  ");
             sb.AppendLine("FROM V_ACSM_USER2 A ");
             sb.AppendLine(string.Format("left join (SELECT emp_id FROM {0} WHERE activity_id=@activity_id) B on A.ID = B.emp_id ",tablename));//已報名過不可再選
             sb.AppendLine("WHERE A.ID in ");
@@ -232,6 +232,7 @@ namespace ACMS.DAO
                 myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
                 myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];
                 myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
+                myEmployeeVO.C_DEPT_NAME = (string)MyDataReader["C_DEPT_NAME"];
                 myEmployeeVO.keyValue = Convert.ToBoolean(MyDataReader["theEnable"]);
 
                 myEmployeeVOList.Add(myEmployeeVO);
@@ -333,7 +334,7 @@ namespace ACMS.DAO
             sqlParams[8].Value = C_NAME;
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.activity_id,A.emp_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+            sb.AppendLine("SELECT A.activity_id,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
             sb.AppendLine("FROM ActivityRegist A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE 1=1 ");
@@ -369,7 +370,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.activity_id,A.emp_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+            sb.AppendLine("SELECT A.activity_id,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
             sb.AppendLine("FROM ActivityRegist A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE 1=1 ");
@@ -410,7 +411,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.activity_id,A.emp_id,A.boss_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+            sb.AppendLine("SELECT A.activity_id,A.emp_id,A.boss_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
             sb.AppendLine("FROM ActivityTeamMember A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE 1=1 ");
@@ -445,7 +446,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.activity_id,A.emp_id,A.boss_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+            sb.AppendLine("SELECT A.activity_id,A.emp_id,A.boss_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
             sb.AppendLine("FROM ActivityTeamMember A ");
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE 1=1 ");
@@ -757,18 +758,18 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT * FROM ");
             sb.AppendLine("( ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
-            sb.AppendLine(" ,convert(varchar(30),B.createat,120) as createat,C.OFFICE_MAIL ,C.OFFICE_PHONE,B.team_name,A.limit2_count as team_max");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" ,convert(varchar(30),B.createat,120) as createat,C.OFFICE_MAIL ,C.OFFICE_PHONE,B.team_name,A.limit_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id  ");
             sb.AppendLine(" Union ");
-            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(",convert(varchar(30),D.createat,120) as createat ,C.OFFICE_MAIL ,C.OFFICE_PHONE ,D.team_name,A.team_member_max as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");
-            sb.AppendLine("left join [ActivityRegist]D on A.id=d.activity_id");
+            sb.AppendLine("left join [ActivityRegist]D on A.id=d.activity_id and D.emp_id =B.boss_id ");
             sb.AppendLine(") AA");
             sb.AppendLine("where 1=1 ");
             sb.AppendLine("and (WORK_ID like '%'+@emp_id+'%' or @emp_id='') ");
@@ -818,11 +819,11 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT B.[ID],B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
+            sb.AppendLine("SELECT B.[ID],B.C_DEPT_NAME,B.[C_DEPT_ABBR],B.[WORK_ID],B.[NATIVE_NAME] ");
             sb.AppendLine("FROM V_ACSM_USER2 B ");
             sb.AppendLine("WHERE status<2 ");//在職員工
-           // sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
-            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID ) ");
+            sb.AppendLine("and (B.DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
+            //sb.AppendLine("and (B.DEPT_ID=@DEPT_ID ) ");
             sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
 
@@ -837,6 +838,7 @@ namespace ACMS.DAO
                 myEmployeeVO.ID = (string)MyDataReader["ID"];
                 myEmployeeVO.NATIVE_NAME = (string)MyDataReader["NATIVE_NAME"];
                 myEmployeeVO.WORK_ID = (string)MyDataReader["WORK_ID"];
+                myEmployeeVO.C_DEPT_NAME = (string)MyDataReader["C_DEPT_NAME"];
                 myEmployeeVO.C_DEPT_ABBR = (string)MyDataReader["C_DEPT_ABBR"];
 
                 myEmployeeVOList.Add(myEmployeeVO);
@@ -876,7 +878,7 @@ namespace ACMS.DAO
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT distinct [DEPT_ID],[C_DEPT_ABBR] ");
+            sb.AppendLine("SELECT distinct [DEPT_ID],C_DEPT_NAME,[C_DEPT_ABBR] ");
             sb.AppendLine("FROM V_ACSM_USER2  ");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
@@ -888,7 +890,7 @@ namespace ACMS.DAO
                 VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
 
                 myDDLVO.Value = (string)MyDataReader["DEPT_ID"];
-                myDDLVO.Text = (string)MyDataReader["C_DEPT_ABBR"];
+                myDDLVO.Text = (string)MyDataReader["C_DEPT_NAME"];
 
                 myDDLVOList.Add(myDDLVO);
 
@@ -979,7 +981,7 @@ namespace ACMS.DAO
             StringBuilder sb = new StringBuilder();
             if (List_Type == "0")//已報名清冊
             {
-                sb.AppendLine(" SELECT A.team_name,A.emp_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+                sb.AppendLine(" SELECT A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
                 sb.AppendLine("  FROM ActivityRegist A");
                 sb.AppendLine(" left join V_ACSM_USER2 B on A.emp_id=B.ID ");
@@ -995,7 +997,7 @@ namespace ACMS.DAO
                 sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
                 sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");
 
-                sb.AppendLine(" union SELECT A.team_name,A.emp_id,B.ID,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+                sb.AppendLine(" union SELECT A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
                 sb.AppendLine("  FROM ActivityRegist A");
 
@@ -1018,7 +1020,7 @@ namespace ACMS.DAO
             }
             else
             {
-                sb.AppendLine(" SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME ,B.C_DEPT_ABBR ,'未報名' as check_status");
+                sb.AppendLine(" SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME ,B.C_DEPT_NAME,B.C_DEPT_ABBR ,'未報名' as check_status");
                 sb.AppendLine(" from ActivityGroupLimit E");
                 sb.AppendLine(" left join V_ACSM_USER2 B on E.emp_id=B.ID ");
                 sb.AppendLine(" left join Activity C on E.activity_id =C.ID ");
@@ -1035,7 +1037,7 @@ namespace ACMS.DAO
 
 
                 sb.AppendLine("    union ");
-                sb.AppendLine("   SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME ,B.C_DEPT_ABBR ,'未報名' as check_status");
+                sb.AppendLine("   SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME,B.C_DEPT_NAME ,B.C_DEPT_ABBR ,'未報名' as check_status");
                 sb.AppendLine(" from ActivityGroupLimit E ");
                 sb.AppendLine(" left join V_ACSM_USER2 B on E.emp_id=B.ID ");
                 sb.AppendLine(" left join Activity C on E.activity_id =C.ID ");

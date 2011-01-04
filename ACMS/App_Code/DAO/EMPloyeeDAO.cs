@@ -49,7 +49,7 @@ public class EMPloyeeDAO : ACMS.DAO.BaseDAO
             EMPloyee.WORK_ID = DR["WORK_ID"].ToString();
             EMPloyee.DEPT_ID = DR["DEPT_ID"].ToString();
             EMPloyee.C_DEPT_ABBR = DR["C_DEPT_ABBR"].ToString();
-            EMPloyee.C_DEPT_ABBR = DR["C_DEPT_ABBR"].ToString();
+            EMPloyee.C_DEPT_NAME = DR["C_DEPT_NAME"].ToString();
             EMPloyee.OFFICE_PHONE = DR["OFFICE_PHONE"].ToString();
             
             EMPloyee.BIRTHDAY = DR["BIRTHDAY"].ToString();

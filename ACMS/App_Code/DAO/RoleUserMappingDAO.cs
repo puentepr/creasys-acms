@@ -12,7 +12,7 @@ namespace ACMS.DAO
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.*,B.role_name,C.name as unit_name,D.C_DEPT_ABBR,D.WORK_ID,D.NATIVE_NAME ");
+            sb.AppendLine("SELECT A.*,B.role_name,C.name as unit_name,D.C_DEPT_NAME,D.C_DEPT_ABBR,D.WORK_ID,D.NATIVE_NAME ");
             sb.AppendLine("FROM RoleUserMapping A ");
             sb.AppendLine("left join RoleList B on A.role_id=B.id ");
             sb.AppendLine("left join Unit C on A.unit_id=C.id ");
@@ -31,6 +31,7 @@ namespace ACMS.DAO
                 myRoleUserMappingVO.unit_name = clsMyObj.GetStringObject(myIDataReader["unit_name"]);
                 myRoleUserMappingVO.emp_id = (string)myIDataReader["emp_id"];
                 myRoleUserMappingVO.C_DEPT_ABBR = clsMyObj.GetStringObject(myIDataReader["C_DEPT_ABBR"]);
+                
                 myRoleUserMappingVO.WORK_ID = clsMyObj.GetStringObject(myIDataReader["WORK_ID"]);
                 myRoleUserMappingVO.NATIVE_NAME =clsMyObj.GetStringObject(myIDataReader["NATIVE_NAME"]);           
 

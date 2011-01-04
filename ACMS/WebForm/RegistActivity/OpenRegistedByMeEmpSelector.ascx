@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegistedByMeEmpSelector.ascx.cs" Inherits="WebForm_RegistActivity_OpenRegistedByMeEmpSelector" %>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;display: none;
-    " Width="400" Height="500"><!---->
+    " Width="800" Height="500"><!---->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="取消個人報名" SkinID="title"></asp:Label>
@@ -20,8 +20,8 @@
                                 SortExpression="WORK_ID" />
                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
                                 SortExpression="NATIVE_NAME" />
-                            <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
-                                SortExpression="C_DEPT_ABBR" />
+                            <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
+                                SortExpression="C_DEPT_NAME" />
                             <asp:TemplateField>
                                 <ItemTemplate>
                                     <asp:CheckBox ID="CheckBox1" runat="server" />
