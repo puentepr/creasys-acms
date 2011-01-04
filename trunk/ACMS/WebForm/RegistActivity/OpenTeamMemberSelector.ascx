@@ -71,8 +71,8 @@
                                 SortExpression="WORK_ID" ReadOnly="True" />
                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
                                 SortExpression="NATIVE_NAME" />
-                            <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="部門" 
-                                SortExpression="C_DEPT_ABBR" />
+                            <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
+                                SortExpression="C_DEPT_NAME" />
                                                     <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
                                                     <asp:TemplateField>
                                                         <ItemTemplate>

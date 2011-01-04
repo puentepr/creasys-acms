@@ -157,7 +157,7 @@
                                             <asp:FormView ID="FormView_RegisterPersonInfo" runat="server" DataSourceID="ObjectDataSource_RegisterPersonInfo"
                                                 EnableModelValidation="True">
                                                 <ItemTemplate>
-                                                    场:<asp:Label ID="dept_nameLabel" runat="server" Text='<%# Bind("C_DEPT_ABBR") %>' />
+                                                    场:<asp:Label ID="dept_nameLabel" runat="server" Text='<%# Bind("C_DEPT_NAME") %>' />
                                                     &nbsp; 腹:
                                                     <asp:Label ID="emp_idLabel" runat="server" Text='<%# Bind("WORK_ID") %>' />
                                                     &nbsp;﹎:
@@ -194,7 +194,7 @@
                                 </asp:TemplateField>
                                 <asp:BoundField DataField="WORK_ID" HeaderText="腹" />
                                 <asp:BoundField DataField="NATIVE_NAME" HeaderText="﹎" />
-                                <asp:BoundField DataField="C_DEPT_ABBR" HeaderText="场" />
+                                <asp:BoundField DataField="C_DEPT_NAME" HeaderText="场" />
                             </Columns>
                         </TServerControl:TGridView>
                         <asp:ObjectDataSource ID="ObjectDataSource_RegisterPeoplenfo" runat="server" OldValuesParameterFormatString="original_{0}"

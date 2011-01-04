@@ -32,7 +32,7 @@
                         SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                 </asp:PlaceHolder>
                 人員<asp:TextBox ID="txtEmployee" runat="server"></asp:TextBox><asp:Button ID="btnQueryPerson"
-                    runat="server" Text="..." Height="21px" OnClick="btnQueryPerson_Click" />
+                    runat="server" Text="選擇人員" Height="21px" OnClick="btnQueryPerson_Click" />
                 <uc2:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployeesClick="GetEmployees_Click"
                     runat="server" />
                 <asp:Button ID="btnInsert" runat="server" Text="新增" ValidationGroup="add" OnClick="btnInsert_Click" />
@@ -50,7 +50,7 @@
                             <ItemTemplate>
                                 <asp:Label ID="Label1" runat="server" Text='<%# Bind("NATIVE_NAME") %>'></asp:Label>
                                 (<asp:Label ID="Label2" runat="server" Text='<%# Bind("WORK_ID") %>'></asp:Label>)
-                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("C_DEPT_ABBR") %>'></asp:Label>
+                                <asp:Label ID="Label3" runat="server" Text='<%# Bind("C_DEPT_NAME") %>'></asp:Label>
                             </ItemTemplate>
                         </asp:TemplateField>
                         <asp:TemplateField ShowHeader="False">

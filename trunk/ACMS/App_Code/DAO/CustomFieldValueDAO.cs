@@ -20,7 +20,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.field_control,B.* ");
+            sb.AppendLine("SELECT  A.field_name,A.field_control,B.* ");
             sb.AppendLine("FROM CustomField A ");
             sb.AppendLine("left join CustomFieldValue B on A.field_id=B.field_id ");
             sb.AppendLine("WHERE A.activity_id=@activity_id and B.emp_id=@emp_id ");
@@ -38,6 +38,7 @@ namespace ACMS.DAO
                 myCustomFieldValueVO.emp_id = (string)MyDataReader["emp_id"];
                 myCustomFieldValueVO.field_id = (int)MyDataReader["field_id"];
                 myCustomFieldValueVO.field_value = (string)MyDataReader["field_value"];
+                myCustomFieldValueVO.field_name = (string)MyDataReader["field_name"];
 
                 myCustomFieldValueVOList.Add(myCustomFieldValueVO);
 

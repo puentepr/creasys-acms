@@ -99,7 +99,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
             {
                 dtDr["報名編號"] = "正取:" + seqno.ToString();
             }
-            dtDr["部門"] = dr["C_DEPT_ABBR"].ToString();
+            dtDr["部門"] = dr["C_DEPT_NAME"].ToString();
             dtDr["工號"] = dr["WORK_ID"].ToString();
             dtDr["姓名"] = dr["NATIVE_NAME"].ToString();
             dtDr["分機"] = dr["OFFICE_PHONE"].ToString();

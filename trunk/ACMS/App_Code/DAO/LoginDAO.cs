@@ -37,7 +37,7 @@ namespace ACMS.DAO
                 clsAuth.WORK_ID = DR["WORK_ID"].ToString();
                 clsAuth.DEPT_ID = DR["DEPT_ID"].ToString();
                 clsAuth.C_DEPT_ABBR = DR["C_DEPT_ABBR"].ToString();
-                clsAuth.C_DEPT_ABBR = DR["C_DEPT_ABBR"].ToString();
+                clsAuth.C_DEPT_NAME  = DR["C_DEPT_NAME"].ToString();
                 clsAuth.OFFICE_PHONE = DR["OFFICE_PHONE"].ToString();
                 clsAuth.EXPERIENCE_START_DATE = DR["EXPERIENCE_START_DATE"].ToString();
                 clsAuth.BIRTHDAY = DR["BIRTHDAY"].ToString();
