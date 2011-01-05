@@ -305,6 +305,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         DataRowView drv = (DataRowView)FormView_ActivatyDetails.DataItem;
 
         (FormView_ActivatyDetails.FindControl("GridView_UpFiles") as GridView).Visible = (drv["is_showfile"].ToString() == "Y");
+        ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\r\n", "<br/>");
 
     }
 
