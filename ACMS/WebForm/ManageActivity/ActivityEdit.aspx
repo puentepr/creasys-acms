@@ -19,6 +19,7 @@
             <asp:WizardStep runat="server" Title="Step 1">
                 <font color="blue">請透過頁面上的文字編輯器，新增/修改此次活動的內容</font><br />
                 <asp:Panel ID="plFCKEditor" runat="server">
+                    <asp:Literal ID="liactivity_info" runat="server" Visible="False"></asp:Literal>
                     <FCKeditorV2:FCKeditor ID="FCKeditor1" runat="server" Width="800px" Height="400px">
                     </FCKeditorV2:FCKeditor>
                 </asp:Panel>

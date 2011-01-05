@@ -96,14 +96,23 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                     MyFormMode = FormViewMode.ReadOnly;
 
                     //FCKeditor1.Visible = false;
-                    plFCKEditor.Enabled = false;
+                    FCKeditor1.Visible = false;
+                    liactivity_info.Visible = true;
                     
                     rblgrouplimit.Enabled = false;
                     Panel_GroupLimit.Enabled = false;
+                    FormView2.Enabled = false;
+                    FormView1.Enabled = false;
                     txtnotice.Enabled = false;
+                    PanelCustomFieldC.Enabled = false;
                 }
                 
 
+            }
+            if (Session["History"] != null)
+            {
+                FCKeditor1.Visible = false;
+                liactivity_info.Visible = true;
             }
             
             Session["form_mode"] = null;
@@ -122,24 +131,25 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
             //取得FormView外的欄位初始值
             FCKeditor1.Value = myActivatyVO.activity_info;
+            liactivity_info.Text = myActivatyVO.activity_info;
             
             rblgrouplimit.SelectedValue = myActivatyVO.is_grouplimit;
-            if (rblgrouplimit.SelectedValue == "Y")//檢查是否可以運作
-            {
-                FileUpload_GroupLimit.Enabled = true;
-                btnUpload_GroupLimit.Enabled = true;
-                HyperLink1.Enabled = true;
-                btnAdd_GroupLimit.Enabled = true;
-                btnExport_GroupLimit.Enabled = true;
-            }
-            else
-            {
-                FileUpload_GroupLimit.Enabled = false;
-                btnUpload_GroupLimit.Enabled = false;
-                HyperLink1.Enabled = false;
-                btnAdd_GroupLimit.Enabled = false;
-                btnExport_GroupLimit.Enabled = false;
-            }
+            //if (rblgrouplimit.SelectedValue == "Y")//檢查是否可以運作
+            //{
+            //    FileUpload_GroupLimit.Enabled = true;
+            //    btnUpload_GroupLimit.Enabled = true;
+            //    HyperLink1.Enabled = true;
+            //    btnAdd_GroupLimit.Enabled = true;
+            //    btnExport_GroupLimit.Enabled = true;
+            //}
+            //else
+            //{
+            //    FileUpload_GroupLimit.Enabled = false;
+            //    btnUpload_GroupLimit.Enabled = false;
+            //    HyperLink1.Enabled = false;
+            //    btnAdd_GroupLimit.Enabled = false;
+            //    btnExport_GroupLimit.Enabled = false;
+            //}
 
             txtnotice.Text = myActivatyVO.notice;
 
