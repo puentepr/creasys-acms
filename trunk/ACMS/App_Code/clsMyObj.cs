@@ -678,7 +678,7 @@ public class clsMyObj
                 + "攜眷人數:" + regVO.ext_people.ToString() + "<br/>"
                 + custFieldSt
                 + "報名人姓名:" + regByEmpVO.NATIVE_NAME
-                + "<br/>編號:" + regBO.getSNByActivity(id, emp_id);
+                + "<br/>編號:" + regBO.getSNByActivity(id, regist_by);
         }
         else
         {
@@ -690,7 +690,7 @@ public class clsMyObj
               + empList
                 + "攜眷人數:" + regVO.ext_people.ToString() + "<br/>"
                 + "報名人姓名:" + regByEmpVO.NATIVE_NAME
-            + "<br/>編號:" + regBO.getSNByActivity(id, emp_id);
+            + "<br/>編號:" + regBO.getSNByActivity(id, regist_by);
 
         }
 
