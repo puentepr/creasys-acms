@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using ACMS.VO;
 using System.Net.Mail;
 using System.Transactions;
-
+using PDFPlatform;
 /// <summary>
 /// clsMyObj 的摘要描述
 /// </summary>
@@ -361,8 +361,9 @@ public class clsMyObj
             smtp.Send(mail);
 
         }
-        catch
+        catch (Exception ex)
         {
+            LogMsg.Log(ex.Message, 5, false);
 
         }
      
@@ -421,9 +422,9 @@ public class clsMyObj
             smtp.Send(mail);
 
         }
-        catch
+        catch(Exception ex)
         {
-
+            LogMsg.Log(ex.Message, 5, false);
         }
      
 
@@ -486,8 +487,9 @@ public class clsMyObj
             smtp.Send(mail);
 
         }
-        catch
+        catch (Exception ex)
         {
+            LogMsg.Log(ex.Message, 5, false);
 
         }
      
@@ -704,7 +706,8 @@ public class clsMyObj
         catch (Exception ex)
         {
             //clsMyObj.ShowMessage(ex.Message );
-
+            
+            LogMsg.Log (ex.Message,5,false);
         }
 
 
@@ -769,8 +772,9 @@ public class clsMyObj
             smtp.Send(mail);
 
         }
-        catch
+        catch(Exception ex)
         {
+            LogMsg.Log(ex.Message, 5, false);
 
         }
 
@@ -860,9 +864,9 @@ public class clsMyObj
             smtp.Send(mail);
 
         }
-        catch
+        catch(Exception ex)
         {
-
+            LogMsg.Log(ex.Message, 5, false);
         }
      
 
