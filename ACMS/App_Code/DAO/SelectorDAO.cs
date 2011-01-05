@@ -481,7 +481,8 @@ namespace ACMS.DAO
             sb.AppendLine("id in (SELECT distinct activity_id FROM ActivityRegist WHERE emp_id=@emp_id) ");
             sb.AppendLine(" or id in (SELECT distinct activity_id FROM ActivityTeamMember WHERE emp_id=@emp_id) ");
             sb.AppendLine(") ");
-
+            sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
+           
             sb.AppendLine("ORDER BY sn ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -728,6 +729,7 @@ namespace ACMS.DAO
             sb.AppendLine(string.Format("B.id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
             sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
             sb.AppendLine(") ");
+            //sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
             sb.AppendLine("ORDER BY A.sn; ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), null);
