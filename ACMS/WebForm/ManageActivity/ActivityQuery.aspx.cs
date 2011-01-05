@@ -237,7 +237,7 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
                 {
                     seqno1++;
                 }
-                teamName = dr["team_name"].ToString().Trim();
+               
 
             }
             else
@@ -264,10 +264,11 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
             dtDr["進度狀態"] = dr["check_status"].ToString();
             if (dr["activity_type"].ToString() == "2")
             {
-                if (dr["boss_id"].ToString() == dr["emp_id"].ToString())
+                if (dr["team_name"].ToString() != teamName )
                 {
                     dtDr["自訂欄位"] = GetCustomField(dr["id"].ToString(), dr["boss_id"].ToString());
                 }
+                teamName = dr["team_name"].ToString().Trim();
             }
             else
             {
