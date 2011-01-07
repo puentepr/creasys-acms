@@ -235,11 +235,12 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
         if (myFileUpload.HasFile)
         {
-            if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) ==-1)
-            {
-                clsMyObj.ShowMessage(string.Format("副檔名只能是[{0}]!", ConfigurationManager.AppSettings["ValidExtention"]));
-                return;
-            }
+            //andy 2011/1/6 日sugar說要拿掉檢查.
+            //if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) ==-1)
+            //{
+            //    clsMyObj.ShowMessage(string.Format("副檔名只能是[{0}]!", ConfigurationManager.AppSettings["ValidExtention"]));
+            //    return;
+            //}
 
 
             try

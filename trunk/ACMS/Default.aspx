@@ -15,6 +15,9 @@
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
                         SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" AllowSorting="True"
                         OnRowDataBound="GridView1_RowDataBound">
+                        <EmptyDataTemplate>
+                            目前沒有個人活動可以報名...
+                        </EmptyDataTemplate>
                         <Columns>
                             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
@@ -68,6 +71,9 @@
                         AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="ObjectDataSource2"
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
                         SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" OnRowDataBound="GridView2_RowDataBound">
+                        <EmptyDataTemplate>
+                            目前沒有團隊活動可以報名...
+                        </EmptyDataTemplate>
                         <Columns>
                             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
