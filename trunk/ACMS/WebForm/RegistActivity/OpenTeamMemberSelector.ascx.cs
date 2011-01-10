@@ -18,13 +18,15 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
 
     protected void btnQuery_Click(object sender, EventArgs e)
     {
-        this.mpSearch.Show();
+        GridView_Employee.Visible = true;
 
         ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
         ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
         GridView_Employee.DataBind();
+        
+        this.mpSearch.Show();
     }
 
 
@@ -73,8 +75,9 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector
 {
     public void InitDataAndShow(string activity_id)
     {
+        GridView_Employee.Visible = false;
         ObjectDataSource_Employee.SelectParameters["activity_id"].DefaultValue = activity_id;
-        btnQuery_Click(null, null);
+       // btnQuery_Click(null, null);
         this.mpSearch.Show(); 
     }
 
