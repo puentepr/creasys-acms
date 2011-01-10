@@ -76,7 +76,7 @@ namespace ACMS.DAO
             sb.AppendLine("FROM RoleUserMapping A ");
             sb.AppendLine("inner join RoleList B on A.role_id=B.id");
             sb.AppendLine("WHERE 1=1 ");
-            sb.AppendLine("AND A.emp_id=@emp_id ");
+            sb.AppendLine("AND A.emp_id=@emp_id");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 

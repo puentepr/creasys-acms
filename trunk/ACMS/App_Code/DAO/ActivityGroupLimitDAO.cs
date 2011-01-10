@@ -11,27 +11,52 @@ namespace ACMS.DAO
 
         public void UpdateDataSet(DataTable table,Guid activity_id )
         {
+
+            //===========andy 修正為直接加入ActivityGroupLimit,因為只傳入Work_ID
             StringBuilder sb = new StringBuilder();
-
-            sb.AppendFormat("SELECT activity_id,emp_id FROM ActivityGroupLimit WHERE 1=2");
-
-            SqlCommand mySqlCommand = new SqlCommand(sb.ToString());
-            mySqlCommand.Connection = MyConn();
-
-            SqlDataAdapter adapter = new SqlDataAdapter();
-            adapter.SelectCommand = mySqlCommand;
-            SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
-
-         //
-            DataTable DT = SelectCheckExistEmployeeByActivity_id(activity_id);
-
-
-            if (DT != null && DT.Rows.Count > 0)
+            sb.AppendFormat(" insert into ActivityGroupLimit(activity_id,emp_id) select @activity_id,ID  from V_ACSM_USER2 where WORK_ID=@WORK_ID");
+            
+            foreach (DataRow dr in table.Rows)
             {
-                table = Difference(table, DT);               
-            }
+                SqlParameter[] sqlParams = new SqlParameter[2];
+                sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+                sqlParams[0].Value = activity_id;
+                sqlParams[1] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 50);
+                
+                sqlParams[1].Value = dr[1].ToString();
 
-            int n = adapter.Update(table);
+                try
+                {
+
+                    SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }
+            //===============================================()
+         //   StringBuilder sb = new StringBuilder();
+
+         //   sb.AppendFormat("SELECT A.activity_id,B.Work_ID, FROM ActivityGroupLimit A left join V_ACMS_USER2 B on A.emp_id=B.ID  WHERE 1=2");
+
+         //   SqlCommand mySqlCommand = new SqlCommand(sb.ToString());
+         //   mySqlCommand.Connection = MyConn();
+
+         //   SqlDataAdapter adapter = new SqlDataAdapter();
+         //   adapter.SelectCommand = mySqlCommand;
+         //   SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+
+         ////
+         //   DataTable DT = SelectCheckExistEmployeeByActivity_id(activity_id);
+
+
+         //   if (DT != null && DT.Rows.Count > 0)
+         //   {
+         //       table = Difference(table, DT);               
+         //   }
+
+         //   int n = adapter.Update(table);
 
         }
 

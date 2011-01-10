@@ -20,12 +20,13 @@ public partial class WebForm_RegistActivity_OpenAgentSelector : System.Web.UI.Us
         this.mpSearch.Show();
         if (ddlDEPT_ID.SelectedValue == "" && txtNATIVE_NAME.Text == "" && txtWORK_ID.Text == "")
         {
-            if (sender != null)
-            {
-                clsMyObj.ShowMessage("查詢條件至少要輸入1個條件");
-            }
-            GridView_Employee.Visible = false;
-            return;
+            //if (sender != null)
+            //{
+            //    clsMyObj.ShowMessage("查詢條件至少要輸入1個條件");
+            //}
+            //GridView_Employee.Visible = false;
+            //return;
+            GridView_Employee.Visible = true;
         }
 
 
@@ -33,6 +34,7 @@ public partial class WebForm_RegistActivity_OpenAgentSelector : System.Web.UI.Us
         ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
+        ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
         if (string.Compare(ddlDEPT_ID.SelectedValue, "") != 0)
         {
             GridView_Employee.DataBind();
@@ -51,6 +53,11 @@ public partial class WebForm_RegistActivity_OpenAgentSelector : System.Web.UI.Us
     {
         this.mpSearch.Show();   
     }
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlDEPT_ID.DataBind();
+        this.mpSearch.Show();   
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenAgentSelector
@@ -58,7 +65,8 @@ public partial class WebForm_RegistActivity_OpenAgentSelector
     public void InitDataAndShow(string activity_id)
     {
         ObjectDataSource_Employee.SelectParameters["activity_id"].DefaultValue = activity_id;
-        btnQuery_Click(null, null);
+        //btnQuery_Click(null, null);
+        GridView_Employee.Visible = false;
         this.mpSearch.Show(); 
     }
 

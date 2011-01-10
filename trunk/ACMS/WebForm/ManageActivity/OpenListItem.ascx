@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenListItem.ascx.cs"
     Inherits="WebForm_ManageActivity_OpenListItem" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;"
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;" ScrollBars ="Auto"
      Width="450" Height="350">
     <!--display: none-->
     <div align="center">
@@ -39,9 +39,14 @@
                         </tr>
                         <tr>
                             <td align="right" colspan="2">
-                                <asp:Button ID="btnAdd" runat="server" OnClick="btnAdd_Click" Text="新增" 
-                                    ValidationGroup="CustomFieldItemAdd" />
+                               
                             </td>
+                        </tr>
+                        <tr>
+                        <td></td>
+                        <td> <asp:Button ID="btnAdd" runat="server" OnClick="btnAdd_Click" Text="新增" 
+                                    ValidationGroup="CustomFieldItemAdd" />
+                        </td>
                         </tr>
                     </table>
                 </td>

@@ -46,7 +46,7 @@ public partial class WebForm_ManageRole_ManageRole : System.Web.UI.Page
             myRoleUserMappingVO.unit_id = 0;
         }
    
-        myRoleUserMappingVO.emp_id = txtEmployee.Text;
+        myRoleUserMappingVO.emp_id = txtEmployee.Text.Replace ("(","").Replace (")","");
 
         ACMS.DAO.RoleUserMappingDAO myRoleUserMappingDAO = new ACMS.DAO.RoleUserMappingDAO();
         myRoleUserMappingDAO.InsertRoleUserMapping(myRoleUserMappingVO);

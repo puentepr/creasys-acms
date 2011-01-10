@@ -1,5 +1,5 @@
-﻿<%@ Page  Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
-    CodeFile="Default.aspx.cs" Inherits="_Default" Title ="首頁" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+    CodeFile="Default.aspx.cs" Inherits="_Default" Title="首頁" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
@@ -10,11 +10,13 @@
         <ContentTemplate>
             <asp:Panel ID="Panel1" runat="server" GroupingText="最新個人活動">
                 <div class="SpaceDiv">
+                    <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="目前沒有個人活動可以報名... "
+                        Visible="False"></asp:Label>
                     <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                         AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="ObjectDataSource1"
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
                         SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" AllowSorting="True"
-                        OnRowDataBound="GridView1_RowDataBound">
+                        OnRowDataBound="GridView1_RowDataBound" OnDataBound="GridView1_DataBound">
                         <EmptyDataTemplate>
                             目前沒有個人活動可以報名...
                         </EmptyDataTemplate>
@@ -49,8 +51,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField>
                                 <ItemTemplate>
-                                    <asp:LinkButton ID="lbtnRegist2Agent" runat="server" 
-                                        onclick="lbtnRegist2Agent_Click" >代理報名</asp:LinkButton>
+                                    <asp:LinkButton ID="lbtnRegist2Agent" runat="server" OnClick="lbtnRegist2Agent_Click">代理報名</asp:LinkButton>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
@@ -66,18 +67,20 @@
                 </div>
             </asp:Panel>
             <asp:Panel ID="Panel2" runat="server" GroupingText="最新團體活動">
+                <asp:Label ID="lblGrideView2" runat="server" ForeColor="Red" Text="目前沒有團隊活動可以報名... "
+                    Visible="False"></asp:Label>
                 <div class="SpaceDiv">
                     <TServerControl:TGridView ID="GridView2" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                         AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="ObjectDataSource2"
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
-                        SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" OnRowDataBound="GridView2_RowDataBound">
+                        SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" OnRowDataBound="GridView2_RowDataBound"
+                        OnDataBound="GridView2_DataBound">
                         <EmptyDataTemplate>
                             目前沒有團隊活動可以報名...
                         </EmptyDataTemplate>
                         <Columns>
                             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
-                               
                                 <ItemTemplate>
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
@@ -104,8 +107,6 @@
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
-                             
-                           
                         </Columns>
                     </TServerControl:TGridView>
                     <asp:ObjectDataSource ID="ObjectDataSource2" runat="server" OldValuesParameterFormatString="original_{0}"

@@ -23,7 +23,7 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
         ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-
+        ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
         GridView_Employee.DataBind();
     }
 
@@ -61,6 +61,11 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
 
         }
         this.mpSearch.Show();  
+    }
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlDEPT_ID.DataBind();
+        this.mpSearch.Show();
     }
 }
 

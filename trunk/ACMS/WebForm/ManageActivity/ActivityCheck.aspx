@@ -9,29 +9,48 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-
     <div class="SpaceDiv">
         <table align="center">
             <tr>
                 <td>
                     活動名稱
                 </td>
-                <td>
+                <td colspan="3">
                     <asp:DropDownList ID="ddlActivity" runat="server" DataSourceID="ObjectDataSource_Activity"
                         DataTextField="activity_name" DataValueField="id" Width="350px">
                     </asp:DropDownList>
                     <asp:ObjectDataSource ID="ObjectDataSource_Activity" runat="server" OldValuesParameterFormatString="original_{0}"
                         SelectMethod="GetAllActivity" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                 </td>
+            </tr>
+            <tr>
+                <td align="right">
+                    <asp:Label ID="lblC_NAME" runat="server" Text="公司別"></asp:Label>
+                </td>
+                <td colspan="3" align="left">
+                    <asp:DropDownList ID="ddlC_NAME" runat="server" AutoPostBack="True" DataSourceID="ObjectDataSource_CNAME"
+                        DataTextField="Text" DataValueField="Value" OnSelectedIndexChanged="ddlC_NAME_SelectedIndexChanged">
+                    </asp:DropDownList>
+                    <asp:ObjectDataSource ID="ObjectDataSource_CNAME" runat="server" OldValuesParameterFormatString="original_{0}"
+                        SelectMethod="CNAMESelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                </td>
+            </tr>
+            <tr>
                 <td>
                     部門
                 </td>
-                <td>
+                <td colspan="3">
+                    <asp:CheckBox ID="cbUnderDept" runat="server" Text="含所屬單位" Checked="True" />
                     <asp:DropDownList ID="ddlDEPT_ID" runat="server" DataSourceID="ObjectDataSource_Dept"
                         DataTextField="Text" DataValueField="Value">
                     </asp:DropDownList>
                     <asp:ObjectDataSource ID="ObjectDataSource_Dept" runat="server" OldValuesParameterFormatString="original_{0}"
-                        SelectMethod="DeptSelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                        SelectMethod="DeptSelectorByCompanyCode" TypeName="ACMS.BO.SelectorBO">
+                        <SelectParameters>
+                            <asp:ControlParameter ControlID="ddlC_NAME" Name="COMPANYCODE" PropertyName="SelectedValue"
+                                ConvertEmptyStringToNull="False" />
+                        </SelectParameters>
+                    </asp:ObjectDataSource>
                 </td>
             </tr>
             <tr>
@@ -69,8 +88,7 @@
                     <TServerControl:TGridView ID="GridView1" runat="server" AutoGenerateColumns="False"
                         DataSourceID="ObjectDataSource1" SkinID="pager" Width="100%" AllowHoverEffect="True"
                         AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                        TotalRowCount="0" DataKeyNames="emp_id,activity_type" AllowPaging="True" 
-                        AllowSorting="True">
+                        TotalRowCount="0" DataKeyNames="emp_id,activity_type" AllowPaging="True" AllowSorting="True">
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>
@@ -84,8 +102,7 @@
                             <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" />
                             <asp:BoundField DataField="WORK_ID" HeaderText="工號" SortExpression="WORK_ID" />
                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="員工姓名" SortExpression="NATIVE_NAME" />
-                            <asp:BoundField DataField="createat" HeaderText="報名時間" 
-                                SortExpression="createat" />
+                            <asp:BoundField DataField="createat" HeaderText="報名時間" SortExpression="createat" />
                             <asp:BoundField DataField="check_status" HeaderText="登錄狀態" ReadOnly="True" SortExpression="check_status" />
                         </Columns>
                     </TServerControl:TGridView>
@@ -96,6 +113,7 @@
                             <asp:Parameter Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />
                             <asp:Parameter Name="emp_id" Type="String" ConvertEmptyStringToNull="false" />
                             <asp:Parameter Name="emp_name" Type="String" ConvertEmptyStringToNull="false" />
+                            <asp:Parameter Name="UnderDept" Type="Boolean" ConvertEmptyStringToNull="false" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
                 </asp:Panel>

@@ -43,10 +43,10 @@ namespace ACMS.BO
 
         //2-3個人報名-開啟代理報名選單 或 開啟選擇隊員-列出可加入此活動的隊員
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id, string activity_type)
+        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id, string activity_type,bool UnderDept)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistableMember(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id, activity_type);
+            return mySelectorDAO.RegistableMember(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id, activity_type, UnderDept);
         }
 
         //4.已報名活動查詢
@@ -71,17 +71,17 @@ namespace ACMS.BO
         }
         //4.2已報名活動查詢-取消個人報名-由管理者取消選單
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable RegistedByMeEmpSelectorByManage(Guid activity_id, string regist_by, string DEPT_ID, int JOB_GRADE_GROUP,string WINDOWS_ID, string NATIVE_NAME,string SEX,DateTime EXPERIENCE_START_DATE, string C_NAME)
+        public DataTable RegistedByMeEmpSelectorByManage(Guid activity_id, string regist_by, string DEPT_ID, int JOB_GRADE_GROUP,string WINDOWS_ID, string NATIVE_NAME,string SEX,DateTime EXPERIENCE_START_DATE, string C_NAME,Boolean UnderDept)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistedByMeEmpSelectorByManage(activity_id, regist_by, DEPT_ID, JOB_GRADE_GROUP, WINDOWS_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME);
+            return mySelectorDAO.RegistedByMeEmpSelectorByManage(activity_id, regist_by, DEPT_ID, JOB_GRADE_GROUP, WINDOWS_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME,UnderDept );
         }
 
         //4.2該活動由管理者的選單
-        public DataTable RegistedMyTeamMemberSelectorByManage(Guid activity_id, string DEPT_ID, int JOB_GRADE_GROUP, string WINDOWS_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME)
+        public DataTable RegistedMyTeamMemberSelectorByManage(Guid activity_id, string DEPT_ID, int JOB_GRADE_GROUP, string WINDOWS_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME,Boolean UnderDept)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistedMyTeamMemberSelectorByManage(activity_id, DEPT_ID, JOB_GRADE_GROUP, WINDOWS_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME);
+            return mySelectorDAO.RegistedMyTeamMemberSelectorByManage(activity_id, DEPT_ID, JOB_GRADE_GROUP, WINDOWS_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME,UnderDept );
         }
 
         //4.2該活動與我同團隊的人員選單
@@ -139,10 +139,10 @@ namespace ACMS.BO
 
         //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id)
+        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id,Boolean UnderDept)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id);
+            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id,UnderDept );
         }
 
         //6-2活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢
@@ -165,10 +165,10 @@ namespace ACMS.BO
 
         //6-3活動進度登錄 
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable ActivityCheckQuery(string activity_id, string DEPT_ID, string emp_id, string emp_name)
+        public DataTable ActivityCheckQuery(string activity_id, string DEPT_ID, string emp_id, string emp_name,Boolean  UnderDept)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, DEPT_ID, emp_id, emp_name);
+            DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, DEPT_ID, emp_id, emp_name,UnderDept );
             return DT;
         }
 
@@ -193,13 +193,13 @@ namespace ACMS.BO
 
         // 7-2 角色人員管理 選取所有在職員工
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME)
+        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME ,Boolean UnderDept)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
 
             List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
 
-            myEmployeeVOList = mySelectorDAO.GetEmployeeSelector(DEPT_ID, WORK_ID, NATIVE_NAME);
+            myEmployeeVOList = mySelectorDAO.GetEmployeeSelector(DEPT_ID, WORK_ID, NATIVE_NAME,UnderDept );
 
             return myEmployeeVOList;
         }
@@ -236,7 +236,21 @@ namespace ACMS.BO
             myDDLVOList.Insert(0, myDDLVO);
             return myDDLVOList;
         }
+        //SELECT
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        public List<VO.DDLVO> DeptSelectorByCompanyCode(string COMPANYCODE) 
+        {
+            DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
 
+            List<VO.DDLVO> myDDLVOList = new List<VO.DDLVO>();
+            VO.DDLVO myDDLVO = new VO.DDLVO();
+
+            myDDLVOList = mySelectorDAO.DeptSelectorByCompanyCode(COMPANYCODE );
+            myDDLVO.Value = "";
+            myDDLVO.Text = "請選擇";
+            myDDLVOList.Insert(0, myDDLVO);
+            return myDDLVOList;
+        }
         //SELECT
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public List<VO.DDLVO> JOB_GRADE_GROUPSelector()
