@@ -22,16 +22,18 @@ public partial class WebForm_RegistActivity_OpenTeamPersonInfo : System.Web.UI.U
 
     protected void btnOK_Click(object sender, EventArgs e)
     {
-        if (rblidno_type.SelectedIndex == 0)
+        if (rblidno_type.Visible)
         {
-            if (clsMyObj.IDChk(txtidno.Text) != "0")
+            if (rblidno_type.SelectedIndex == 0)
             {
-                clsMyObj.ShowMessage("身分證字號格式不正確!");
-                this.mpSearch.Show();
-                return;
+                if (clsMyObj.IDChk(txtidno.Text) != "0")
+                {
+                    clsMyObj.ShowMessage("身分證字號格式不正確!");
+                    this.mpSearch.Show();
+                    return;
+                }
             }
         }
-
 
         UC_ActivityTeamMemberVO.WritePersonInfo = "是";
         UC_ActivityTeamMemberVO.idno_type = rblidno_type.SelectedIndex;
