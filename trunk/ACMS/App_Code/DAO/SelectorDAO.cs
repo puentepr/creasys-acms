@@ -693,11 +693,11 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
             if (SEX == "0")
             {
-                sb.AppendLine(" and (A.SEX= @SEX or B.SEX='女' or  @SEX='')");
+                sb.AppendLine(" and (A.SEX= @SEX or A.SEX='女' or  @SEX='')");
             }
             else
             {
-                sb.AppendLine(" and (A.SEX= @SEX or B.SEX='男' or @SEX='')");
+                sb.AppendLine(" and (A.SEX= @SEX or A.SEX='男' or @SEX='')");
             }
             sb.AppendLine("and (A.BIRTHDAY >= @BIRTHDAY_S or @BIRTHDAY_S='') ");
             sb.AppendLine("and (A.BIRTHDAY <= @BIRTHDAY_E or @BIRTHDAY_E='') ");
