@@ -15,7 +15,50 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
     }
     protected void btnQuery_Click(object sender, EventArgs e)
     {
-        this.InitDataAndShow();
+        //this.InitDataAndShow();
+
+        ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
+
+        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
+        if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
+        {
+            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
+        }
+        else
+        {
+            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
+        }
+        ObjectDataSource1.SelectParameters["WINDOWS_ID"].DefaultValue = txtWORK_ID.Text;
+        ObjectDataSource1.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
+        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
+        if (string.Compare(txtEXPERIENCE_START_DATE.Text, "") == 0)
+        {
+            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
+
+        }
+        else
+        {
+            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
+        }
+        ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
+        ObjectDataSource1.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
+
+
+
+        ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
+
+        if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
+        {
+            IsTeamBoss = "1";
+        }
+        else
+        {
+            IsTeamBoss = "0";
+        }
+        GridView1.Visible = true;
+        GridView1.DataBind();
+        this.mpSearch.Show();
+
     }
 
     protected void btnOK_Click(object sender, EventArgs e)
@@ -128,6 +171,15 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
             //}
 
         }
+
+
+    }
+
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+       
+        ddlDEPT_ID.DataBind();
+        this.mpSearch.Show();
     }
     protected void RadioButton1_CheckedChanged(object sender, EventArgs e)
     {
@@ -204,45 +256,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
         //{
         //    GridView1.Visible = true;
         //}
-
-        ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
-        
-        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
-        if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
-        {
-            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
-        }
-        else
-        {
-            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
-        }
-        ObjectDataSource1.SelectParameters["WINDOWS_ID"].DefaultValue = txtWORK_ID.Text;
-        ObjectDataSource1.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
-        if (string.Compare(txtEXPERIENCE_START_DATE.Text, "") == 0)
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
-
-        }
-        else
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
-        }
-        ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue; ;
-
-
-        ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
-
-        if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
-        {
-            IsTeamBoss = "1";
-        }
-        else
-        {
-            IsTeamBoss = "0";
-        }
-
-        GridView1.DataBind();
+        GridView1.Visible = false;
         this.mpSearch.Show();    
     }
 

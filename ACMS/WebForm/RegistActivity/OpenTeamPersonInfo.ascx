@@ -3,8 +3,8 @@
 
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
 
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;"
-    Width="400" Height="100">
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;" ScrollBars="Auto" BorderColor ="Black"
+    Width="400" Height="300">
     <!--display: none;-->
     <table width="95%">
         <tr>

@@ -172,7 +172,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (this.Master as MyMasterPage).PanelMainGroupingText = "新增個人活動";
                 (FormView1.FindControl("lbllimit_count") as Literal).Visible = true;
                 (FormView1.FindControl("lbllimit2_count") as Literal).Visible = true;
-                (FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動人數上限必填";
+                //(FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動人數上限必填";
                 (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動人數上限必填數字";
                 (FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取人數必填";
                 (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取人數必填數字";
@@ -190,7 +190,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (this.Master as MyMasterPage).PanelMainGroupingText = "新增團隊活動";
                 (FormView1.FindControl("lbllimit_count_team") as Literal).Visible = true;
                 (FormView1.FindControl("lbllimit2_count_team") as Literal).Visible = true;
-                (FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動隊數上限必填";
+                //(FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動隊數上限必填";
                 (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動隊數上限必填數字";
                 (FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取隊數必填";
                 (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取隊數必填數字";
@@ -361,7 +361,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.activity_enddate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_enddate")).DateTimeValue;
         if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "")
         {
-            ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "0";
+            ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "999999";
         }
         if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "")
         {
@@ -704,9 +704,9 @@ public partial class WebForm_ManageActivity_ActivityEdit
                     //    }
 
                     //}
-
+                    //andy 修正為只有工號
                     dataRow["activity_id"] = ActivityID;
-                    dataRow["emp_id"] = row.GetCell(0).ToString() + row.GetCell(1).ToString();
+                    dataRow["emp_id"] = row.GetCell(0).ToString();// +row.GetCell(1).ToString();
 
                     table.Rows.Add(dataRow);
 

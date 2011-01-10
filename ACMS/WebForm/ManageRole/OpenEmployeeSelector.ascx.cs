@@ -19,10 +19,12 @@ public partial class WebForm_RegistActivity_OpenEmployeeSelector : System.Web.UI
     {
         this.mpSearch.Show();
 
-        ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
+        ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedItem.Text ;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
+        ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked .ToString ();
 
+        GridView_Employee.Visible = true;
         GridView_Employee.DataBind();
     }
 
@@ -42,6 +44,11 @@ public partial class WebForm_RegistActivity_OpenEmployeeSelector : System.Web.UI
     {
         this.mpSearch.Show();   
     }
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlDEPT_ID.DataBind();
+        this.mpSearch.Show();
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenEmployeeSelector
@@ -52,7 +59,8 @@ public partial class WebForm_RegistActivity_OpenEmployeeSelector
         txtWORK_ID.Text = "";
         txtNATIVE_NAME.Text = "";
 
-        btnQuery_Click(null, null);
+       // btnQuery_Click(null, null);
+        GridView_Employee.Visible = false;
         this.mpSearch.Show(); 
     }
 

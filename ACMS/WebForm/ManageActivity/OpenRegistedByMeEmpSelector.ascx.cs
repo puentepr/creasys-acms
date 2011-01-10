@@ -15,7 +15,42 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     }
     protected void btnQuery_Click(object sender, EventArgs e)
     {
-        this.InitDataAndShow();
+        GridView1.Visible = true;
+        ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
+        ObjectDataSource1.SelectParameters["regist_by"].DefaultValue = regist_by;
+        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedItem.Text ;
+        if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
+        {
+            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
+        }
+        else
+        {
+            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
+        }
+        ObjectDataSource1.SelectParameters["WINDOWS_ID"].DefaultValue = txtWORK_ID.Text;
+        ObjectDataSource1.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
+        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
+        if (string.Compare(txtEXPERIENCE_START_DATE.Text, "") == 0)
+        {
+            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
+
+        }
+        else
+        {
+            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
+        }
+        ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
+        ObjectDataSource1.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
+
+        GridView1.DataBind();
+
+        //預設勾選第一筆
+        if (GridView1.Rows.Count > 0)
+        {
+            (GridView1.Rows[0].FindControl("CheckBox1") as CheckBox).Checked = true;
+        }
+        this.mpSearch.Show();
+        //this.InitDataAndShow();
     }
     protected void btnOK_Click(object sender, EventArgs e)
     {
@@ -73,6 +108,11 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     {
         this.mpSearch.Show();   
     }
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlDEPT_ID.DataBind();
+        this.mpSearch.Show(); 
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector 
@@ -111,39 +151,8 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
         //{
         //    GridView1.Visible = true;
         //}
-       
-        ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
-        ObjectDataSource1.SelectParameters["regist_by"].DefaultValue = regist_by;
-        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID .SelectedValue ;
-        if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
-        {
-            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
-        }
-        else
-        {
-            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
-        }
-        ObjectDataSource1.SelectParameters["WINDOWS_ID"].DefaultValue = txtWORK_ID .Text ;
-        ObjectDataSource1.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX .SelectedValue;
-        if (string.Compare(txtEXPERIENCE_START_DATE.Text, "") == 0)
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
 
-        }
-        else
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
-        }
-        ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue ;
-        
-        GridView1.DataBind();
-
-        //預設勾選第一筆
-        if (GridView1.Rows.Count > 0)
-        {
-            (GridView1.Rows[0].FindControl("CheckBox1") as CheckBox).Checked = true;
-        }
+        GridView1.Visible = false;
 
         this.mpSearch.Show();    
     }

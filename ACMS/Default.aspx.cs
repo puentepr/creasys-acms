@@ -12,7 +12,7 @@ public partial class _Default : System.Web.UI.Page
         if (!IsPostBack)
         {
             ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
-            ObjectDataSource2.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;        
+            ObjectDataSource2.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
         }
     }
 
@@ -33,7 +33,7 @@ public partial class _Default : System.Web.UI.Page
         Session["activity_id"] = activity_id;
         Response.Redirect("WebForm/RegistActivity/RegistActivity_Team.aspx");
     }
-   
+
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
         if (e.Row.RowType == DataControlRowType.DataRow)
@@ -44,7 +44,7 @@ public partial class _Default : System.Web.UI.Page
             {
                 e.Row.FindControl("lbtnRegist1").Visible = false;
             }
-            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace ("\r\n","<br/>");
+            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
         }
     }
     protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -67,5 +67,34 @@ public partial class _Default : System.Web.UI.Page
         Session["activity_id"] = activity_id;
         Session["Agent"] = "Yes";
         Response.Redirect("WebForm/RegistActivity/RegistActivity_Person.aspx");
+    }
+    protected void GridView1_DataBound(object sender, EventArgs e)
+    {
+        if (GridView1.Rows.Count == 0 )
+        {
+            GridView1.Visible = false;
+            lblGrideView1.Visible = true;
+
+        }
+        else
+        {
+            GridView1.Visible = true;
+            lblGrideView1.Visible = false;
+        }
+
+    }
+    protected void GridView2_DataBound(object sender, EventArgs e)
+    {
+        if (GridView2.Rows.Count == 0)
+        {
+            GridView2.Visible = false;
+            lblGrideView2.Visible = true;
+
+        }
+        else
+        {
+            GridView2.Visible = true;
+            lblGrideView2.Visible = false;
+        }
     }
 }

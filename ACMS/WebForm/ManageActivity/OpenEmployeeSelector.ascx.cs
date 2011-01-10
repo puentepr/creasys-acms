@@ -25,10 +25,11 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
 
     protected void btnQuery_Click(object sender, EventArgs e)
     {
+        GridView_Employee.Visible = true;
         this.mpSearch.Show();
 
         //ObjectDataSource_Employee.SelectMethod = this.SelectMethod;      
-        ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
+        ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedItem.Text;
         ObjectDataSource_Employee.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
@@ -37,6 +38,8 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         ObjectDataSource_Employee.SelectParameters["BIRTHDAY_E"].DefaultValue = ddlBIRTHDAY_end_year.SelectedValue + "/" + ddlBIRTHDAY_end_month.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
         ObjectDataSource_Employee.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
+        ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString ();
+
         
         GridView_Employee.DataBind();
 
@@ -81,6 +84,11 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         }
         this.mpSearch.Show();   
     }
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlDEPT_ID.DataBind();
+        this.mpSearch.Show(); 
+    }
 }
 
 public partial class WebForm_ManageActivity_OpenEmployeeSelector
@@ -88,6 +96,7 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector
     public void InitDataAndShow(Guid activity_id)
     {
         ObjectDataSource_Employee.SelectParameters["activity_id"].DefaultValue = activity_id.ToString();
+        GridView_Employee.Visible = false;
         this.mpSearch.Show();    
     }
 

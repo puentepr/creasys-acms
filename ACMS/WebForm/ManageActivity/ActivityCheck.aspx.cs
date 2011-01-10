@@ -20,7 +20,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
         {
             (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度登錄";
             ddlActivity.DataBind();
-            btnQuery_Click(null, null);
+           // btnQuery_Click(null, null);
         }
 
     }
@@ -30,10 +30,10 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
         ViewState["DEPT_ID"] = ddlDEPT_ID.SelectedValue;
 
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = ddlActivity.SelectedValue;
-        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
+        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedItem.Text ;
         ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = txtemp_id.Text;
         ObjectDataSource1.SelectParameters["emp_name"].DefaultValue = txtemp_name.Text;
-
+        ObjectDataSource1.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
         GridView1.DataBind();
     }
     protected void btnExport_Click(object sender, EventArgs e)
@@ -45,7 +45,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
         DataTable table = new DataTable();
         ACMS.DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text);
+        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text,cbUnderDept.Checked );
         if (table.Rows.Count == 0)
         {
             clsMyObj.ShowMessage("沒有報名資料");
@@ -218,5 +218,12 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
         GridView1.DataBind();
 
+    }
+
+
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        ddlDEPT_ID.DataBind();
+      
     }
 }

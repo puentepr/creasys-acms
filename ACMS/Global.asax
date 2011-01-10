@@ -135,16 +135,16 @@
         //    Response.Redirect("~/NoPermission.aspx");
         //}
 
-        if (UserData == "3" || UserData=="")//活動管理人及無群組
+        if ((UserData .IndexOf ( "2" )==-1  && UserData.IndexOf("1" )==-1 )|| UserData=="")//活動管理人及無群組
         {
             if (string.Compare(Context.Request.AppRelativeCurrentExecutionFilePath.ToLower(), "~/WebForm/ManageActivity/ActivityEditQuery.aspx".ToLower()) == 0)//新增修改活動
             {
                 Response.Redirect("~/NoPermission.aspx");
             }
-            else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/HistoryActivityQuery.aspx".ToLower()) >= 0)//歷史查詢
-            {
-                Response.Redirect("~/NoPermission.aspx");
-            }
+            //else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/HistoryActivityQuery.aspx".ToLower()) >= 0)//歷史查詢
+            //{
+            //    Response.Redirect("~/NoPermission.aspx");
+            //}
         }
 
         if (UserData=="")//無群組
@@ -169,7 +169,7 @@
             
         }
         
-        if (UserData!="1")//非權限管理者不可進入權限管理
+        if (UserData.IndexOf ("1")==-1)//非權限管理者不可進入權限管理
         {
             if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageRole".ToLower()) >= 0)
                 {

@@ -91,12 +91,16 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
     <form id="form1" runat="server" enctype="multipart/form-data">
     <asp:ScriptManager ID="ScriptManager1" runat="server">
     </asp:ScriptManager>
-    <div id="main_container" >
-        <div id="header" class ="banner">
+   
+    <div  id="main_container" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;" >
+    
+        <div id="header" class ="banner" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;">
+        
             <div id="logo">
+            
                 <!-- <a href="/ACMS/Default.aspx">
                     <img src="/ACMS/images/logo.gif" alt="" title="" border="0"  /></a>-->
-                <table width ="100%" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;" >
+               <!-- <table  cellpadding ="0" cellspacing ="0"width ="100%" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;" >-->
                     <tr>
                         
                         <td style ="width:800px"><!--<img src="/ACMS/images/banner.jpg" alt="" title="" border="0" width="800px" 
@@ -104,9 +108,11 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                         </td>
                         
                     </tr>
-                </table>
+                <!--</table>-->
             </div>
-            <div id="myslidemenu" class="jqueryslidemenu">
+            <asp:Panel ID="Panel1" Height ="85px" runat="server">
+            </asp:Panel>
+            <div id="myslidemenu" class="jqueryslidemenu" style ="">
                 <ul>
                     <li><a href="/ACMS/Default.aspx">首頁</a></li>
                     <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Person.aspx">個人報名</a></li>
@@ -138,8 +144,11 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
             </div>
            
         </div>
+        <asp:Panel ID="Panel2" runat="server" Height ="33px">
+        </asp:Panel>
+        
         <div id="MyContentPlaceHolder">
-            <table width="100%">
+            <table cellpadding ="0" cellspacing ="0" width="100%">
                 <tr>
                     <td valign="top">
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
