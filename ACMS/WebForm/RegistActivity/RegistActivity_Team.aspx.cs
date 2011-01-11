@@ -42,6 +42,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
                 }
+                //報名預覽
+                if (Session["form_mode"].ToString() == "preview")
+                {
+                    Session["form_mode1"] = "preview";
+                    RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
+                    GoSecondStep_Click(null, myRegistGoSecondEventArgs);
+                }
 
                 if (Session["form_mode"].ToString() == "edit")
                 {
@@ -706,6 +713,17 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
+
+        //預覽時
+        if (Session["form_mode1"] != null)
+        {
+            if (Session["form_mode1"].ToString() == "preview")
+            {
+                Session.Remove("form_mode1");
+                Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+            }
+        }
+
         if (MyFormMode == FormViewMode.ReadOnly)
         {
             Response.Redirect("RegistedActivityQuery.aspx");        

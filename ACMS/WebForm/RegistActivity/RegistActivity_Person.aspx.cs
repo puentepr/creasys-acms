@@ -41,7 +41,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
                 }
-
+                //以預覽方式進來時
+                if (Session["form_mode"].ToString() == "preview")
+                {
+                    Session["form_mode1"] = "preview";
+                    RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
+                    GoSecondStep_Click(null, myRegistGoSecondEventArgs);
+                }
                 if (Session["form_mode"].ToString() == "edit")
                 {
                     //以編輯方式進來時
@@ -441,11 +447,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
+
+        //預覽時
+        if (Session["form_mode1"] != null)
+        {
+            if (Session["form_mode1"].ToString() == "preview")
+            {
+                Session.Remove("form_mode1");
+                Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+            }
+        }
         if (MyFormMode == FormViewMode.ReadOnly)
         {
             Response.Redirect("RegistedActivityQuery.aspx");
         }
 
+        //以新增方式進來時
         ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
         List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
         //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
