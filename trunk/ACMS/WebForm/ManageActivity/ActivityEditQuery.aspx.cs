@@ -105,4 +105,24 @@ public partial class WebForm_ActivityEditQuery : System.Web.UI.Page
             ((Label)gr.FindControl("Label2")).Text = ((Label)gr.FindControl("Label2")).Text.Replace("\r\n", "<br/>");
         }
     }
+
+   // 報名預覽
+    protected void lbtnPreviewRegist_Click(object sender, EventArgs e)
+    {
+        string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+       // clsMyObj.ShowMessage (((LinkButton ) sender ).CommandArgument.ToString());
+
+        Session["form_mode"] = "preview";
+        Session["activity_id"] = activity_id;
+        if (((LinkButton)sender).CommandArgument.ToString() == "1")
+        {
+            Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Person.aspx");
+        }
+        else
+        {
+            Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Team.aspx");
+        }
+    }
+
+    
 }

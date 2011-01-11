@@ -105,8 +105,7 @@
                                 </td>
                                 <td>
                                     <asp:TextBox ID="txtlimit2_count" runat="server" Text='<%# Bind("limit2_count") %>' />
-                                    <asp:RequiredFieldValidator ID="chk_txtlimit2_count" runat="server" ControlToValidate="txtlimit2_count"
-                                        Display="Dynamic" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                   
                                     <asp:CompareValidator ID="chk_txtlimit2_count2" runat="server" ControlToValidate="txtlimit2_count"
                                         Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" Display="Dynamic"></asp:CompareValidator>
                                 </td>

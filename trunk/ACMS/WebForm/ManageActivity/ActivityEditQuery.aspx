@@ -89,6 +89,13 @@
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
+                            <asp:TemplateField>
+                                <ItemTemplate>
+                                    <asp:LinkButton ID="lbtnPreviewRegist" runat="server" 
+                                        CommandArgument='<%# Bind("activity_type") %>' CommandName="Preview" 
+                                        OnClick="lbtnPreviewRegist_Click">報名預覽</asp:LinkButton>
+                                </ItemTemplate>
+                            </asp:TemplateField>
                         </Columns>
                     </TServerControl:TGridView>
                     <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" OldValuesParameterFormatString="original_{0}"

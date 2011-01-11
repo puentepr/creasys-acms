@@ -174,7 +174,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView1.FindControl("lbllimit2_count") as Literal).Visible = true;
                 //(FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動人數上限必填";
                 (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動人數上限必填數字";
-                (FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取人數必填";
+                //(FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取人數必填";
                 (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取人數必填數字";
                 (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
                 (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
@@ -192,7 +192,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView1.FindControl("lbllimit2_count_team") as Literal).Visible = true;
                 //(FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動隊數上限必填";
                 (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動隊數上限必填數字";
-                (FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取隊數必填";
+                //(FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取隊數必填";
                 (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取隊數必填數字";
 
                 (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = true;
@@ -477,6 +477,16 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             }
             if (FormView1.Enabled == true)
             {
+                if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "")
+                {
+                    ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "999999";
+                }
+                if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "")
+                {
+                    ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
+                }
+
+
                 if (Convert.ToDateTime(txtregist_startdate.Text).Date <= DateTime.Today)
                 {
                     clsMyObj.ShowMessage("「報名開始日」需晚於「今日」");
