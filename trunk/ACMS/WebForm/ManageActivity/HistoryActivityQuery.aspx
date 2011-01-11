@@ -45,10 +45,10 @@
                     </td>
                     <td>
                         <asp:DropDownList ID="ddlUnit" runat="server" DataSourceID="ObjectDataSource_Unit"
-                            DataTextField="Text" DataValueField="Value">
+                            DataTextField="name" DataValueField="id">
                         </asp:DropDownList>
                         <asp:ObjectDataSource ID="ObjectDataSource_Unit" runat="server" OldValuesParameterFormatString="original_{0}"
-                            SelectMethod="UnitSelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                            SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                     </td>
                     <td>
                         <asp:Button ID="btnQuery" runat="server" Text="¬d¸ß" OnClick="btnQuery_Click" />
