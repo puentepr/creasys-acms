@@ -599,6 +599,11 @@ namespace ACMS.DAO
             sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
+            //andy add 因為有權限管制
+            sb.AppendLine("and (A.org_id in (select unit_id from RoleUserMapping where emp_id='" + clsAuth.ID + "')");
+            sb.AppendLine("     or  0 in  (select unit_id from RoleUserMapping where emp_id='" + clsAuth.ID + "'))");
+
+
             sb.AppendLine("and A.activity_enddate>=  Convert(Datetime,Convert(varchar(10),getDate(),111)) and A.regist_startdate>Convert(Datetime,Convert(varchar(10),getDate(),111))");//列出活動未結束的活動
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline  ");
             sb.AppendLine("ORDER BY A.sn ");
@@ -765,7 +770,17 @@ namespace ACMS.DAO
             sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
-            sb.AppendLine("and (org_id=@org_id or @org_id='') ");
+            if (org_id != "")//andy modi 因為報名查詢會有權限的管制
+            {
+                sb.AppendLine("and (org_id=@org_id or @org_id='') ");
+            }
+            else
+            {
+                sb.AppendLine("and (org_id in (select unit_id from RoleUserMapping where emp_id='"+clsAuth.ID+"')");
+                sb.AppendLine("     or  0 in  (select unit_id from RoleUserMapping where emp_id='"+clsAuth.ID+"'))");
+
+                   
+            }
 
             if (querytype != "off")
             {
