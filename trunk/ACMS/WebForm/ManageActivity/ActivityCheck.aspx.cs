@@ -34,6 +34,8 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
         ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = txtemp_id.Text;
         ObjectDataSource1.SelectParameters["emp_name"].DefaultValue = txtemp_name.Text;
         ObjectDataSource1.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
+        ObjectDataSource1.SelectParameters["COMPANY_CODE"].DefaultValue = ddlC_NAME.SelectedValue ;
+        
         GridView1.DataBind();
     }
     protected void btnExport_Click(object sender, EventArgs e)
@@ -45,7 +47,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
         DataTable table = new DataTable();
         ACMS.DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text,cbUnderDept.Checked );
+        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text,cbUnderDept.Checked,ddlC_NAME.SelectedValue  );
         if (table.Rows.Count == 0)
         {
             clsMyObj.ShowMessage("沒有報名資料");

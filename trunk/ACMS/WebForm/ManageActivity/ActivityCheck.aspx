@@ -113,7 +113,9 @@
                             <asp:Parameter Name="DEPT_ID" Type="String" ConvertEmptyStringToNull="false" />
                             <asp:Parameter Name="emp_id" Type="String" ConvertEmptyStringToNull="false" />
                             <asp:Parameter Name="emp_name" Type="String" ConvertEmptyStringToNull="false" />
+                            <asp:Parameter Name="COMPANY_CODE" Type="String" ConvertEmptyStringToNull="false" />
                             <asp:Parameter Name="UnderDept" Type="Boolean" ConvertEmptyStringToNull="false" />
+                            
                         </SelectParameters>
                     </asp:ObjectDataSource>
                 </asp:Panel>

@@ -37,9 +37,10 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         ObjectDataSource_Employee.SelectParameters["BIRTHDAY_S"].DefaultValue = ddlBIRTHDAY_start_year.SelectedValue + "/" + ddlBIRTHDAY_start_month.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["BIRTHDAY_E"].DefaultValue = ddlBIRTHDAY_end_year.SelectedValue + "/" + ddlBIRTHDAY_end_month.SelectedValue;
         ObjectDataSource_Employee.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
-        ObjectDataSource_Employee.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
+        ObjectDataSource_Employee.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedItem.Text ;
         ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString ();
-
+        ObjectDataSource_Employee.SelectParameters["COMPANY_CODE"].DefaultValue = ddlC_NAME.SelectedValue;
+        ObjectDataSource_Employee.SelectParameters["activity_id"].DefaultValue = ViewState["activity_id"].ToString ();
         
         GridView_Employee.DataBind();
 
@@ -59,7 +60,7 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         {
         }
 
-
+        clsMyObj.ShowMessage("確定已完成");
         this.mpSearch.Show();
 
 
@@ -95,6 +96,7 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector
 {
     public void InitDataAndShow(Guid activity_id)
     {
+        ViewState["activity_id"] = activity_id;
         ObjectDataSource_Employee.SelectParameters["activity_id"].DefaultValue = activity_id.ToString();
         GridView_Employee.Visible = false;
         this.mpSearch.Show();    

@@ -462,7 +462,7 @@
                                     <TServerControl:TGridView ID="GridView_GroupLimit" runat="server" AllowHoverEffect="True"
                                         AllowHoverSelect="True" AutoGenerateColumns="False" DataKeyNames="keyID" DataSourceID="ObjectDataSource_GroupLimit"
                                         EnableModelValidation="True" PageSize="50" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                                        SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" AllowSorting="True">
+                                        SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="False" AllowSorting="True">
                                         <Columns>
                                             <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
                                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />

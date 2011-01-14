@@ -15,13 +15,21 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     }
     protected void btnQuery_Click(object sender, EventArgs e)
     {
+      
+        this.InitDataAndShow();  
         GridView1.Visible = true;
-        this.InitDataAndShow();
+        GridView1.DataBind();
     }
     
     protected void GridView1_PageIndexChanged(object sender, EventArgs e)
     {
         this.mpSearch.Show();   
+    }
+    protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
+    {
+
+        ddlDEPT_ID.DataBind();
+        this.mpSearch.Show();
     }
 }
 
@@ -50,10 +58,11 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
         //{
         //    GridView1.Visible = true;
         //}
+        GridView1.Visible = false;
        
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
      
-        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID .SelectedValue ;
+        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID .SelectedItem.Text  ;
         if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
         {
             ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
@@ -77,7 +86,8 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
         ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue ;
 
         ObjectDataSource1.SelectParameters["RegistedType"].DefaultValue = ddlListType.SelectedValue;
-        GridView1.DataBind();
+        ObjectDataSource1.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
+
 
         this.mpSearch.Show();    
     }

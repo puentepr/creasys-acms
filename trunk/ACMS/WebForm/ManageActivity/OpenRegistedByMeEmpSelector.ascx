@@ -1,9 +1,20 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegistedByMeEmpSelector.ascx.cs"
     Inherits="WebForm_RegistActivity_OpenRegistedByMeEmpSelector" %>
+    <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
+     <%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
+     
+     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
     display: none;" Width="800" Height="500"  ScrollBars="Auto">
-    <!---->
-    <br />
+    <!---->   <asp:updateprogress ID="Updateprogress1" runat="server" DisplayAfter="0">
+
+ <ProgressTemplate>
+                <my:UpdateProgress ID="myprogress1" runat="server" />
+            </ProgressTemplate>
+
+</asp:updateprogress>
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="取消個人報名" SkinID="title"></asp:Label>
     </div>
@@ -156,3 +167,5 @@
 <asp:Button ID="btnDummy" runat="server" SkinID="null" Style="display: none" />
 <ajaxToolkit:ModalPopupExtender ID="mpSearch" runat="server" CancelControlID="btnCancel"
     PopupControlID="panel1" PopupDragHandleControlID="panel1" TargetControlID="btnDummy" />
+ </ContentTemplate>
+    </asp:UpdatePanel>

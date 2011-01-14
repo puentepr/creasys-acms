@@ -152,7 +152,7 @@ partial class MyPager
             this.btnNext.Enabled = true;
         }
 
-        this.lblRowCountInfo.Text = string.Format("Page <b>{0}</b>/{1}, {2} records", this.ddlCurrentPage.SelectedValue, this.ddlCurrentPage.Items.Count, this.TotalRowCount);
+        this.lblRowCountInfo.Text = string.Format("Page <b>{0}</b>/{1}", this.ddlCurrentPage.SelectedValue, this.ddlCurrentPage.Items.Count);
 
         if (PageButtonRefreshed != null)
         {
