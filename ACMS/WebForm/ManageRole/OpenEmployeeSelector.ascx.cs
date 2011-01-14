@@ -17,15 +17,17 @@ public partial class WebForm_RegistActivity_OpenEmployeeSelector : System.Web.UI
     //查詢
     protected void btnQuery_Click(object sender, EventArgs e)
     {
-        this.mpSearch.Show();
+       
 
         ObjectDataSource_Employee.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedItem.Text ;
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
         ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked .ToString ();
+        ObjectDataSource_Employee.SelectParameters["COMPANY_CODE"].DefaultValue = ddlC_NAME .SelectedValue ;
 
         GridView_Employee.Visible = true;
-        GridView_Employee.DataBind();
+        GridView_Employee.DataBind(); 
+        this.mpSearch.Show();
     }
 
     //選取人員

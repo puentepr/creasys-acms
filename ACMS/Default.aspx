@@ -9,9 +9,10 @@
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
         <ContentTemplate>
             <asp:Panel ID="Panel1" runat="server" GroupingText="最新個人活動">
-                <div class="SpaceDiv">
-                    <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="目前沒有個人活動可以報名... "
+               <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="目前沒有個人活動可以報名... "
                         Visible="False"></asp:Label>
+                         <div class="SpaceDiv">
+                    
                     <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                         AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="ObjectDataSource1"
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"

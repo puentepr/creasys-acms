@@ -31,7 +31,8 @@
                 <asp:ObjectDataSource ID="ObjectDataSource_RoleList" runat="server" OldValuesParameterFormatString="original_{0}"
                     SelectMethod="SelectRoleList" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                 <asp:PlaceHolder ID="PlaceHolder1" runat="server"></asp:PlaceHolder>
-                人員<asp:TextBox ID="txtEmployee" runat="server" Enabled="False" BackColor="LightGray"></asp:TextBox><asp:Button ID="btnQueryPerson"
+                人員<asp:TextBox ID="txtEmployee" runat="server" BackColor="LightGray" 
+                    ReadOnly="True"></asp:TextBox><asp:Button ID="btnQueryPerson"
                     runat="server" Text="選擇人員" Height="21px" OnClick="btnQueryPerson_Click" />
                 <uc2:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployeesClick="GetEmployees_Click"
                     runat="server" />

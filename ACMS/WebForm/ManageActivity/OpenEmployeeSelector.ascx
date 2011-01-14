@@ -1,4 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenEmployeeSelector.ascx.cs" Inherits="WebForm_ManageActivity_OpenEmployeeSelector" %>
+<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
+     <%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
  <script type="text/javascript" >
  <!--
@@ -11,6 +14,15 @@
     </script>
 <asp:Panel ID="panel1" runat="server" Height="550px" BackColor="white" BorderWidth="1" Style="cursor: move;
     " Width="900px" ScrollBars ="Auto" ><!--display: none;-->
+    
+    <asp:updateprogress ID="Updateprogress1" runat="server" DisplayAfter="0">
+
+ <ProgressTemplate>
+                <my:UpdateProgress ID="myprogress1" runat="server" />
+            </ProgressTemplate>
+
+</asp:updateprogress>
+    
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="人員選取" SkinID="title"></asp:Label>
@@ -206,6 +218,8 @@
                         <asp:Parameter  Name="C_NAME" Type="String" ConvertEmptyStringToNull="false" />
                          <asp:Parameter  Name="UnderDept" Type="Boolean"  ConvertEmptyStringToNull="false"  />
                         <asp:Parameter DbType="Guid" Name="activity_id" />
+                        <asp:Parameter  Name="COMPANY_CODE" Type="String" ConvertEmptyStringToNull="false" />
+                        
                     </SelectParameters>
                 </asp:ObjectDataSource>
             </td>

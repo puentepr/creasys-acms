@@ -56,6 +56,7 @@ public class clsMyObj
     {
         if (myDataTable != null)
         {
+            myDataTable.Columns.Add("limit_count11");
             myDataTable.Columns.Add("registed_count");
             myDataTable.Columns.Add("registable_count");
 
@@ -74,7 +75,16 @@ public class clsMyObj
                     }
                     else
                     {
-                        DR["registed_count"] = string.Format("正({0})+備({1})", register_count, 0);
+                        if (limit_count == 999999)
+                        {
+                            DR["registed_count"] = register_count;
+                            DR["limit_count11"] = "無上限";
+                        }
+                        else
+                        {
+                            DR["limit_count11"] = limit_count;
+                            DR["registed_count"] = string.Format("正({0})+備({1})", register_count, 0);
+                        }
                     }
 
                 }
@@ -82,30 +92,36 @@ public class clsMyObj
                 if (IsShowregisted_count == true)
                 {
                     //剩餘名額
-                    if (register_count < (limit_count + limit2_count))
+                    if (limit_count == 999999)
                     {
-                        int registableA = 0;
-                        int registableB = 0;
-
-                        if (register_count >= limit_count)
-                        {
-                            registableA = 0;
-                            registableB = (limit_count + limit2_count) - register_count;
-                        }
-                        else
-                        {
-                            registableA = limit_count - register_count;
-                            registableB = limit2_count;
-                        }
-
-                        DR["registable_count"] = string.Format("正({0})+備({1})", registableA, registableB);
+                        DR["registable_count"] = "";
                     }
                     else
                     {
-                        DR["registable_count"] = "額滿";
+                        if (register_count < (limit_count + limit2_count))
+                        {
+                            int registableA = 0;
+                            int registableB = 0;
+
+                            if (register_count >= limit_count)
+                            {
+                                registableA = 0;
+                                registableB = (limit_count + limit2_count) - register_count;
+                            }
+                            else
+                            {
+                                registableA = limit_count - register_count;
+                                registableB = limit2_count;
+                            }
+
+                            DR["registable_count"] = string.Format("正({0})+備({1})", registableA, registableB);
+                        }
+                        else
+                        {
+                            DR["registable_count"] = "額滿";
+                        }
                     }
                 }
-
 
 
             }

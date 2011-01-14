@@ -367,11 +367,11 @@ namespace ACMS.DAO
             sb.AppendLine(" and (B.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
             if (SEX == "0")
             {
-                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='女' or  @SEX='')");
+                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='F' or  @SEX='')");
             }
             else
             {
-                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='男' or @SEX='')");
+                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
             }
             sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
             sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");            
@@ -463,11 +463,11 @@ namespace ACMS.DAO
             sb.AppendLine(" and (B.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
             if (SEX == "0")
             {
-                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='女' or  @SEX='')");
+                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='F' or  @SEX='')");
             }
             else
             {
-                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='男' or @SEX='')");
+                sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
             }
             sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
             sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");     
@@ -552,19 +552,90 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status ");
+            sb.AppendLine("SELECT A.limit_count,A.activity_type,B.createat, '' as team_name, B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status ");
             sb.AppendLine("FROM Activity A ");
             sb.AppendLine("inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' ");
             sb.AppendLine("left join [V_ACSM_USER2] C on B.emp_id = C.id ");
             sb.AppendLine("Union ");
-            sb.AppendLine("SELECT B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status ");
+            sb.AppendLine("SELECT A.limit_count,A.activity_type,D.createat,D.team_name , B.emp_id,C.NATIVE_NAME,C.WORK_ID,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status ");
             sb.AppendLine("FROM Activity A ");
             sb.AppendLine("inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' ");
-            sb.AppendLine("left join [V_ACSM_USER2] C on B.emp_id = C.id ");
+            sb.AppendLine("inner join [ActivityRegist] D on A.id=D.activity_id and  B.boss_id=D.emp_id ");
 
-            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            sb.AppendLine("left join [V_ACSM_USER2] C on B.emp_id = C.id   order by createat ");
+            DataTable dt = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables [0];
+            decimal seqno, seqno1;
+            decimal limit_count;
+            seqno = 0;
+            seqno1 = 0;
+            string team_name = "";
 
-            return clsMyObj.GetDataTable(DS);
+            dt.Columns.Add ("SEQNO");
+            foreach (DataRow dr in dt.Rows)
+            {
+                if (dr["activity_type"] == "1")
+                {
+                    seqno++;
+                    limit_count = decimal.Parse(dr["limit_count"].ToString());
+                    if (seqno > limit_count)
+                    {
+                        seqno1++;
+                    }
+                    else
+                    {
+                       // seqno++;
+                    }
+                    if (seqno1 > 0)
+                    {
+                        dr["SEQNO"] = "備取" + seqno1.ToString();
+                    }
+                    else
+                    {
+                        dr["SEQNO"] = "正取" + seqno.ToString();
+                    }
+                }
+                else
+                {
+                    if (team_name != dr["team_name"].ToString())
+                    {
+                        seqno++;
+                        limit_count = decimal.Parse(dr["limit_count"].ToString());
+                        if (seqno > limit_count)
+                        {
+                            seqno1++;
+                        }
+                        else
+                        {
+                            //seqno++;
+                        }
+                        if (seqno1 > 0)
+                        {
+                            dr["SEQNO"] = "備取" + seqno1.ToString();
+                        }
+                        else
+                        {
+                            dr["SEQNO"] = "正取" + seqno.ToString();
+                        }
+                    }
+                    else
+                    {
+                        if (seqno1 > 0)
+                        {
+                            dr["SEQNO"] = "備取" + seqno1.ToString();
+                        }
+                        else
+                        {
+                            dr["SEQNO"] = "正取" + seqno.ToString();
+                        }
+                    }
+                    team_name = dr["team_name"].ToString();
+                }
+ 
+            }
+
+            return dt;
+
+            //return clsMyObj.GetDataTable(DS);
         }
         
         //6-1活動資料管理-新增修改活動查詢
@@ -583,7 +654,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT A.sn,A.id,A.activity_type,A.activity_name,A.people_type, A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM Activity A");          
@@ -650,9 +721,9 @@ namespace ACMS.DAO
         }
 
         //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
-        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id, Boolean UnderDept)
+        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id, Boolean UnderDept,string COMPANY_CODE)
         {
-            SqlParameter[] sqlParams = new SqlParameter[10];
+            SqlParameter[] sqlParams = new SqlParameter[11];
             if (DEPT_ID == "請選擇")
             {
                 DEPT_ID = "";
@@ -677,6 +748,9 @@ namespace ACMS.DAO
             sqlParams[8].Value = C_NAME;
             sqlParams[9] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[9].Value = activity_id;
+            sqlParams[10] = new SqlParameter("@COMPANY_CODE", SqlDbType.NVarChar,200);
+            sqlParams[10].Value = COMPANY_CODE;
+            
 
             StringBuilder sb = new StringBuilder();
 
@@ -693,16 +767,17 @@ namespace ACMS.DAO
             {
                 sb.AppendLine("and (A.C_DEPT_NAME = @DEPT_ID or @DEPT_ID='' ) ");
             }
+            sb.AppendLine(" and A.COMPANY_CODE=@COMPANY_CODE");
             sb.AppendLine("and (A.JOB_GRADE_GROUP = @JOB_GRADE_GROUP or @JOB_GRADE_GROUP='') ");
             sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (A.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
             if (SEX == "0")
             {
-                sb.AppendLine(" and (A.SEX= @SEX or A.SEX='女' or  @SEX='')");
+                sb.AppendLine(" and (A.SEX= @SEX or A.SEX='F' or  @SEX='')");
             }
             else
             {
-                sb.AppendLine(" and (A.SEX= @SEX or A.SEX='男' or @SEX='')");
+                sb.AppendLine(" and (A.SEX= @SEX or A.SEX='M' or @SEX='')");
             }
             sb.AppendLine("and (A.BIRTHDAY >= @BIRTHDAY_S or @BIRTHDAY_S='') ");
             sb.AppendLine("and (A.BIRTHDAY <= @BIRTHDAY_E or @BIRTHDAY_E='') ");
@@ -818,7 +893,7 @@ namespace ACMS.DAO
         }
 
         //6-3活動進度登錄 
-        public DataTable ActivityCheckQuery(string activity_id,string DEPT_ID, string emp_id, string emp_name,Boolean UnderDept)
+        public DataTable ActivityCheckQuery(string activity_id,string DEPT_ID, string emp_id, string emp_name,Boolean UnderDept,string COMPANY_CODE)
         {
 
             if (DEPT_ID == "請選擇")
@@ -830,7 +905,7 @@ namespace ACMS.DAO
                 return null;
             }
 
-            SqlParameter[] sqlParams = new SqlParameter[4];
+            SqlParameter[] sqlParams = new SqlParameter[5];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = new Guid(activity_id);
@@ -840,18 +915,20 @@ namespace ACMS.DAO
             sqlParams[2].Value = emp_id;
             sqlParams[3] = new SqlParameter("@emp_name", SqlDbType.NVarChar, 200);
             sqlParams[3].Value = emp_name;
+            sqlParams[4] = new SqlParameter("@COMPANY_CODE", SqlDbType.NVarChar, 200);
+            sqlParams[4].Value = COMPANY_CODE;
 
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT * FROM ");
             sb.AppendLine("( ");
-            sb.AppendLine(" SELECT C.ENGLISH_NAME, A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT C.COMPANY_CODE,C.ENGLISH_NAME, A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(" ,convert(varchar(30),B.createat,120) as createat,C.OFFICE_MAIL ,C.OFFICE_PHONE,B.team_name,A.limit_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id  ");
             sb.AppendLine(" Union ");
-            sb.AppendLine(" SELECT C.ENGLISH_NAME,A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT C.COMPANY_CODE,C.ENGLISH_NAME,A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(",convert(varchar(30),D.createat,120) as createat ,C.OFFICE_MAIL ,C.OFFICE_PHONE ,D.team_name,A.limit_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
@@ -859,7 +936,9 @@ namespace ACMS.DAO
             sb.AppendLine("left join [ActivityRegist]D on A.id=d.activity_id and D.emp_id =B.boss_id ");
             sb.AppendLine(") AA");
             sb.AppendLine("where 1=1 ");
+            sb.AppendLine("and (COMPANY_CODE=@COMPANY_CODE )  ");
             sb.AppendLine("and (WORK_ID like '%'+@emp_id+'%' or @emp_id='') ");
+
             if (UnderDept)
             {
                 sb.AppendLine("and (C_DEPT_NAME like '%'+@DEPT_ID+'%' or DEPT_ID=@DEPT_ID or @DEPT_ID='') ");
@@ -902,13 +981,13 @@ namespace ACMS.DAO
         }
 
        // 7-2 角色人員管理 選取所有在職員工
-        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME,Boolean UnderDept)
+        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME,Boolean UnderDept,string COMPANY_CODE)
         {
             if (DEPT_ID == "請選擇") 
             {
                 DEPT_ID = ""; 
             }
-            SqlParameter[] sqlParams = new SqlParameter[3];
+            SqlParameter[] sqlParams = new SqlParameter[4];
 
             sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
             sqlParams[0].Value = DEPT_ID;
@@ -916,6 +995,8 @@ namespace ACMS.DAO
             sqlParams[1].Value = WORK_ID;
             sqlParams[2] = new SqlParameter("@NATIVE_NAME", SqlDbType.NVarChar, 200);
             sqlParams[2].Value = NATIVE_NAME;
+            sqlParams[3] = new SqlParameter("@COMPANY_CODE", SqlDbType.NVarChar, 200);
+            sqlParams[3].Value = COMPANY_CODE;
 
             StringBuilder sb = new StringBuilder();
             
@@ -931,6 +1012,7 @@ namespace ACMS.DAO
                sb.AppendLine("and ((B.DEPT_ID=@DEPT_ID or B.C_DEPT_NAME =@DEPT_ID )or @DEPT_ID='') ");
             }
             //sb.AppendLine("and (B.DEPT_ID=@DEPT_ID ) ");
+            sb.AppendLine(" and B.COMPANY_CODE = @COMPANY_CODE");
             sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (B.ENGLISH_NAME like '%'  +@NATIVE_NAME+  '%'or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
 
@@ -1015,7 +1097,7 @@ namespace ACMS.DAO
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("SELECT distinct [DEPT_ID],C_DEPT_NAME,[C_DEPT_ABBR] ");
-            sb.AppendLine("FROM V_ACSM_USER2   WHERE C_NAME=@COMPANYCODE");
+            sb.AppendLine("FROM V_ACSM_USER2   WHERE COMPANY_CODE=@COMPANYCODE");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
@@ -1067,7 +1149,7 @@ namespace ACMS.DAO
         {
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT distinct [C_NAME] ");
+            sb.AppendLine("SELECT distinct [C_NAME] ,[COMPANY_CODE]");
             sb.AppendLine("FROM V_ACSM_USER2  ");
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
@@ -1078,7 +1160,7 @@ namespace ACMS.DAO
             {
                 VO.DDLVO myDDLVO = new ACMS.VO.DDLVO();
 
-                myDDLVO.Value = (string)MyDataReader["C_NAME"];
+                myDDLVO.Value = (string)MyDataReader["COMPANY_CODE"];
                 myDDLVO.Text = (string)MyDataReader["C_NAME"];
 
                 myDDLVOList.Add(myDDLVO);
@@ -1091,17 +1173,21 @@ namespace ACMS.DAO
 
 
         //已報名活動查詢-查詢已報名或者未報名清單
-        public DataTable RegistedList(Guid activity_id, string DEPT_ID, int JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME,string List_Type)
+        public DataTable RegistedList(Guid activity_id, string DEPT_ID, int JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME,string List_Type,Boolean UnderDept)
         {
             if (DEPT_ID == null)
             {
                 return new DataTable();
             }
+            if (DEPT_ID == "請選擇")
+            {
+                DEPT_ID = "";
+            }
             SqlParameter[] sqlParams = new SqlParameter[8];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@Dept_ID", SqlDbType.NVarChar, 100);
+            sqlParams[1] = new SqlParameter("@Dept_ID", SqlDbType.NVarChar, 1000);
             sqlParams[1].Value = DEPT_ID;
             sqlParams[2] = new SqlParameter("@JOB_GRADE_GROUP", SqlDbType.Int);
             sqlParams[2].Value = JOB_GRADE_GROUP;
@@ -1126,20 +1212,27 @@ namespace ACMS.DAO
                 sb.AppendLine(" left join Activity D on A.activity_id =D.id");
                 sb.AppendLine("WHERE 1=1 and D.activity_type ='1' ");
                 sb.AppendLine("and A.activity_id=@activity_id ");
-                sb.AppendLine(" and (B.DEPT_ID=@Dept_ID or @DEPT_ID ='')");
+                if (UnderDept)
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME like '%'+@Dept_ID +'%' or @DEPT_ID ='')");
+                }
+                else
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME =@Dept_ID  or @DEPT_ID ='')");
+                }
                 sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
                 sb.AppendLine(" and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='')");
                 sb.AppendLine(" and (B.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
                 if (SEX == "0")
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='女' or  @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='F' or  @SEX='')");
                 }
                 else
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='男' or @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
                 }
                 sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
-                sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");
+                sb.AppendLine(" and (B.COMPANY_CODE =@C_NAME or @C_NAME='')");
 
                 sb.AppendLine(" union SELECT A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
@@ -1150,20 +1243,27 @@ namespace ACMS.DAO
                 sb.AppendLine(" left join Activity D on A.activity_id =D.id");
                 sb.AppendLine("WHERE 1=1 and D.activity_type ='2' ");
                 sb.AppendLine("and A.activity_id=@activity_id ");
-                sb.AppendLine(" and (B.DEPT_ID=@Dept_ID or @DEPT_ID ='')");
+                if (UnderDept)
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME like '%'+@Dept_ID +'%' or @DEPT_ID ='')");
+                }
+                else
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME =@Dept_ID  or @DEPT_ID ='')");
+                }
                 sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
                 sb.AppendLine(" and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='')");
                 sb.AppendLine(" and (B.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
                 if (SEX == "0")
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='女' or  @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='F' or  @SEX='')");
                 }
                 else
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='男' or @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
                 }
                 sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
-                sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");
+                sb.AppendLine(" and (B.COMPANY_CODE =@C_NAME or @C_NAME='')");
 
 
 
@@ -1178,20 +1278,27 @@ namespace ACMS.DAO
                 sb.AppendLine(" WHERE 1=1  and C.activity_type ='1'");
                 sb.AppendLine(" and E.activity_id=@activity_id");
                 sb.AppendLine(" and  not  E.emp_id in (select emp_id  from ActivityRegist  where activity_id =@activity_id )");
-                sb.AppendLine(" and (B.DEPT_ID=@Dept_ID or @DEPT_ID ='')");
+                if (UnderDept)
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME like '%'+@Dept_ID +'%' or @DEPT_ID ='')");
+                }
+                else
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME =@Dept_ID  or @DEPT_ID ='')");
+                }
                 sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
                 sb.AppendLine(" and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='')");
                 sb.AppendLine(" and (B.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
                 if (SEX == "0")
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='女' or  @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='F' or  @SEX='')");
                 }
                 else
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='男' or @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
                 }
                 sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
-                sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");
+                sb.AppendLine(" and (B.COMPANY_CODE =@C_NAME or @C_NAME='')");
 
 
                 sb.AppendLine("    union ");
@@ -1202,20 +1309,27 @@ namespace ACMS.DAO
                 sb.AppendLine(" WHERE 1=1  and C.activity_type ='2'");
                 sb.AppendLine(" and E.activity_id=@activity_id");
                 sb.AppendLine(" and  not  E.emp_id in (select emp_id  from ActivityTeamMember  where activity_id =@activity_id)");
-                sb.AppendLine(" and (B.DEPT_ID=@Dept_ID or @DEPT_ID ='')");
+                if (UnderDept)
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME like '%'+@Dept_ID +'%' or @DEPT_ID ='')");
+                }
+                else
+                {
+                    sb.AppendLine(" and (B.C_DEPT_NAME =@Dept_ID  or @DEPT_ID ='')");
+                }
                 sb.AppendLine(" and (B.JOB_GRADE_GROUP=@JOB_GRADE_GROUP or @JOB_GRADE_GROUP=999)");
                 sb.AppendLine(" and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='')");
                 sb.AppendLine(" and ( B.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='')");
                 if (SEX == "0")
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='女' or  @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='F' or  @SEX='')");
                 }
                 else
                 {
-                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='男' or @SEX='')");
+                    sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
                 }
                 sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
-                sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");
+                sb.AppendLine(" and (B.COMPANY_CODE =@C_NAME or @C_NAME='')");
                 sb.AppendLine(" order by C_DEPT_ABBR,NATIVE_NAME");
 
 

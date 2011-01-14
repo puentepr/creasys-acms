@@ -1,12 +1,21 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenTeamMemberSelector.ascx.cs"
     Inherits="WebForm_RegistActivity_OpenTeamMemberSelector" %>
-
+<%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
+    Namespace="System.Web.UI" TagPrefix="asp" %>
+     <%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
 
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;"
     Width="800" Height="600">
     <!--display: none;-->
     <br />
+     <asp:updateprogress ID="Updateprogress1" runat="server" DisplayAfter="0">
+
+ <ProgressTemplate>
+                <my:UpdateProgress ID="myprogress1" runat="server" />
+            </ProgressTemplate>
+
+</asp:updateprogress>
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" SkinID="title"></asp:Label>
     </div>

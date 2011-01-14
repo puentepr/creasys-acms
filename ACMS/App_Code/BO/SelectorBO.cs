@@ -139,10 +139,10 @@ namespace ACMS.BO
 
         //6-1 新增修改活動 族群限定 選取人員的GridView資料來源
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id,Boolean UnderDept)
+        public List<VO.EmployeeVO> EmployeeSelector(string DEPT_ID, string JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, string BIRTHDAY_S, string BIRTHDAY_E, string EXPERIENCE_START_DATE, string C_NAME, Guid activity_id,Boolean UnderDept,string COMPANY_CODE)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id,UnderDept );
+            return mySelectorDAO.EmployeeSelector(DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, BIRTHDAY_S, BIRTHDAY_E, EXPERIENCE_START_DATE, C_NAME, activity_id, UnderDept, COMPANY_CODE);
         }
 
         //6-2活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢
@@ -165,10 +165,10 @@ namespace ACMS.BO
 
         //6-3活動進度登錄 
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable ActivityCheckQuery(string activity_id, string DEPT_ID, string emp_id, string emp_name,Boolean  UnderDept)
+        public DataTable ActivityCheckQuery(string activity_id, string DEPT_ID, string emp_id, string emp_name,Boolean  UnderDept ,string COMPANY_CODE )
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, DEPT_ID, emp_id, emp_name,UnderDept );
+            DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, DEPT_ID, emp_id, emp_name,UnderDept,COMPANY_CODE );
             return DT;
         }
 
@@ -193,13 +193,13 @@ namespace ACMS.BO
 
         // 7-2 角色人員管理 選取所有在職員工
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME ,Boolean UnderDept)
+        public List<VO.EmployeeVO> GetEmployeeSelector(string DEPT_ID, string WORK_ID, string NATIVE_NAME ,Boolean UnderDept,string COMPANY_CODE)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
 
             List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
 
-            myEmployeeVOList = mySelectorDAO.GetEmployeeSelector(DEPT_ID, WORK_ID, NATIVE_NAME,UnderDept );
+            myEmployeeVOList = mySelectorDAO.GetEmployeeSelector(DEPT_ID, WORK_ID, NATIVE_NAME, UnderDept, COMPANY_CODE);
 
             return myEmployeeVOList;
         }
@@ -279,15 +279,15 @@ namespace ACMS.BO
             myDDLVOList = mySelectorDAO.CNAMESelector();
             myDDLVO.Value = "";
             myDDLVO.Text = "請選擇";
-            myDDLVOList.Insert(0, myDDLVO);
+           // myDDLVOList.Insert(0, myDDLVO);
             return myDDLVOList;
         }
         //已報名活動查詢-查詢已報名或者未報名清單
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable RegistedList(Guid activity_id,  string DEPT_ID, int JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME,string  RegistedType)
+        public DataTable RegistedList(Guid activity_id,  string DEPT_ID, int JOB_GRADE_GROUP, string WORK_ID, string NATIVE_NAME, string SEX, DateTime EXPERIENCE_START_DATE, string C_NAME,string  RegistedType,Boolean UnderDept)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistedList(activity_id, DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME, RegistedType);
+            return mySelectorDAO.RegistedList(activity_id, DEPT_ID, JOB_GRADE_GROUP, WORK_ID, NATIVE_NAME, SEX, EXPERIENCE_START_DATE, C_NAME, RegistedType,UnderDept );
         }
 
     }
