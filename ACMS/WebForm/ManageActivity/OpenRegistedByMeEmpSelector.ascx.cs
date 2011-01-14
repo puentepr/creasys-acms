@@ -41,7 +41,7 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
         }
         ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
         ObjectDataSource1.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
-
+        GridView1.Visible = true;
         GridView1.DataBind();
 
         //預設勾選第一筆
@@ -50,6 +50,8 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
             (GridView1.Rows[0].FindControl("CheckBox1") as CheckBox).Checked = true;
         }
         this.mpSearch.Show();
+
+       
         //this.InitDataAndShow();
     }
     protected void btnOK_Click(object sender, EventArgs e)

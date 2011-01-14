@@ -573,7 +573,7 @@ namespace ACMS.DAO
             dt.Columns.Add ("SEQNO");
             foreach (DataRow dr in dt.Rows)
             {
-                if (dr["activity_type"] == "1")
+                if (dr["activity_type"].ToString () == "1")
                 {
                     seqno++;
                     limit_count = decimal.Parse(dr["limit_count"].ToString());
