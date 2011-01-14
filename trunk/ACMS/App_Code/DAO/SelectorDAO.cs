@@ -374,7 +374,7 @@ namespace ACMS.DAO
                 sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
             }
             sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
-            sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");            
+            sb.AppendLine(" and (B.COMPANY=@C_NAME or @C_NAME='')");            
             sb.AppendLine("and A.check_status>=0 ");//已取消就不要再出現了
             sb.AppendLine("ORDER BY A.id ");//按照報名順序
 
@@ -470,7 +470,7 @@ namespace ACMS.DAO
                 sb.AppendLine(" and (B.SEX= @SEX or B.SEX='M' or @SEX='')");
             }
             sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
-            sb.AppendLine(" and (B.C_NAME like '%'+@C_NAME+'%' or @C_NAME='')");     
+            sb.AppendLine(" and (B.COMPANY_CODE= @C_NAME or @C_NAME='')");     
             sb.AppendLine("and A.check_status>=0 ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
