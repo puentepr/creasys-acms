@@ -1006,7 +1006,7 @@ public class MySingleton
 
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
-                if (Convert.ToDateTime(regist_deadline) > DateTime.Today)
+                if (Convert.ToDateTime(regist_deadline) >=DateTime.Today)
                 {
                     //報名截止日之前-刪除
                     if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1",webPath ) > 0)
@@ -1021,7 +1021,7 @@ public class MySingleton
                         return AlterRegistResult.CancelRegistFail;
                     }
                 }
-                else if (Convert.ToDateTime(regist_deadline) <= DateTime.Today)
+                else if (Convert.ToDateTime(regist_deadline) < DateTime.Today)
                 {
                     //報名截止日之後-狀態改取消
                     if (myActivityRegistDAO.CancelRegist(activity_id, emp_id, "1",webPath) > 0)
@@ -1036,7 +1036,7 @@ public class MySingleton
                         return AlterRegistResult.CancelRegistFail;
                     }
                 }
-                else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
+                else if (Convert.ToDateTime(cancelregist_deadline) < DateTime.Today)
                 {
                     //取消報名截止日之後-不可以取消
                     return AlterRegistResult.CancelRegistFail_DayOver;
@@ -1156,7 +1156,7 @@ public class MySingleton
 
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
-                if (Convert.ToDateTime(regist_deadline) > DateTime.Today)
+                if (Convert.ToDateTime(regist_deadline) >= DateTime.Today)
                 {
                     //取消報名截止日之前-刪除
                     if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath ) > 0)
@@ -1171,7 +1171,7 @@ public class MySingleton
                         return AlterRegistResult.CancelRegistFail;
                     }
                 }
-                else if (Convert.ToDateTime(regist_deadline) <= DateTime.Today)
+                else if (Convert.ToDateTime(regist_deadline) < DateTime.Today)
                 {
                     //取消報名截止日之後-狀態改取消
                     if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2",webPath) > 0)
@@ -1186,7 +1186,7 @@ public class MySingleton
                         return AlterRegistResult.CancelRegistFail;
                     }
                 }
-                else if (Convert.ToDateTime(cancelregist_deadline) <= DateTime.Today)
+                else if (Convert.ToDateTime(cancelregist_deadline) < DateTime.Today)
                 {
                     //取消報名截止日之後-不可以取消
                     return AlterRegistResult.CancelRegistFail_DayOver;
