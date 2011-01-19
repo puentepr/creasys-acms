@@ -277,7 +277,7 @@ namespace ACMS.DAO
             sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and A.id=@activity_id ");
-            sb.AppendLine("and ISNULL(B.check_status,0)>=0 ");
+           // sb.AppendLine("and ISNULL(B.check_status,0)>=0 ");
             sb.AppendLine("group by  (ISNULL(A.limit_count,0)+ISNULL(A.limit2_count,0)) ");
 
             return (int)SqlHelper.ExecuteScalar(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -768,7 +768,7 @@ namespace ACMS.DAO
 
 
 
-        //傳入隊員取得團隊所有成員(用逗號隔開)
+        //隊員取得團隊所有成員(用逗號隔開)
         public string AllTeamMemberByMembers(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -827,8 +827,8 @@ namespace ACMS.DAO
 
             return myList;
         }
-        /// <summary>取得報名後的報名順序
-        /// 
+        /// <summary>
+        /// 取得報名後的報名順序
         /// </summary>
         /// <param name="activity"></param>
         /// <returns></returns>
