@@ -41,7 +41,7 @@
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False"
                     ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID"
                     SkinID="pager" DataSourceID="SqlDataSource2" 
-                    EnableModelValidation="True">
+                    EnableModelValidation="True" onsorted="GridView1_Sorted">
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" 
                             SortExpression="WORK_ID" />

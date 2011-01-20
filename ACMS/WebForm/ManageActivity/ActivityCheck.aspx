@@ -85,10 +85,12 @@
                             <asp:ListItem Value="2">已完成</asp:ListItem>
                         </asp:DropDownList>
                         <asp:Button ID="btnUpdate" runat="server" Text="更新" OnClick="btnUpdate_Click" /></div>
+                              <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="查無符合條件的資料... " Visible="False"></asp:Label>
                     <TServerControl:TGridView ID="GridView1" runat="server" AutoGenerateColumns="False"
                         DataSourceID="ObjectDataSource1" SkinID="pager" Width="100%" AllowHoverEffect="True"
                         AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                        TotalRowCount="0" DataKeyNames="emp_id,activity_type" AllowPaging="True" AllowSorting="True">
+                        TotalRowCount="0" DataKeyNames="emp_id,activity_type" AllowPaging="True" 
+                        AllowSorting="True" ondatabound="GridView1_DataBound">
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>

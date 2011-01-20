@@ -20,7 +20,9 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
         {
             (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度登錄";
             ddlActivity.DataBind();
-           // btnQuery_Click(null, null);
+            ddlC_NAME.DataBind();
+            ddlDEPT_ID.DataBind();
+            btnQuery_Click(null, null);
         }
 
     }
@@ -227,5 +229,19 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
     {
         ddlDEPT_ID.DataBind();
       
+    }
+    protected void GridView1_DataBound(object sender, EventArgs e)
+    {
+        if (GridView1.Rows.Count == 0)
+        {
+            GridView1.Visible = false;
+            lblGrideView1.Visible = true;
+
+        }
+        else
+        {
+            GridView1.Visible = true;
+            lblGrideView1.Visible = false;
+        }
     }
 }

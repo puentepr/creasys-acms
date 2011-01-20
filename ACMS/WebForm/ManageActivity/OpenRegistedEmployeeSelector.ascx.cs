@@ -10,6 +10,10 @@ public partial class WebForm_OpenRegistedEmployeeSelector : System.Web.UI.UserCo
     {
 
     }
+    protected void GridView1_Sorted(object sender, EventArgs e)
+    {
+        this.mpSearch.Show(); 
+    }
 }
 
 public partial class WebForm_OpenRegistedEmployeeSelector

@@ -55,11 +55,12 @@
                     </td>
                 </tr>
             </table>
+            <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="查無符合條件的資料... " Visible="False"></asp:Label>
             <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                 AutoGenerateColumns="False" DataKeyNames="id,activity_type" DataSourceID="ObjectDataSource1"
                 EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                 SkinID="pager" TotalRowCount="0" Width="100%" 
-                onrowdatabound="GridView1_RowDataBound">
+                onrowdatabound="GridView1_RowDataBound" ondatabound="GridView1_DataBound">
                 <Columns>
                     <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                     

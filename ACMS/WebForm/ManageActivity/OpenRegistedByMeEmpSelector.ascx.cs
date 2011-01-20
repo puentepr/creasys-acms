@@ -115,6 +115,10 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
         ddlDEPT_ID.DataBind();
         this.mpSearch.Show(); 
     }
+    protected void GridView1_Sorted(object sender, EventArgs e)
+    {
+        this.mpSearch.Show();
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector 

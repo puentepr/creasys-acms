@@ -96,8 +96,9 @@
                 <TServerControl:TGridView ID="GridView_Employee" runat="server" AllowHoverEffect="True"
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID" SkinID="pager"
-                    EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" AllowPaging="True"
-                    AllowSorting="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged">
+                    EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" 
+                    AllowPaging="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged" 
+                    onsorted="GridView_Employee_Sorted">
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" SortExpression="WORK_ID" ReadOnly="True" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />

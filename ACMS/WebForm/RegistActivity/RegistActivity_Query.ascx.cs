@@ -71,6 +71,20 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }
     }
+    protected void GridView1_DataBound(object sender, EventArgs e)
+    {
+        if (GridView1.Rows.Count == 0)
+        {
+            GridView1.Visible = false;
+            lblGrideView1.Visible = true;
+
+        }
+        else
+        {
+            GridView1.Visible = true;
+            lblGrideView1.Visible = false;
+        }
+    }
 }
 
 public partial class WebForm_RegistActivity_RegistActivity_Query

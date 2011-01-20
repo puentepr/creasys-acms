@@ -125,7 +125,8 @@
                 <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                     AutoGenerateColumns="False" DataKeyNames="ID" DataSourceID="ObjectDataSource1"
                     EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                    SkinID="pager" TotalRowCount="0" AllowPaging="True" AllowSorting="True" OnPageIndexChanged="GridView1_PageIndexChanged">
+                    SkinID="pager" TotalRowCount="0" AllowPaging="True" AllowSorting="True" 
+                    OnPageIndexChanged="GridView1_PageIndexChanged" onsorted="GridView1_Sorted">
                     <EmptyDataTemplate>
                         <font color="Red">查詢不到符合條件的資料... </font>
                     </EmptyDataTemplate>

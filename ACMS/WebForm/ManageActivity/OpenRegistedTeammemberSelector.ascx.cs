@@ -211,6 +211,10 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
         //EmpID = GridView_RegisterPeoplinfo.DataKeys[GridView_RegisterPeoplinfo.SelectedIndex].Value.ToString();
     }
+    protected void GridView1_Sorted(object sender, EventArgs e)
+    {
+        this.mpSearch.Show(); 
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector

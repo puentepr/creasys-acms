@@ -40,7 +40,7 @@
                 <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                     ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" TotalRowCount="0" AutoGenerateColumns="False"
                     DataKeyNames="id" SkinID="pager" EnableModelValidation="True" AllowPaging="True"
-                    Style="margin-right: 0px" AllowSorting="True" DataSourceID="ObjectDataSource1"
+                    Style="margin-right: 0px" AllowSorting="False" DataSourceID="ObjectDataSource1"
                     Width="100%">
                     <HeaderStyle BackColor="#293955" Wrap="False" ForeColor="White" Font-Size="Small"
                         Font-Bold="False" />

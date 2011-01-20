@@ -179,5 +179,19 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : System.Web.U
     }
 
 
-  
+
+    protected void GridView1_DataBound(object sender, EventArgs e)
+    {
+        if (GridView1.Rows.Count == 0)
+        {
+            GridView1.Visible = false;
+            lblGrideView1.Visible = true;
+
+        }
+        else
+        {
+            GridView1.Visible = true;
+            lblGrideView1.Visible = false;
+        }
+    }
 }
