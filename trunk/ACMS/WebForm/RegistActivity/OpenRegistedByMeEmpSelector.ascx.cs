@@ -70,6 +70,10 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     {
         this.mpSearch.Show();   
     }
+    protected void GridView1_Sorted(object sender, EventArgs e)
+    {
+        this.mpSearch.Show(); 
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector 

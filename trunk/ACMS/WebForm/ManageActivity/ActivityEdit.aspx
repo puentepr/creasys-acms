@@ -220,7 +220,7 @@
                                     <TServerControl:TGridView ID="GridView_UpFiles" runat="server" AutoGenerateColumns="False"
                                         DataKeyNames="path" DataSourceID="ObjectDataSource_UpFiles" AllowHoverEffect="True"
                                         AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                                        SkinID="pager" TotalRowCount="0" Width="100%">
+                                        SkinID="pager" TotalRowCount="0" Width="100%" AllowSorting="False">
                                         <Columns>
                                             <asp:BoundField DataField="name" HeaderText="檔案名稱" SortExpression="name" />
                                             <asp:TemplateField>
@@ -376,7 +376,7 @@
                                 </tr>
                             </table>
                             <TServerControl:TGridView ID="GridView_CustomField" runat="server" AutoGenerateColumns="False"
-                                DataKeyNames="field_id" DataSourceID="ObjectDataSource_CustomField" SkinID="pager">
+                                DataKeyNames="field_id" DataSourceID="ObjectDataSource_CustomField" SkinID="pager" AllowSorting="False">
                                 <Columns>
                                     <asp:TemplateField HeaderText="欄位名稱" SortExpression="field_name">
                                         <EditItemTemplate>
@@ -462,7 +462,7 @@
                                     <TServerControl:TGridView ID="GridView_GroupLimit" runat="server" AllowHoverEffect="True"
                                         AllowHoverSelect="True" AutoGenerateColumns="False" DataKeyNames="keyID" DataSourceID="ObjectDataSource_GroupLimit"
                                         EnableModelValidation="True" PageSize="50" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                                        SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="False" AllowSorting="True">
+                                        SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="False" AllowSorting="False">
                                         <Columns>
                                             <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
                                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />

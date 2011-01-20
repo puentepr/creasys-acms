@@ -19,6 +19,10 @@ public partial class WebForm_OpenRegistedTeamSelector : System.Web.UI.UserContro
         }
 
     }
+    protected void GridView1_Sorted(object sender, EventArgs e)
+    {
+        this.mpSearch.Show(); 
+    }
 }
 
 public partial class WebForm_OpenRegistedTeamSelector

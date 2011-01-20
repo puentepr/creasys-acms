@@ -130,7 +130,7 @@
                     AutoGenerateColumns="False" DataKeyNames="ID" DataSourceID="ObjectDataSource1"
                     EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     SkinID="pager" TotalRowCount="0" AllowPaging="True" AllowSorting="True" OnPageIndexChanged="GridView1_PageIndexChanged"
-                    OnRowDataBound="GridView1_RowDataBound">
+                    OnRowDataBound="GridView1_RowDataBound" onsorted="GridView1_Sorted">
                     <EmptyDataTemplate>
                         <font color="Red">查詢不到符合條件的資料... </font>
                     </EmptyDataTemplate>

@@ -104,6 +104,18 @@ public partial class WebForm_ActivityEditQuery : System.Web.UI.Page
         {
             ((Label)gr.FindControl("Label2")).Text = ((Label)gr.FindControl("Label2")).Text.Replace("\r\n", "<br/>");
         }
+
+        if (GridView1.Rows.Count == 0)
+        {
+            GridView1.Visible = false;
+            lblGrideView1.Visible = true;
+
+        }
+        else
+        {
+            GridView1.Visible = true;
+            lblGrideView1.Visible = false;
+        }
     }
 
    // 報名預覽

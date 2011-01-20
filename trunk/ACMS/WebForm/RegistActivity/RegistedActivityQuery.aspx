@@ -58,10 +58,12 @@
                     </tr>
                 </table>
                 <br />
+                <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="查無符合條件的資料... " Visible="False"></asp:Label>
                 <TServerControl:TGridView ID="GridView1" runat="server" DataKeyNames="id,activity_type"
                     DataSourceID="ObjectDataSource1" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
                     SkinID="pager" Width="100%" AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False"
-                    AllowHoverEffect="True" AllowHoverSelect="True" TotalRowCount="0" OnRowDataBound="GridView1_RowDataBound">
+                    AllowHoverEffect="True" AllowHoverSelect="True" TotalRowCount="0" 
+                    OnRowDataBound="GridView1_RowDataBound" ondatabound="GridView1_DataBound">
                     <Columns>
                         <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
                        <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
@@ -89,14 +91,15 @@
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <asp:LinkButton ID="lbtnRegistEdit" runat="server" OnClick="lbtnRegistEdit_Click">編輯</asp:LinkButton>
+                                <br /> <br />
+                                <asp:LinkButton ID="lbtnRegistCancel" runat="server" 
+                                    CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' 
+                                    CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>' 
+                                    OnClick="lbtnRegistCancel_Click">取消報名</asp:LinkButton>
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
-                        <asp:TemplateField>
-                            <ItemTemplate>
-                                <asp:LinkButton ID="lbtnRegistCancel" runat="server" OnClick="lbtnRegistCancel_Click"
-                                    CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>'>取消報名</asp:LinkButton>
-                            </ItemTemplate>
+                        <asp:TemplateField Visible="false">
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
                     </Columns>

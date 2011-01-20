@@ -144,7 +144,9 @@
                 <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                     AutoGenerateColumns="False" DataSourceID="ObjectDataSource1"
                     EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                    SkinID="pager" TotalRowCount="0" AllowPaging="True" AllowSorting="True" OnPageIndexChanged="GridView1_PageIndexChanged" Visible="false" >
+                    SkinID="pager" TotalRowCount="0" AllowPaging="True" AllowSorting="True" 
+                    OnPageIndexChanged="GridView1_PageIndexChanged" Visible="false" 
+                    onsorted="GridView1_Sorted" >
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />

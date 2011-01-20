@@ -48,6 +48,7 @@
                         </tr>
                     </table>
                     <br />
+                     <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="查無符合條件的資料... " Visible="False"></asp:Label>
                     <TServerControl:TGridView ID="GridView1" runat="server" DataKeyNames="id" DataSourceID="ObjectDataSource1"
                         ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True" SkinID="pager" Width="100%"
                         AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" 

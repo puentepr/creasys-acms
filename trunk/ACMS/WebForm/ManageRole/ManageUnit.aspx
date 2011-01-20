@@ -30,7 +30,7 @@
                         <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                             AutoGenerateColumns="False" DataSourceID="ObjectDataSource1" ShowFooterWhenEmpty="False"
                             ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0" AllowPaging="True"
-                            AllowSorting="True" DataKeyNames="id">
+                            AllowSorting="False" DataKeyNames="id">
                             <Columns>
                                 <asp:TemplateField HeaderText="單位名稱" SortExpression="name">
                                     <EditItemTemplate>

@@ -91,7 +91,7 @@
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID" SkinID="pager"
                     EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" AllowPaging="True"
-                    AllowSorting="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged" Width="90%"
+                    AllowSorting="False" OnPageIndexChanged="GridView_Employee_PageIndexChanged" Width="90%"
                     Visible="False">
                     <EmptyDataTemplate>
                         <font color="Red">查詢不到符合條件的資料... </font>

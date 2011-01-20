@@ -90,6 +90,10 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         ddlDEPT_ID.DataBind();
         this.mpSearch.Show(); 
     }
+    protected void GridView_Employee_Sorted(object sender, EventArgs e)
+    {
+        this.mpSearch.Show(); 
+    }
 }
 
 public partial class WebForm_ManageActivity_OpenEmployeeSelector

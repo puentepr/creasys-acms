@@ -365,4 +365,18 @@ public partial class WebForm_ActivityQuery : System.Web.UI.Page
         OpenRegistedList1.InitDataAndShow();
 
     }
+    protected void GridView1_DataBound(object sender, EventArgs e)
+    {
+        if (GridView1.Rows.Count == 0)
+        {
+            GridView1.Visible = false;
+            lblGrideView1.Visible = true;
+
+        }
+        else
+        {
+            GridView1.Visible = true;
+            lblGrideView1.Visible = false;
+        }
+    }
 }

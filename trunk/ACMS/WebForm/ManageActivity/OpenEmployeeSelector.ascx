@@ -178,7 +178,7 @@
                     DataSourceID="ObjectDataSource_Employee" EnableModelValidation="True" 
                     onpageindexchanged="GridView_Employee_PageIndexChanged" PageSize="5" 
                     ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" SkinID="pager" 
-                    TotalRowCount="0" Visible="False">
+                    TotalRowCount="0" Visible="False" onsorted="GridView_Employee_Sorted">
                     <EmptyDataTemplate>
                         <font color="Red">查詢不到符合條件的資料... </font>
                     </EmptyDataTemplate>
