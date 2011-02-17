@@ -377,7 +377,7 @@ namespace ACMS.DAO
                 //編輯資料
 
                 //團員只異動ActivityTeamMember裡的個人資料
-                if (myActivityRegistVO.emp_id != myActivityRegistVO.regist_by)
+                if (myActivityRegistVO.emp_id != myActivityRegistVO.regist_by && myActivityTeamMemberVOList != null )
                 {
                     ACMS.VO.ActivityTeamMemberVO MyObj = myActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO e) { return e.emp_id == myActivityRegistVO.emp_id; });
 

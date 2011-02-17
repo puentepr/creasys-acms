@@ -278,12 +278,12 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "<font color='Blue'><b>" + custFieldVO.field_name + ":" + custFieldVO.field_value + "</b></font><br/>";
+                custFieldSt += "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font>" + custFieldVO.field_value + "<br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
                 ttl=0;
-                custFieldSt += "<font color='Blue'><b>" + custFieldVO.field_name + "</b>:</font><br/>";
+                custFieldSt += "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font><br/>";
 
                 FieldIDs=custFieldVO.field_value.Split (',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO .field_id );
