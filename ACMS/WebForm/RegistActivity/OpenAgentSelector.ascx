@@ -113,6 +113,8 @@
                         <asp:Parameter Name="activity_id" Type="String" ConvertEmptyStringToNull="false" />
                         <asp:Parameter DefaultValue="1" Name="activity_type" Type="String" />
                         <asp:Parameter  Name="UnderDept" Type="Boolean" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter DefaultValue="" Name="Company_ID" Type="String"  ConvertEmptyStringToNull="false" />
+                        
                         
                     </SelectParameters>
                 </asp:ObjectDataSource>

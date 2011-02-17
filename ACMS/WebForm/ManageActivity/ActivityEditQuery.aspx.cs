@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using System.IO;
 using System.Data;
 
-public partial class WebForm_ActivityEditQuery : System.Web.UI.Page
+public partial class WebForm_ActivityEditQuery : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {

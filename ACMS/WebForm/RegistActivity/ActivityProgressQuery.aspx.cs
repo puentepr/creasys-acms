@@ -9,7 +9,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 
-public partial class WebForm_RegistActivity_ActivityProgressQuery : System.Web.UI.Page
+public partial class WebForm_RegistActivity_ActivityProgressQuery : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -25,18 +25,51 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : System.Web.U
     }
     protected void DataList1_ItemDataBound(object sender, DataListItemEventArgs e)
     {
+        Label NATIVE_NAMELabel;
+        Label emp_idLabel;
+        Label lblSEQNO;
+        Label check_statusLabel;
+
         if (DataList1.DataKeys[e.Item.ItemIndex].ToString() == clsAuth.ID)
         {
-            e.Item.BackColor = System.Drawing.Color.Yellow;
+
+
+
+            e.Item.ForeColor = System.Drawing.Color.Red;
+            NATIVE_NAMELabel = e.Item.FindControl("NATIVE_NAMELabel") as Label;
+            emp_idLabel = e.Item.FindControl("emp_idLabel") as Label;
+            NATIVE_NAMELabel.ForeColor = System.Drawing.Color.Red;
+            emp_idLabel.ForeColor = System.Drawing.Color.Red;
+            lblSEQNO = e.Item.FindControl("lblSEQNO") as Label;
+            lblSEQNO.ForeColor = System.Drawing.Color.Red;
+            check_statusLabel = e.Item.FindControl("check_statusLabel") as Label;
+            check_statusLabel.ForeColor = System.Drawing.Color.Red;
+
+
         }
         else
         {
-            Label NATIVE_NAMELabel = e.Item.FindControl("NATIVE_NAMELabel") as Label;
-            Label emp_idLabel = e.Item.FindControl("emp_idLabel") as Label;
+            NATIVE_NAMELabel = e.Item.FindControl("NATIVE_NAMELabel") as Label;
+            emp_idLabel = e.Item.FindControl("emp_idLabel") as Label;
 
-            NATIVE_NAMELabel.Text = NATIVE_NAMELabel.Text.Substring(0,1) + "XX";
+            NATIVE_NAMELabel.Text = NATIVE_NAMELabel.Text.Substring(0, 1) + "XX";
             emp_idLabel.Text = "";
         }
+
+        check_statusLabel = e.Item.FindControl("check_statusLabel") as Label;
+        if (check_statusLabel.Text == "已報到")
+        {
+            e.Item.BackColor = System.Drawing.Color.LightGreen;
+        }
+        if (check_statusLabel.Text == "未報到")
+        {
+            e.Item.BackColor = System.Drawing.Color.LightGray ;
+        }
+        if (check_statusLabel.Text == "已完成")
+        {
+            e.Item.BackColor = System.Drawing.Color.Yellow;
+        }
+
     }
 
 }

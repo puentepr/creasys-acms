@@ -12,7 +12,7 @@ using System.IO;
 using System.Data.SqlClient;
 using System.Text;
 
-public partial class WebForm_ActivityCheck : System.Web.UI.Page
+public partial class WebForm_ActivityCheck : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -21,6 +21,7 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
             (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度登錄";
             ddlActivity.DataBind();
             ddlC_NAME.DataBind();
+            ddlC_NAME.Items.Insert(0, new ListItem("請選擇", ""));
             ddlDEPT_ID.DataBind();
             btnQuery_Click(null, null);
         }
@@ -49,7 +50,8 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
 
         DataTable table = new DataTable();
         ACMS.DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text,cbUnderDept.Checked,ddlC_NAME.SelectedValue  );
+        //table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text,cbUnderDept.Checked,ddlC_NAME.SelectedValue  );
+        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), "", "", "",true, "");
         if (table.Rows.Count == 0)
         {
             clsMyObj.ShowMessage("沒有報名資料");
@@ -244,4 +246,5 @@ public partial class WebForm_ActivityCheck : System.Web.UI.Page
             lblGrideView1.Visible = false;
         }
     }
+   
 }

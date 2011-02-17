@@ -29,16 +29,9 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
         }
         ObjectDataSource1.SelectParameters["WINDOWS_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource1.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue;
-        if (string.Compare(txtEXPERIENCE_START_DATE.Text, "") == 0)
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
-
-        }
-        else
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
-        }
+        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX.SelectedValue; 
+        ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
+        
         ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue;
         ObjectDataSource1.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
         GridView1.Visible = true;

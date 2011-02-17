@@ -29,7 +29,9 @@
                 </td>
                 <td colspan="3" align="left">
                     <asp:DropDownList ID="ddlC_NAME" runat="server" AutoPostBack="True" DataSourceID="ObjectDataSource_CNAME"
-                        DataTextField="Text" DataValueField="Value" OnSelectedIndexChanged="ddlC_NAME_SelectedIndexChanged">
+                        DataTextField="Text" DataValueField="Value" 
+                        OnSelectedIndexChanged="ddlC_NAME_SelectedIndexChanged" 
+                       >
                     </asp:DropDownList>
                     <asp:ObjectDataSource ID="ObjectDataSource_CNAME" runat="server" OldValuesParameterFormatString="original_{0}"
                         SelectMethod="CNAMESelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>

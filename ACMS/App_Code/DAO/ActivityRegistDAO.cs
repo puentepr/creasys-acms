@@ -54,13 +54,13 @@ namespace ACMS.DAO
             //====================
             sb.AppendLine("SELECT * FROM ");
             sb.AppendLine("( ");
-            sb.AppendLine(" SELECT '' as boss_id,A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT B.idno,'' as boss_id,A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(" ,convert(varchar(30),B.createat,120) as createat,C.OFFICE_MAIL ,C.OFFICE_PHONE,B.team_name,A.limit_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id  ");
             sb.AppendLine(" Union ");
-            sb.AppendLine(" SELECT B.boss_id, A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
+            sb.AppendLine(" SELECT  B.idno,B.boss_id, A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
             sb.AppendLine(",convert(varchar(30),D.createat,120) as createat ,C.OFFICE_MAIL ,C.OFFICE_PHONE ,D.team_name,A.limit_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
@@ -99,8 +99,8 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND activity_id=@activity_id ");
             sb.AppendLine("AND emp_id=@emp_id ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
 
@@ -116,7 +116,8 @@ namespace ACMS.DAO
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myActivityRegistVO;
 
         }
@@ -139,8 +140,8 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND activity_id=@activity_id ");
             sb.AppendLine("AND emp_id=(SELECT boss_id FROM ActivityTeamMember WHERE emp_id=@member_id and activity_id=@activity_id) ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
 
@@ -156,7 +157,8 @@ namespace ACMS.DAO
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myActivityRegistVO;
 
         }
@@ -177,8 +179,8 @@ namespace ACMS.DAO
             sb.AppendLine("FROM ActivityRegist ");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND id=@id ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
 
@@ -194,7 +196,8 @@ namespace ACMS.DAO
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myActivityRegistVO;
 
         }
@@ -787,8 +790,8 @@ namespace ACMS.DAO
             sb.AppendLine("FROM ActivityTeamMember ");
             sb.AppendLine("WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) ");
             sb.AppendLine(") ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<string> myList = new List<string>();
 
@@ -796,7 +799,8 @@ namespace ACMS.DAO
             {
                 myList.Add((string)MyDataReader["emp_id"]);
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return string.Join(",", myList.ToArray());
         }
 
@@ -815,8 +819,8 @@ namespace ACMS.DAO
             sb.AppendLine("SELECT emp_id ");
             sb.AppendLine("FROM ActivityTeamMember ");
             sb.AppendLine("where activity_id=@activity_id and boss_id =@boss_id ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<string> myList = new List<string>();
 
@@ -824,7 +828,8 @@ namespace ACMS.DAO
             {
                 myList.Add((string)MyDataReader["emp_id"]);
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myList;
         }
         /// <summary>

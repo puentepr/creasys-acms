@@ -77,8 +77,8 @@
                         </asp:BoundField>
                         <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
                             <ItemTemplate>
-                                <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>~<br />
-                                <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate", "{0:g}") %>'></asp:Label>
+                                <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>~<br />
+                                <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>

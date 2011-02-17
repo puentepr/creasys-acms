@@ -42,8 +42,8 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT field_id, field_item_id, field_item_name, field_item_text ");
             sb.AppendLine("FROM CustomFieldItem WHERE (field_id = @field_id) ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.CustomFieldItemVO> myCustomFieldItemVOList = new List<ACMS.VO.CustomFieldItemVO>();
           
@@ -59,7 +59,8 @@ namespace ACMS.DAO
                 myCustomFieldItemVOList.Add(myCustomFieldItemVO);
               
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myCustomFieldItemVOList;
 
         }

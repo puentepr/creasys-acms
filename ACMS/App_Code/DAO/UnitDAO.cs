@@ -14,8 +14,8 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT *");
             sb.AppendLine("FROM Unit A ");
-
-            IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            SqlConnection aconn = MyConn();
+            IDataReader myIDataReader = SqlHelper.ExecuteReader(aconn , CommandType.Text, sb.ToString(), null);
 
             List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
 
@@ -27,7 +27,8 @@ namespace ACMS.DAO
                 myUnitVO.active = (string)myIDataReader["active"];
                 myUnitVOList.Add(myUnitVO);
             }
-
+            myIDataReader.Close();
+            aconn.Close();
             return myUnitVOList;
         }
 

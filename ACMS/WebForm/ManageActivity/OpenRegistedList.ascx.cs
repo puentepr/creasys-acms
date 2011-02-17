@@ -11,7 +11,11 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
 
     protected void Page_Load(object sender, EventArgs e)
     {
-
+        if (!IsPostBack)
+        {
+            ddlC_NAME.DataBind();
+            ddlC_NAME .Items.Insert  (0,new ListItem ("請選擇",""));
+        }
     }
     protected void btnQuery_Click(object sender, EventArgs e)
     {
@@ -62,7 +66,7 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
         //{
         //    GridView1.Visible = true;
         //}
-        GridView1.Visible = false;
+       // GridView1.Visible = false;
        
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
      
@@ -77,16 +81,9 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
         }
         ObjectDataSource1.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID .Text ;
         ObjectDataSource1.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX .SelectedValue;
-        if (string.Compare(txtEXPERIENCE_START_DATE.Text, "") == 0)
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
-
-        }
-        else
-        {
-            ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = txtEXPERIENCE_START_DATE.Text;
-        }
+        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX .SelectedValue; 
+        ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
+        
         ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue ;
 
         ObjectDataSource1.SelectParameters["RegistedType"].DefaultValue = ddlListType.SelectedValue;

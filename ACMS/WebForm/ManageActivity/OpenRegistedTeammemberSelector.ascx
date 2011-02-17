@@ -93,18 +93,7 @@
                     <asp:ListItem Text="不拘" Value="" Selected="True"></asp:ListItem>
                 </asp:RadioButtonList>
             </td>
-            <td align="right">
-                 <asp:Label ID="lblEXPERIENCE_START_DATE" runat="server" Text="年資起始日"></asp:Label>
-            </td>
-            <td>
-               <asp:TextBox ID="txtEXPERIENCE_START_DATE" runat="server"></asp:TextBox>
-                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="yyyy/MM/dd"
-                    TargetControlID="txtEXPERIENCE_START_DATE">
-                </ajaxToolkit:CalendarExtender>
-                <asp:CompareValidator ID="chk_txtEXPERIENCE_START_DATE" runat="server" ControlToValidate="txtEXPERIENCE_START_DATE"
-                    Display="None" ErrorMessage="年資起始日必填日期格式" Operator="DataTypeCheck" Type="Date"
-                    ValidationGroup="Query"></asp:CompareValidator>
-            </td>
+            
             <td>
                 &nbsp;
             </td>

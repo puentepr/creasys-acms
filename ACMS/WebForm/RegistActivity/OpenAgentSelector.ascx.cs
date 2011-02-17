@@ -35,6 +35,7 @@ public partial class WebForm_RegistActivity_OpenAgentSelector : System.Web.UI.Us
         ObjectDataSource_Employee.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID.Text;
         ObjectDataSource_Employee.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
         ObjectDataSource_Employee.SelectParameters["UnderDept"].DefaultValue = cbUnderDept.Checked.ToString();
+        ObjectDataSource_Employee.SelectParameters["Company_ID"].DefaultValue = ddlC_NAME.SelectedValue;
         if (string.Compare(ddlDEPT_ID.SelectedValue, "") != 0)
         {
             GridView_Employee.DataBind();

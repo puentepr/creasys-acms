@@ -158,24 +158,24 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 		</table>
 	</div>
 	<div id="divUpload" style="display: none">
-		<form id="frmUpload" method="post" target="UploadWindow" enctype="multipart/form-data"
+		<form id="frmUpload" style="display: none" method="post" target="UploadWindow" enctype="multipart/form-data"
 			action="" onsubmit="return CheckUpload();">
 			<span fcklang="DlgLnkUpload">Upload</span><br />
 			<input id="txtUploadFile" style="width: 100%" type="file" size="40" name="NewFile" /><br />
 			<br />
-			<input id="btnUpload" type="submit" value="Send it to the Server" fcklang="DlgLnkBtnUpload" />
+			<input id="btnUpload" style="display: none" type="submit" value="Send it to the Server" fcklang="DlgLnkBtnUpload" />
 			<script type="text/javascript">
-				document.write( '<iframe name="UploadWindow" style="display: none" src="' + FCKTools.GetVoidUrl() + '"><\/iframe>' ) ;
+			    document.write('<iframe name="UploadWindow" style="display: none" src="' + FCKTools.GetVoidUrl() + '"><\/iframe>');
 			</script>
 		</form>
 	</div>
 	<div id="divLink" style="display: none">
-		<table cellspacing="1" cellpadding="1" border="0" width="100%">
+		<table cellspacing="1" cellpadding="1" border="0" width="100%" style="display: none">
 			<tr>
 				<td>
 					<div>
 						<span fcklang="DlgLnkURL">URL</span><br />
-						<input id="txtLnkUrl" style="width: 100%" type="text" onblur="UpdatePreview();" />
+						<input id="txtLnkUrl" style="width: 100%" type="file" onblur="UpdatePreview();" />
 					</div>
 					<div id="divLnkBrowseServer" align="right">
 						<input type="button" value="Browse Server" fcklang="DlgBtnBrowseServer" onclick="LnkBrowseServer();" />
@@ -195,7 +195,7 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 		</table>
 	</div>
 	<div id="divAdvanced" style="display: none">
-		<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0">
+		<table cellspacing="0" cellpadding="0" width="100%" align="center" border="0" style="display: none">
 			<tr>
 				<td valign="top" width="50%">
 					<span fcklang="DlgGenId">Id</span><br />
@@ -251,8 +251,8 @@ document.write( FCKTools.GetStyleHtml( GetCommonDialogCss() ) ) ;
 				</td>
 			</tr>
 		</table>
-		<span fcklang="DlgGenStyle">Style</span><br />
-		<input id="txtAttStyle" style="width: 100%" type="text" />
+		<span style="display: none" fcklang="DlgGenStyle">Style</span><br />
+		<input id="txtAttStyle" style="width: 100%" type="text"  style="display: none"/>
 	</div>
 </body>
 </html>

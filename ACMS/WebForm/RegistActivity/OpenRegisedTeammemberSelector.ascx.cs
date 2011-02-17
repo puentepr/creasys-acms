@@ -17,24 +17,47 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
     protected void btnOK_Click(object sender, EventArgs e)
     {
-        string emp_id = "";
+        //已換隊長
+       
+        if (newBoss != "")
+        {
+            foreach (GridViewRow gvr in GridView1.Rows)
+            {
+                if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true)
+                {
+                    if (GridView1.DataKeys[gvr.RowIndex].Value.ToString() == newBoss)
+                    {
+                        clsMyObj.ShowMessage("新隊長不可以取消報名!");
+                        this.mpSearch.Show(); 
+                        return;
+                    }
+
+                }
+            }
+            ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
+            myActivityTeamMemberDAO.ChangeBoss(new Guid(activity_id), newBoss, emp_id);
+
+        }
+
+
+        string emp_id1 = "";
         string path = Server.MapPath("~/UpFiles");
         foreach (GridViewRow gvr in GridView1.Rows)
         {
             if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true)
             {
-                emp_id += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
+                emp_id1 += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
             }
         }
 
-        if (emp_id.EndsWith(","))
+        if (emp_id1.EndsWith(","))
         {
-            emp_id = emp_id.Substring(0, emp_id.Length - 1);
+            emp_id1 = emp_id1.Substring(0, emp_id1.Length - 1);
         }
 
-        if (!string.IsNullOrEmpty(emp_id))
+        if (!string.IsNullOrEmpty(emp_id1))
         {
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page .Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id1, regist_deadline, cancelregist_deadline, ((Button)sender).Page .Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
             //.ResolveUrl("~/WebForm/RegistActivity/RegistedActivityQuery.aspx"));
 
             GridView1.DataBind();
@@ -94,25 +117,36 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
             //是隊長才能更改誰當新隊長
             RadioButton1.Enabled = (this.IsTeamBoss == "1");
+
             
-            if (this.IsTeamBoss == "1")
+            if (this.IsManager == "0")
             {
-                //隊長不能取消自己，但可以取消其他任何人
-                if (drv["emp_id"].ToString() == drv["boss_id"].ToString())
+
+                if (this.IsTeamBoss == "1")
                 {
-                    CheckBox1.Enabled = false;
+                    //隊長不能取消自己，但可以取消其他任何人//2011/2/17日修改成可以取消所有人
+                    if (drv["emp_id"].ToString() == drv["boss_id"].ToString())
+                    {
+                        CheckBox1.Enabled = true;
+                    }
+                    else
+                    {
+                        CheckBox1.Enabled = true;
+                    }
                 }
                 else
                 {
-                    CheckBox1.Enabled = true;
+                    //非隊長只能幫自己取消報名，並且預設勾選自己
+                    CheckBox1.Enabled = (drv["emp_id"].ToString() == clsAuth.ID);
+                    CheckBox1.Checked = (drv["emp_id"].ToString() == clsAuth.ID);
                 }
             }
-            else
+            else//從管理來的取消可以修改任何人
             {
-                //非隊長只能幫自己取消報名，並且預設勾選自己
-                CheckBox1.Enabled = (drv["emp_id"].ToString() == clsAuth.ID);
-                CheckBox1.Checked = (drv["emp_id"].ToString() == clsAuth.ID);
+                CheckBox1.Enabled = true;
+
             }
+
 
         }
     }
@@ -123,24 +157,24 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         //RadioButton RadioButton1 = sender as RadioButton;
         //RadioButton1.Checked = true;
 
-        //更改隊長
-        ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
+        //更改隊長//2011/2/17日修改為按確定後才可以修改DB
+        //ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
 
-        myActivityTeamMemberDAO.ChangeBoss(new Guid(activity_id), GridView1.DataKeys[((sender as RadioButton).NamingContainer as GridViewRow).RowIndex].Value.ToString(), emp_id);
+        //myActivityTeamMemberDAO.ChangeBoss(new Guid(activity_id), GridView1.DataKeys[((sender as RadioButton).NamingContainer as GridViewRow).RowIndex].Value.ToString(), emp_id);
 
-        if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
-        {
-            IsTeamBoss = "1";
-        }
-        else
-        {
-            IsTeamBoss = "0";
-        }
+        //if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
+        //{
+        //    IsTeamBoss = "1";
+        //}
+        //else
+        //{
+        //    IsTeamBoss = "0";
+        //}
+
+        newBoss = GridView1.DataKeys[((sender as RadioButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
 
 
-
-
-        GridView1.DataBind();
+        //GridView1.DataBind();
 
         //GridView_RegisterPeoplinfo.SelectedIndex = (RadioButton1.NamingContainer as GridViewRow).RowIndex;
 
@@ -166,10 +200,26 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
         set { ViewState["emp_id"] = value; }
     }
 
+    public string newBoss
+    {
+        get { return (ViewState["newBoss"] == null ? "" : ViewState["newBoss"].ToString()); }
+        set { ViewState["newBoss"] = value; }
+    }
+    public string oldBoss
+    {
+        get { return (ViewState["oldBoss"] == null ? "" : ViewState["oldBoss"].ToString()); }
+        set { ViewState["oldBoss"] = value; }
+    }
     public string IsTeamBoss
     {
         get { return (ViewState["IsTeamBoss"] == null ? "0" : ViewState["IsTeamBoss"].ToString()); }
         set { ViewState["IsTeamBoss"] = value; }
+    }
+
+    public string IsManager
+    {
+        get { return (ViewState["IsManager"] == null ? "0" : ViewState["IsManager"].ToString()); }
+        set { ViewState["IsManager"] = value; }
     }
 
 
