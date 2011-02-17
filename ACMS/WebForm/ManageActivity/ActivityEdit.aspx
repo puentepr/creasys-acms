@@ -284,7 +284,7 @@
                                         <br />
                                     </div>
                                 </asp:Panel>
-                                <asp:Panel ID="PanelCustomFieldB1" runat="server" GroupingText="自行設定/資料填寫、單選、複選、費用加總選項" Width="500">
+                                <asp:Panel ID="PanelCustomFieldB1" runat="server" GroupingText="隊員 / 身份ID、資料填寫設定" Width="500">
                                     <TServerControl:TCheckBoxYN ID="chkis_showidno" runat="server" Text="身分證字號" YesNo='<%# Bind("is_showidno") %>' />
                                     <asp:UpdatePanel ID="UpdatePanelB" runat="server" UpdateMode="Conditional">
                                         <ContentTemplate>

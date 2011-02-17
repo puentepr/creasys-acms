@@ -18,7 +18,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
     protected void btnOK_Click(object sender, EventArgs e)
     {
         //已換隊長
-       
+
         if (newBoss != "")
         {
             foreach (GridViewRow gvr in GridView1.Rows)
@@ -28,7 +28,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
                     if (GridView1.DataKeys[gvr.RowIndex].Value.ToString() == newBoss)
                     {
                         clsMyObj.ShowMessage("新隊長不可以取消報名!");
-                        this.mpSearch.Show(); 
+                        this.mpSearch.Show();
                         return;
                     }
 
@@ -39,6 +39,16 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
         }
 
+        foreach (GridViewRow gvr in GridView1.Rows)
+        {
+            if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true && (gvr.FindControl("RadioButton1") as RadioButton).Checked == true)
+            {
+                  clsMyObj.ShowMessage("隊長不可以取消報名!");
+                    this.mpSearch.Show();
+                    return;
+               
+            }
+        }
 
         string emp_id1 = "";
         string path = Server.MapPath("~/UpFiles");
@@ -57,7 +67,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
         if (!string.IsNullOrEmpty(emp_id1))
         {
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id1, regist_deadline, cancelregist_deadline, ((Button)sender).Page .Request.Url.AbsoluteUri.Substring (0,Request.Url.AbsoluteUri.IndexOf('/', 7))+"/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id1, regist_deadline, cancelregist_deadline, ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
             //.ResolveUrl("~/WebForm/RegistActivity/RegistedActivityQuery.aspx"));
 
             GridView1.DataBind();
