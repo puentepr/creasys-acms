@@ -22,22 +22,24 @@
                             目前沒有個人活動可以報名...
                         </EmptyDataTemplate>
                         <Columns>
-                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
+                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" ItemStyle-HorizontalAlign ="Center"/>
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
+                             <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:BoundField DataField="limit_count" HeaderText="活動人數" SortExpression="limit_count">
-                                <ItemStyle HorizontalAlign="Right" />
-                            </asp:BoundField>
-                            <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                            </asp:TemplateField><asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                             <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>~<br />
                                     <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate", "{0:g}") %>'></asp:Label>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
+                            <asp:BoundField DataField="limit_count11" HeaderText="活動人數" SortExpression="limit_count">
+                                 <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                            
                             <asp:BoundField DataField="registed_count" HeaderText="已報名人數" SortExpression="registed_count">
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
@@ -45,12 +47,14 @@
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:TemplateField>
+                             <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnRegist1" runat="server" OnClick="lbtnRegist1_Click">報名</asp:LinkButton>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField>
+                             <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnRegist2Agent" runat="server" OnClick="lbtnRegist2Agent_Click">代理報名</asp:LinkButton>
                                 </ItemTemplate>
@@ -75,27 +79,29 @@
                         AutoGenerateColumns="False" DataKeyNames="id" DataSourceID="ObjectDataSource2"
                         EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True"
                         SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="True" OnRowDataBound="GridView2_RowDataBound"
-                        OnDataBound="GridView2_DataBound">
+                        OnDataBound="GridView2_DataBound" AllowSorting="True">
                         <EmptyDataTemplate>
                             目前沒有團隊活動可以報名...
                         </EmptyDataTemplate>
                         <Columns>
-                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
+                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" ItemStyle-HorizontalAlign ="Center"/>
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
+                            <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:BoundField DataField="limit_count" HeaderText="活動隊數" SortExpression="limit_count">
-                                <ItemStyle HorizontalAlign="Right" />
-                            </asp:BoundField>
-                            <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                            </asp:TemplateField><asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                            <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:Label ID="lblactivity_startdate0" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>~<br />
                                     <asp:Label ID="lblactivity_enddate0" runat="server" Text='<%# Bind("activity_enddate", "{0:g}") %>'></asp:Label>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
+                            <asp:BoundField DataField="limit_count11" HeaderText="活動隊數" SortExpression="limit_count">
+                                 <ItemStyle HorizontalAlign="Center" />
+                            </asp:BoundField>
+                            
                             <asp:BoundField DataField="registed_count" HeaderText="已報名隊數" SortExpression="registed_count">
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
@@ -103,10 +109,11 @@
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:TemplateField>
+                            <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnRegist2" runat="server" OnClick="lbtnRegist2_Click">報名</asp:LinkButton>
                                 </ItemTemplate>
-                                <ItemStyle HorizontalAlign="Center" />
+                                
                             </asp:TemplateField>
                         </Columns>
                     </TServerControl:TGridView>
