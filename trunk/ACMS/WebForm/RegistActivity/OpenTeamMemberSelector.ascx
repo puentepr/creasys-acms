@@ -99,6 +99,9 @@
                     EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" 
                     AllowPaging="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged" 
                     onsorted="GridView_Employee_Sorted">
+                    <EmptyDataTemplate>
+                        <font color='Red' >查無資料</font>
+                    </EmptyDataTemplate>
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" SortExpression="WORK_ID" ReadOnly="True" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
@@ -123,6 +126,7 @@
                         <asp:Parameter Name="activity_id" Type="String" ConvertEmptyStringToNull="false" />
                         <asp:Parameter DefaultValue="2" Name="activity_type" Type="String" />
                         <asp:Parameter Name="UnderDept" Type="Boolean" ConvertEmptyStringToNull="false" />
+                        <asp:Parameter DefaultValue="" Name="Company_ID" Type="String"  ConvertEmptyStringToNull="false" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
             </td>

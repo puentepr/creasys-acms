@@ -129,15 +129,15 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Team.aspx">團隊報名</a></li>
                     <li><a href="/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx">已報名活動查詢</a></li>
                     <li><a href="/ACMS/WebForm/RegistActivity/ActivityProgressQuery.aspx">活動進度查詢</a></li>
-                    <li><a href="#">活動資料管理</a>
+                    <li id="ActivityManagement"><a href="#">活動資料管理</a>
                         <ul>
-                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityEditQuery.aspx">新增/修改活動</a></li>
+                            <li id ="ActivityEditQuery"><a href="/ACMS/WebForm/ManageActivity/ActivityEditQuery.aspx">新增/修改活動</a></li>
                             <li><a href="/ACMS/WebForm/ManageActivity/ActivityQuery.aspx">報名狀態查詢</a></li>
                             <li><a href="/ACMS/WebForm/ManageActivity/ActivityCheck.aspx">活動進度登錄</a></li>
                             <li><a href="/ACMS/WebForm/ManageActivity/HistoryActivityQuery.aspx?type=off">歷史資料查詢</a></li>
                         </ul>
                     </li>
-                    <li><a href="#">權限管理</a>
+                    <li id ="RightsManagement"><a href="#">權限管理</a>
                         <ul>
                             <li><a href="/ACMS/WebForm/ManageRole/ManageUnit.aspx">主辦單位設定</a></li>
                             <li><a href="/ACMS/WebForm/ManageRole/ManageRole.aspx">角色人員管理</a></li>

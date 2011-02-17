@@ -6,7 +6,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using System.IO;
 
-public partial class HistoryWebForm_ActivityQuery : System.Web.UI.Page
+public partial class HistoryWebForm_ActivityQuery : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -336,6 +336,12 @@ public partial class HistoryWebForm_ActivityQuery : System.Web.UI.Page
         {
             GridView1.Visible = true;
             lblGrideView1.Visible = false;
+        }
+
+        foreach (GridViewRow gr in GridView1.Rows)
+        {
+            ((Label)gr.FindControl("lblactivity_startdate")).Text = ((Label)gr.FindControl("lblactivity_startdate")).Text.Replace("-", "/").Replace("T", " ");
+            ((Label)gr.FindControl("lblactivity_enddate")).Text = ((Label)gr.FindControl("lblactivity_enddate")).Text.Replace("-", "/").Replace("T", " ");
         }
     }
 }

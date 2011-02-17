@@ -25,7 +25,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT convert(varchar(20),activity_startdate,120) as activity_startdate,convert(varchar(20),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate ");
             sb.AppendLine("FROM ");
@@ -87,7 +87,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT convert(varchar(20),activity_startdate,120) as activity_startdate,convert(varchar(20),activity_enddate,120) as activity_enddate,A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
@@ -181,16 +181,19 @@ namespace ACMS.DAO
         }
 
         //2-3個人報名-開啟代理報名選單 或 開啟選擇隊員-列出可加入此活動的隊員
-        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id,string activity_type,Boolean UnderDept)
+        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id,string activity_type,Boolean UnderDept,string Company_ID )
         {
             if (string.IsNullOrEmpty(activity_id))
             {
                 return null;
             }
-
+            if (DEPT_ID == "請選擇")
+            {
+                DEPT_ID = "";
+            }
             string tablename = (activity_type == "1" ? "ActivityRegist" : "ActivityTeamMember");
 
-            SqlParameter[] sqlParams = new SqlParameter[4];
+            SqlParameter[] sqlParams = new SqlParameter[5];
 
             sqlParams[0] = new SqlParameter("@DEPT_ID", SqlDbType.NVarChar, 36);
             sqlParams[0].Value = DEPT_ID;
@@ -200,6 +203,8 @@ namespace ACMS.DAO
             sqlParams[2].Value = NATIVE_NAME;
             sqlParams[3] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[3].Value = new Guid(activity_id);
+            sqlParams[4] = new SqlParameter("@Company_ID", SqlDbType.NVarChar,100);
+            sqlParams[4].Value = Company_ID;
             
             StringBuilder sb = new StringBuilder();
 
@@ -224,10 +229,11 @@ namespace ACMS.DAO
             {
                 sb.AppendLine("and (A.DEPT_ID=@DEPT_ID or A.C_DEPT_NAME=@DEPT_ID  or @DEPT_ID='') ");
             }
-            sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
+            sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='')  ");
             sb.AppendLine("and (A.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            sb.AppendLine(" and A.COMPANY_CODE like '%'+@Company_ID+'%'");
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
 
@@ -245,7 +251,8 @@ namespace ACMS.DAO
                 myEmployeeVOList.Add(myEmployeeVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myEmployeeVOList;
         
         }
@@ -277,7 +284,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
-            sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
+            sb.AppendLine(",convert(varchar(20),A.activity_startdate,120) as activity_startdate,convert(varchar(20),A.activity_enddate,120) as activity_enddate ,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
             sb.AppendLine("( ");
             sb.AppendLine("  SELECT AA.* ");
@@ -654,7 +661,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.sn,A.id,A.activity_type,A.activity_name,A.people_type, A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT convert(varchar(20),activity_startdate,120) as activity_startdate ,  convert(varchar(20),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_type,A.activity_name,A.people_type, A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM Activity A");          
@@ -704,8 +711,8 @@ namespace ACMS.DAO
             sb.AppendLine(string.Format("id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
             sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
             sb.AppendLine("); ");
-
-            IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            SqlConnection aconn = MyConn();
+            IDataReader myIDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
             List<VO.UnitVO> myUnitVOList = new List<ACMS.VO.UnitVO>();
 
@@ -716,7 +723,8 @@ namespace ACMS.DAO
                 myUnitVO.name = (string)myIDataReader["name"];
                 myUnitVOList.Add(myUnitVO);
             }
-
+            myIDataReader.Close();
+            aconn.Close();
             return myUnitVOList;
         }
 
@@ -783,8 +791,8 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.BIRTHDAY <= @BIRTHDAY_E or @BIRTHDAY_E='') ");
             sb.AppendLine("and (A.EXPERIENCE_START_DATE >=@EXPERIENCE_START_DATE or @EXPERIENCE_START_DATE='') ");
             sb.AppendLine("and (A.C_NAME = @C_NAME or @C_NAME='') ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
 
@@ -814,7 +822,8 @@ namespace ACMS.DAO
                 myEmployeeVOList.Add(myEmployeeVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myEmployeeVOList;
 
         }
@@ -835,7 +844,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline ");
             sb.AppendLine("FROM [Activity] A ");
-            sb.AppendLine("WHERE A.active='Y' ");
+            sb.AppendLine("WHERE A.active='Y'   and A.regist_startdate<=convert(datetime,convert(varchar(10),getdate(),111))");
             sb.AppendLine("and ( ");
             sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
             sb.AppendLine("       or (@activity_startdate <= cast(convert(varchar, A.activity_startdate, 102) as datetime) and @activity_enddate >= cast(convert(varchar, A.activity_enddate, 102) as datetime) and @activity_startdate<>'' and @activity_enddate<>'') ");
@@ -936,7 +945,7 @@ namespace ACMS.DAO
             sb.AppendLine("left join [ActivityRegist]D on A.id=d.activity_id and D.emp_id =B.boss_id ");
             sb.AppendLine(") AA");
             sb.AppendLine("where 1=1 ");
-            sb.AppendLine("and (COMPANY_CODE=@COMPANY_CODE )  ");
+            sb.AppendLine("and (COMPANY_CODE like '%'+@COMPANY_CODE+'%' )  ");
             sb.AppendLine("and (WORK_ID like '%'+@emp_id+'%' or @emp_id='') ");
 
             if (UnderDept)
@@ -964,8 +973,8 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT *");
             sb.AppendLine("FROM RoleList A ");
-
-            IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            SqlConnection aconn = MyConn();
+            IDataReader myIDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
             List<VO.RoleListVO> myRoleListVOList = new List<ACMS.VO.RoleListVO>();
 
@@ -976,7 +985,8 @@ namespace ACMS.DAO
                 myRoleListVO.role_name = (string)myIDataReader["role_name"];
                 myRoleListVOList.Add(myRoleListVO);
             }
-
+            myIDataReader.Close();
+            aconn.Close();
             return myRoleListVOList;
         }
 
@@ -1015,8 +1025,8 @@ namespace ACMS.DAO
             sb.AppendLine(" and B.COMPANY_CODE = @COMPANY_CODE");
             sb.AppendLine("and (B.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='') ");
             sb.AppendLine("and (B.ENGLISH_NAME like '%'  +@NATIVE_NAME+  '%'or B.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn=MyConn ();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
 
@@ -1033,6 +1043,8 @@ namespace ACMS.DAO
                 myEmployeeVOList.Add(myEmployeeVO);
 
             }
+            MyDataReader.Close();
+            aconn.Close();
 
             return myEmployeeVOList;
 
@@ -1044,8 +1056,8 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT [id],[name] ");
             sb.AppendLine("FROM Unit  ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
             List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
 
@@ -1058,7 +1070,8 @@ namespace ACMS.DAO
 
                 myDDLVOList.Add(myDDLVO);
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myDDLVOList;
 
         }
@@ -1069,8 +1082,9 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT distinct [DEPT_ID],C_DEPT_NAME,[C_DEPT_ABBR] ");
             sb.AppendLine("FROM V_ACSM_USER2  ");
+            SqlConnection aconn=MyConn ();
 
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
             List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
 
@@ -1084,7 +1098,8 @@ namespace ACMS.DAO
                 myDDLVOList.Add(myDDLVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myDDLVOList;
 
         }
@@ -1098,8 +1113,8 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT distinct [DEPT_ID],C_DEPT_NAME,[C_DEPT_ABBR] ");
             sb.AppendLine("FROM V_ACSM_USER2   WHERE COMPANY_CODE=@COMPANYCODE");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
 
@@ -1113,7 +1128,8 @@ namespace ACMS.DAO
                 myDDLVOList.Add(myDDLVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myDDLVOList;
 
         }
@@ -1125,8 +1141,8 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT * ");
             sb.AppendLine("FROM JOB_GRADE_GROUP ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
             List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
 
@@ -1140,7 +1156,8 @@ namespace ACMS.DAO
                 myDDLVOList.Add(myDDLVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myDDLVOList;
 
         }
@@ -1151,8 +1168,8 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT distinct [C_NAME] ,[COMPANY_CODE]");
             sb.AppendLine("FROM V_ACSM_USER2  ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
             List<VO.DDLVO> myDDLVOList = new List<ACMS.VO.DDLVO>();
 
@@ -1166,7 +1183,8 @@ namespace ACMS.DAO
                 myDDLVOList.Add(myDDLVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myDDLVOList;
 
         }
@@ -1204,7 +1222,7 @@ namespace ACMS.DAO
             StringBuilder sb = new StringBuilder();
             if (List_Type == "0")//已報名清冊
             {
-                sb.AppendLine(" SELECT A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+                sb.AppendLine(" SELECT distinct A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
                 sb.AppendLine("  FROM ActivityRegist A");
                 sb.AppendLine(" left join V_ACSM_USER2 B on A.emp_id=B.ID ");
@@ -1234,7 +1252,7 @@ namespace ACMS.DAO
                 sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
                 sb.AppendLine(" and (B.COMPANY_CODE =@C_NAME or @C_NAME='')");
 
-                sb.AppendLine(" union SELECT A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+                sb.AppendLine(" union SELECT distinct A.team_name,C.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
                 sb.AppendLine("  FROM ActivityRegist A");
 

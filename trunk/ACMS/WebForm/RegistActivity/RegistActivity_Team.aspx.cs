@@ -13,7 +13,7 @@ using System.IO;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.Page
+public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 {
     HiddenField MyHiddenField = new HiddenField();
 
@@ -115,6 +115,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
         GridView_TemMember.DataBind();
 
         Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+
 
     }
 
@@ -124,6 +127,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
     {
         RegistActivity_Query1.Visible = false;
         Wizard1.Visible = true;
+      
 
         //必要屬性
         MyFormMode = FormViewMode.Edit;
@@ -170,6 +174,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : System.Web.UI.
 
 
         Wizard1.MoveTo(Wizard1.WizardSteps[1]);
+        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
         InitQueryBlock(ActivityID.ToString());
 
@@ -829,14 +835,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                     MyTableRow = new TableRow();
                     System.Web.UI.WebControls.TableCell MyTableCell_Title = new TableCell();
                     System.Web.UI.WebControls.TableCell MyTableCell_Control = new TableCell();
-                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(150);// "40%";
+                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
                     MyTableCell_Control.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
 
                     //Title
                     Literal lblTitle = new Literal();
                     lblTitle.ID = string.Format("lbl{0}", myCustomFieldVO.field_id);
                     lblTitle.Text = myCustomFieldVO.field_name;
-
+                    MyTableCell_Title.HorizontalAlign = HorizontalAlign.Right ;
                     MyTableCell_Title.Controls.Add(lblTitle);
 
                     //Control
@@ -950,8 +956,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyTableCell_Control.Controls.Add(lblSumText);
                         MyTableCell_Control.Controls.Add(lblSumValue);
                     }
-
+                    MyTableCell_Title.BorderWidth = Unit.Parse("1px");
                     MyTableRow.Cells.Add(MyTableCell_Title);
+                    MyTableCell_Control.BorderWidth = Unit.Parse("1px");
                     MyTableRow.Cells.Add(MyTableCell_Control);
 
                     MyTable.Rows.Add(MyTableRow);

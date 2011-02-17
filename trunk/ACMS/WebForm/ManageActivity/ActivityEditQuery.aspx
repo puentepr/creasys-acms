@@ -55,25 +55,27 @@
                         OnRowDataBound="GridView1_RowDataBound" AllowHoverEffect="True" 
                         AllowHoverSelect="True" ondatabound="GridView1_DataBound" TotalRowCount="0">
                         <Columns>
-                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
-                            <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
+                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"  ItemStyle-HorizontalAlign ="Center"/>
+                            <asp:TemplateField HeaderText="活動對象" SortExpression="people_type" >
+                            <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:Label ID="Label2" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
+                            </asp:TemplateField><asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                            <ItemStyle HorizontalAlign="Center" />
+                                <ItemTemplate>
+                                    <asp:Label ID="lblactivity_startdate0" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>~<br />
+                                    <asp:Label ID="lblactivity_enddate0" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:BoundField DataField="limit_count11" HeaderText="活動人數" SortExpression="limit_count">
-                                <ItemStyle HorizontalAlign="Right" />
+                                <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
                             <asp:BoundField DataField="registed_count" HeaderText="已報名人數" SortExpression="registed_count">
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
-                            <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
-                                <ItemTemplate>
-                                    <asp:Label ID="lblactivity_startdate0" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>~<br />
-                                    <asp:Label ID="lblactivity_enddate0" runat="server" Text='<%# Bind("activity_enddate", "{0:g}") %>'></asp:Label>
-                                </ItemTemplate>
-                                <ItemStyle HorizontalAlign="Center" />
-                            </asp:TemplateField>
+                            
                             <asp:BoundField DataField="registable_count" HeaderText="剩餘名額" SortExpression="registable_count">
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>
@@ -84,6 +86,7 @@
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField>
+                            <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnDelActivaty" runat="server" OnClientClick="return confirm('所有相關資料將一併刪除!確定要繼續嗎?')"
                                         OnClick="lbtnDelActivaty_Click">刪除</asp:LinkButton>
@@ -91,6 +94,7 @@
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
                             <asp:TemplateField>
+                            <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnPreviewRegist" runat="server" 
                                         CommandArgument='<%# Bind("activity_type") %>' CommandName="Preview" 
@@ -107,8 +111,7 @@
                             <asp:Parameter Name="activity_enddate" Type="String" ConvertEmptyStringToNull="false" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
-                </div>
-            </asp:Panel>
+                </div>            </asp:Panel>
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

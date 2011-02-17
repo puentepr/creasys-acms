@@ -11,7 +11,7 @@ using System.Transactions;
 using System.Data.SqlClient;
 using System.Configuration;
 
-public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
+public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 {
     protected void Page_Init(object sender, EventArgs e)
     {
@@ -27,6 +27,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             btnAdd_GroupLimit.Enabled = true;
             btnExport_GroupLimit.Enabled = true;
             btnUpload_GroupLimit.Enabled = true;
+            Panel_GroupLimit.Visible = true;
         }
         else
         {
@@ -35,6 +36,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
             btnAdd_GroupLimit.Enabled = false;
             btnExport_GroupLimit.Enabled = false;
             FileUpload_GroupLimit.Enabled = false;
+            Panel_GroupLimit.Visible = false;
           
         }
     }
@@ -90,7 +92,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
    
                 }
 
-                if (Session["form_mode"].ToString() == "readonly" || myActivatyVO.activity_enddate <= DateTime.Now)
+                if (Session["form_mode"].ToString() == "readonly" ||  myActivatyVO.activity_enddate< DateTime.Now)
                 {
                     //唯讀模式:活動已結束也要是唯讀
                     MyFormMode = FormViewMode.ReadOnly;
@@ -173,9 +175,9 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView1.FindControl("lbllimit_count") as Literal).Visible = true;
                 (FormView1.FindControl("lbllimit2_count") as Literal).Visible = true;
                 //(FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動人數上限必填";
-                (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動人數上限必填數字";
+               // (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動人數上限必填數字";
                 //(FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取人數必填";
-                (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取人數必填數字";
+               // (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取人數必填數字";
                 (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
                 (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = false;
 
@@ -183,7 +185,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView2.FindControl("PanelCustomFieldB1") as Panel).Visible = false;
                 (FormView2.FindControl("PanelCustomFieldB2") as Panel).Visible = false;
 
-                PanelCustomFieldC.GroupingText = "個人自訂欄位";
+                //PanelCustomFieldC.GroupingText = "個人自訂欄位";
             }
             else
             {
@@ -191,9 +193,9 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView1.FindControl("lbllimit_count_team") as Literal).Visible = true;
                 (FormView1.FindControl("lbllimit2_count_team") as Literal).Visible = true;
                 //(FormView1.FindControl("chk_txtlimit_count") as RequiredFieldValidator).ErrorMessage = "活動隊數上限必填";
-                (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動隊數上限必填數字";
+               // (FormView1.FindControl("chk_txtlimit_count2") as CompareValidator).ErrorMessage = "活動隊數上限必填數字";
                 //(FormView1.FindControl("chk_txtlimit2_count") as RequiredFieldValidator).ErrorMessage = "活動備取隊數必填";
-                (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取隊數必填數字";
+               // (FormView1.FindControl("chk_txtlimit2_count2") as CompareValidator).ErrorMessage = "活動備取隊數必填數字";
 
                 (FormView1.FindControl("trteam_member_max") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = true;
                 (FormView1.FindControl("trteam_member_min") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = true;
@@ -202,12 +204,12 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                 (FormView2.FindControl("PanelCustomFieldB1") as Panel).Visible = true;
                 (FormView2.FindControl("PanelCustomFieldB2") as Panel).Visible = true;
 
-                PanelCustomFieldC.GroupingText = "團隊自訂欄位";
+                //PanelCustomFieldC.GroupingText = "團隊自訂欄位";
 
             }
 
             //andy 從報名狀況查詢進來的即使已經開始報名也要新增限制人員群組//原來活動是要有限制族群的才需要打開限制人群的管制
-            if (MyFormMode == FormViewMode.ReadOnly &&  myActivatyVO.activity_enddate > DateTime.Now && myActivatyVO .is_grouplimit =="Y")
+            if (MyFormMode == FormViewMode.ReadOnly &&  (myActivatyVO.activity_enddate >DateTime.Now) && myActivatyVO .is_grouplimit =="Y")
             {
 
 
@@ -359,11 +361,12 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.people_type = ((TextBox)FormView1.FindControl("txtpeople_type")).Text;
         myActivatyVO.activity_startdate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_startdate")).DateTimeValue;
         myActivatyVO.activity_enddate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_enddate")).DateTimeValue;
-        if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "")
+        if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit_count")).Text == "無上限")
         {
             ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "999999";
+            ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
         }
-        if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "")
+        if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "無")
         {
             ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
         }
@@ -388,7 +391,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
         myActivatyVO.regist_startdate = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtregist_startdate")).Text);
         myActivatyVO.regist_deadline = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtregist_deadline")).Text);
         myActivatyVO.cancelregist_deadline = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtcancelregist_deadline")).Text);
-        myActivatyVO.is_showfile = ((CheckBox)FormView1.FindControl("chkis_showfile")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showfile = "Y";
         myActivatyVO.is_showprogress = ((CheckBox)FormView1.FindControl("chkis_showprogres")).Checked == true ? "Y" : "N";
 
 
@@ -455,6 +458,18 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
     protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
     {
 
+        if (Wizard1.ActiveStepIndex == 0)
+        {
+            if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "999999")
+            {
+                ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "無上限";
+                ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
+            }
+
+
+
+
+        }
         if (Wizard1.ActiveStepIndex == 1)
         {
 
@@ -475,17 +490,68 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
 
                 e.Cancel = true;
             }
+           Int32 max1 ,min1 ;
             if (FormView1.Enabled == true)
             {
-                if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "")
+                if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit_count")).Text == "無上限")
                 {
-                    ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "999999";
+                    //((TextBox)FormView1.FindControl("txtlimit_count")).Text = "999999";
+                    ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "無上限";
+
+                    ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
+                    max1 = 999999;
                 }
-                if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "")
+                else
                 {
-                    ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
+                    try
+                    {
+                        max1 = Int32.Parse(((TextBox)FormView1.FindControl("txtlimit_count")).Text);
+                    }
+                    catch {
+
+                        max1 = 0;
+                        if (ActivityType == "1")
+                        {
+                            clsMyObj.ShowMessage("活動人數上限不是整數");
+                        }
+                        else
+                        {
+                            clsMyObj.ShowMessage("活動隊數上限不是整數");
+                        }
+                        e.Cancel = true;
+
+                    }
+                }
+                if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "無")
+                {
+                    // ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
+                    ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
+                    min1 = 0;
+                }
+                else
+                {
+                    try
+                    {
+                        min1 = Int32.Parse(((TextBox)FormView1.FindControl("txtlimit2_count")).Text);
+                    }
+                    catch
+                    {
+
+                        min1  = 0;
+                        if (ActivityType == "1")
+                        {
+                            clsMyObj.ShowMessage("活動備取人數不是整數");
+                        }
+                        else
+                        {
+                            clsMyObj.ShowMessage("活動備取隊數不是整數");
+                        }
+                        e.Cancel = true;
+
+                    }
                 }
 
+              
 
                 if (Convert.ToDateTime(txtregist_startdate.Text).Date <= DateTime.Today)
                 {
@@ -516,9 +582,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : System.Web.UI.Page
                         e.Cancel = true;
                         return;
                     }
+                    if (min<2)
 
 
-                    
+                    {
+                        clsMyObj.ShowMessage("每隊下限不可小於2");
+                        e.Cancel = true;
+                        return;
+                    }
 
 
                 }

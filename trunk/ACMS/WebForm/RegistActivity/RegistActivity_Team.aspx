@@ -33,7 +33,7 @@
                     <asp:Literal ID="Literal1" runat="server"></asp:Literal></div>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 2">
-                <asp:Panel ID="PanelActivityInfo" runat="server" GroupingText="活動相關資訊">
+                <asp:Panel ID="PanelActivityInfo" runat="server" GroupingText="活動相關資訊" Width="800px">
                     <asp:FormView ID="FormView_ActivatyDetails" runat="server" DataSourceID="ObjectDataSource_ActivatyDetails"
                         Width="700px" OnDataBound="FormView_ActivatyDetails_DataBound">
                         <ItemTemplate>
@@ -67,13 +67,13 @@
                                         活動日期
                                     </td>
                                     <td>
-                                        <asp:Label ID="activity_startdateLabel" runat="server" Text='<%# Bind("activity_startdate","{0:g}") %>' />
-                                        ~<asp:Label ID="activity_enddateLabel" runat="server" Text='<%# Bind("activity_enddate","{0:g}") %>' />
+                                        <asp:Label ID="activity_startdateLabel" runat="server" Text='<%# Bind("activity_startdate","{0:s}") %>' />
+                                        ~<asp:Label ID="activity_enddateLabel" runat="server" Text='<%# Bind("activity_enddate","{0:s}") %>' />
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>
-                                        活動人數上限
+                                        活動隊數上限
                                     </td>
                                     <td>
                                         <asp:Label ID="limit_countLabel" runat="server" Text='<%# Bind("limit_count") %>' />
@@ -81,7 +81,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        活動備取人數
+                                        活動備取隊數
                                     </td>
                                     <td>
                                         <asp:Label ID="limit2_countLabel" runat="server" Text='<%# Bind("limit2_count") %>' />
@@ -120,7 +120,7 @@
                                             EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                                             SkinID="pager" TotalRowCount="0" Width="100%">
                                             <Columns>
-                                                <asp:BoundField DataField="name" HeaderText="檔案名稱" SortExpression="name" />
+                                                <asp:BoundField DataField="name" HeaderText="活動資料下載" SortExpression="name" />
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="lbtnFileDownload" runat="server" CommandArgument='<%# Eval("path") %>'
@@ -149,7 +149,7 @@
                         </SelectParameters>
                     </asp:ObjectDataSource>
                 </asp:Panel>
-                <asp:Panel ID="Panel_TeamFix" runat="server" GroupingText="團隊固定欄位">
+                <asp:Panel ID="Panel_TeamFix" runat="server" GroupingText="團隊/隊名" Width="800px">
                     <table align="center">
                         <tr id="tr_showteam_fix1" runat="server">
                             <td>
@@ -182,15 +182,15 @@
                 </asp:Panel>
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
-                        <asp:Panel ID="PanelTeamMember" runat="server" GroupingText="團隊成員">
-                            <asp:Panel ID="PanelTeamMenberInfoA" runat="server">
+                        <asp:Panel ID="PanelTeamMember" runat="server" GroupingText="團隊成員" Width="800px">
+                            <asp:Panel ID="PanelTeamMenberInfoA" runat="server" Width="800px">
                                 <div align="right">
                                     <asp:Button ID="btnAddTeamMember" runat="server" OnClick="btnAgent_Click" Text="新增團隊成員" />
                                     <uc2:OpenTeamMemberSelector ID="OpenTeamMemberSelector1" OnGetEmployeesClick="GetEmployees_Click"
                                         runat="server" />
                                 </div>
                             </asp:Panel>
-                            <asp:Panel ID="PanelTeamMenberInfoB" runat="server">
+                            <asp:Panel ID="PanelTeamMenberInfoB" runat="server" Width="800px">
                                 <TServerControl:TGridView ID="GridView_TemMember" runat="server" AllowHoverEffect="True"
                                     AllowHoverSelect="True" AutoGenerateColumns="False" EnableModelValidation="True"
                                     ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0"
@@ -205,7 +205,7 @@
                                         </asp:BoundField>
                                         <asp:TemplateField>
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="lbtnVOedit" runat="server" OnClick="lbtnVOedit_Click">編輯個人相關欄位</asp:LinkButton>
+                                                <asp:LinkButton ID="lbtnVOedit" runat="server" OnClick="lbtnVOedit_Click">編輯個人報名資料</asp:LinkButton>
                                             </ItemTemplate>
                                             <ItemStyle HorizontalAlign="Center" />
                                         </asp:TemplateField>

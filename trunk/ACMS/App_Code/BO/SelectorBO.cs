@@ -43,10 +43,10 @@ namespace ACMS.BO
 
         //2-3個人報名-開啟代理報名選單 或 開啟選擇隊員-列出可加入此活動的隊員
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id, string activity_type,bool UnderDept)
+        public List<VO.EmployeeVO> RegistableMember(string DEPT_ID, string WORK_ID, string NATIVE_NAME, string activity_id, string activity_type,bool UnderDept,string Company_ID)
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            return mySelectorDAO.RegistableMember(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id, activity_type, UnderDept);
+            return mySelectorDAO.RegistableMember(DEPT_ID, WORK_ID, NATIVE_NAME, activity_id, activity_type, UnderDept,Company_ID );
         }
 
         //4.已報名活動查詢

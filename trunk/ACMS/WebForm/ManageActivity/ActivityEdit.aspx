@@ -17,10 +17,10 @@
         OnNextButtonClick="Wizard1_NextButtonClick" OnActiveStepChanged="Wizard1_ActiveStepChanged">
         <WizardSteps>
             <asp:WizardStep runat="server" Title="Step 1">
-                <font color="blue">請透過頁面上的文字編輯器，新增/修改此次活動的內容</font><br />
+                <font color="blue">此頁面您可編輯或上傳此活動公告或訊息(文字與圖檔)，提供報名者了解活動內容與規劃</font><br />
                 <asp:Panel ID="plFCKEditor" runat="server">
                     <asp:Literal ID="liactivity_info" runat="server" Visible="False"></asp:Literal>
-                    <FCKeditorV2:FCKeditor ID="FCKeditor1" runat="server" Width="800px" Height="400px">
+                    <FCKeditorV2:FCKeditor ID="FCKeditor1" runat="server" Width="800px" Height="400px"  BasePath="~/FCKeditor/">
                     </FCKeditorV2:FCKeditor>
                 </asp:Panel>
             </asp:WizardStep>
@@ -94,8 +94,7 @@
                                 <td>
                                     <asp:TextBox ID="txtlimit_count" runat="server" Text='<%# Bind("limit_count") %>' />
                                     
-                                    <asp:CompareValidator ID="chk_txtlimit_count2" runat="server" ControlToValidate="txtlimit_count"
-                                        Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" Display="Dynamic"></asp:CompareValidator>
+                                    
                                 </td>
                             </tr>
                             <tr>
@@ -106,8 +105,7 @@
                                 <td>
                                     <asp:TextBox ID="txtlimit2_count" runat="server" Text='<%# Bind("limit2_count") %>' />
                                    
-                                    <asp:CompareValidator ID="chk_txtlimit2_count2" runat="server" ControlToValidate="txtlimit2_count"
-                                        Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext" Display="Dynamic"></asp:CompareValidator>
+                                   
                                 </td>
                             </tr>
                             <tr id="trteam_member_max" runat="server">
@@ -190,17 +188,10 @@
                                         Operator="GreaterThanEqual" Type="Date" ValidationGroup="WizardNext"></asp:CompareValidator>
                                 </td>
                             </tr>
+                            
                             <tr>
                                 <td>
-                                    是否顯示附加檔案
-                                </td>
-                                <td>
-                                    <TServerControl:TCheckBoxYN ID="chkis_showfile" runat="server" YesNo='<%# Eval("is_showfile") %>' />
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    是否顯示活動進度
+                                    活動進度顯示
                                 </td>
                                 <td>
                                     <TServerControl:TCheckBoxYN ID="chkis_showprogres" runat="server" YesNo='<%# Eval("is_showprogress") %>' />
@@ -222,7 +213,7 @@
                                         AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                                         SkinID="pager" TotalRowCount="0" Width="100%" AllowSorting="False">
                                         <Columns>
-                                            <asp:BoundField DataField="name" HeaderText="檔案名稱" SortExpression="name" />
+                                            <asp:BoundField DataField="name" HeaderText="活動資料下載" SortExpression="name" />
                                             <asp:TemplateField>
                                                 <ItemTemplate>
                                                     <asp:LinkButton ID="lbtnFileDownload" runat="server" CommandArgument='<%# Eval("path") %>'
@@ -261,11 +252,11 @@
             <asp:WizardStep runat="server" Title="Step 3">
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                     <ContentTemplate>
-                        <font color="blue">請決定同仁報名本次活動時，所必須填寫的欄位內容</font></font><br />
+                        <font color="blue">請勾選或自行設定此次報名者務必填寫的欄位內容，無須設定，請按下一步</font></font><br />
                         <asp:FormView ID="FormView2" runat="server" DataSourceID="ObjectDataSource_Activaty2"
                             DataKeyNames="id">
                             <ItemTemplate>
-                                <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="個人固定欄位">
+                                <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="勾選/身分ID，攜伴人數">
                                     <div>
                                         <TServerControl:TCheckBoxYN ID="chkis_showperson_fix1" runat="server" Text="身份證字號或護照號碼"
                                             YesNo='<%# Bind("is_showperson_fix1") %>' />
@@ -293,7 +284,7 @@
                                         <br />
                                     </div>
                                 </asp:Panel>
-                                <asp:Panel ID="PanelCustomFieldB1" runat="server" GroupingText="個人固定欄位" Width="500">
+                                <asp:Panel ID="PanelCustomFieldB1" runat="server" GroupingText="自行設定/資料填寫、單選、複選、費用加總選項" Width="500">
                                     <TServerControl:TCheckBoxYN ID="chkis_showidno" runat="server" Text="身分證字號" YesNo='<%# Bind("is_showidno") %>' />
                                     <asp:UpdatePanel ID="UpdatePanelB" runat="server" UpdateMode="Conditional">
                                         <ContentTemplate>
@@ -315,7 +306,7 @@
                                     </asp:UpdatePanel>
                                     <br />
                                 </asp:Panel>
-                                <asp:Panel ID="PanelCustomFieldB2" runat="server" GroupingText="團隊固定欄位" Width="500">
+                                <asp:Panel ID="PanelCustomFieldB2" runat="server" GroupingText="團隊/隊名、攜伴人數限制" Width="500">
                                     <TServerControl:TCheckBoxYN ID="chkis_showteam_fix1" runat="server" Text="隊名" YesNo='<%# Bind("is_showteam_fix1") %>' />
                                     <asp:UpdatePanel ID="UpdatePanelC" runat="server" UpdateMode="Conditional">
                                         <ContentTemplate>
@@ -347,7 +338,7 @@
                                 <asp:Parameter DbType="Guid" Name="id" />
                             </SelectParameters>
                         </asp:ObjectDataSource>
-                        <asp:Panel ID="PanelCustomFieldC" runat="server" GroupingText="自訂欄位">
+                        <asp:Panel ID="PanelCustomFieldC" runat="server" GroupingText="自行設定/資料填寫、單選、複選、費用加總選項">
                             <table>
                                 <tr>
                                     <td>
@@ -442,21 +433,21 @@
             <asp:WizardStep runat="server" Title="Step 4">
                 <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional">
                     <ContentTemplate>
-                        <font color="blue">請決定是否需限定可報名本次活動的同仁名單（亦即族群名單）</font><br />
+                        <font color="blue">請設定此次活動報名人員，無須設定，請按下一步</font><br />
                         <asp:RadioButtonList ID="rblgrouplimit" runat="server" RepeatDirection="Horizontal"
                             OnSelectedIndexChanged="rblgrouplimit_Change" AutoPostBack="True">
-                            <asp:ListItem Selected="True" Value="Y">使用族群限定名單</asp:ListItem>
-                            <asp:ListItem Value="N">不使用族群限定名單</asp:ListItem>
+                            <asp:ListItem Selected="True" Value="Y">限定報名人員</asp:ListItem>
+                            <asp:ListItem Value="N">不限定報名人員(含ASUS、UTC、ASTP、ASTP-TW)</asp:ListItem>
                         </asp:RadioButtonList>
-                        <asp:Panel ID="Panel_GroupLimit" runat="server" GroupingText="族群限定名單">
+                        <asp:Panel ID="Panel_GroupLimit" runat="server" GroupingText="名單設定" Visible ="False" >
                             檔案上傳<asp:FileUpload ID="FileUpload_GroupLimit" runat="server" />
-                            <asp:Button ID="btnUpload_GroupLimit" runat="server" Text="上傳" OnClick="btnUpload_GroupLimit_Click" />
+                            <asp:Button ID="btnUpload_GroupLimit" runat="server" Text="excel名冊上傳" OnClick="btnUpload_GroupLimit_Click" />
                             &nbsp;
                             <asp:HyperLink ID="HyperLink1" runat="server" NavigateUrl="~/Public/NameListSample.xls">下載範例檔</asp:HyperLink>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <asp:Button ID="btnAdd_GroupLimit" runat="server" OnClick="btnAddGroupLimit_Click"
-                                Text="新增族群" />
-                            <asp:Button ID="btnExport_GroupLimit" runat="server" Text="匯出族群名單" OnClick="btnExport_GroupLimit_Click" />
+                                Text="系統名單選取" />
+                            <asp:Button ID="btnExport_GroupLimit" runat="server" Text="匯出excel名單" OnClick="btnExport_GroupLimit_Click" />
                             <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
                                 <ContentTemplate>
                                     <TServerControl:TGridView ID="GridView_GroupLimit" runat="server" AllowHoverEffect="True"

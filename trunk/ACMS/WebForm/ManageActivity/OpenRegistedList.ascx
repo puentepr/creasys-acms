@@ -8,7 +8,7 @@
         <ContentTemplate> 
     
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    display: none;" Width="800" Height="500">
+    display: none;" Width="800" Height="500" ScrollBars ="Auto">
     <!---->
     <br /> <asp:updateprogress ID="Updateprogress1" runat="server" DisplayAfter="0">
 
@@ -26,7 +26,7 @@
                 <asp:Label ID="lblC_NAME" runat="server" Text="公司別"></asp:Label>
             </td>
     <td colspan ="3">
-                <asp:DropDownList ID="ddlC_NAME" runat="server" DataSourceID="ObjectDataSource_CNAME"
+                <asp:DropDownList ID="ddlC_NAME" runat="server" DataSourceID="ObjectDataSource_CNAME" 
                     DataTextField="Text" DataValueField="Value" AutoPostBack="True"  OnSelectedIndexChanged ="ddlC_NAME_SelectedIndexChanged">
                 </asp:DropDownList>
                 <asp:ObjectDataSource ID="ObjectDataSource_CNAME" runat="server" OldValuesParameterFormatString="original_{0}"
@@ -109,25 +109,7 @@
             </td>
         </tr>
        
-        <tr>
-            <td align="right">
-                <asp:Label ID="lblEXPERIENCE_START_DATE" runat="server" Text="年資起始日"></asp:Label>
-            </td>
-            <td>
-                <asp:TextBox ID="txtEXPERIENCE_START_DATE" runat="server"></asp:TextBox>
-                <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" Format="yyyy/MM/dd"
-                    TargetControlID="txtEXPERIENCE_START_DATE">
-                </ajaxToolkit:CalendarExtender>
-                <asp:CompareValidator ID="chk_txtEXPERIENCE_START_DATE" runat="server" ControlToValidate="txtEXPERIENCE_START_DATE"
-                    Display="None" ErrorMessage="年資起始日必填日期格式" Operator="DataTypeCheck" Type="Date"
-                    ValidationGroup="Query"></asp:CompareValidator>
-            </td>
-           
-            
-            <td>
-                
-            </td>
-        </tr>
+        
         <tr>
         <td></td>
         <td>
@@ -147,6 +129,9 @@
                     SkinID="pager" TotalRowCount="0" AllowPaging="True" AllowSorting="True" 
                     OnPageIndexChanged="GridView1_PageIndexChanged" Visible="false" 
                     onsorted="GridView1_Sorted" >
+                    <EmptyDataTemplate>
+                        <font color='Red' >查無資料</font>
+                    </EmptyDataTemplate>
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />

@@ -12,7 +12,7 @@ using TServerControl;
 using System.IO;
 using System.Collections.Generic;
 
-public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.UI.Page
+public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 {
     HiddenField MyHiddenField = new HiddenField();
 
@@ -94,6 +94,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
         //載入活動資訊
         GetActivityDefault();
+        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
     }
 
@@ -102,7 +104,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
     protected void GoThirdStep_Click(object sender, RegistGoSecondEventArgs e)
     {
         Wizard1.MoveTo(Wizard1.WizardSteps[1]);
-
+      
         RegistActivity_Query1.Visible = false;
         Wizard1.Visible = true;
 
@@ -124,6 +126,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
 
         //載入活動資訊
         GetActivityDefault();
+        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+
 
     }
 
@@ -350,13 +355,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : System.Web.U
                 Wizard1.MoveTo(Wizard1.WizardSteps[0]);
             }
         }
-
+        
         if (Wizard1.ActiveStepIndex == 2)
         {
             RadioButtonList rblidno_type = (RadioButtonList)FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type");
             TextBox txtperson_fix1 = (TextBox)FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix1");
 
-            if (rblidno_type.SelectedIndex == 0)
+            if (rblidno_type.SelectedIndex == 0 && rblidno_type.Visible )
             {
                 if (clsMyObj.IDChk(txtperson_fix1.Text) != "0")
                 {
@@ -590,17 +595,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
 
                 foreach (ACMS.VO.CustomFieldVO myCustomFieldVO in myCustomFieldVOList)
                 {
-                    MyTableRow = new TableRow();
+                   
+                    //=======================================================================
                     System.Web.UI.WebControls.TableCell MyTableCell_Title = new TableCell();
                     System.Web.UI.WebControls.TableCell MyTableCell_Control = new TableCell();
-                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(100);// "40%";
+                 
+                    MyTableRow = new TableRow();
+                  
+                    MyTableCell_Title.HorizontalAlign = HorizontalAlign.Right;
+                    MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
                     MyTableCell_Control.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
 
                     //Title
                     Literal lblTitle = new Literal();
                     lblTitle.ID = string.Format("lbl{0}", myCustomFieldVO.field_id);
-                    lblTitle.Text = myCustomFieldVO.field_name;
-
+                    lblTitle.Text = myCustomFieldVO.field_name ;
                     MyTableCell_Title.Controls.Add(lblTitle);
 
                     //Control
@@ -713,8 +722,9 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         MyTableCell_Control.Controls.Add(lblSumText);
                         MyTableCell_Control.Controls.Add(lblSumValue);
                     }
-
+                    MyTableCell_Title.BorderWidth = Unit.Parse("1px");
                     MyTableRow.Cells.Add(MyTableCell_Title);
+                    MyTableCell_Control.BorderWidth = Unit.Parse("1px");
                     MyTableRow.Cells.Add(MyTableCell_Control);
 
                     MyTable.Rows.Add(MyTableRow);

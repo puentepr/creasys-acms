@@ -31,7 +31,7 @@
                     <asp:Literal ID="Literal1" runat="server"></asp:Literal></div>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 2">
-                <asp:Panel ID="PanelActivityInfo" runat="server" GroupingText="活動相關資訊">
+                <asp:Panel ID="PanelActivityInfo" runat="server" Width ="800px" GroupingText="活動相關資訊">
                     <asp:FormView ID="FormView_ActivatyDetails" runat="server" DataSourceID="ObjectDataSource_ActivatyDetails"
                         Width="700px" OnDataBound="FormView_ActivatyDetails_DataBound">
                         <ItemTemplate>
@@ -65,8 +65,8 @@
                                         活動日期
                                     </td>
                                     <td>
-                                        <asp:Label ID="activity_startdateLabel" runat="server" Text='<%# Bind("activity_startdate","{0:g}") %>' />
-                                        ~<asp:Label ID="activity_enddateLabel" runat="server" Text='<%# Bind("activity_enddate","{0:g}") %>' />
+                                        <asp:Label ID="activity_startdateLabel" runat="server" Text='<%# Bind("activity_startdate","{0:s}") %>' />
+                                        ~<asp:Label ID="activity_enddateLabel" runat="server" Text='<%# Bind("activity_enddate","{0:s}") %>' />
                                     </td>
                                 </tr>
                                 <tr>
@@ -118,7 +118,7 @@
                                             EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                                             SkinID="pager" TotalRowCount="0" Width="100%">
                                             <Columns>
-                                                <asp:BoundField DataField="name" HeaderText="檔案名稱" SortExpression="name" />
+                                                <asp:BoundField DataField="name" HeaderText="活動資料下載" SortExpression="name" />
                                                 <asp:TemplateField>
                                                     <ItemTemplate>
                                                         <asp:LinkButton ID="lbtnFileDownload" runat="server" CommandArgument='<%# Eval("path") %>'
@@ -147,7 +147,7 @@
                         </SelectParameters>
                     </asp:ObjectDataSource>
                 </asp:Panel>
-                <asp:Panel ID="PanelRegisterInfo" runat="server" GroupingText="報名人事資料">
+                <asp:Panel ID="PanelRegisterInfo" Width ="800px" runat="server" GroupingText="報名人事資料">
                     <asp:Panel ID="PanelRegisterInfoA" runat="server">
                         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                             <ContentTemplate>
@@ -180,7 +180,7 @@
                             </ContentTemplate>
                         </asp:UpdatePanel>
                     </asp:Panel>
-                    <asp:Panel ID="PanelRegisterInfoB" runat="server">
+                    <asp:Panel ID="PanelRegisterInfoB" runat="server" Width ="800px" >
                         <TServerControl:TGridView ID="GridView_RegisterPeoplinfo" runat="server" AllowHoverEffect="True"
                             AllowHoverSelect="True" AutoGenerateColumns="False" DataSourceID="ObjectDataSource_RegisterPeoplenfo"
                             EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
@@ -208,8 +208,8 @@
                 </asp:Panel>
             </asp:WizardStep>
             <asp:WizardStep runat="server" Title="Step 3">
-                <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="報名相關資料">
-                    <table align="center">
+                <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="報名相關資料" Width ="800px">
+                    <table align="center" >
                         <tr>
                             <td>
                                 <asp:UpdatePanel ID="UpdatePanel_CustomField" runat="server" UpdateMode="Conditional">
@@ -217,7 +217,7 @@
                                         <asp:FormView ID="FormView_fixA" runat="server" DataSourceID="ObjectDataSource_fixA"
                                             OnDataBound="FormView_fixA_DataBound">
                                             <ItemTemplate>
-                                                <table>
+                                                <table >
                                                     <tr>
                                                         <td colspan="2">
                                                             <font color="blue">您所提供的身份證字號將僅做為此次活動之使用!!</font>
@@ -225,9 +225,9 @@
                                                     </tr>
                                                     <tr id="tr_person_fix1" runat="server">
                                                         <td colspan="2">
-                                                            <table>
+                                                            <table >
                                                                 <tr>
-                                                                    <td width="100">
+                                                                    <td width="200" style ="text-align:right ">
                                                                         <asp:RadioButtonList ID="rblidno_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblidno_type_SelectedIndexChanged"
                                                                             RepeatDirection="Vertical" SelectedIndex='<%# Bind("idno_type") %>'>
                                                                             <asp:ListItem Selected="True">身分證字號</asp:ListItem>
@@ -244,10 +244,10 @@
                                                         </td>
                                                     </tr>
                                                     <tr id="tr_person_fix2" runat="server">
-                                                        <td width="100">
+                                                        <td width="200" style ="text-align:right ">
                                                             攜伴人數
                                                         </td>
-                                                        <td width="200">
+                                                        <td width="200" >
                                                             <asp:TextBox ID="txtperson_fix2" runat="server" Text='<%# Bind("ext_people") %>'
                                                                 Width="50px"></asp:TextBox>
                                                             (<asp:Label ID="lblAf2Start" runat="server" Text="Label"></asp:Label>

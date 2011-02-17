@@ -24,8 +24,8 @@ namespace ACMS.DAO
             sb.AppendLine("FROM CustomField A ");
             sb.AppendLine("left join CustomFieldValue B on A.field_id=B.field_id ");
             sb.AppendLine("WHERE A.activity_id=@activity_id and B.emp_id=@emp_id ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.CustomFieldValueVO> myCustomFieldValueVOList = new List<ACMS.VO.CustomFieldValueVO>();
 
@@ -43,7 +43,8 @@ namespace ACMS.DAO
                 myCustomFieldValueVOList.Add(myCustomFieldValueVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myCustomFieldValueVOList;
 
         }

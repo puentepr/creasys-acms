@@ -132,8 +132,8 @@ namespace ACMS.DAO
             sb.AppendLine("FROM ActivityGroupLimit A ");
             sb.AppendLine("inner join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE A.activity_id = @activity_id ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.EmployeeVO> myEmployeeVOList = new List<ACMS.VO.EmployeeVO>();
 
@@ -150,7 +150,8 @@ namespace ACMS.DAO
                 myEmployeeVOList.Add(myEmployeeVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myEmployeeVOList;
 
         }

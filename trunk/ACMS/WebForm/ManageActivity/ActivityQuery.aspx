@@ -57,12 +57,13 @@
             </td>
         </tr>
     </table>
-      <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="查無符合條件的資料... " Visible="False"></asp:Label>
+    <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="查無符合條件的資料... "
+        Visible="False"></asp:Label>
     <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
         AutoGenerateColumns="False" DataKeyNames="id,activity_type" DataSourceID="ObjectDataSource1"
         EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-        SkinID="pager" TotalRowCount="0" Width="100%" 
-        OnRowDataBound="GridView1_RowDataBound" ondatabound="GridView1_DataBound">
+        SkinID="pager" TotalRowCount="0" Width="100%" OnRowDataBound="GridView1_RowDataBound"
+        OnDataBound="GridView1_DataBound">
         <Columns>
             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
@@ -72,35 +73,32 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
                 <ItemTemplate>
-                    <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>~<br />
-                    <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate", "{0:g}") %>'></asp:Label>
-                </ItemTemplate>
+                    <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate","{0:s}~") %>'
+                        Width="120px"></asp:Label>
+                    <br />
+                    <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate","{0:s}") %>'></asp:Label></ItemTemplate>
             </asp:TemplateField>
             <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日" DataFormatString="{0:d}" />
             <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日" DataFormatString="{0:d}" />
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:LinkButton ID="lbtnViewActivity" runat="server" OnClick="lbtnViewActivity_Click">檢視內容</asp:LinkButton>
-                </ItemTemplate>
+                    <asp:LinkButton ID="lbtnViewActivity" runat="server" OnClick="lbtnViewActivity_Click">檢視內容</asp:LinkButton></ItemTemplate>
                 <ItemStyle HorizontalAlign="Center" />
             </asp:TemplateField>
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:LinkButton ID="lbtnViewActivityList" runat="server" OnClick="lbtnViewActivityList_Click">檢視名單</asp:LinkButton>
-                </ItemTemplate>
+                    <asp:LinkButton ID="lbtnViewActivityList" runat="server" OnClick="lbtnViewActivityList_Click">檢視名單</asp:LinkButton></ItemTemplate>
                 <ItemStyle HorizontalAlign="Center" />
             </asp:TemplateField>
             <asp:TemplateField>
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnCancelRegist" runat="server" OnClick="lbtnCancelRegist_Click"
-                        CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>'>取消報名</asp:LinkButton>
-                </ItemTemplate>
+                        CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>'>取消報名</asp:LinkButton></ItemTemplate>
                 <ItemStyle HorizontalAlign="Center" />
             </asp:TemplateField>
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:LinkButton ID="lbtnExport" runat="server" OnClick="lbtnExport_Click">匯出名單</asp:LinkButton>
-                </ItemTemplate>
+                    <asp:LinkButton ID="lbtnExport" runat="server" OnClick="lbtnExport_Click">匯出名單</asp:LinkButton></ItemTemplate>
                 <ItemStyle HorizontalAlign="Center" />
             </asp:TemplateField>
         </Columns>

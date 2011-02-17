@@ -17,9 +17,9 @@ namespace ACMS.DAO
             sb.AppendLine("left join RoleList B on A.role_id=B.id ");
             sb.AppendLine("left join Unit C on A.unit_id=C.id ");
             sb.AppendLine("left join V_ACSM_USER2 D on A.emp_id=D.ID ");
-            sb.AppendLine("order by C.name,B.id  ");  
-
-            IDataReader myIDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), null);
+            sb.AppendLine("order by C.name,B.id  ");
+            SqlConnection aconn = MyConn();
+            IDataReader myIDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
             List<VO.RoleUserMappingVO> myRoleUserMappingVOList = new List<ACMS.VO.RoleUserMappingVO>();
 
@@ -37,7 +37,8 @@ namespace ACMS.DAO
 
                 myRoleUserMappingVOList.Add(myRoleUserMappingVO);
             }
-
+            myIDataReader.Close();
+            aconn.Close();
             return myRoleUserMappingVOList;
         }
 

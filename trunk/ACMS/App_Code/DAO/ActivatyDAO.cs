@@ -65,12 +65,12 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT * ");
+            sb.AppendLine("SELECT *");
             sb.AppendLine("FROM Activity ");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND id=@id ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn=MyConn ();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             VO.ActivatyVO myActivatyVO = new ACMS.VO.ActivatyVO();
 
@@ -82,7 +82,7 @@ namespace ACMS.DAO
                 myActivatyVO.org_id = (string)MyDataReader["org_id"];
                 myActivatyVO.activity_name = (string)MyDataReader["activity_name"];
                 myActivatyVO.people_type = (string)MyDataReader["people_type"];
-                myActivatyVO.activity_startdate = (DateTime?)(MyDataReader["activity_startdate"]==DBNull.Value?null:MyDataReader["activity_startdate"]);
+                myActivatyVO.activity_startdate = (DateTime?)(MyDataReader["activity_startdate"] == DBNull.Value ? null : MyDataReader["activity_startdate"]);
                 myActivatyVO.activity_enddate = (DateTime?)(MyDataReader["activity_enddate"] == DBNull.Value ? null : MyDataReader["activity_enddate"]);
                 myActivatyVO.limit_count = (int?)(MyDataReader["limit_count"] == DBNull.Value ? null : MyDataReader["limit_count"]);
                 myActivatyVO.limit2_count = (int?)(MyDataReader["limit2_count"] == DBNull.Value ? null : MyDataReader["limit2_count"]);
@@ -108,7 +108,9 @@ namespace ACMS.DAO
                 myActivatyVO.notice = (string)MyDataReader["notice"];
              
             }
-
+            
+            MyDataReader.Close();
+            aconn.Close();
             return myActivatyVO;
 
         }

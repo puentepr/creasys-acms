@@ -25,8 +25,8 @@ namespace ACMS.DAO
             sb.AppendLine("left join V_ACSM_USER2 B on A.emp_id=B.ID ");
             sb.AppendLine("WHERE A.activity_id=@activity_id ");
             sb.AppendLine("and A.boss_id=@RegistBy ");
-
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlConnection aconn = MyConn();
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.ActivityTeamMemberVO> myActivityTeamMemberVOList = new List<ACMS.VO.ActivityTeamMemberVO>();
 
@@ -50,7 +50,8 @@ namespace ACMS.DAO
                 myActivityTeamMemberVOList.Add(myActivityTeamMemberVO);
 
             }
-
+            MyDataReader.Close();
+            aconn.Close();
             return myActivityTeamMemberVOList;
 
         }
@@ -66,19 +67,23 @@ namespace ACMS.DAO
             sqlParams[1].Value = emp_id;
 
             StringBuilder sb = new StringBuilder();
-
+            SqlConnection aconn=MyConn ();
             sb.AppendLine("SELECT * ");
             sb.AppendLine("FROM ActivityTeamMember A ");
             sb.AppendLine("WHERE activity_id=@activity_id and boss_id=@emp_id ");
 
-            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             if (MyDataReader.HasRows)
             {
+                MyDataReader.Close();
+                aconn.Close();
                 return true;
             }
             else
             {
+                MyDataReader.Close();
+                aconn.Close();
                 return false;
             }
 
@@ -105,7 +110,9 @@ namespace ACMS.DAO
             sb.AppendLine("UPDATE ActivityTeamMember ");
             sb.AppendLine("set boss_id=@NewBossID ");
             sb.AppendLine("WHERE activity_id=@activity_id and boss_id=@ExBossID; ");
+            sb.AppendLine("UPDATE CustomFieldValue ");
 
+            sb.AppendLine(" set emp_id=@NewBossID  where field_id in (select field_id from CustomField where activity_id=@activity_id)   and emp_id =@ExBossID ");
             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
     

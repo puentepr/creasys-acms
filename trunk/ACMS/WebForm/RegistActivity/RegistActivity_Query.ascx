@@ -48,22 +48,22 @@
                         onrowdatabound="GridView1_RowDataBound" ondatabound="GridView1_DataBound">
                         
                         <Columns>
-                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
+                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"  ItemStyle-HorizontalAlign ="Center"/>
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
-                               
+                               <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                            <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate"><ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate", "{0:g}") %>'></asp:Label>
+                                    <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>
                                     ~<br />
-                                    <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate", "{0:g}") %>'></asp:Label>
+                                    <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                            <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日"  SortExpression="regist_deadline" DataFormatString="{0:d}" />
-                            <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日"  SortExpression="cancelregist_deadline" DataFormatString="{0:d}" />
+                            <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日"  SortExpression="regist_deadline" DataFormatString="{0:d}" ItemStyle-HorizontalAlign ="Center" />
+                            <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日"  SortExpression="cancelregist_deadline" DataFormatString="{0:d}"  ItemStyle-HorizontalAlign ="Center"/>
                     <asp:BoundField DataField="registable_count" HeaderText="剩餘名額" SortExpression="registable_count">
                         <ItemStyle HorizontalAlign="Left" />
                     </asp:BoundField>
