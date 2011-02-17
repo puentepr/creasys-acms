@@ -97,6 +97,16 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
         ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
+        if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text="無上限";
+        }
+         if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+        }
+
+
     }
 
 
@@ -128,6 +138,16 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         GetActivityDefault();
         ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
         ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+
+        if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+        }
+        if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+        }
+
 
 
     }
