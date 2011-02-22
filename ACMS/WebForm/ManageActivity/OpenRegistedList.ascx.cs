@@ -64,10 +64,10 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
         //}
         //else
         //{
-        //    GridView1.Visible = true;
+        //    
         //}
        // GridView1.Visible = false;
-       
+       GridView1.Visible = true;
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
      
         ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID .SelectedItem.Text  ;

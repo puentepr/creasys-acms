@@ -126,7 +126,7 @@
                 <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                     AutoGenerateColumns="False" DataSourceID="ObjectDataSource1"
                     EnableModelValidation="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                    SkinID="pager" TotalRowCount="0" AllowPaging="True" AllowSorting="True" 
+                    SkinID="pager" TotalRowCount="0" AllowSorting="True" 
                     OnPageIndexChanged="GridView1_PageIndexChanged" Visible="false" 
                     onsorted="GridView1_Sorted" >
                     <EmptyDataTemplate>
