@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualBasic;
+﻿//using Microsoft.VisualBasic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,6 +29,9 @@ public class BasePage : System.Web.UI.Page
 	/// <remarks>處理程式沒有攔到錯誤的地方,不要秀出原始檔等相關的頁面出來</remarks>
 	protected override void OnError(System.EventArgs e)
 	{
+        
+        string vbCrLf = "\r\n";
+        string vbTab = "\t";
 		Exception ex = Server.GetLastError();
 		string Msg = null;
 		//= ex.Message
@@ -38,9 +41,8 @@ public class BasePage : System.Web.UI.Page
         {
             Msg = "您已閒置系統超過15分鐘，請您重新登入!";
         }
-		Response.Write("<script language=\"javascript\">alert(\"" + Msg.Replace("\\", "\\\\").Replace(Constants.vbCrLf, "\\r\\n").Replace("\"", "'") + "\")</Script>");
-
-		Server.ClearError();
+        Response.Write("<script language=\"javascript\">alert(\"" + Msg.Replace("\\", "\\\\").Replace(vbCrLf, "\\r\\n").Replace("\"", "'").Replace(vbTab ,"") + "\")</Script>");
+       Server.ClearError();
 		base.OnError(e);
 	}
 

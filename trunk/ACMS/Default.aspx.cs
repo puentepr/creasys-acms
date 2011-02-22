@@ -13,6 +13,7 @@ public partial class _Default : BasePage
         {
             ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
             ObjectDataSource2.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
+           
         }
     }
 
