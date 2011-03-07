@@ -8,6 +8,7 @@
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <asp:HiddenField ID="hiMode1" runat="server" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"

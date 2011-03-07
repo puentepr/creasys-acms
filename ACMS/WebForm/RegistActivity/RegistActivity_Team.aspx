@@ -10,6 +10,7 @@
 <%@ Register Src="OpenTeamMemberSelector.ascx" TagName="OpenTeamMemberSelector" TagPrefix="uc2" %>
 <%@ Register Src="OpenTeamPersonInfo.ascx" TagName="OpenTeamPersonInfo" TagPrefix="uc5" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <asp:HiddenField ID="hiMode1" runat="server" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"

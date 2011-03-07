@@ -32,16 +32,7 @@
                 <asp:ObjectDataSource ID="ObjectDataSource_CNAME" runat="server" OldValuesParameterFormatString="original_{0}"
                     SelectMethod="CNAMESelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
             </td>
-            <td align="right">
-                <asp:Label ID="lblJOB_CNAME" runat="server" Text="職稱"></asp:Label>
-            </td>
-            <td>
-                <asp:DropDownList ID="ddlJOB_GRADE_GROUP" runat="server" DataSourceID="ObjectDataSource_JOB_GRADE_GROUP"
-                    DataTextField="Text" DataValueField="Value">
-                </asp:DropDownList>
-                <asp:ObjectDataSource ID="ObjectDataSource_JOB_GRADE_GROUP" runat="server" OldValuesParameterFormatString="original_{0}"
-                    SelectMethod="JOB_GRADE_GROUPSelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
-            </td>
+           
         </tr>
         <tr>
             <td align="right">
@@ -83,16 +74,6 @@
             </td>
         </tr>
         <tr>
-            <td align="right">
-                <asp:Label ID="lblSEX" runat="server" Text="性別"></asp:Label>
-            </td>
-            <td>
-                <asp:RadioButtonList ID="rblSEX" runat="server" RepeatDirection="Horizontal">
-                    <asp:ListItem Text="女" Value="0"></asp:ListItem>
-                    <asp:ListItem Text="男" Value="1"></asp:ListItem>
-                    <asp:ListItem Text="不拘" Value="" Selected="True"></asp:ListItem>
-                </asp:RadioButtonList>
-            </td>
             
             <td>
                 &nbsp;

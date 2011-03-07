@@ -44,6 +44,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                 //以預覽方式進來時
                 if (Session["form_mode"].ToString() == "preview")
                 {
+                    hiMode1.Value = "preview";
                     Session["form_mode1"] = "preview";
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
@@ -210,6 +211,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
         ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\r\n", "<br/>");
 
+        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
+        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
+        ((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text).ToString("yyyy/MM/dd");
+        ((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
+        ((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
     }
 
     //下載檔案
@@ -356,6 +362,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //檢查欲報名者是否已經報過名
     protected void btnNext_Click(object sender, EventArgs e)
     {
+
+       
         if (Wizard1.ActiveStepIndex == 1 && MyFormMode == FormViewMode.Insert)
         {
             ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
@@ -478,10 +486,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         {
             if (Session["form_mode1"].ToString() == "preview")
             {
-                Session.Remove("form_mode1");
+               
                 Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
             }
         }
+        
+
+
         if (MyFormMode == FormViewMode.ReadOnly)
         {
             Response.Redirect("RegistedActivityQuery.aspx");
@@ -592,6 +603,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                 btnAgent.Visible = true;
             }
         }
+
+       
     }
 }
 

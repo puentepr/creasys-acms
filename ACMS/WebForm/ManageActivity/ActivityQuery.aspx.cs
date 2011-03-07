@@ -501,6 +501,11 @@ public partial class WebForm_ActivityQuery : BasePage
         {
             ((Label)gr.FindControl("lblactivity_startdate")).Text = ((Label)gr.FindControl("lblactivity_startdate")).Text.Replace("-", "/").Replace("T", " ");
             ((Label)gr.FindControl("lblactivity_enddate")).Text = ((Label)gr.FindControl("lblactivity_enddate")).Text.Replace("-", "/").Replace("T", " ");
+            gr.Cells[3].Text = DateTime.Parse(gr.Cells[3].Text).ToString("yyyy/MM/dd");
+            gr.Cells[4].Text = DateTime.Parse(gr.Cells[4].Text).ToString("yyyy/MM/dd");
+
+            ((Label)gr.FindControl("lblactivity_startdate")).Text = DateTime.Parse(((Label)gr.FindControl("lblactivity_startdate")).Text).ToString("yyyy/MM/dd HH:mm~");
+            ((Label)gr.FindControl("lblactivity_enddate")).Text = DateTime.Parse(((Label)gr.FindControl("lblactivity_enddate")).Text).ToString("yyyy/MM/dd HH:mm");
         }
     }
 }

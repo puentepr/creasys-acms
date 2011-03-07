@@ -25,7 +25,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT convert(varchar(20),activity_startdate,120) as activity_startdate,convert(varchar(20),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT convert(varchar(16),activity_startdate,120) as activity_startdate,convert(varchar(16),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate ");
             sb.AppendLine("FROM ");
@@ -87,7 +87,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT convert(varchar(20),activity_startdate,120) as activity_startdate,convert(varchar(20),activity_enddate,120) as activity_enddate,A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT convert(varchar(16),activity_startdate,120) as activity_startdate,convert(varchar(16),activity_enddate,120) as activity_enddate,A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
@@ -284,7 +284,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
-            sb.AppendLine(",convert(varchar(20),A.activity_startdate,120) as activity_startdate,convert(varchar(20),A.activity_enddate,120) as activity_enddate ,A.regist_deadline,A.cancelregist_deadline ");
+            sb.AppendLine(",convert(varchar(16),A.activity_startdate,120) as activity_startdate,convert(varchar(16),A.activity_enddate,120) as activity_enddate ,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
             sb.AppendLine("( ");
             sb.AppendLine("  SELECT AA.* ");
@@ -661,7 +661,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT convert(varchar(20),activity_startdate,120) as activity_startdate ,  convert(varchar(20),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_type,A.activity_name,A.people_type, A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT convert(varchar(16),activity_startdate,120) as activity_startdate ,  convert(varchar(16),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_type,A.activity_name,A.people_type, A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM Activity A");          
@@ -841,9 +841,11 @@ namespace ACMS.DAO
             sqlParams[2].Value = org_id;
 
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist group by activity_id ");
 
-            sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline ");
+            sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline,isnull(AA.RegisterCount,0) as RegisterCount");
             sb.AppendLine("FROM [Activity] A ");
+            sb.AppendLine("left join #AA AA  on a.id=AA. activity_id");
             sb.AppendLine("WHERE A.active='Y'   and A.regist_startdate<=convert(datetime,convert(varchar(10),getdate(),111))");
             sb.AppendLine("and ( ");
             sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
@@ -874,7 +876,7 @@ namespace ACMS.DAO
             {
                 sb.AppendLine("and A.activity_enddate<=getdate() ");//歷史資料查詢(活動已結束)
             }
-
+            sb.AppendLine("drop table #AA  ");
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
             return clsMyObj.GetDataTable(DS);
@@ -932,13 +934,13 @@ namespace ACMS.DAO
             sb.AppendLine("SELECT * FROM ");
             sb.AppendLine("( ");
             sb.AppendLine(" SELECT C.COMPANY_CODE,C.ENGLISH_NAME, A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
-            sb.AppendLine(" ,convert(varchar(30),B.createat,120) as createat,C.OFFICE_MAIL ,C.OFFICE_PHONE,B.team_name,A.limit_count as team_max");
+            sb.AppendLine(" ,convert(varchar(16),B.createat,120) as createat,C.OFFICE_MAIL ,C.OFFICE_PHONE,B.team_name,A.limit_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityRegist] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='1' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id  ");
             sb.AppendLine(" Union ");
             sb.AppendLine(" SELECT C.COMPANY_CODE,C.ENGLISH_NAME,A.id,A.activity_type,B.emp_id,C.NATIVE_NAME,C.WORK_ID,C.DEPT_ID,C.C_DEPT_NAME,C.C_DEPT_ABBR,CASE B.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN 3 THEN '留職停薪' WHEN 4 THEN '已離職' ELSE '' END as check_status ");
-            sb.AppendLine(",convert(varchar(30),D.createat,120) as createat ,C.OFFICE_MAIL ,C.OFFICE_PHONE ,D.team_name,A.limit_count as team_max");
+            sb.AppendLine(",convert(varchar(16),D.createat,120) as createat ,C.OFFICE_MAIL ,C.OFFICE_PHONE ,D.team_name,A.limit_count as team_max");
             sb.AppendLine(" FROM Activity A ");
             sb.AppendLine(" inner join [ActivityTeamMember] B on A.id=B.activity_id and A.id=@activity_id and A.activity_type='2' and B.check_status>=0 ");//已取消的不要出現
             sb.AppendLine(" left join [V_ACSM_USER2] C on B.emp_id = C.id ");

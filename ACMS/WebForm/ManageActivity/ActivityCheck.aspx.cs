@@ -29,6 +29,9 @@ public partial class WebForm_ActivityCheck : BasePage
     }
     protected void btnQuery_Click(object sender, EventArgs e)
     {
+        
+
+
         ViewState["activity_id"] = ddlActivity.SelectedValue;
         ViewState["DEPT_ID"] = ddlDEPT_ID.SelectedValue;
 
@@ -40,6 +43,7 @@ public partial class WebForm_ActivityCheck : BasePage
         ObjectDataSource1.SelectParameters["COMPANY_CODE"].DefaultValue = ddlC_NAME.SelectedValue ;
         
         GridView1.DataBind();
+        
     }
     protected void btnExport_Click(object sender, EventArgs e)
     {
