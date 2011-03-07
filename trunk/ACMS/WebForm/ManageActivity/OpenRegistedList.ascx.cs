@@ -70,18 +70,20 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
        GridView1.Visible = true;
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
      
-        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID .SelectedItem.Text  ;
-        if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
-        {
-            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
-        }
-        else
-        {
-            ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
-        }
+        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID .SelectedItem.Text  ; 
+        ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
+        //if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
+        //{
+           
+        //}
+        //else
+        //{
+        //    ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = ddlJOB_GRADE_GROUP.SelectedValue;
+        //}
         ObjectDataSource1.SelectParameters["WORK_ID"].DefaultValue = txtWORK_ID .Text ;
         ObjectDataSource1.SelectParameters["NATIVE_NAME"].DefaultValue = txtNATIVE_NAME.Text;
-        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX .SelectedValue; 
+       // ObjectDataSource1.SelectParameters["SEX"].DefaultValue = rblSEX .SelectedValue;
+        ObjectDataSource1.SelectParameters["SEX"].DefaultValue = "";
         ObjectDataSource1.SelectParameters["EXPERIENCE_START_DATE"].DefaultValue = "1900/1/1";
         
         ObjectDataSource1.SelectParameters["C_NAME"].DefaultValue = ddlC_NAME.SelectedValue ;

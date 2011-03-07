@@ -73,13 +73,14 @@
             </asp:TemplateField>
             <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
                 <ItemTemplate>
-                    <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate","{0:s}~") %>'
+                    <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate","{0:s}") %>'
                         Width="120px"></asp:Label>
                     <br />
                     <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate","{0:s}") %>'></asp:Label></ItemTemplate>
             </asp:TemplateField>
             <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日" DataFormatString="{0:d}" />
             <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日" DataFormatString="{0:d}" />
+            <asp:BoundField DataField="RegisterCount" HeaderText="報名人數"  ItemStyle-HorizontalAlign="Center" />
             <asp:TemplateField>
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnViewActivity" runat="server" OnClick="lbtnViewActivity_Click">檢視內容</asp:LinkButton></ItemTemplate>

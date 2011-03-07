@@ -45,6 +45,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 //報名預覽
                 if (Session["form_mode"].ToString() == "preview")
                 {
+                    hiMode1.Value = "preview";
                     Session["form_mode1"] = "preview";
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
@@ -339,6 +340,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
         (FormView_ActivatyDetails.FindControl("GridView_UpFiles") as GridView).Visible = (drv["is_showfile"].ToString() == "Y");
         ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\r\n", "<br/>");
+        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
+        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
+        ((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text).ToString("yyyy/MM/dd");
+        ((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
+        ((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
 
     }
 
@@ -748,6 +754,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 Session.Remove("form_mode1");
                 Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
             }
+        }
+
+        if (hiMode1.Value == "preview")
+
+        {
+            Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
         }
 
         if (MyFormMode == FormViewMode.ReadOnly)

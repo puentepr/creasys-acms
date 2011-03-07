@@ -9,7 +9,7 @@
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-    <link rel="stylesheet" type="text/css" href="Scripts/jqueryslidemenu.css" />
+    <link rel="stylesheet" type="text/css" href="/ACMS/Scripts/jqueryslidemenu.css"  />
     <!--[if lte IE 7]>
 <style type="text/css">
 html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
@@ -18,12 +18,12 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
 
     <script type="text/javascript" src="/ACMS/Scripts/jquery-1.4.1.min.js"></script>
 
-    <script type="text/javascript" src="/ACMS/Scripts/jqueryslidemenu.js"></script>
+    <script type="text/javascript" src="/ACMS/Scripts/jqueryslidemenu.js" ></script>
 
     <script type="text/javascript" src="/ACMS/js/jquery-ui.min.js"></script>
 
     <link rel="stylesheet" type="text/css" media="screen" href="/ACMS/js/jquery-ui.css" />
-
+<link rel="stylesheet" type="text/css" href="/ACMS/WebForm.css" />
     <script type="text/javascript">
             function setRadio(nowRadio)
             {
@@ -102,9 +102,9 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
             </ProgressTemplate>
 
 </asp:updateprogress>
-    <div  id="main_container" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;" >
+    <div  id="main_container" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;"  >
     
-        <div id="header" class ="banner" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;">
+        <div id="header" class ="banner" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;"  >
         
             <div id="logo">
             
@@ -124,23 +124,23 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
             </asp:Panel>
             <div id="myslidemenu" class="jqueryslidemenu" style ="">
                 <ul>
-                    <li><a href="/ACMS/Default.aspx">首頁</a></li>
-                    <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Person.aspx">個人報名</a></li>
-                    <li><a href="/ACMS/WebForm/RegistActivity/RegistActivity_Team.aspx">團隊報名</a></li>
-                    <li><a href="/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx">已報名活動查詢</a></li>
-                    <li><a href="/ACMS/WebForm/RegistActivity/ActivityProgressQuery.aspx">活動進度查詢</a></li>
+                    <li><a href="~/Default.aspx" runat="server" >首頁</a></li>
+                    <li><a href="~/WebForm/RegistActivity/RegistActivity_Person.aspx" runat="server">個人報名</a></li>
+                    <li><a href="~/WebForm/RegistActivity/RegistActivity_Team.aspx"  runat="server">團隊報名</a></li>
+                    <li><a href="~/WebForm/RegistActivity/RegistedActivityQuery.aspx" runat="server">已報名活動查詢</a></li>
+                    <li><a href="~/WebForm/RegistActivity/ActivityProgressQuery.aspx" runat="server">活動進度查詢</a></li>
                     <li id="ActivityManagement"><a href="#">活動資料管理</a>
                         <ul>
-                            <li id ="ActivityEditQuery"><a href="/ACMS/WebForm/ManageActivity/ActivityEditQuery.aspx">新增/修改活動</a></li>
-                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityQuery.aspx">報名狀態查詢</a></li>
-                            <li><a href="/ACMS/WebForm/ManageActivity/ActivityCheck.aspx">活動進度登錄</a></li>
-                            <li><a href="/ACMS/WebForm/ManageActivity/HistoryActivityQuery.aspx?type=off">歷史資料查詢</a></li>
+                            <li id ="ActivityEditQuery"><a href="~/WebForm/ManageActivity/ActivityEditQuery.aspx" runat="server" >新增/修改活動</a></li>
+                            <li><a href="~/WebForm/ManageActivity/ActivityQuery.aspx" runat="server" >報名狀態查詢</a></li>
+                            <li><a href="~/WebForm/ManageActivity/ActivityCheck.aspx" runat="server" >活動進度登錄</a></li>
+                            <li><a href="~/WebForm/ManageActivity/HistoryActivityQuery.aspx?type=off" runat="server">歷史資料查詢</a></li>
                         </ul>
                     </li>
                     <li id ="RightsManagement"><a href="#">權限管理</a>
                         <ul>
-                            <li><a href="/ACMS/WebForm/ManageRole/ManageUnit.aspx">主辦單位設定</a></li>
-                            <li><a href="/ACMS/WebForm/ManageRole/ManageRole.aspx">角色人員管理</a></li>
+                            <li><a href="~/WebForm/ManageRole/ManageUnit.aspx" runat="server">主辦單位設定</a></li>
+                            <li><a href="~/WebForm/ManageRole/ManageRole.aspx" runat="server">角色人員管理</a></li>
                         </ul>
                     </li>
                     <li></li>
