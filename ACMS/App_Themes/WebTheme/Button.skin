@@ -1,0 +1,2 @@
+<asp:Button BorderStyle="Solid" BorderWidth="1" BackColor="lightblue" runat="server" onmouseover="this.style.backgroundColor='yellow'" onmouseout="this.style.backgroundColor='lightblue'" />
+<asp:Button SkinID="alert" BorderStyle="Solid" BorderWidth="1" BorderColor="black" BackColor="red" runat="server" ForeColor="white"  />
