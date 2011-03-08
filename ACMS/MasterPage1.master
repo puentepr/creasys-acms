@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage.master.cs" Inherits="MasterPage" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="MasterPage1.master.cs" Inherits="MasterPage1" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
@@ -16,11 +16,11 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
 </style>
 <![endif]-->
 
-    <script type="text/javascript" src="<%#ResolveClientUrl("~/Scripts/jquery-1.4.1.min.js")%>"></script>
+    <script type="text/javascript" src="Scripts/jquery-1.4.1.min.js"></script>
 
-    <script type="text/javascript"  src="<%#ResolveClientUrl("~/Scripts/jqueryslidemenu.js")%>"></script>
+    <script type="text/javascript" src="Scripts/jqueryslidemenu1.js" ></script>
 
-    <script type="text/javascript" src="<%#ResolveClientUrl("~/js/jquery-ui.min.js")%>"  ></script>
+    <script type="text/javascript" src="js/jquery-ui.min.js"></script>
 
     <link rel="stylesheet" type="text/css" media="screen" href="js/jquery-ui.css" />
 <link rel="stylesheet" type="text/css" href="~/WebForm.css" />
@@ -102,9 +102,9 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
             </ProgressTemplate>
 
 </asp:updateprogress>
-    <div  id="main_container" style ="height:100px;background-image :url(../../images/banner.jpg);background-repeat: no-repeat;"  >
+    <div  id="main_container" style ="height:100px;background-image :url(images/banner.jpg);background-repeat: no-repeat;"  >
     
-        <div id="header" class ="banner" style ="height:100px;background-image :url(../../images/banner.jpg);background-repeat: no-repeat;"  >
+        <div id="header" class ="banner" style ="height:100px;background-image :url(images/banner.jpg);background-repeat: no-repeat;"  >
         
             <div id="logo">
             

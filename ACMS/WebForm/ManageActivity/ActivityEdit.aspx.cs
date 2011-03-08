@@ -158,7 +158,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             //活動資訊-活動內容
             ObjectDataSource_Activaty.SelectParameters["id"].DefaultValue = ActivityID.ToString();
             //活動資訊-上傳檔
-            ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("/ACMS/UpFiles", ActivityID.ToString()));
+            ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
            
             //個人固定欄位
             ObjectDataSource_Activaty2.SelectParameters["id"].DefaultValue = ActivityID.ToString();
@@ -249,7 +249,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             {
                 try
                 {
-                    DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("/ACMS/UpFiles", ActivityID.ToString())));
+                    DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString())));
 
                     if (!myDirectoryInfo.Exists)
                     {
