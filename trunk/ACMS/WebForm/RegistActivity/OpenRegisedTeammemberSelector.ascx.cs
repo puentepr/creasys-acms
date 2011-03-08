@@ -67,7 +67,10 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
         if (!string.IsNullOrEmpty(emp_id1))
         {
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id1, regist_deadline, cancelregist_deadline, ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+            string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
+
+            //MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id1, regist_deadline, cancelregist_deadline, ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist_Team(null, null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id1, regist_deadline, cancelregist_deadline,aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
             //.ResolveUrl("~/WebForm/RegistActivity/RegistedActivityQuery.aspx"));
 
             GridView1.DataBind();

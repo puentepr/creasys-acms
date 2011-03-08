@@ -278,12 +278,12 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt +="&nbsp;&nbsp;&nbsp;&nbsp;"+ "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font>" + custFieldVO.field_value + "<br/>";
+                custFieldSt +="　　"+ "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font>" + custFieldVO.field_value + "<br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
                 ttl=0;
-                custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;"+"<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font><br/>";
+                custFieldSt += "　　"+"<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font><br/>";
 
                 FieldIDs=custFieldVO.field_value.Split (',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO .field_id );
@@ -292,19 +292,19 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;"+custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　"+custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "<br/>";
                             ttl += decimal.Parse (custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt +="&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Red'><b>合計:</b> " + ttl.ToString() + "</font><br/>";
+                custFieldSt +="　　" + "<font color='Red'><b>合計:</b> " + ttl.ToString() + "</font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
             {
 
 
-                custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;"+ "<font color='Blue'><b>複選/</b>" + custFieldVO.field_name + ":</font><br/>";
+                custFieldSt += "　　"+ "<font color='Blue'><b>複選/</b>" + custFieldVO.field_name + ":</font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -322,7 +322,7 @@ public class clsMyObj
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;" +"<font color='Blue'><b>單選/</b>" + custFieldVO.field_name + ":</font><br/>";
+                custFieldSt += "　　" +"<font color='Blue'><b>單選/</b>" + custFieldVO.field_name + ":</font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -346,28 +346,28 @@ public class clsMyObj
             mail.Body = "<table border='1'><tr><td> <a href='" + webPath + "?ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":個人報名成功通知</a><br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;"  +"<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + custFieldSt
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" +"<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr></table>";
+                + "　　"  +"<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
+                + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
+                + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
+                + "　　" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
+                + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
+                + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
+                + "" + custFieldSt
+                + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
+                + "　　" +"<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr></table>";
         }
         else
         {
             mail.Body = "<table border='1'><tr><td><a href='" + webPath + "?ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":個人報名成功通知</a><br/>"
-                 + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
-                 + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
-                 + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
-                 + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
-             + "&nbsp;&nbsp;&nbsp;&nbsp;" +"<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr></table>";
+                 + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
+                 + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
+                + "　　" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
+                 + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
+                 + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
+                + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
+             + "　　" +"<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr></table>";
 
         }
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
@@ -596,12 +596,12 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt +=   "&nbsp;&nbsp;&nbsp;&nbsp;"+"<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font>" + custFieldVO.field_value + "<br/>";
+                custFieldSt +=   "　　"+"<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font>" + custFieldVO.field_value + "<br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
                 ttl = 0;
-                custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -610,19 +610,19 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;" + custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　" + custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "<br/>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Red'><b>合計: " + ttl.ToString() + "</b></font><br/>";
+                custFieldSt += "　　" + "<font color='Red'><b>合計: " + ttl.ToString() + "</b></font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
             {
 
 
-                custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;" + " <font color='Blue'><b>複選/" + custFieldVO.field_name + ":</b></font><br/>";
+                custFieldSt += "　　" + " <font color='Blue'><b>複選/" + custFieldVO.field_name + ":</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -640,7 +640,7 @@ public class clsMyObj
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "&nbsp;&nbsp;&nbsp;&nbsp;" + " <font color='Blue'><b>單選/" + custFieldVO.field_name + ":</b></font><br/>";
+                custFieldSt += "　　" + " <font color='Blue'><b>單選/" + custFieldVO.field_name + ":</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -689,25 +689,25 @@ public class clsMyObj
             mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
-              + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + empList
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + custFieldSt
-                 + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<br/><font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
+              + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
+                + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
+                + "　　" + empList
+                + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
+                + "" + custFieldSt
+                 + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
+                + "　　" + "<br/><font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
         }
         else
         {
             mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
-                 + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
-                 + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
-               + "&nbsp;&nbsp;&nbsp;&nbsp;" + empList
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
-                + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
-            + "&nbsp;&nbsp;&nbsp;&nbsp;" + "<br/><font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
+                 + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
+                 + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
+               + "　　" + empList
+                + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
+                + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
+            + "　　" + "<br/><font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
 
         }
 

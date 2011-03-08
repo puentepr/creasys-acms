@@ -86,7 +86,7 @@ public partial class WebForm_ActivityEditQuery : BasePage
 
 
         //刪除相關檔案
-        DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("/ACMS/UpFiles", theGUID)));
+        DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("~/UpFiles", theGUID)));
 
         if (myDirectoryInfo.Exists)
         {

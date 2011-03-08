@@ -6,15 +6,8 @@ using System.Web.UI.WebControls;
 using System.Text;
 using Microsoft.VisualBasic;
 
-public partial class MasterPage : System.Web.UI.MasterPage
+public partial class MasterPage1 : System.Web.UI.MasterPage
 {
-    protected override void OnLoad(EventArgs e)
-    {
-        base.OnLoad(e);
-        Page.Header.DataBind();
-    }
-
-
     protected void Page_Load(object sender, EventArgs e)
     {
         Label1.Text =string.Format("歡迎:{0}",clsAuth.NATIVE_NAME);

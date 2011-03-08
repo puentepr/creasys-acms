@@ -13,6 +13,13 @@ public partial class MyMasterPage : System.Web.UI.MasterPage
 }
 public partial class MyMasterPage 
 {
+    protected override void OnLoad(EventArgs e)
+    {
+        base.OnLoad(e);
+        Page.Header.DataBind();
+    }
+
+
     public string PanelMainGroupingText
     {
         get

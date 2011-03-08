@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true"
+﻿<%@ Page Language="C#" MasterPageFile="~/MasterPage1.master" AutoEventWireup="true"
     CodeFile="Default.aspx.cs" Inherits="_Default" Title="首頁" %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
