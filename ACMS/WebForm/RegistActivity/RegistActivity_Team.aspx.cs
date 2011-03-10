@@ -596,7 +596,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         {
             if (theListItem.Selected == true)
             {
-                intSum = intSum + Convert.ToInt32(theListItem.Text.Split(':')[1]);
+                intSum = intSum + Convert.ToInt32(theListItem.Text.Replace("元", "").Split(':')[1]);
             }
         }
 
@@ -972,7 +972,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
                             if (myCustomFieldVO.field_control.ToUpper() == "TEXTBOXLIST")
                             {
-                                (MyControl as ListControl).Items.Add(new ListItem(string.Format("{0}:{1}", myCustomFieldItemVO.field_item_name, myCustomFieldItemVO.field_item_text), myCustomFieldItemVO.field_item_id.ToString()));
+                                (MyControl as ListControl).Items.Add(new ListItem(string.Format("{0}:{1}", myCustomFieldItemVO.field_item_name, myCustomFieldItemVO.field_item_text+"元"), myCustomFieldItemVO.field_item_id.ToString()));
                             }
                             else
                             {

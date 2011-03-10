@@ -527,16 +527,22 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT A.id,activity_name ");
-            sb.AppendLine("FROM Activity A ");
+            sb.AppendLine("SELECT  A.id,A.activity_name, A.sn ");
+            sb.AppendLine("FROM Activity A ");           
             sb.AppendLine("WHERE A.active='Y' ");
             sb.AppendLine("and ");
-            sb.AppendLine("( ");
-            sb.AppendLine("id in (SELECT distinct activity_id FROM ActivityRegist WHERE emp_id=@emp_id) ");
-            sb.AppendLine(" or id in (SELECT distinct activity_id FROM ActivityTeamMember WHERE emp_id=@emp_id) ");
-            sb.AppendLine(") ");
-            sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
-           
+            sb.AppendLine("(");
+            sb.AppendLine("A.id in (SELECT distinct activity_id FROM ActivityRegist WHERE emp_id=@emp_id) ");
+            sb.AppendLine(" or A.id in (SELECT distinct activity_id FROM ActivityTeamMember WHERE emp_id=@emp_id) ");
+            sb.AppendLine(" or @emp_id in (select emp_id from RoleUserMapping where role_id='1' )) ");
+            sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  A.activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
+            sb.AppendLine("union  select  A.id,A.activity_name, A.sn");
+            sb.AppendLine("FROM Activity A ");
+            sb.AppendLine("left join RoleUserMapping B on A.org_id=B.unit_id and B.emp_id=@emp_id");
+            sb.AppendLine("WHERE A.active='Y' ");
+            sb.AppendLine("and B.role_id in ('2','3')");
+            sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  A.activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
+         
             sb.AppendLine("ORDER BY sn ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);

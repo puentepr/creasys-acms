@@ -313,7 +313,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += custFieldItem.field_item_name +  custFieldItem.field_item_text + ",";
+                            custFieldSt +=  "　　"+custFieldItem.field_item_name +  custFieldItem.field_item_text + ",";
                             
                         }
                 }
@@ -331,7 +331,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += custFieldItem.field_item_name  + custFieldItem.field_item_text + ",";
+                            custFieldSt +=  "　　"+custFieldItem.field_item_name  + custFieldItem.field_item_text + ",";
 
                         }
                 }
@@ -631,7 +631,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            custFieldSt += "　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
 
                         }
                 }
@@ -649,7 +649,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            custFieldSt +=  "　　"+custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
 
                         }
                 }
@@ -667,14 +667,14 @@ public class clsMyObj
         ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by);
 
         string empList = ""; 
-        empList += "<table><b><tr><td>工號</td> <td>姓名</td></tr></b>";
+        empList += "<table><b><tr><td>　　工號</td> <td>姓名</td></tr></b>";
         foreach (string emp in emps)
         {
            
            
                  empList +="<tr><td>";
                 empVO = empDAO.getEmployee(emp);
-                  empList +=  empVO.WORK_ID + "</td><td>";
+                  empList +=  "　　"+ empVO.WORK_ID + "</td><td>";
                 empList +=  empVO.NATIVE_NAME +"</td></tr>";
             
              
@@ -691,11 +691,11 @@ public class clsMyObj
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
               + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
                 + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
-                + "　　" + empList
+                +  empList
                 + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
                 + "" + custFieldSt
                  + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
-                + "　　" + "<br/><font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
+                 + "<br/>"+ "　　<font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
         }
         else
         {
@@ -704,10 +704,10 @@ public class clsMyObj
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
                  + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
                  + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
-               + "　　" + empList
+                + empList
                 + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
                 + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
-            + "　　" + "<br/><font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
+            + "<br/>" + "　　<font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
 
         }
 

@@ -8,7 +8,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-    <asp:Panel ID="PanelMain" runat="server">
+    <asp:Panel ID="PanelMain" runat="server" >
         <div class="SpaceDiv">
             <table align="center">
                 <tr>

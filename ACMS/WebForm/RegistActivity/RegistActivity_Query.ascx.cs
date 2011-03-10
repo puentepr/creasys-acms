@@ -22,7 +22,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
         {
             if (Session["Team"]!=null)
             {
-                GridView1 .Columns [7].Visible =false ;
+                GridView1 .Columns [8].Visible =false ;
             }
             ObjectDataSource1.SelectParameters["activity_type"].DefaultValue = ActivityType;
             ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;

@@ -146,7 +146,7 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     <li></li>
                 </ul> <div   valign ="bottom" align="right">
                           <font color="White"
-                            登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" />   &nbsp; &nbsp; 
+                            登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" ForeColor="Black" Font-Size="18px" />   &nbsp; &nbsp; 
                             <!-- <span  id="login"> </span>-->
                             </font>
                         </div>

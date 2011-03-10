@@ -71,16 +71,23 @@
                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+            <asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
                 <ItemTemplate>
                     <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate","{0:s}") %>'
-                        Width="120px"></asp:Label>
-                    <br />
-                    <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate","{0:s}") %>'></asp:Label></ItemTemplate>
+                        Width="100px"></asp:Label>
+                </ItemTemplate>
+            </asp:TemplateField>
+            <asp:TemplateField HeaderText="活動日期結束" SortExpression="activity_enddate">
+                <ItemTemplate>
+                    <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate","{0:s}") %>' Width="100px"></asp:Label>
+                </ItemTemplate>
             </asp:TemplateField>
             <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日" DataFormatString="{0:d}" />
             <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日" DataFormatString="{0:d}" />
-            <asp:BoundField DataField="RegisterCount" HeaderText="報名人數"  ItemStyle-HorizontalAlign="Center" />
+            <asp:BoundField DataField="RegisterCount" HeaderText="報名人數" 
+                ItemStyle-HorizontalAlign="Center" >
+<ItemStyle HorizontalAlign="Center"></ItemStyle>
+            </asp:BoundField>
             <asp:TemplateField>
                 <ItemTemplate>
                     <asp:LinkButton ID="lbtnViewActivity" runat="server" OnClick="lbtnViewActivity_Click">檢視內容</asp:LinkButton></ItemTemplate>
@@ -103,6 +110,7 @@
                 <ItemStyle HorizontalAlign="Center" />
             </asp:TemplateField>
         </Columns>
+        <RowStyle Wrap="True" />
     </TServerControl:TGridView>
     <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" OldValuesParameterFormatString="original_{0}"
         SelectMethod="ActivityQuery" TypeName="ACMS.BO.SelectorBO">

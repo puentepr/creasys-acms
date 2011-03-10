@@ -29,6 +29,13 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : BasePage
         Label emp_idLabel;
         Label lblSEQNO;
         Label check_statusLabel;
+        ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
+        string UserData;
+
+        string userName = Context.User.Identity.Name;
+        userName = userName.Substring(userName.IndexOf("\\") + 1);
+        myLoginDAO.CheckLogin(userName, out UserData);
+
 
         if (DataList1.DataKeys[e.Item.ItemIndex].ToString() == clsAuth.ID)
         {
@@ -49,11 +56,17 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : BasePage
         }
         else
         {
-            NATIVE_NAMELabel = e.Item.FindControl("NATIVE_NAMELabel") as Label;
-            emp_idLabel = e.Item.FindControl("emp_idLabel") as Label;
+            if ((UserData.IndexOf("2") == -1 && UserData.IndexOf("1") == -1 && UserData.IndexOf("3") == -1) || UserData == "")//不是管理者才不秀全名
+            {
+                NATIVE_NAMELabel = e.Item.FindControl("NATIVE_NAMELabel") as Label;
+                emp_idLabel = e.Item.FindControl("emp_idLabel") as Label;
 
-            NATIVE_NAMELabel.Text = NATIVE_NAMELabel.Text.Substring(0, 1) + "XX";
-            emp_idLabel.Text = "";
+                NATIVE_NAMELabel.Text = NATIVE_NAMELabel.Text.Substring(0, 1) + "XX";
+                emp_idLabel.Text = "";
+            }
+
+
+
         }
 
         check_statusLabel = e.Item.FindControl("check_statusLabel") as Label;

@@ -92,7 +92,7 @@
                         DataSourceID="ObjectDataSource1" SkinID="pager" Width="100%" AllowHoverEffect="True"
                         AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                         TotalRowCount="0" DataKeyNames="emp_id,activity_type" AllowPaging="True" 
-                        AllowSorting="True" ondatabound="GridView1_DataBound">
+                        AllowSorting="True" ondatabound="GridView1_DataBound" PageSize="30">
                         <Columns>
                             <asp:TemplateField>
                                 <ItemTemplate>

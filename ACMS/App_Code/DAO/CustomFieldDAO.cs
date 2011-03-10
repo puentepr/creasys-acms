@@ -48,7 +48,7 @@ namespace ACMS.DAO
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
             List<VO.CustomFieldVO> myCustomFieldVOList = new List<ACMS.VO.CustomFieldVO>();
-          
+
             while (MyDataReader.Read())
             {
                 VO.CustomFieldVO myCustomFieldVO = new ACMS.VO.CustomFieldVO();
@@ -60,7 +60,7 @@ namespace ACMS.DAO
                 myCustomFieldVO.isShowEdit = Convert.ToBoolean(MyDataReader["IsShowEdit"]);
 
                 myCustomFieldVOList.Add(myCustomFieldVO);
-              
+
             }
             MyDataReader.Close();
             aconn.Close();
@@ -74,7 +74,7 @@ namespace ACMS.DAO
 
             sqlParams[0] = new SqlParameter("@field_id", SqlDbType.Int);
             sqlParams[0].Value = field_id;
-           
+
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("DELETE CustomField WHERE field_id=@field_id; ");
@@ -102,6 +102,47 @@ namespace ACMS.DAO
 
             return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
         }
-        
+        /// <summary>
+        /// 檢查是否有重覆的名稱
+        /// </summary>
+        /// <param name="activity_id"></param>
+        /// <returns></returns>
+        public DataTable CheckCustFieldItemNameDuplicate(Guid activity_id)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[1];
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine(" Select a.field_name+'_'+b.field_item_name as field_item_name ,COUNT(*) as aa  from CustomField A ");
+            sb.AppendLine("  left join CustomFieldItem B on A.field_id =B.field_id ");
+            sb.AppendLine("    where A.activity_id =@activity_id  and A.field_control like '%list%'");
+            sb.AppendLine("    group by b.field_item_name, a.field_name");
+            sb.AppendLine("       having COUNT(*)>1");
+            return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
+        }
+
+        /// <summary>
+        /// 檢查是否有重覆的名稱
+        /// </summary>
+        /// <param name="activity_id"></param>
+        /// <returns></returns>
+        public DataTable CheckCustFieldNameDuplicate(Guid activity_id)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[1];
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine(" Select a.field_name,COUNT(*) as aa  from CustomField A ");
+            sb.AppendLine("    where A.activity_id =@activity_id  ");
+            sb.AppendLine("    group by  a.field_name");
+            sb.AppendLine("       having COUNT(*)>1");
+            return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
+        }
     }
 }
