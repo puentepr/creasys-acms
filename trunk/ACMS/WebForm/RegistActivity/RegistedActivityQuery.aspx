@@ -75,10 +75,15 @@
                         <asp:BoundField DataField="limit_count11" HeaderText="活動人數" SortExpression="limit_count">
                             <ItemStyle HorizontalAlign="Right" />
                         </asp:BoundField>
-                        <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                        <asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
                             <ItemTemplate>
-                                <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>~<br />
-                                <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
+                                <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>
+                             </ItemTemplate>
+                            <ItemStyle HorizontalAlign="Center" />
+                        </asp:TemplateField>
+                         <asp:TemplateField HeaderText="活動日期結束" SortExpression="activity_enddate">
+                            <ItemTemplate>
+                                 <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
@@ -91,7 +96,7 @@
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <asp:LinkButton ID="lbtnRegistEdit" runat="server" OnClick="lbtnRegistEdit_Click">編輯</asp:LinkButton>
-                                <br /> <br />
+                                <br />
                                 <asp:LinkButton ID="lbtnRegistCancel" runat="server" 
                                     CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' 
                                     CommandName='<%# Eval("cancelregist_deadline","{0:d}")%>' 

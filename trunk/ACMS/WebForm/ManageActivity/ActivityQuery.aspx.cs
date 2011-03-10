@@ -218,15 +218,21 @@ public partial class WebForm_ActivityQuery : BasePage
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (ACMS.VO.CustomFieldItemVO custFieldItem in custFieldItemList)
+                    {
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
                             custFieldSt += custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
+                            dr[custFieldVO.field_name + "_" + custFieldItem.field_item_name] = decimal.Parse(custFieldItem.field_item_text);
                         }
+                   
+                   
+
+                    }
                 }
 
                 custFieldSt += "合計: " + ttl.ToString() + "";
-                dr[custFieldVO.field_name] = custFieldSt;
+                dr[custFieldVO.field_name + "合計"] = ttl;
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
@@ -240,13 +246,16 @@ public partial class WebForm_ActivityQuery : BasePage
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (ACMS.VO.CustomFieldItemVO custFieldItem in custFieldItemList)
+                    {
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
-
+                            custFieldSt += custFieldItem.field_item_name + custFieldItem.field_item_text + ",";                             
+                            dr[custFieldVO.field_name + "_" + custFieldItem.field_item_name] = "V";
                         }
+                       
+                    }
                 }
-                dr[custFieldVO.field_name] = custFieldSt;  
+                //dr[custFieldVO.field_name] = custFieldSt;  
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
@@ -257,13 +266,15 @@ public partial class WebForm_ActivityQuery : BasePage
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (ACMS.VO.CustomFieldItemVO custFieldItem in custFieldItemList)
+                    {
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
                             custFieldSt += custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
-
+                            dr[custFieldVO.field_name + "_" + custFieldItem.field_item_name] = "V";
                         }
+                    }
                 }
-                dr[custFieldVO.field_name] = custFieldSt;
+                //dr[custFieldVO.field_name] = custFieldSt;
             }
 
 
@@ -318,15 +329,47 @@ public partial class WebForm_ActivityQuery : BasePage
         }
         dt.Columns.Add("身份證_護照", System.Type.GetType("System.String"));
         ACMS.BO.CustomFieldItemBO myCustFieldItemBO = new ACMS.BO.CustomFieldItemBO();
-       
-
+        List<ACMS .VO .CustomFieldItemVO> myFieldVOS ;
         foreach (ACMS.VO.CustomFieldValueVO custFieldVO in myCustomFieldValueVOList)
         {
-
-            dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+            
+            if (custFieldVO.field_control.ToLower() == "textbox")
+            {
+                dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+            }
+            
+            if (custFieldVO.field_control.ToLower() == "textboxlist")
+            {
+                
+                myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (ACMS .VO .CustomFieldItemVO myFieldvo in myFieldVOS)
+                {
+                    dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.Decimal"));
+                }
+                dt.Columns.Add(custFieldVO.field_name + "合計", System.Type.GetType("System.Decimal"));
+            }
+            if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
+            {
+               // dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+                myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                {
+                    dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
+                }
+            }
+            if (custFieldVO.field_control.ToLower() == "checkboxlist")
+            {
+                //dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+                myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                {
+                    dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
+                }
+            }
+        
         
         }
-
+        
 
        // dt.Columns.Add("自訂欄位", System.Type.GetType("System.String"));
 
@@ -501,10 +544,10 @@ public partial class WebForm_ActivityQuery : BasePage
         {
             ((Label)gr.FindControl("lblactivity_startdate")).Text = ((Label)gr.FindControl("lblactivity_startdate")).Text.Replace("-", "/").Replace("T", " ");
             ((Label)gr.FindControl("lblactivity_enddate")).Text = ((Label)gr.FindControl("lblactivity_enddate")).Text.Replace("-", "/").Replace("T", " ");
-            gr.Cells[3].Text = DateTime.Parse(gr.Cells[3].Text).ToString("yyyy/MM/dd");
             gr.Cells[4].Text = DateTime.Parse(gr.Cells[4].Text).ToString("yyyy/MM/dd");
+            gr.Cells[5].Text = DateTime.Parse(gr.Cells[5].Text).ToString("yyyy/MM/dd");
 
-            ((Label)gr.FindControl("lblactivity_startdate")).Text = DateTime.Parse(((Label)gr.FindControl("lblactivity_startdate")).Text).ToString("yyyy/MM/dd HH:mm~");
+            ((Label)gr.FindControl("lblactivity_startdate")).Text = DateTime.Parse(((Label)gr.FindControl("lblactivity_startdate")).Text).ToString("yyyy/MM/dd HH:mm");
             ((Label)gr.FindControl("lblactivity_enddate")).Text = DateTime.Parse(((Label)gr.FindControl("lblactivity_enddate")).Text).ToString("yyyy/MM/dd HH:mm");
         }
     }

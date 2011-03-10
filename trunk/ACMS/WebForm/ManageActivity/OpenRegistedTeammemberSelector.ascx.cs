@@ -24,7 +24,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
         ObjectDataSource1.SelectParameters["activity_id"].DefaultValue = activity_id;
 
-        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedValue;
+        ObjectDataSource1.SelectParameters["DEPT_ID"].DefaultValue = ddlDEPT_ID.SelectedItem.Text;
         ObjectDataSource1.SelectParameters["JOB_GRADE_GROUP"].DefaultValue = "999";
         //if (string.Compare(ddlJOB_GRADE_GROUP.SelectedValue, "") == 0)
         //{

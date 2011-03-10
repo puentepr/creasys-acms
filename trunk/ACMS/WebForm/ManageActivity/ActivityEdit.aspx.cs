@@ -121,15 +121,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             Session["activity_type"] = null;
             Session["activity_id"] = null;
 
-            //如果已經過了活動開始報名日，則某些功能需唯讀
-            if (myActivatyVO.regist_startdate <= DateTime.Now)
-            {
-                FormView1.Enabled = false;
-                FormView2.Enabled = false;
-                PanelCustomFieldC.Enabled = false;
-                rblgrouplimit.Enabled = false;
-                Panel_GroupLimit.Enabled = false;
-            }
+            
 
             //取得FormView外的欄位初始值
             FCKeditor1.Value = myActivatyVO.activity_info;
@@ -153,6 +145,38 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             //    btnExport_GroupLimit.Enabled = false;
             //}
 
+
+            //如果已經過了活動開始報名日，則某些功能需唯讀
+            if (myActivatyVO.regist_startdate <= DateTime.Now)
+            {
+                FormView1.Enabled = false;
+                FormView2.Enabled = false;
+                PanelCustomFieldC.Enabled = false;
+                rblgrouplimit.Enabled = false;
+                Panel_GroupLimit.Enabled = false;
+            }
+            else
+            {
+                if (rblgrouplimit.SelectedValue == "Y")//檢查是否可以運作
+                {
+                    FileUpload_GroupLimit.Enabled = true;
+                    HyperLink1.Enabled = true;
+                    btnAdd_GroupLimit.Enabled = true;
+                    btnExport_GroupLimit.Enabled = true;
+                    btnUpload_GroupLimit.Enabled = true;
+                    Panel_GroupLimit.Visible = true;
+                }
+                else
+                {
+                    FileUpload_GroupLimit.Enabled = false;
+                    HyperLink1.Enabled = false;
+                    btnAdd_GroupLimit.Enabled = false;
+                    btnExport_GroupLimit.Enabled = false;
+                    btnUpload_GroupLimit.Enabled = false;
+                    Panel_GroupLimit.Visible = false;
+                }
+
+            }
             txtnotice.Text = myActivatyVO.notice;
 
             //活動資訊-活動內容
@@ -457,6 +481,18 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
     protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
     {
+        if (Wizard1.ActiveStepIndex == 3)
+        {
+ 
+           if ( rblgrouplimit.SelectedValue =="Y")
+               if (GridView_GroupLimit.Rows.Count == 0)
+               {
+                   clsMyObj.ShowMessage("報名名單未建立");
+                   e.Cancel = true;
+               }
+
+        }
+
 
         if (Wizard1.ActiveStepIndex == 0)
         {
@@ -465,10 +501,20 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "無上限";
                 ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
             }
+            if (((TextBox)FormView1.FindControl("txtregist_startdate")).Text != "")
+            {
+                ((TextBox)FormView1.FindControl("txtregist_startdate")).Text = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtregist_startdate")).Text).ToString("yyyy/MM/dd");
+            }
+            if (((TextBox)FormView1.FindControl("txtregist_deadline")).Text != "")
+            {
+                ((TextBox)FormView1.FindControl("txtregist_deadline")).Text = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtregist_deadline")).Text).ToString("yyyy/MM/dd");
+            }
+            if (((TextBox)FormView1.FindControl("txtcancelregist_deadline")).Text != "")
+            {
+                ((TextBox)FormView1.FindControl("txtcancelregist_deadline")).Text = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtcancelregist_deadline")).Text).ToString("yyyy/MM/dd");
+            }
 
-
-
-
+            
         }
         if (Wizard1.ActiveStepIndex == 1)
         {
@@ -615,6 +661,35 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
                 clsMyObj.ShowMessage(errMsg+"以上欄位沒有編輯選項");
                 e.Cancel = true;
+                return;
+            }
+
+
+            dt = cDAO.CheckCustFieldItemNameDuplicate(ActivityID);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    errMsg += dr["field_item_name"].ToString() + "\\r\\n";
+
+                }
+
+                clsMyObj.ShowMessage(errMsg + "欄位名稱+編輯選項重覆");
+                e.Cancel = true;
+                return;
+            }
+            dt = cDAO.CheckCustFieldNameDuplicate(ActivityID);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    errMsg += dr["field_name"].ToString() + "\\r\\n";
+
+                }
+
+                clsMyObj.ShowMessage(errMsg + "欄位名稱重覆");
+                e.Cancel = true;
+                return;
             }
 
             if (FormView2.Enabled == true)
@@ -693,6 +768,8 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             }
 
         }
+
+        
     }
 }
 

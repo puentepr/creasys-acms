@@ -61,14 +61,23 @@
                                 <ItemTemplate>
                                     <asp:Label ID="Label2" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
-                            </asp:TemplateField><asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                            </asp:TemplateField><asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
                             <ItemStyle HorizontalAlign="Center" />
                                 <ItemTemplate>
-                                    <asp:Label ID="lblactivity_startdate0" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>~<br />
+                                    <asp:Label ID="lblactivity_startdate0" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>
+                                    
+                                </ItemTemplate>
+                                <ItemStyle HorizontalAlign="Center" />
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="活動日期結束" SortExpression="activity_enddate">
+                            <ItemStyle HorizontalAlign="Center" />
+                                <ItemTemplate>
+                                    
                                     <asp:Label ID="lblactivity_enddate0" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
                                 </ItemTemplate>
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:TemplateField>
+                            
                             <asp:BoundField DataField="limit_count11" HeaderText="活動人數" SortExpression="limit_count">
                                 <ItemStyle HorizontalAlign="Center" />
                             </asp:BoundField>

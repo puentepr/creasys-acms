@@ -29,10 +29,28 @@ public class DataTableRenderToExcel
         foreach (DataRow row in SourceTable.Rows)
         {
             HSSFRow dataRow = (HSSFRow)sheet.CreateRow(rowIndex);
-
+            double tmp;
             foreach (DataColumn column in SourceTable.Columns)
             {
-                dataRow.CreateCell(column.Ordinal).SetCellValue(row[column].ToString());
+                if (column.DataType == System.Type.GetType("System.Decimal"))
+                {
+                    try
+                    {
+                       tmp= double.Parse(row[column].ToString());
+                       dataRow.CreateCell(column.Ordinal).SetCellValue(tmp);
+                    }
+                    catch 
+                    {
+                        dataRow.CreateCell(column.Ordinal).SetCellValue("");
+                    }
+
+                     
+                    
+                }                
+                else
+                {
+                    dataRow.CreateCell(column.Ordinal).SetCellValue(row[column].ToString());
+                }
             }
 
             rowIndex++;

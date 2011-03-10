@@ -11,10 +11,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1" DisplaySideBar="False"
+    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步" OnFinishButtonClick="Wizard1_FinishButtonClick"
-        OnNextButtonClick="Wizard1_NextButtonClick" OnActiveStepChanged="Wizard1_ActiveStepChanged">
+        OnNextButtonClick="Wizard1_NextButtonClick" 
+        OnActiveStepChanged="Wizard1_ActiveStepChanged">
         <WizardSteps>
             <asp:WizardStep runat="server" Title="Step 1">
                 <font color="blue">此頁面您可編輯或上傳此活動公告或訊息(文字與圖檔)，提供報名者了解活動內容與規劃</font><br />
@@ -454,6 +455,9 @@
                                         AllowHoverSelect="True" AutoGenerateColumns="False" DataKeyNames="keyID" DataSourceID="ObjectDataSource_GroupLimit"
                                         EnableModelValidation="True" PageSize="50" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                                         SkinID="pager" TotalRowCount="0" Width="100%" AllowPaging="False" AllowSorting="False">
+                                        <EmptyDataTemplate>
+                                         <font color="Red"> 無資料</font>  
+                                        </EmptyDataTemplate>
                                         <Columns>
                                             <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
                                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
