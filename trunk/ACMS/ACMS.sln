@@ -1,9 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ACMS", "D:\Creasys\Project4\ACMS\", "{61E5DC78-7298-4BFF-939B-0C46E7A403F2}"
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ACMS", ".", "{AFE2B053-0620-4B1B-B6C4-6434FEE5A746}"
 	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv2.0"
+		TargetFramework = "2.0"
 		Debug.AspNetCompiler.VirtualPath = "/ACMS"
 		Debug.AspNetCompiler.PhysicalPath = "..\ACMS\"
 		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\ACMS\"
@@ -18,31 +18,16 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "ACMS", "D:\Creasys\Project4
 		Release.AspNetCompiler.ForceOverwrite = "true"
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "2018"
+		VWDPort = "51083"
 	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ACMS_DailyUpdate", "..\ACMS_DailyUpdate\ACMS_DailyUpdate\ACMS_DailyUpdate.csproj", "{B70E8FFD-C981-418D-9DFB-ED33701A822F}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "ACMS_DailyUpdateSetup", "..\ACMS_DailyUpdate\ACMS_DailyUpdateSetup\ACMS_DailyUpdateSetup.vdproj", "{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{61E5DC78-7298-4BFF-939B-0C46E7A403F2}.Release|Any CPU.Build.0 = Debug|Any CPU
-		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B70E8FFD-C981-418D-9DFB-ED33701A822F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Debug|Any CPU.ActiveCfg = Debug
-		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Debug|Any CPU.Build.0 = Debug
-		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Release|Any CPU.ActiveCfg = Release
-		{4793F8AF-3EBE-4533-A8A9-1FEF3F2F4E2A}.Release|Any CPU.Build.0 = Release
+		{AFE2B053-0620-4B1B-B6C4-6434FEE5A746}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFE2B053-0620-4B1B-B6C4-6434FEE5A746}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
