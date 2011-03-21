@@ -87,7 +87,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT convert(varchar(16),activity_startdate,120) as activity_startdate,convert(varchar(16),activity_enddate,120) as activity_enddate,A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT convert(varchar(16),activity_startdate,120) as activity_startdate,convert(varchar(16),activity_enddate,120) as activity_enddate,convert(varchar(10),regist_deadline,120) as cancelregist_deadline,convert(varchar(10),cancelregist_deadline,120) as regist_deadline,A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
