@@ -255,17 +255,12 @@
                                                         <td width="200" >
                                                             <asp:TextBox ID="txtperson_fix2" runat="server" Text='<%# Bind("ext_people") %>'
                                                                 Width="50px"></asp:TextBox>
-                                                            (<asp:Label ID="lblAf2Start" runat="server" Text="Label"></asp:Label>
-                                                            ~<asp:Label ID="lblAf2End" runat="server" Text="Label"></asp:Label>
-                                                            )<asp:RequiredFieldValidator ID="chk_txtperson_fix2" runat="server" ControlToValidate="txtperson_fix2"
-                                                                Display="Dynamic" ErrorMessage="攜伴人數限制必填" ValidationGroup="WizardNext" Text="*"></asp:RequiredFieldValidator>
-                                                            <asp:CompareValidator ID="chk_txtperson_fix2_2" runat="server" ControlToValidate="txtperson_fix2"
+                                                            (<asp:Label ID="lblAf2Start" runat="server" Text="Label"></asp:Label>~<asp:Label ID="lblAf2End" runat="server" Text="Label"></asp:Label>)<asp:RequiredFieldValidator ID="chk_txtperson_fix2" runat="server" ControlToValidate="txtperson_fix2"
+                                                                Display="Dynamic" ErrorMessage="攜伴人數限制必填" ValidationGroup="WizardNext" Text="*"></asp:RequiredFieldValidator><asp:CompareValidator ID="chk_txtperson_fix2_2" runat="server" ControlToValidate="txtperson_fix2"
                                                                 Display="Dynamic" ErrorMessage="攜伴人數限制必填數字" Operator="DataTypeCheck" Type="Integer"
-                                                                ValidationGroup="WizardNext" Text="*"></asp:CompareValidator>
-                                                            <asp:RangeValidator ID="chk_txtperson_fix2_3" runat="server" ControlToValidate="txtperson_fix2"
+                                                                ValidationGroup="WizardNext" Text="*"></asp:CompareValidator><asp:RangeValidator ID="chk_txtperson_fix2_3" runat="server" ControlToValidate="txtperson_fix2"
                                                                 Display="Dynamic" ErrorMessage="人數必在限制範圍內" Type="Integer" ValidationGroup="WizardNext"
-                                                                Text="*"></asp:RangeValidator>
-                                                        </td>
+                                                                Text="*"></asp:RangeValidator></td>
                                                     </tr>
                                                 </table>
                                             </ItemTemplate>
