@@ -91,15 +91,15 @@
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID" SkinID="pager"
                     EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" AllowPaging="True"
-                    AllowSorting="False" OnPageIndexChanged="GridView_Employee_PageIndexChanged" Width="90%"
+                    AllowSorting="False" OnPageIndexChanged="GridView_Employee_PageIndexChanged" 
                     Visible="False">
                     <EmptyDataTemplate>
                         <font color="Red">查詢不到符合條件的資料... </font>
                     </EmptyDataTemplate>
                     <Columns>
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" />
-                        <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
-                        <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
+                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME"  ItemStyle-Width="300px"/>
+                        <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" ItemStyle-Width="100px" />
+                        <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" ItemStyle-Width="100px"/>
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <asp:LinkButton ID="lbtnSelect" runat="server" OnClick="lbtnSelect_Click">選擇</asp:LinkButton>

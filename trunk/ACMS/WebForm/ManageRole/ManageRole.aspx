@@ -46,7 +46,7 @@
                         Font-Bold="False" />
                     <Columns>
                         <asp:BoundField DataField="role_name" HeaderText="角色名稱" SortExpression="role_name" />
-                        <asp:BoundField DataField="unit_name" HeaderText="主辦單位" SortExpression="unit_name" />
+                        <asp:BoundField DataField="unit_name" HeaderText="主辦單位" SortExpression="unit_name" ItemStyle-Width="150px" />
                         <asp:TemplateField HeaderText="人員" SortExpression="">
                             <ItemTemplate>
                                 <asp:Label ID="Label1" runat="server" Text='<%# Bind("NATIVE_NAME") %>'></asp:Label>

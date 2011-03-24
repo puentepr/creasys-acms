@@ -37,7 +37,7 @@
                     </tr>
                     <tr>
                         <td align="right">
-                            <asp:Label ID="lblProgramGroup2" runat="server" Text="部門"></asp:Label>
+                            <asp:Label ID="lblProgramGroup2" runat="server" Text="部門" ></asp:Label>
                         </td>
                         <td align="left" colspan="3">
                             <asp:CheckBox ID="cbUnderDept" runat="server" Text="含所屬單位" Checked="True" />
@@ -105,7 +105,7 @@
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" SortExpression="WORK_ID" ReadOnly="True" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" />
+                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" />
                         <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
                         <asp:TemplateField>
                             <ItemTemplate>

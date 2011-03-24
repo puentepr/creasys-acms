@@ -95,16 +95,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
         //載入活動資訊
         GetActivityDefault();
-        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
-        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+        try
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+            ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
-        if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
-        {
-            ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text="無上限";
+            if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+            {
+                ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+            }
+            if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+            {
+                ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+            }
         }
-         if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+        catch
         {
-            ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
         }
 
 
@@ -137,20 +143,25 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
         //載入活動資訊
         GetActivityDefault();
-        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
-        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
-
-        if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+        try
         {
-            ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+            ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+            ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+
+            if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+            {
+                ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+            }
+            if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+            {
+                ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+            }
+
+
         }
-        if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+        catch
         {
-            ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
         }
-
-
-
     }
 
     private void GetActivityDefault()
@@ -207,15 +218,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         //檔案下載是否出現
         DataRowView drv = (DataRowView)FormView_ActivatyDetails.DataItem;
 
-        (FormView_ActivatyDetails.FindControl("GridView_UpFiles") as GridView).Visible = (drv["is_showfile"].ToString() == "Y");
+        try
+        { 
+            (FormView_ActivatyDetails.FindControl("GridView_UpFiles") as GridView).Visible = (drv["is_showfile"].ToString() == "Y");
+      
+            ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\r\n", "<br/>");
 
-        ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\r\n", "<br/>");
+            ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
+            ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
+            ((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text).ToString("yyyy/MM/dd");
+            ((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
 
-        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
-        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
-        ((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text).ToString("yyyy/MM/dd");
-        ((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
-        ((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
+            ((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
+        }
+        catch
+        {
+        }
     }
 
     //下載檔案
@@ -607,8 +625,27 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                 btnAgent.Visible = true;
             }
         }
-
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+           
+        }
        
+    }
+    protected void Wizard1_ActiveStepChanged(object sender, EventArgs e)
+    {
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+            GridView gvUpfiles = ((GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles"));
+            if (gvUpfiles != null)
+            {
+                foreach (GridViewRow gr in gvUpfiles.Rows)
+                {
+                    
+                    (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(gr.FindControl("lbtnFileDownload"));
+                }
+               
+            }
+        }
     }
 }
 
