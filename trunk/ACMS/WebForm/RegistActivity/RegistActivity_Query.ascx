@@ -44,7 +44,7 @@
                                 ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="True" SkinID="pager" Width="100%"
                                 AllowPaging="True" AllowSorting="True" AutoGenerateColumns="False" AllowHoverEffect="True"
                                 AllowHoverSelect="True" TotalRowCount="0" EnableModelValidation="True" OnRowDataBound="GridView1_RowDataBound"
-                                OnDataBound="GridView1_DataBound" EnableSortingAndPagingCallbacks="True">
+                                OnDataBound="GridView1_DataBound" >
                                 <Columns>
                                     <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"
                                         ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
