@@ -15,10 +15,25 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Globalization;
 using System.Resources;
-
+using System.Web.UI;
 public class BasePage : System.Web.UI.Page
 {
 
+    /// <summary>
+    /// 有UpdatePanel時秀出訊息
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="Msg"></param>
+    /// <remarks>有UpdatePanel時秀出訊息</remarks>
+
+    public static void ShowMessageForAjax(Control  obj, string Msg)
+    {
+
+        string vbCrLf = "\r\n";
+        ScriptManager.RegisterStartupScript (obj, typeof(BasePage), "ShowMessage", "alert(\"" + Msg.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace(vbCrLf, "\\n\\r") + "\");", true);
+
+
+    }
 
 
 

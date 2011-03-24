@@ -28,5 +28,37 @@ namespace ACMS.BO
             return myUnitDAO.UpdateUnit(myUnitVO);
         }
 
+         /// <summary>
+        /// 檢查主辦單位是否已在活動及角色table中已使用
+        /// </summary>
+        /// <param name="id">主辦單位代號</param>
+        /// <returns>true=已使用,false=未使用 </returns>
+        public bool isStart(int id)
+        {
+            DAO.UnitDAO myUnitDAO = new ACMS.DAO.UnitDAO();
+            return myUnitDAO.isStart(id);
+        }
+
+         /// <summary>
+        /// 檢查名稱是否重覆
+        /// </summary>
+        /// <param name="id">主辦單位代號</param>
+        /// <param name="name">主辦單位名稱</param>
+        /// <returns>true=重覆,false=不重覆</returns>
+        public bool chkDuplicateName(int id, string name)
+        {
+             DAO.UnitDAO myUnitDAO = new ACMS.DAO.UnitDAO();
+             return myUnitDAO.chkDuplicateName(id, name);
+        }
+           /// <summary>
+        /// 刪除主辦單位
+        /// </summary>
+        /// <param name="id">主辦單位代號</param>
+        public void Delete(int id)
+        {
+            DAO.UnitDAO myUnitDAO = new ACMS.DAO.UnitDAO();
+            myUnitDAO.Delete(id);
+        }
+
     }
 }

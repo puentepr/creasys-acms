@@ -120,7 +120,7 @@
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" />
+                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" />
                          <asp:BoundField DataField="team_name" HeaderText="隊名" SortExpression="team_name" />
                           <asp:BoundField DataField="check_status" HeaderText="報名狀況" SortExpression="check_status" />
                         

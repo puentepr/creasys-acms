@@ -263,7 +263,7 @@ public class clsMyObj
 
         mail.Subject = vo.activity_name +":個人報名成功通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
 
         ACMS.DAO.CustomFieldValueDAO myCustFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
@@ -424,7 +424,7 @@ public class clsMyObj
 
         mail.Subject = vo.activity_name + ":報名失敗通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
         mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by )
@@ -485,7 +485,7 @@ public class clsMyObj
         }
         mail.Subject = vo.activity_name + ":取消報名通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
         mail.Body = mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
@@ -661,7 +661,7 @@ public class clsMyObj
 
         mail.Subject = vo.activity_name + ":團隊報名成功通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
 
         ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by);
@@ -775,7 +775,7 @@ public class clsMyObj
         }
         mail.Subject = vo.activity_name + ":團隊報名失敗通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
         mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
@@ -864,7 +864,7 @@ public class clsMyObj
 
         mail.Subject = vo.activity_name + ":團隊取消報名通知";
         //寄件者
-        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]);
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
         mail.Body = "<a href='" + webPath + "?ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)

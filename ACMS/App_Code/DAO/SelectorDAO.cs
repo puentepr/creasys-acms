@@ -232,6 +232,7 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.WORK_ID like '%'+@WORK_ID+'%' or @WORK_ID='')  ");
             sb.AppendLine("and (A.ENGLISH_NAME like '%'+@NATIVE_NAME+'%' or A.NATIVE_NAME like '%'+@NATIVE_NAME+'%' or @NATIVE_NAME='') ");
             sb.AppendLine(" and A.COMPANY_CODE like '%'+@Company_ID+'%'");
+            sb.AppendLine(" and A.Status='1'");
             SqlConnection aconn = MyConn();
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 

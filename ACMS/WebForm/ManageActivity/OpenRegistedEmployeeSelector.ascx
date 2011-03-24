@@ -50,7 +50,7 @@
                             SortExpression="WORK_ID" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
                             SortExpression="NATIVE_NAME" />
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
+                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" ItemStyle-Width="200px"
                             SortExpression="C_DEPT_NAME" />
                         <asp:TemplateField>
                             <ItemTemplate>

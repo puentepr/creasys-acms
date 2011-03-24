@@ -16,7 +16,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        (this.Page.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(GridView1);
+      //  (this.Page.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(GridView1);
 
         if (!IsPostBack)
         {

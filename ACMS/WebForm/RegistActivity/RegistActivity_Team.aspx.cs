@@ -28,6 +28,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
+       
         if (!IsPostBack)
         {
             Session["Team"] = "Yes";
@@ -116,18 +117,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         GridView_TemMember.DataBind();
 
         Wizard1.MoveTo(Wizard1.WizardSteps[0]);
-        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
-        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
-
-        if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
-        {
-            ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
-        }
-        if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
-        {
-            ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
-        }
-
+       
 
 
     }
@@ -368,6 +358,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     {
         OpenTeamMemberSelector1.TitleName = "選擇隊員";
         //OpenAgentSelector1.OkName = "報名";
+        OpenTeamMemberSelector1.Visible = true;
         OpenTeamMemberSelector1.InitDataAndShow(ActivityID.ToString());
     }
 
@@ -409,7 +400,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         }
         catch (Exception ex)
         {
-            clsMyObj.ShowMessage("加入隊員失敗!");
+            ShowMessageForAjax(this,"加入隊員失敗!");
         }
 
         GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
@@ -466,7 +457,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == emp_id; });
 
         OpenTeamPersonInfo1.UC_ActivityTeamMemberVO = myActivityTeamMemberVO;
-
+        OpenTeamPersonInfo1.Visible = true;
         OpenTeamPersonInfo1.InitDataAndShow();
     }
 
@@ -610,6 +601,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     {
         if (Wizard1.ActiveStepIndex == 1)
         {
+            OpenTeamMemberSelector1.Visible = false;
+            OpenTeamPersonInfo1.Visible = false;
             if (IsPersonInfoRequired)
             {
                 //個人資料都有填,才能按下一步
@@ -617,7 +610,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 {
                     if (myActivityTeamMemberVO.WritePersonInfo != "是")
                     {
-                        clsMyObj.ShowMessage(string.Format(@"{0}尚未填寫個人相關欄位!\n無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
+                        ShowMessageForAjax(this,string.Format(@"{0}尚未填寫個人相關欄位!\n無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
                         Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                         return;
                     }
@@ -630,7 +623,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 //因為有可能更改團員，團隊成員人數符合限制,才能按下一步
                 if (!(GridView_TemMember.Rows.Count >= Page_team_member_min && GridView_TemMember.Rows.Count <= Page_team_member_max))
                 {
-                    clsMyObj.ShowMessage(string.Format(@"團隊成員人數必須介於{0}~{1}人!", Page_team_member_min, Page_team_member_max));
+                    ShowMessageForAjax(this,string.Format(@"團隊成員人數必須介於{0}~{1}人!", Page_team_member_min, Page_team_member_max));
                     Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                     return;
                 }
@@ -655,7 +648,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
                 if (!string.IsNullOrEmpty(strDouble))
                 {
-                    clsMyObj.ShowMessage(string.Format(@"{0}已經是別的團隊的成員，請選擇其他成員!", strDouble));
+                    ShowMessageForAjax(this,string.Format(@"{0}已經是別的團隊的成員，請選擇其他成員!", strDouble));
                     Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                     return;
                 }
@@ -794,15 +787,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
         if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
         {
-            clsMyObj.ShowMessage("已存在報名成功紀錄，無法重複報名!");
+             ShowMessageForAjax(this,"已存在報名成功紀錄，無法重複報名!");
         }
         else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
         {
-            clsMyObj.ShowMessage(@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
+             ShowMessageForAjax(this,@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
         }
         else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
         {
-            clsMyObj.ShowMessage(@"資料存檔發生錯誤，無法完成報名。");
+             ShowMessageForAjax(this,@"資料存檔發生錯誤，無法完成報名。");
         }
         else
         {
@@ -847,6 +840,41 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
 
 
+    protected void Wizard1_ActiveStepChanged(object sender, EventArgs e)
+    {
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+            try
+            {
+                ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+                ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+
+                if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+                {
+                    ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+                }
+                if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+                {
+                    ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+                }
+
+            }
+            catch
+            {
+            }
+           
+            GridView gvUpfiles = ((GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles"));
+            if (gvUpfiles != null)
+            {
+                foreach (GridViewRow gr in gvUpfiles.Rows)
+                {
+
+                    (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(gr.FindControl("lbtnFileDownload"));
+                }
+
+            }
+        }
+    }
 }
 
 
