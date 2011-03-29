@@ -1011,6 +1011,9 @@ public class MySingleton
 
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
 
+                // andy add  2011/3/28 取消前需將資料加到 ActivityRegistCancel中
+                myActivityRegistDAO.InsertActivityRegistCancel(activity_id, emp_id, "1", clsAuth.ID);
+
                 if (Convert.ToDateTime(regist_deadline) >=DateTime.Today)
                 {
                     //報名截止日之前-刪除
@@ -1162,6 +1165,8 @@ public class MySingleton
                 //取消報名截止日之後-不可以取消
 
                 ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+               // myActivityRegistDAO.InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID);
+
 
                 if (Convert.ToDateTime(regist_deadline) >= DateTime.Today)
                 {

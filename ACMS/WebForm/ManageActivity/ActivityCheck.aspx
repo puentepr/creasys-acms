@@ -9,6 +9,8 @@
 
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
     <div class="SpaceDiv">
         <table align="center">
             <tr>
@@ -126,4 +128,7 @@
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>
+       
+     </ContentTemplate>
+    </asp:UpdatePanel>
 </asp:Content>
