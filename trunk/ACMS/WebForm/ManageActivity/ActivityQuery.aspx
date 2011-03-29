@@ -6,6 +6,7 @@
 <%@ Register Src="../RegistActivity/OpenRegisedTeammemberSelector.ascx" TagName="OpenRegisedTeammemberSelector"
     TagPrefix="uc1" %>
 <%@ Register Src="OpenRegistedList.ascx" TagName="OpenRegistedList" TagPrefix="uc4" %>
+<%@ Register src="OpenCancelRegistedList.ascx" tagname="OpenCancelRegistedList" tagprefix="uc5" %>
 <%--<%@ Register src="OpenNameList.ascx" tagname="OpenNameList" tagprefix="uc1" %>--%>
 <%@ Register Src="OpenRegistedByMeEmpSelector.ascx" TagName="OpenRegistedByMeEmpSelector"
     TagPrefix="uc2" %>
@@ -14,6 +15,8 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
+ <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+        <ContentTemplate>
     <table align="center">
         <tr>
             <td>
@@ -49,6 +52,7 @@
                 <asp:DropDownList ID="ddlUnit" runat="server" DataSourceID="ObjectDataSource_Unit"
                     DataTextField="name" DataValueField="id">
                 </asp:DropDownList>
+             
                 <asp:ObjectDataSource ID="ObjectDataSource_Unit" runat="server" OldValuesParameterFormatString="original_{0}"
                     SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
             </td>
@@ -109,6 +113,12 @@
                     <asp:LinkButton ID="lbtnExport" runat="server" OnClick="lbtnExport_Click">匯出名單</asp:LinkButton></ItemTemplate>
                 <ItemStyle HorizontalAlign="Center" />
             </asp:TemplateField>
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:LinkButton ID="lbtnCancelList" runat="server" 
+                        onclick="lbtnCancelList_Click" >取消查詢</asp:LinkButton></ItemTemplate>
+                <ItemStyle HorizontalAlign="Center" />
+            </asp:TemplateField>
         </Columns>
         <RowStyle Wrap="True" />
     </TServerControl:TGridView>
@@ -124,5 +134,9 @@
     <uc2:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />
     <uc3:OpenRegistedTeammemberSelector ID="OpenRegistedTeammemberSelector1" runat="server" />
     <uc1:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" />
-    <uc4:OpenRegistedList ID="OpenRegistedList1" runat="server" />
+    <uc4:OpenRegistedList ID="OpenRegistedList1" runat="server" />    
+   <uc5:OpenCancelRegistedList ID="OpenCancelRegistedList1" runat="server" />
+   
+     </ContentTemplate>
+    </asp:UpdatePanel>
 </asp:Content>

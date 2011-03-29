@@ -33,5 +33,17 @@ namespace ACMS.BO
             return myActivityRegistDAO.getSNByActivity(activity_id, emp_id);
         
         }
+
+        /// <summary>
+        /// 取得取消名單清冊
+        /// </summary>
+        /// <param name="activity_id"></param>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public DataTable GetCancelRegist(Guid activity_id, string name)
+        {
+            DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+            return myActivityRegistDAO.GetCancelRegist(activity_id, name);
+        }
     }
 }

@@ -22,9 +22,9 @@
                         </EmptyDataTemplate>
                         <Columns>
                             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"
-                                ItemStyle-HorizontalAlign="Center" />
+                                ItemStyle-HorizontalAlign="Center" ItemStyle-Width="150px" />
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
-                                <ItemStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center"  Width ="150px"/>
                                 <ItemTemplate>
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
@@ -91,9 +91,9 @@
                         </EmptyDataTemplate>
                         <Columns>
                             <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"
-                                ItemStyle-HorizontalAlign="Center" />
+                                ItemStyle-HorizontalAlign="Center" ItemStyle-Width="150px" />
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
-                                <ItemStyle HorizontalAlign="Center" />
+                                <ItemStyle HorizontalAlign="Center"  Width ="150px"  />
                                 <ItemTemplate>
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>

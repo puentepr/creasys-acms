@@ -55,9 +55,9 @@
                         OnRowDataBound="GridView1_RowDataBound" AllowHoverEffect="True" 
                         AllowHoverSelect="True" ondatabound="GridView1_DataBound" TotalRowCount="0">
                         <Columns>
-                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"  ItemStyle-HorizontalAlign ="Center"/>
-                            <asp:TemplateField HeaderText="活動對象" SortExpression="people_type" >
-                            <ItemStyle HorizontalAlign="Center" />
+                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"  ItemStyle-HorizontalAlign ="Center" ItemStyle-Width="150px"/>
+                            <asp:TemplateField HeaderText="活動對象" SortExpression="people_typ"">
+                            <ItemStyle HorizontalAlign="Center"  Width="150px" />
                                 <ItemTemplate>
                                     <asp:Label ID="Label2" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>

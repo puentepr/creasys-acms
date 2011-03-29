@@ -507,10 +507,14 @@ public partial class WebForm_ActivityQuery : BasePage
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+       
+
+
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
 
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+            (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(e.Row.FindControl("lbtnExport"));
         }
     }
     protected void lbtnViewActivityList_Click(object sender, EventArgs e)
@@ -550,5 +554,16 @@ public partial class WebForm_ActivityQuery : BasePage
             ((Label)gr.FindControl("lblactivity_startdate")).Text = DateTime.Parse(((Label)gr.FindControl("lblactivity_startdate")).Text).ToString("yyyy/MM/dd HH:mm");
             ((Label)gr.FindControl("lblactivity_enddate")).Text = DateTime.Parse(((Label)gr.FindControl("lblactivity_enddate")).Text).ToString("yyyy/MM/dd HH:mm");
         }
+    }
+    protected void lbtnCancelList_Click(object sender, EventArgs e)
+    {
+         string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[0].ToString();
+        string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
+
+        OpenCancelRegistedList1.activity_id = activity_id;
+        OpenCancelRegistedList1.activity_type = activity_type;
+        OpenCancelRegistedList1.InitDataAndShow();
+
+
     }
 }

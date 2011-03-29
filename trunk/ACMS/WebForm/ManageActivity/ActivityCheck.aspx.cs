@@ -16,15 +16,20 @@ public partial class WebForm_ActivityCheck : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
+        (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(btnExport);
+          
         if (!IsPostBack)
         {
+               
             (this.Master as MyMasterPage).PanelMainGroupingText = "活動進度登錄";
             ddlActivity.DataBind();
             ddlC_NAME.DataBind();
             ddlC_NAME.Items.Insert(0, new ListItem("請選擇", ""));
             ddlDEPT_ID.DataBind();
             btnQuery_Click(null, null);
+           
         }
+
 
     }
     protected void btnQuery_Click(object sender, EventArgs e)
