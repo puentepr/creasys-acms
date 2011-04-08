@@ -8,6 +8,11 @@ namespace ACMS.DAO
 {
     public class CustomFieldDAO : BaseDAO
     {
+        /// <summary>
+        /// 新增1筆自訂欄資料
+        /// </summary>
+        /// <param name="myCustomFieldVO">自訂欄資料型別物件</param>
+        /// <returns>新增1筆自訂欄資料</returns>
 
         public int INSERT(VO.CustomFieldVO myCustomFieldVO)
         {
@@ -32,7 +37,11 @@ namespace ACMS.DAO
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
-
+        /// <summary>
+        /// 取得活動的自訂欄位設定
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <returns>取得活動的自訂欄位設定</returns>
         public List<VO.CustomFieldVO> SelectByActivity_id(Guid activity_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -67,7 +76,11 @@ namespace ACMS.DAO
             return myCustomFieldVOList;
 
         }
-
+        /// <summary>
+        /// 刪除自訂欄位設定
+        /// </summary>
+        /// <param name="field_id">流水號</param>
+        /// <returns>刪除自訂欄位設定</returns>
         public int DELETE(int field_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -86,7 +99,7 @@ namespace ACMS.DAO
         /// 選出某一活動有選項的欄位但是尚未編輯選項的資料有多少個欄位
         /// </summary>
         /// <param name="activity_id">活動編號</param>
-        /// <returns></returns>
+        /// <returns>選出某一活動有選項的欄位但是尚未編輯選項的資料有多少個欄位</returns>
         public DataTable CheckCustFieldItemEmpty(Guid activity_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -103,10 +116,10 @@ namespace ACMS.DAO
             return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
         }
         /// <summary>
-        /// 檢查是否有重覆的名稱
+        /// 檢查是否有選項重覆的名稱
         /// </summary>
-        /// <param name="activity_id"></param>
-        /// <returns></returns>
+        /// <param name="activity_id">活動代號</param>
+        /// <returns>檢查是否有選項重覆的名稱</returns>
         public DataTable CheckCustFieldItemNameDuplicate(Guid activity_id)
         {
 
@@ -127,8 +140,8 @@ namespace ACMS.DAO
         /// <summary>
         /// 檢查是否有重覆的名稱
         /// </summary>
-        /// <param name="activity_id"></param>
-        /// <returns></returns>
+        /// <param name="activity_id">活動代號</param>
+        /// <returns>檢查是否有重覆的名稱</returns>
         public DataTable CheckCustFieldNameDuplicate(Guid activity_id)
         {
 

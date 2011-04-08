@@ -12,6 +12,25 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
     {
         if (!IsPostBack)
         {
+            //======2011/3/30 分為個人及團隊
+            if (Request.QueryString["Type"] != null)
+            {
+                Session["Type"] = Request.QueryString["Type"];
+            }
+            if (Session["Type"] == null)
+            {
+                Session["Type"] = "1";
+            }
+            else
+            {
+                if (Session["Type"].ToString () == "2")
+                {
+                  //  GridView1.Columns[5].HeaderText = "已報名隊數";
+                    GridView1.Columns[2].HeaderText = "活動隊數";
+                }
+            }
+
+
             if (Session["EmpID"] != null)
             {
                 btnQuery.Visible = false;
@@ -75,7 +94,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
             DataRowView drv = (DataRowView)e.Row.DataItem;
 
             //因為是已報名活動查詢，所以這裡一定是"編輯"已報名活動
-
+            
             ////報名截止後，不可再編輯(幫別人代理報名)，這裡不控制等店進去之後變唯讀
             //if (Convert.ToDateTime(drv["regist_deadline"]) <= DateTime.Today)
             //{
@@ -86,11 +105,15 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
             if (Convert.ToDateTime(drv["cancelregist_deadline"]) < DateTime.Today)
             {
                 (e.Row.FindControl("lbtnRegistCancel") as LinkButton).Visible = false;
+
             }
 
-            
+            if (rblFinish.SelectedValue =="Y")//歷史資料
+            {
+                (e.Row.FindControl("lbtnRegistEdit") as LinkButton).Text = "檢視";
 
-                ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+            }
+            ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
          
         }
 
@@ -110,6 +133,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
         ObjectDataSource1.SelectParameters["activity_startdate"].DefaultValue = txtactivity_startdate.Text;
         ObjectDataSource1.SelectParameters["activity_enddate"].DefaultValue = txtactivity_enddate.Text;
         ObjectDataSource1.SelectParameters["activity_enddate_finish"].DefaultValue = rblFinish.SelectedValue;
+        ObjectDataSource1.SelectParameters["activity_type"].DefaultValue = Session["Type"].ToString();
 
         GridView1.DataBind();
     }
@@ -169,12 +193,24 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
     //取消個人報名後
     public void CancelPersonRegist_Click(object sender, EventArgs e)
     {
+        ObjectDataSource1.SelectParameters["activity_name"].DefaultValue = txtactivity_name.Text;
+        ObjectDataSource1.SelectParameters["activity_startdate"].DefaultValue = txtactivity_startdate.Text;
+        ObjectDataSource1.SelectParameters["activity_enddate"].DefaultValue = txtactivity_enddate.Text;
+        ObjectDataSource1.SelectParameters["activity_enddate_finish"].DefaultValue = rblFinish.SelectedValue;
+        ObjectDataSource1.SelectParameters["activity_type"].DefaultValue = Session["Type"].ToString();
+
         GridView1.DataBind();    
     }
 
     //取消團隊報名後
     public void CancelTeamRegist_Click(object sender, EventArgs e)
     {
+        ObjectDataSource1.SelectParameters["activity_name"].DefaultValue = txtactivity_name.Text;
+        ObjectDataSource1.SelectParameters["activity_startdate"].DefaultValue = txtactivity_startdate.Text;
+        ObjectDataSource1.SelectParameters["activity_enddate"].DefaultValue = txtactivity_enddate.Text;
+        ObjectDataSource1.SelectParameters["activity_enddate_finish"].DefaultValue = rblFinish.SelectedValue;
+        ObjectDataSource1.SelectParameters["activity_type"].DefaultValue = Session["Type"].ToString();
+
         GridView1.DataBind();
     }
 

@@ -99,7 +99,7 @@ FCKConfig.TemplateReplaceCheckbox = true ;
 FCKConfig.ToolbarLocation = 'In' ;
 
 FCKConfig.ToolbarSets["Default"] = [
-	['Source','Cut','Copy','Paste','PasteText','-','Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
+	['Cut','Copy','Paste','PasteText','-','Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'],
 	['OrderedList','UnorderedList','-','Outdent','Indent'],
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'],
 	['Image','Table','Rule','Smiley','SpecialChar'],

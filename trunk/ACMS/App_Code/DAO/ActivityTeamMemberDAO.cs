@@ -9,6 +9,12 @@ namespace ACMS.DAO
     public class ActivityTeamMemberDAO : BaseDAO
     {
         //編輯團隊活動時，要帶入該團隊的所有成員
+        /// <summary>
+        /// 編輯團隊活動時，要帶入該團隊的所有成員
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="RegistBy">報名人</param>
+        /// <returns>編輯團隊活動時，要帶入該團隊的所有成員</returns>
         public List<VO.ActivityTeamMemberVO> SelectActivityTeamMember(Guid activity_id, string RegistBy)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -57,6 +63,12 @@ namespace ACMS.DAO
         }
 
         //檢查某人員是否為該隊的隊長
+        /// <summary>
+        /// 檢查某人員是否為該隊的隊長
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <returns>檢查某人員是否為該隊的隊長</returns>
         public bool IsTeamBoss(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -90,6 +102,12 @@ namespace ACMS.DAO
         }
 
         //變更隊長
+        /// <summary>
+        /// 變更隊長
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="NewBossID">新隊長</param>
+        /// <param name="ExBossID">舊隊長</param>
         public void ChangeBoss(Guid activity_id, string NewBossID, string ExBossID)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];

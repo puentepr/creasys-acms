@@ -8,7 +8,11 @@ namespace ACMS.DAO
 {
     public class ActivityGroupLimitDAO : BaseDAO
     {
-
+        /// <summary>
+        /// 新增限制人員清單
+        /// </summary>
+        /// <param name="table">限制人員清單</param>
+        /// <param name="activity_id">活動代號</param>
         public void UpdateDataSet(DataTable table,Guid activity_id )
         {
 
@@ -61,6 +65,11 @@ namespace ACMS.DAO
         }
 
         //上傳族群名單 
+        /// <summary>
+        /// 上傳族群名單 
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <returns>上傳族群名單 </returns>
         public DataTable SelectCheckExistEmployeeByActivity_id(Guid activity_id)
         {
             StringBuilder sb = new StringBuilder();
@@ -90,6 +99,11 @@ namespace ACMS.DAO
 
 
         //匯出族群名單
+        /// <summary>
+        /// 匯出族群名單
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <returns>匯出族群名單</returns>
         public DataTable SelectEmployeeByActivity_id(Guid activity_id)
         {
              StringBuilder sb = new StringBuilder();
@@ -118,7 +132,11 @@ namespace ACMS.DAO
 
         }
 
-
+        /// <summary>
+        /// 取得活動限制人員清單
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <returns>取得活動限制人員清單</returns>
         public List<VO.EmployeeVO> SelectByActivity_id(Guid activity_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -157,7 +175,12 @@ namespace ACMS.DAO
         }
 
 
-
+        /// <summary>
+        /// 新增限制人員清單
+        /// </summary>
+        /// <param name="myActivityGroupLimitVO">限制人員清單</param>
+        /// <param name="trans">資料庫交易物件</param>
+        /// <returns>新增限制人員清單</returns>
         public int INSERT(VO.ActivityGroupLimitVO myActivityGroupLimitVO,SqlTransaction trans)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -178,7 +201,11 @@ namespace ACMS.DAO
         }
 
 
-
+        /// <summary>
+        /// 刪除活動限制名冊
+        /// </summary>
+        /// <param name="id">流水編號</param>
+        /// <returns>刪除活動限制名冊</returns>
         public int DELETE(int id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -193,8 +220,35 @@ namespace ACMS.DAO
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
 
+       /// <summary>
+        /// 刪除活動限制名冊
+       /// </summary>
+       /// <param name="emp_id">員工</param>
+       /// <param name="id">活動代號</param>
+       /// <returns></returns>
+        public int DELETE(string  emp_id,Guid id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier );
+            sqlParams[0].Value = id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar,emp_id.Length );
+            sqlParams[1].Value = emp_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("DELETE ActivityGroupLimit WHERE activity_id=@id and emp_id=@emp_id  ");
+
+            return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+        }
 
 
+        /// <summary>
+        /// 比較不同的資料
+        /// </summary>
+        /// <param name="First">舊資料</param>
+        /// <param name="Second">新資料</param>
+        /// <returns>比較不同的資料</returns>
 
         public DataTable Difference(DataTable First, DataTable Second)
         {

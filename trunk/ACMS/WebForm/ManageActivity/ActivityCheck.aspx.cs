@@ -71,6 +71,7 @@ public partial class WebForm_ActivityCheck : BasePage
 
        
         dt.Columns.Add ("報名編號",System.Type.GetType("System.String"));
+        dt.Columns.Add("部門代號", System.Type.GetType("System.String"));
         dt.Columns.Add("部門", System.Type.GetType("System.String"));
         dt.Columns.Add("工號", System.Type.GetType("System.String"));
         dt.Columns.Add("姓名", System.Type.GetType("System.String"));
@@ -114,6 +115,7 @@ public partial class WebForm_ActivityCheck : BasePage
             {
                 dtDr["報名編號"] = "正取:" + seqno.ToString();
             }
+            dtDr["部門代號"] = dr["DEPT_ID"].ToString();
             dtDr["部門"] = dr["C_DEPT_NAME"].ToString();
             dtDr["工號"] = dr["WORK_ID"].ToString();
             dtDr["姓名"] = dr["NATIVE_NAME"].ToString();

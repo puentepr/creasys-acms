@@ -23,7 +23,7 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
             if (Request["type"] != null && Request["type"] == "off")
             {
                 (this.Master as MyMasterPage).PanelMainGroupingText = "歷史資料查詢";
-                GridView1.Columns[7].Visible = false;
+                GridView1.Columns[8].Visible = false;
                 ObjectDataSource1.SelectParameters["querytype"].DefaultValue = "off";
             }
             else
@@ -146,35 +146,6 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
     //匯出名單
     protected void lbtnExport_Click(object sender, EventArgs e)
     {
-        //string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[0].ToString();
-        //string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
-
-        //DataTable table = new DataTable();
-
-        //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
-        //table = myActivityRegistDAO.SelectEmployeesByID(new Guid(activity_id), activity_type);
-
-        //if (table != null && table.Rows.Count > 0)
-        //{
-        //    table.Columns[0].ColumnName = "員工編號";
-        //    table.Columns[1].ColumnName = "員工姓名";
-        //    table.Columns[2].ColumnName = "員工部門";
-
-        //    // 產生 Excel 資料流。
-        //    MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;
-        //    // 設定強制下載標頭。
-        //    Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Server.UrlEncode("匯出名單")));
-        //    // 輸出檔案。
-        //    Response.BinaryWrite(ms.ToArray());
-
-        //    ms.Close();
-        //    ms.Dispose();
-        //}
-        //else
-        //{
-        //    clsMyObj.ShowMessage("沒有資料!");
-        //}
-
         string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[0].ToString();
         string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
 
@@ -195,13 +166,72 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
 
 
         dt.Columns.Add("報名編號", System.Type.GetType("System.String"));
+        dt.Columns.Add("部門代號", System.Type.GetType("System.String"));
         dt.Columns.Add("部門", System.Type.GetType("System.String"));
         dt.Columns.Add("工號", System.Type.GetType("System.String"));
         dt.Columns.Add("姓名", System.Type.GetType("System.String"));
         dt.Columns.Add("分機", System.Type.GetType("System.String"));
         dt.Columns.Add("EMAIL", System.Type.GetType("System.String"));
         dt.Columns.Add("進度狀態", System.Type.GetType("System.String"));
-        dt.Columns.Add("自訂欄位", System.Type.GetType("System.String"));
+        //=================================================================
+        ACMS.DAO.CustomFieldValueDAO myCustFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
+
+
+        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList;
+        if (table.Rows[0]["activity_type"].ToString() == "2")
+        {
+            myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(table.Rows[0]["id"].ToString()), table.Rows[0]["boss_id"].ToString());
+            dt.Columns.Add("隊名", System.Type.GetType("System.String"));
+        }
+        else
+        {
+            myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(table.Rows[0]["id"].ToString()), table.Rows[0]["emp_id"].ToString());
+        }
+        dt.Columns.Add("身份證_護照", System.Type.GetType("System.String"));
+        ACMS.BO.CustomFieldItemBO myCustFieldItemBO = new ACMS.BO.CustomFieldItemBO();
+        List<ACMS.VO.CustomFieldItemVO> myFieldVOS;
+        foreach (ACMS.VO.CustomFieldValueVO custFieldVO in myCustomFieldValueVOList)
+        {
+
+            if (custFieldVO.field_control.ToLower() == "textbox")
+            {
+                dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+            }
+
+            if (custFieldVO.field_control.ToLower() == "textboxlist")
+            {
+
+                myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                {
+                    dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.Decimal"));
+                }
+                dt.Columns.Add(custFieldVO.field_name + "合計", System.Type.GetType("System.Decimal"));
+            }
+            if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
+            {
+                // dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+                myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                {
+                    dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
+                }
+            }
+            if (custFieldVO.field_control.ToLower() == "checkboxlist")
+            {
+                //dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+                myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                {
+                    dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
+                }
+            }
+
+
+        }
+
+
+        // dt.Columns.Add("自訂欄位", System.Type.GetType("System.String"));
 
         string teamName = "";
         int seqno = 0;
@@ -212,7 +242,7 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
             dtDr = dt.NewRow();
             if (dr["activity_type"].ToString() == "2")
             {
-                if (teamName != dr["team_name"].ToString().Trim())
+                if (teamName != dr["boss_id"].ToString().Trim())
                 {
                     seqno++;
                 }
@@ -239,23 +269,30 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
             {
                 dtDr["報名編號"] = "正取:" + seqno.ToString();
             }
+            dtDr["部門代號"] = dr["DEPT_ID"].ToString();
             dtDr["部門"] = dr["C_DEPT_NAME"].ToString();
             dtDr["工號"] = dr["WORK_ID"].ToString();
             dtDr["姓名"] = dr["NATIVE_NAME"].ToString();
             dtDr["分機"] = dr["OFFICE_PHONE"].ToString();
             dtDr["EMAIL"] = dr["OFFICE_MAIL"].ToString();
             dtDr["進度狀態"] = dr["check_status"].ToString();
+            dtDr["身份證_護照"] = dr["idno"].ToString();
             if (dr["activity_type"].ToString() == "2")
             {
-                if (dr["team_name"].ToString() != teamName)
+                if (dr["boss_id"].ToString() != teamName)
                 {
-                    dtDr["自訂欄位"] = GetCustomField(dr["id"].ToString(), dr["boss_id"].ToString());
+                    // dtDr["自訂欄位"] = GetCustomField(dr["id"].ToString(), dr["boss_id"].ToString());
+                    GetCustomFieldNew(dr["id"].ToString(), dr["boss_id"].ToString(), ref dtDr);
+                    dtDr["隊名"] = dr["team_name"].ToString().Trim();
                 }
-                teamName = dr["team_name"].ToString().Trim();
+
+
+                teamName = dr["boss_id"].ToString().Trim();
             }
             else
             {
-                dtDr["自訂欄位"] = GetCustomField(dr["id"].ToString(), dr["emp_id"].ToString());
+                // dtDr["自訂欄位"] = GetCustomField(dr["id"].ToString(), dr["emp_id"].ToString());
+                GetCustomFieldNew(dr["id"].ToString(), dr["emp_id"].ToString(), ref dtDr);
             }
             dt.Rows.Add(dtDr);
         }
@@ -280,6 +317,98 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
         else
         {
             clsMyObj.ShowMessage("沒有資料!");
+        }
+
+
+
+    }
+
+    public void GetCustomFieldNew(string guid, string boss_id, ref DataRow dr)
+    {
+        ACMS.DAO.CustomFieldValueDAO myCustFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
+        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(guid), boss_id);
+        ACMS.BO.CustomFieldItemBO myCustFieldItemBO = new ACMS.BO.CustomFieldItemBO();
+        List<ACMS.VO.CustomFieldItemVO> custFieldItemList;
+        string custFieldSt = "";
+        decimal ttl = 0;
+        string[] FieldIDs;
+
+        foreach (ACMS.VO.CustomFieldValueVO custFieldVO in myCustomFieldValueVOList)
+        {
+            if (custFieldVO.field_control.ToLower() == "textbox")
+            {
+                dr[custFieldVO.field_name] = custFieldVO.field_value;
+            }
+            custFieldSt = "";
+            if (custFieldVO.field_control.ToLower() == "textboxlist")
+            {
+                ttl = 0;
+
+                FieldIDs = custFieldVO.field_value.Split(',');
+                custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (string fieldID in FieldIDs)
+                {
+                    foreach (ACMS.VO.CustomFieldItemVO custFieldItem in custFieldItemList)
+                    {
+                        if (int.Parse(fieldID) == custFieldItem.field_item_id)
+                        {
+                            custFieldSt += custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "";
+                            ttl += decimal.Parse(custFieldItem.field_item_text);
+                            dr[custFieldVO.field_name + "_" + custFieldItem.field_item_name] = decimal.Parse(custFieldItem.field_item_text);
+                        }
+
+
+
+                    }
+                }
+
+                custFieldSt += "合計: " + ttl.ToString() + "";
+                dr[custFieldVO.field_name + "合計"] = ttl;
+
+            }
+            if (custFieldVO.field_control.ToLower() == "checkboxlist")
+            {
+
+
+                custFieldSt = "";
+
+                FieldIDs = custFieldVO.field_value.Split(',');
+                custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (string fieldID in FieldIDs)
+                {
+                    foreach (ACMS.VO.CustomFieldItemVO custFieldItem in custFieldItemList)
+                    {
+                        if (int.Parse(fieldID) == custFieldItem.field_item_id)
+                        {
+                            custFieldSt += custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            dr[custFieldVO.field_name + "_" + custFieldItem.field_item_name] = "V";
+                        }
+
+                    }
+                }
+                //dr[custFieldVO.field_name] = custFieldSt;  
+            }
+            if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
+            {
+                custFieldSt += "";
+
+                FieldIDs = custFieldVO.field_value.Split(',');
+                custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (string fieldID in FieldIDs)
+                {
+                    foreach (ACMS.VO.CustomFieldItemVO custFieldItem in custFieldItemList)
+                    {
+                        if (int.Parse(fieldID) == custFieldItem.field_item_id)
+                        {
+                            custFieldSt += custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            dr[custFieldVO.field_name + "_" + custFieldItem.field_item_name] = "V";
+                        }
+                    }
+                }
+                //dr[custFieldVO.field_name] = custFieldSt;
+            }
+
+
         }
 
 
@@ -318,10 +447,21 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+        DateTime dd;
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
 
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+            dd=DateTime.Parse ( ((Label)e.Row.FindControl("lblactivity_startdate")).Text);
+            ((Label)e.Row.FindControl("lblactivity_startdate")).Text=dd.ToString("yyyy/MM/dd HH:mm");
+             dd=DateTime.Parse ( ((Label)e.Row.FindControl("lblactivity_enddate")).Text);
+            ((Label)e.Row.FindControl("lblactivity_enddate")).Text=dd.ToString("yyyy/MM/dd HH:mm");
+            dd = DateTime.Parse(((Label)e.Row.FindControl("lblregist_deadline")).Text);
+            ((Label)e.Row.FindControl("lblregist_deadline")).Text = dd.ToString("yyyy/MM/dd");
+            dd = DateTime.Parse(((Label)e.Row.FindControl("lblcancelregist_deadline")).Text);
+            ((Label)e.Row.FindControl("lblcancelregist_deadline")).Text = dd.ToString("yyyy/MM/dd");
+
+
         }
     }
     protected void GridView1_DataBound(object sender, EventArgs e)
@@ -338,10 +478,10 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
             lblGrideView1.Visible = false;
         }
 
-        foreach (GridViewRow gr in GridView1.Rows)
-        {
-            ((Label)gr.FindControl("lblactivity_startdate")).Text = ((Label)gr.FindControl("lblactivity_startdate")).Text.Replace("-", "/").Replace("T", " ");
-            ((Label)gr.FindControl("lblactivity_enddate")).Text = ((Label)gr.FindControl("lblactivity_enddate")).Text.Replace("-", "/").Replace("T", " ");
-        }
+        //foreach (GridViewRow gr in GridView1.Rows)
+        //{
+        //    ((Label)gr.FindControl("lblactivity_startdate")).Text = ((Label)gr.FindControl("lblactivity_startdate")).Text.Replace("-", "/").Replace("T", " ");
+        //    ((Label)gr.FindControl("lblactivity_enddate")).Text = ((Label)gr.FindControl("lblactivity_enddate")).Text.Replace("-", "/").Replace("T", " ");
+        //}
     }
 }

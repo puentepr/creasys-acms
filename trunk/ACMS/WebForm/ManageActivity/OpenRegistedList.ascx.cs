@@ -53,7 +53,18 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
     public string activity_type
     {
         get { return (ViewState["activity_type"] == null ? "" : ViewState["activity_type"].ToString()); }
-        set { ViewState["activity_type"] = value; }
+        set { 
+            ViewState["activity_type"] = value;
+            if (value == "1")
+            {
+                GridView1.Columns[3].Visible = false;
+            }
+            else
+            {
+                GridView1.Columns[3].Visible = true;     
+            }
+        
+        }
     }
 
     public void InitDataAndShow()

@@ -8,7 +8,11 @@ namespace ACMS.DAO
 {
     public class ActivatyDAO : BaseDAO
     {
-
+        /// <summary>
+        /// 新增一筆活動資料
+        /// </summary>
+        /// <param name="myActivatyVO">活動資料型別物件</param>
+        /// <returns>新增一筆活動資料</returns>
         public int INSERT_NewOne(VO.ActivatyVO myActivatyVO)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];
@@ -34,7 +38,11 @@ namespace ACMS.DAO
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
-
+        /// <summary>
+        /// 取得活動資料
+        /// </summary>
+        /// <param name="id">活動代號</param>
+        /// <returns>取得活動資料</returns>
         public DataTable SelectActivatyDTByID(Guid id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -55,7 +63,11 @@ namespace ACMS.DAO
             return clsMyObj.GetDataTable(DS);      
 
         }
-
+        /// <summary>
+        /// 取得活動資料
+        /// </summary>
+        /// <param name="id">活動代號</param>
+        /// <returns>取得活動資料</returns>
         public VO.ActivatyVO SelectActivatyByID(Guid id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -114,7 +126,11 @@ namespace ACMS.DAO
             return myActivatyVO;
 
         }
-
+        /// <summary>
+        /// 修改一筆活動資料
+        /// </summary>
+        /// <param name="myActivatyVO">活動資料型別物件</param>
+        /// <returns>修改一筆活動資料</returns>
         public int UpdateActivaty(VO.ActivatyVO myActivatyVO)
         {
             SqlParameter[] sqlParams = new SqlParameter[31];
@@ -225,6 +241,11 @@ namespace ACMS.DAO
         }
 
 
+        /// <summary>
+        /// 刪除一筆活動資料
+        /// </summary>
+        /// <param name="id">活動代號</param>
+        /// <returns>刪除一筆活動資料</returns>
         public int DeleteActivatyByID(string id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];

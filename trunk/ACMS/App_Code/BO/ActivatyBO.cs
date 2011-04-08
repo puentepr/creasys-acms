@@ -9,7 +9,12 @@ namespace ACMS.BO
     public class ActivatyBO:BaseBO
     {
         //SELECT
-        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
+        /// <summary>
+        /// 取得活動資料
+        /// </summary>
+        /// <param name="id">活動代號</param>
+        /// <returns>取得活動資料</returns>
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]       
         public VO.ActivatyVO SelectActivatyByActivatyID(Guid id)
         {
             DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
@@ -17,6 +22,11 @@ namespace ACMS.BO
         }
 
         //SELECT
+        /// <summary>
+        /// 取得活動資料
+        /// </summary>
+        /// <param name="id">活動代號</param>
+        /// <returns>取得活動資料</returns>
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public DataTable SelectActivatyDTByID(Guid id)
         {

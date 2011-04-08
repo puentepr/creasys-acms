@@ -106,7 +106,7 @@
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" SortExpression="WORK_ID" ReadOnly="True" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
                         <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" />
-                        <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
+                        <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME"  Visible ="False"/>
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <TServerControl:TCheckBoxYN ID="chkRJRA" runat="server" Enabled='<%# Eval("keyValue") %>' />

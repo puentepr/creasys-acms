@@ -73,18 +73,18 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
     }
 
    
-    protected void Button1_Click(object sender, EventArgs e)
-    {
-        foreach (GridViewRow gr in GridView_Employee.Rows)
-        {
-            if (((CheckBox)(gr.FindControl("chkRJRA"))).Enabled)
-            {
-                ((CheckBox)(gr.FindControl("chkRJRA"))).Checked = true;
-            }
+    //protected void Button1_Click(object sender, EventArgs e)
+    //{
+    //    foreach (GridViewRow gr in GridView_Employee.Rows)
+    //    {
+    //        if (((CheckBox)(gr.FindControl("chkRJRA"))).Enabled)
+    //        {
+    //            ((CheckBox)(gr.FindControl("chkRJRA"))).Checked = true;
+    //        }
 
-        }
-        this.mpSearch.Show();   
-    }
+    //    }
+    //    this.mpSearch.Show();   
+    //}
     protected void ddlC_NAME_SelectedIndexChanged(object sender, EventArgs e)
     {
         ddlDEPT_ID.DataBind();
@@ -93,6 +93,19 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
     protected void GridView_Employee_Sorted(object sender, EventArgs e)
     {
         this.mpSearch.Show(); 
+    }
+    protected void chk1_CheckedChanged(object sender, EventArgs e)
+    {
+        bool chk1 = (GridView_Employee.HeaderRow.FindControl("chk1") as CheckBox).Checked;
+        foreach (GridViewRow gr in GridView_Employee.Rows)
+        {
+            if (((CheckBox)(gr.FindControl("chkRJRA"))).Enabled)
+            {
+                ((CheckBox)(gr.FindControl("chkRJRA"))).Checked = chk1;
+            }
+
+        }
+        this.mpSearch.Show();   
     }
 }
 

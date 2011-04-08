@@ -117,6 +117,8 @@
                         <asp:Parameter Name="activity_enddate" Type="String" ConvertEmptyStringToNull="false" />
                         <asp:Parameter Name="activity_enddate_finish" Type="String" ConvertEmptyStringToNull="false" />
                         <asp:Parameter Name="emp_id" Type="String" ConvertEmptyStringToNull="false" />
+                         <asp:Parameter Name="activity_type" Type="String" ConvertEmptyStringToNull="false" />
+                        
                     </SelectParameters>
                 </asp:ObjectDataSource>
                 <uc1:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server"

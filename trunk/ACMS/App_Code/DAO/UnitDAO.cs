@@ -8,6 +8,10 @@ namespace ACMS.DAO
 {
     public class UnitDAO : BaseDAO
     {
+        /// <summary>
+        /// 主辦單位資料
+        /// </summary>
+        /// <returns>主辦單位資料</returns>
         public List<VO.UnitVO> SelectUnit()
         {
             StringBuilder sb = new StringBuilder();
@@ -31,7 +35,11 @@ namespace ACMS.DAO
             aconn.Close();
             return myUnitVOList;
         }
-
+        /// <summary>
+        /// 新增主辦單位資料
+        /// </summary>
+        /// <param name="myUnitVO">主辦單位資料型別物件</param>
+        /// <returns>新增主辦單位資料</returns>
         public int InsertUnit(VO.UnitVO myUnitVO)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -47,7 +55,11 @@ namespace ACMS.DAO
 
         }
 
-
+        /// <summary>
+        /// 修改主辦單位資料
+        /// </summary>
+        /// <param name="myUnitVO">主辦單位資料型別物件</param>
+        /// <returns>主辦單位資料</returns>
         public int UpdateUnit(VO.UnitVO myUnitVO)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];

@@ -37,6 +37,7 @@ public partial class _Default : BasePage
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+        string activityid, empid;
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             DataRowView drv = (DataRowView)(e.Row.DataItem);
@@ -46,6 +47,13 @@ public partial class _Default : BasePage
                 e.Row.FindControl("lbtnRegist1").Visible = false;
             }
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+            ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+            activityid = ((HiddenField)e.Row.FindControl("hiID")).Value;
+            if (myActivityRegistDAO.IsPersonRegisted(new Guid (activityid) , clsAuth .ID , "", "1") > 0)
+            {
+                e.Row.FindControl("lbtnRegist1").Visible = false;
+                
+            }
         }
     }
     protected void GridView2_RowDataBound(object sender, GridViewRowEventArgs e)

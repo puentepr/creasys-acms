@@ -8,7 +8,12 @@ namespace ACMS.DAO
 {
     public class CustomFieldValueDAO : BaseDAO
     {
-
+        /// <summary>
+        /// 取得自訂欄位值的資料
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">報名人</param>
+        /// <returns>取得自訂欄位值的資料</returns>
         public List<VO.CustomFieldValueVO> SelectCustomFieldValue(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];

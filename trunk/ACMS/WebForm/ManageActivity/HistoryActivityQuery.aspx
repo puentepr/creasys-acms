@@ -59,26 +59,47 @@
             <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
                 AutoGenerateColumns="False" DataKeyNames="id,activity_type" DataSourceID="ObjectDataSource1"
                 EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                SkinID="pager" TotalRowCount="0" Width="100%" 
+                SkinID="pager" TotalRowCount="0" Width="1000px" 
                 onrowdatabound="GridView1_RowDataBound" ondatabound="GridView1_DataBound">
                 <Columns>
-                    <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name" />
+                    <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"  ItemStyle-Width="150px"/>
                     
-                    <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
+                    <asp:TemplateField HeaderText="活動對象" SortExpression="people_type"  ItemStyle-Width="150px">
                                
-                                <ItemTemplate>
+                                <ItemTemplate >
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                    <asp:TemplateField HeaderText="活動日期" SortExpression="activity_startdate">
+                    <asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
                         <ItemTemplate>
                             <asp:Label ID="lblactivity_startdate" runat="server" 
-                                Text='<%# Bind("activity_startdate", "{0:s}~") %>' Width="120px"></asp:Label><br />
-                            <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate", "{0:s}") %>'></asp:Label>
+                                Text='<%# Bind("activity_startdate") %>' Width="120px"></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="regist_deadline" HeaderText="報名截止日" DataFormatString="{0:d}" />
-                    <asp:BoundField DataField="cancelregist_deadline" HeaderText="取消報名截止日" DataFormatString="{0:d}" />
+                    <asp:TemplateField HeaderText="結束" SortExpression="activity_enddate">
+                        <ItemTemplate>
+                           
+                            <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    
+                     <asp:TemplateField HeaderText="報名截止日" SortExpression="regist_deadline">
+                        <ItemTemplate>
+                           
+                            <asp:Label ID="lblregist_deadline" runat="server" Text='<%# Bind("regist_deadline") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="取消報名截止日" SortExpression="cancelregist_deadline">
+                        <ItemTemplate>
+                           
+                            <asp:Label ID="lblcancelregist_deadline" runat="server" Text='<%# Bind("cancelregist_deadline") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+            
+        
+                    
+                    
+                    
                     <asp:TemplateField>
                         <ItemTemplate>
                             <asp:LinkButton ID="lbtnViewActivity" runat="server" OnClick="lbtnViewActivity_Click">檢視內容</asp:LinkButton>

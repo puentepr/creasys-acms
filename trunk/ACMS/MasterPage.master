@@ -2,14 +2,14 @@
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
-    <%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
+<%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
-    <link rel="stylesheet" type="text/css" href="~/Scripts/jqueryslidemenu.css"  />
+    <link rel="stylesheet" type="text/css" href="~/Scripts/jqueryslidemenu.css" />
     <!--[if lte IE 7]>
 <style type="text/css">
 html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
@@ -18,61 +18,57 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
 
     <script type="text/javascript" src="<%#ResolveClientUrl("~/Scripts/jquery-1.4.1.min.js")%>"></script>
 
-    <script type="text/javascript"  src="<%#ResolveClientUrl("~/Scripts/jqueryslidemenu.js")%>"></script>
+    <script type="text/javascript" src="<%#ResolveClientUrl("~/Scripts/jqueryslidemenu.js")%>"></script>
 
-    <script type="text/javascript" src="<%#ResolveClientUrl("~/js/jquery-ui.min.js")%>"  ></script>
+    <script type="text/javascript" src="<%#ResolveClientUrl("~/js/jquery-ui.min.js")%>"></script>
 
     <link rel="stylesheet" type="text/css" media="screen" href="js/jquery-ui.css" />
-<link rel="stylesheet" type="text/css" href="~/WebForm.css" />
+    <link rel="stylesheet" type="text/css" href="~/WebForm.css" />
+
     <script type="text/javascript">
-            function setRadio(nowRadio)
-            {
-                var myForm,objRadio;
-                myForm=document.forms[0];
-                /**////alert(myForm);
-                for(var i=0;i<myForm.length;i++)
-                {
-                    if(myForm.elements[i].type=="radio")
-                    {
-                        objRadio=myForm.elements[i];
-                        /**////alert(objRadio.name);
-                        if (objRadio != nowRadio && objRadio.name.indexOf("GridView_RegisterPeoplinfo") > -1 && objRadio.name.indexOf("RadioButton1") > -1)
-                        {
+        function setRadio(nowRadio) {
+            var myForm, objRadio;
+            myForm = document.forms[0];
+            /**////alert(myForm);
+            for (var i = 0; i < myForm.length; i++) {
+                if (myForm.elements[i].type == "radio") {
+                    objRadio = myForm.elements[i];
+                    /**////alert(objRadio.name);
+                    if (objRadio != nowRadio && objRadio.name.indexOf("GridView_RegisterPeoplinfo") > -1 && objRadio.name.indexOf("RadioButton1") > -1) {
                         //alert(objRadio.name);
-                            if(objRadio.checked)
-                            {
-                                objRadio.checked=false;
-                            }
+                        if (objRadio.checked) {
+                            objRadio.checked = false;
                         }
                     }
                 }
             }
+        }
 
-            function setRadio_GridView1(nowRadio) {
-                var myForm, objRadio;
-                myForm = document.forms[0];
-                /**////alert(myForm);
-                for (var i = 0; i < myForm.length; i++) {
-                    if (myForm.elements[i].type == "radio") {
-                        objRadio = myForm.elements[i];
-                        /**////alert(objRadio.name);
-                        if (objRadio != nowRadio && objRadio.name.indexOf("GridView1") > -1 && objRadio.name.indexOf("RadioButton1") > -1) {
-                            //alert(objRadio.name);
-                            if (objRadio.checked) {
-                                objRadio.checked = false;
-                            }
+        function setRadio_GridView1(nowRadio) {
+            var myForm, objRadio;
+            myForm = document.forms[0];
+            /**////alert(myForm);
+            for (var i = 0; i < myForm.length; i++) {
+                if (myForm.elements[i].type == "radio") {
+                    objRadio = myForm.elements[i];
+                    /**////alert(objRadio.name);
+                    if (objRadio != nowRadio && objRadio.name.indexOf("GridView1") > -1 && objRadio.name.indexOf("RadioButton1") > -1) {
+                        //alert(objRadio.name);
+                        if (objRadio.checked) {
+                            objRadio.checked = false;
                         }
                     }
                 }
             }
+        }
 
-            function checkFile(sizeLimit) {
-                var img = new Image();
-                document.MM_returnValue = false;
-                img.sizeLimit = sizeLimit;
-                img.src = 'file:///' + document.frmMain.File1.value;
-                img.onload = showImageDimensions;
-            }
+        function checkFile(sizeLimit) {
+            var img = new Image();
+            document.MM_returnValue = false;
+            img.sizeLimit = sizeLimit;
+            img.src = 'file:///' + document.frmMain.File1.value;
+            img.onload = showImageDimensions;
+        }
 
 
     </script>
@@ -84,81 +80,84 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
         }
         .banner
         {
-            background-color:#D7DFE2;
+            background-color: #D7DFE2;
         }
     </style>
 </head>
 <body>
     <form id="form1" runat="server" enctype="multipart/form-data">
-    <asp:ScriptManager ID="ScriptManager1" runat="server" 
-        AsyncPostBackTimeout="3600">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" AsyncPostBackTimeout="3600">
     </asp:ScriptManager>
-    
-   
-<asp:updateprogress runat="server" DisplayAfter="0">
-
- <ProgressTemplate>
-                <my:UpdateProgress ID="myprogress1" runat="server" />
-            </ProgressTemplate>
-
-</asp:updateprogress>
-    <div  id="main_container" style ="height:100px;background-image :url(../../images/banner.jpg);background-repeat: no-repeat;"  >
-    
-        <div id="header" class ="banner" style ="height:100px;background-image :url(../../images/banner.jpg);background-repeat: no-repeat;"  >
-        
+    <asp:UpdateProgress runat="server" DisplayAfter="0">
+        <ProgressTemplate>
+            <My:UpdateProgress ID="myprogress1" runat="server" />
+        </ProgressTemplate>
+    </asp:UpdateProgress>
+    <div id="main_container" style="height: 100px; background-image: url(../../images/banner.jpg);
+        background-repeat: no-repeat;">
+        <div id="header" class="banner" style="height: 100px; background-image: url(../../images/banner.jpg);
+            background-repeat: no-repeat;">
             <div id="logo">
-            
                 <!-- <a href="/ACMS/Default.aspx">
                     <img src="/ACMS/images/logo.gif" alt="" title="" border="0"  /></a>-->
-               <!-- <table  cellpadding ="0" cellspacing ="0"width ="100%" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;" >-->
-                    <tr>
-                        
-                        <td style ="width:800px"><!--<img src="/ACMS/images/banner.jpg" alt="" title="" border="0" width="800px" 
+                <!-- <table  cellpadding ="0" cellspacing ="0"width ="100%" style ="height:100px;background-image :url(/ACMS/images/banner.jpg);background-repeat: no-repeat;" >-->
+                <tr>
+                    <td style="width: 800px">
+                        <!--<img src="/ACMS/images/banner.jpg" alt="" title="" border="0" width="800px" 
                                 height="100px" />-->
-                        </td>
-                        
-                    </tr>
+                    </td>
+                </tr>
                 <!--</table>-->
             </div>
-            <asp:Panel ID="Panel1" Height ="85px" runat="server">
+            <asp:Panel ID="Panel1" Height="85px" runat="server">
             </asp:Panel>
-            <div id="myslidemenu" class="jqueryslidemenu" style ="">
+            <div id="myslidemenu" class="jqueryslidemenu" style="">
                 <ul>
-                    <li><a href="~/Default.aspx" runat="server" >首頁</a></li>
+                    <li><a href="~/Default.aspx" runat="server">首頁</a></li>
                     <li><a href="~/WebForm/RegistActivity/RegistActivity_Person.aspx" runat="server">個人報名</a></li>
-                    <li><a href="~/WebForm/RegistActivity/RegistActivity_Team.aspx"  runat="server">團隊報名</a></li>
-                    <li><a href="~/WebForm/RegistActivity/RegistedActivityQuery.aspx" runat="server">已報名活動查詢</a></li>
-                    <li><a href="~/WebForm/RegistActivity/ActivityProgressQuery.aspx" runat="server">活動進度查詢</a></li>
-                    <li id="ActivityManagement"><a href="#">活動資料管理</a>
+                    <li><a href="~/WebForm/RegistActivity/RegistActivity_Team.aspx" runat="server">團隊報名</a></li>
+                    <li id="Li1"><a href="#">已報名活動查詢</a>
                         <ul>
-                            <li id ="ActivityEditQuery"><a href="~/WebForm/ManageActivity/ActivityEditQuery.aspx" runat="server" >新增/修改活動</a></li>
-                            <li><a href="~/WebForm/ManageActivity/ActivityQuery.aspx" runat="server" >報名狀態查詢</a></li>
-                            <li><a href="~/WebForm/ManageActivity/ActivityCheck.aspx" runat="server" >活動進度登錄</a></li>
-                            <li><a href="~/WebForm/ManageActivity/HistoryActivityQuery.aspx?type=off" runat="server">歷史資料查詢</a></li>
+                            <li><a id="A2" href="~/WebForm/RegistActivity/RegistedActivityQuery.aspx?Type=1" runat="server">
+                                個人</a></li>
+                            <li><a id="A3" href="~/WebForm/RegistActivity/RegistedActivityQuery.aspx?Type=2" runat="server">
+                                團隊</a></li>
                         </ul>
                     </li>
-                    <li id ="RightsManagement"><a href="#">權限管理</a>
+                    <li><a id="A1" href="~/WebForm/RegistActivity/ActivityProgressQuery.aspx" runat="server">
+                        活動進度查詢</a></li>
+                    <li id="ActivityManagement"><a href="#">活動資料管理</a>
+                        <ul>
+                            <li id="ActivityEditQuery"><a href="~/WebForm/ManageActivity/ActivityEditQuery.aspx"
+                                runat="server">新增/修改活動</a></li>
+                            <li><a href="~/WebForm/ManageActivity/ActivityQuery.aspx" runat="server">報名狀態查詢</a></li>
+                            <li><a href="~/WebForm/ManageActivity/ActivityCheck.aspx" runat="server">活動進度登錄</a></li>
+                            <li><a href="~/WebForm/ManageActivity/HistoryActivityQuery.aspx?type=off" runat="server">
+                                歷史資料查詢</a></li>
+                        </ul>
+                    </li>
+                    <li id="RightsManagement"><a href="#">權限管理</a>
                         <ul>
                             <li><a href="~/WebForm/ManageRole/ManageUnit.aspx" runat="server">主辦單位設定</a></li>
                             <li><a href="~/WebForm/ManageRole/ManageRole.aspx" runat="server">角色人員管理</a></li>
                         </ul>
                     </li>
                     <li></li>
-                </ul> <div   valign ="bottom" align="right">
-                          <font color="White"
-                            登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" ForeColor="Black" Font-Size="18px" />   &nbsp; &nbsp; 
-                            <!-- <span  id="login"> </span>-->
-                            </font>
-                        </div>
-                <br style="clear: left" /> 
+                </ul>
+                <div valign="bottom" align="right">
+                    <font color="White">登入者資訊:
+                        <asp:Label ID="Label1" runat="server" Text="Label" ForeColor="Black" Font-Size="18px" BackColor="LightYellow" />
+                        &nbsp; &nbsp;
+                        <!-- <span  id="login"> </span>-->
+                    </font>
+                </div>
+                <br style="clear: left" />
             </div>
-           
         </div>
-        <asp:Panel ID="Panel2" runat="server" Height ="33px">
+        <asp:Panel ID="Panel2" runat="server" Height="33px">
         </asp:Panel>
-        
         <div id="MyContentPlaceHolder">
-            <table cellpadding ="0" cellspacing ="0" width="100%">
+            <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td valign="top">
                         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">

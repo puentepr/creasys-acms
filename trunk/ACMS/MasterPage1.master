@@ -127,7 +127,15 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     <li><a href="~/Default.aspx" runat="server" >首頁</a></li>
                     <li><a href="~/WebForm/RegistActivity/RegistActivity_Person.aspx" runat="server">個人報名</a></li>
                     <li><a href="~/WebForm/RegistActivity/RegistActivity_Team.aspx"  runat="server">團隊報名</a></li>
-                    <li><a href="~/WebForm/RegistActivity/RegistedActivityQuery.aspx" runat="server">已報名活動查詢</a></li>
+                    <li id="Li1"><a href="#">已報名活動查詢</a>
+                        <ul>
+                            <li><a id="A2" href="~/WebForm/RegistActivity/RegistedActivityQuery.aspx?Type=1" runat="server">
+                                個人</a></li>
+                            <li><a id="A3" href="~/WebForm/RegistActivity/RegistedActivityQuery.aspx?Type=2" runat="server">
+                                團隊</a></li>
+                        </ul>
+                    </li>
+                    
                     <li><a href="~/WebForm/RegistActivity/ActivityProgressQuery.aspx" runat="server">活動進度查詢</a></li>
                     <li id="ActivityManagement"><a href="#">活動資料管理</a>
                         <ul>
@@ -145,10 +153,11 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     </li>
                     <li></li>
                 </ul> <div   valign ="bottom" align="right">
-                          <font color="White"
-                            登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" ForeColor="Black" Font-Size ="18px"/>   &nbsp; &nbsp; 
+                          <font color="White">
+                            登入者資訊:  <asp:Label ID="Label1" runat="server" Text="Label" ForeColor="Black" Font-Size ="18px" BackColor="LightYellow" />  
                             <!-- <span  id="login"> </span>-->
-                            </font>
+                            &nbsp; &nbsp;
+                            </font> 
                         </div>
                 <br style="clear: left" /> 
             </div>

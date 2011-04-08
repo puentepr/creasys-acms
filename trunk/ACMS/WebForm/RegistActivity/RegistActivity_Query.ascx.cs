@@ -13,6 +13,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
 {
     public delegate void GoSecondStepDelegate(object sender, RegistGoSecondEventArgs e);
     public event GoSecondStepDelegate GoSecondStep_Click;
+    
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -54,10 +55,23 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
     }
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+        string activityid;
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
+
+            ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+            if (ActivityType == "1")
+            {
+
+                activityid = ((HiddenField)e.Row.FindControl("hiID")).Value;
+                if (myActivityRegistDAO.IsPersonRegisted(new Guid(activityid), clsAuth.ID, "", "1") > 0)
+                {
+                    e.Row.FindControl("lbtnRegist").Visible = false;
+
+                }
+            }
         }
     }
     protected void lbtnRegistAgent_Click(object sender, EventArgs e)
