@@ -20,7 +20,8 @@
             <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="0"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
                 StepPreviousButtonText="上一步" 
-                onactivestepchanged="Wizard1_ActiveStepChanged">
+                onactivestepchanged="Wizard1_ActiveStepChanged" 
+                onnextbuttonclick="Wizard1_NextButtonClick">
                 <StartNavigationTemplate>
                     <asp:Button ID="btnStart" runat="server" CausesValidation="true" CommandName="MoveNext"
                         CssClass="WizardControlButton" Text="下一步" />

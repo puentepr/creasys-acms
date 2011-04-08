@@ -8,7 +8,13 @@ namespace ACMS.DAO
 {
     public class ActivityRegistDAO : BaseDAO
     {
-
+        /// <summary>
+        /// 將要刪除的成員資料新增到取消人員清冊中
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">要取消的人員</param>
+        /// <param name="activity_type">活動類別</param>
+        /// <param name="cancel_by">取消人</param>
         public void InsertActivityRegistCancel(Guid activity_id, string emp_id, string activity_type,string cancel_by)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];
@@ -41,11 +47,11 @@ namespace ACMS.DAO
         }
 
         /// <summary>
-        /// 將要刪除的成員資料新增到取消人員清冊中(找出不在新成員名單中)
+        /// 將要刪除的成員資料新增到取消人員清冊中(找出不在新成員名單中)-團隊專用
         /// </summary>
-        /// <param name="activity_id"></param>
+        /// <param name="activity_id">活動代號</param>
         /// <param name="emp_id">新成員名單</param>
-        /// <param name="cancel_by"></param>
+        /// <param name="cancel_by">取消人員</param>
         public void InsertActivityRegistCancelTeamMember(Guid activity_id, string emp_id, string cancel_by)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];
@@ -63,7 +69,12 @@ namespace ACMS.DAO
 
 
             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-        }       
+        }  
+        /// <summary>
+        /// 新增一個報名人員的資料
+        /// </summary>
+        /// <param name="myActivityRegistVO">報名人員型別物件</param>
+        /// <returns>ExecuteNonQuery</returns>
         public int INSERT_NewOne(VO.ActivityRegistVO myActivityRegistVO)
         { 
             SqlParameter[] sqlParams = new SqlParameter[4];
@@ -90,6 +101,12 @@ namespace ACMS.DAO
     
 
         //取得該活動所有成功報名者名單
+        /// <summary>
+        /// 取得該活動所有成功報名者名單
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="activity_type">活動類別</param>
+        /// <returns>取得該活動所有成功報名者名單</returns>
         public DataTable SelectEmployeesByID(Guid activity_id, string activity_type)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -138,6 +155,12 @@ namespace ACMS.DAO
         }
 
         //取得報名資訊-個人活動   為了組成個人固定欄位
+        /// <summary>
+        /// 取得報名資訊-個人活動   為了組成個人固定欄位
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <returns>取得報名資訊-個人活動   為了組成個人固定欄位</returns>
         public VO.ActivityRegistVO SelectActivityRegistByPK(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -179,6 +202,12 @@ namespace ACMS.DAO
 
 
         //取得報名資訊-團隊活動 登入者帳號-團長帳號 找出報名資訊
+        /// <summary>
+        /// 取得報名資訊-團隊活動 登入者帳號-團長帳號 找出報名資訊
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="member_id">員工</param>
+        /// <returns>取得報名資訊-團隊活動 登入者帳號-團長帳號 找出報名資訊</returns>
         public VO.ActivityRegistVO SelectActivityRegistByMemberID(Guid activity_id, string member_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -220,7 +249,12 @@ namespace ACMS.DAO
 
 
         //廢止
-        //取得報名資訊-為了組成個人固定欄位
+        //取得報名資訊-為了組成個人固定欄位-廢止
+        /// <summary>
+        /// 取得報名資訊-為了組成個人固定欄位-廢止
+        /// </summary>
+        /// <param name="id">活動代號</param>
+        /// <returns>取得報名資訊-為了組成個人固定欄位-廢止</returns>
         public VO.ActivityRegistVO SelectActivityRegistByID(Guid id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -258,13 +292,21 @@ namespace ACMS.DAO
         }
 
         //檢查是否重複報名(個人,團隊)
+        /// <summary>
+        /// 檢查是否重複報名(個人,團隊)
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <param name="boss_id">隊長</param>
+        /// <param name="activity_type">活動類別</param>
+        /// <returns>0=未報名,0以上有報名</returns>
         public int IsPersonRegisted(Guid activity_id, string emp_id, string boss_id, string activity_type)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, -1);
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar,-1);
             sqlParams[1].Value = emp_id;
             sqlParams[2] = new SqlParameter("@boss_id", SqlDbType.NVarChar, 100);
             sqlParams[2].Value = boss_id;
@@ -295,6 +337,13 @@ namespace ACMS.DAO
         }
 
         //檢查是否重複報名(團隊報名時按了下一步時的檢查)
+        /// <summary>
+        /// 檢查是否重複報名(團隊報名時按了下一步時的檢查)
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <param name="boss_id">隊長</param>
+        /// <returns>檢查是否重複報名(團隊報名時按了下一步時的檢查)</returns>
         public string IsTeamRegisted(Guid activity_id, string emp_id, string boss_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];
@@ -321,6 +370,11 @@ namespace ACMS.DAO
         }
 
         //檢查是否已額滿(個人,團隊)
+        /// <summary>
+        /// 檢查是否已額滿(個人,團隊)
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <returns>檢查是否已額滿(個人,團隊)</returns>
         public int RegistableCount(Guid activity_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -343,6 +397,17 @@ namespace ACMS.DAO
         }
 
         //新增報名或更新報名資訊
+        /// <summary>
+        /// 新增報名或更新報名資訊
+        /// </summary>
+        /// <param name="myActivityRegistVO">報名人員資料型別物件</param>
+        /// <param name="myCustomFieldValueVOList">自訂欄位型別物</param>
+        /// <param name="myActivityTeamMemberVOList">團隊報名隊員型別物件</param>
+        /// <param name="type">insert=新增,else修改</param>
+        /// <param name="activity_type">活動類別</param>
+        /// <param name="webPath">網址到根目錄</param>
+        /// <param name="path">附加檔案目錄</param>
+        /// <returns>新增報名或更新報名資訊</returns>
         public int UpdateActivityRegist(VO.ActivityRegistVO myActivityRegistVO, List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList, List<ACMS.VO.ActivityTeamMemberVO> myActivityTeamMemberVOList, string type, string activity_type, string webPath,string path )
         {
             string empidnew="" ;
@@ -643,6 +708,14 @@ namespace ACMS.DAO
         }
 
         //取消報名-刪除
+        /// <summary>
+        /// 取消報名-刪除
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <param name="activity_type">活動類別</param>
+        /// <param name="webPath">網址根目錄</param>
+        /// <returns>取消報名-刪除</returns>
         public int DeleteRegist(Guid activity_id, string emp_id, string activity_type, string webPath)
         {
             //先取得團隊所
@@ -715,6 +788,9 @@ namespace ACMS.DAO
                         if (cmd.ExecuteScalar().ToString() != "0")
                         {
                             InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID);
+                            //團隊瓦解要寄信給所有人
+                            clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
+
                         }
                         //================================================
 
@@ -775,6 +851,14 @@ namespace ACMS.DAO
         }
 
         //取消報名-狀態改取消
+        /// <summary>
+        /// 取消報名-狀態改取消
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <param name="activity_type">活動代號</param>
+        /// <param name="webPath">網址根目錄</param>
+        /// <returns>取消報名-狀態改取消</returns>
         public int CancelRegist(Guid activity_id, string emp_id, string activity_type, string webPath)
         {
             //先取得團隊所有成員(用逗號隔開)，因為若團隊會消滅的話要寄給所有成員
@@ -898,6 +982,12 @@ namespace ACMS.DAO
 
 
         //隊員取得團隊所有成員(用逗號隔開)
+        /// <summary>
+        /// 隊員取得團隊所有成員(用逗號隔開)
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <returns>隊員取得團隊所有成員(用逗號隔開)</returns>
         public string AllTeamMemberByMembers(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -931,6 +1021,12 @@ namespace ACMS.DAO
         }
 
         //傳入團長取得團隊所有成員(List<string>)
+        /// <summary>
+        /// 傳入團長取得團隊所有成員(List<string>)
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="boss_id">隊長</param>
+        /// <returns>傳入團長取得團隊所有成員(List<string>)</returns>
         public List<string> AllTeamMemberByBoss(Guid activity_id, string boss_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -961,8 +1057,8 @@ namespace ACMS.DAO
         /// <summary>
         /// 取得報名後的報名順序
         /// </summary>
-        /// <param name="activity"></param>
-        /// <returns></returns>
+        /// <param name="activity">活動代號</param>
+        /// <returns>取得報名後的報名順序</returns>
         public string getSNByActivity(Guid activity_id, string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
@@ -993,9 +1089,9 @@ namespace ACMS.DAO
         /// <summary>
         /// 取得取消名單清冊
         /// </summary>
-        /// <param name="activity_id"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="name">員工或隊長的中英文</param>
+        /// <returns>取得取消名單清冊</returns>
         public DataTable GetCancelRegist(Guid activity_id, string name)
         {
 

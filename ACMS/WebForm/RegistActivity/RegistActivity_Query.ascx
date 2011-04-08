@@ -26,8 +26,7 @@
                                 <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" TargetControlID="txtactivity_startdate"
                                     Format="yyyy/MM/dd">
                                 </ajaxToolkit:CalendarExtender>
-                                ~<asp:TextBox ID="txtactivity_enddate" runat="server"></asp:TextBox>
-                                <ajaxToolkit:CalendarExtender ID="CalendarExtender4" runat="server" TargetControlID="txtactivity_enddate"
+                                ~<asp:TextBox ID="txtactivity_enddate" runat="server"></asp:TextBox><ajaxToolkit:CalendarExtender ID="CalendarExtender4" runat="server" TargetControlID="txtactivity_enddate"
                                     Format="yyyy/MM/dd">
                                 </ajaxToolkit:CalendarExtender>
                             </td>
@@ -46,6 +45,7 @@
                                 AllowHoverSelect="True" TotalRowCount="0" EnableModelValidation="True" OnRowDataBound="GridView1_RowDataBound"
                                 OnDataBound="GridView1_DataBound" >
                                 <Columns>
+                                 
                                     <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"
                                         ItemStyle-Width="150px" ItemStyle-HorizontalAlign="Center">
                                         <ItemStyle HorizontalAlign="Center" Width="150px" />
@@ -53,6 +53,7 @@
                                     <asp:TemplateField HeaderText="活動對象" SortExpression="people_type" ItemStyle-Width="150px">
                                         <ItemStyle HorizontalAlign="Center" />
                                         <ItemTemplate>
+                                        <asp:HiddenField ID="hiID" runat="server"   Value='<%# Bind("id") %>' />
                                             <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>

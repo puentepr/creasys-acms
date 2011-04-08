@@ -8,7 +8,11 @@ namespace ACMS.DAO
 {
     public class CustomFieldItemDAO : BaseDAO
     {
-
+        /// <summary>
+        /// 新增1筆自訂欄位選項資料
+        /// </summary>
+        /// <param name="myCustomFieldItemVO">自訂欄位選項資料型別物件</param>
+        /// <returns 新增1筆自訂欄位選項資料></returns>
         public int INSERT(VO.CustomFieldItemVO myCustomFieldItemVO)
         {
             //field_item_id欄位自動識別遞增
@@ -30,7 +34,11 @@ namespace ACMS.DAO
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
-
+        /// <summary>
+        /// 取得欄位選項的資料
+        /// </summary>
+        /// <param name="field_id">欄位代號流水號</param>
+        /// <returns>取得欄位選項的資料</returns>
         public List<VO.CustomFieldItemVO> SelectByField_id(int field_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];
@@ -64,7 +72,11 @@ namespace ACMS.DAO
             return myCustomFieldItemVOList;
 
         }
-
+        /// <summary>
+        /// 刪除一個自訂欄位的選項資料
+        /// </summary>
+        /// <param name="field_item_id">選項代號流水號</param>
+        /// <returns>刪除一個自訂欄位的選項資料</returns>
         public int DELETE(int field_item_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];

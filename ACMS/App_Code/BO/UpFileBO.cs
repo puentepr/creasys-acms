@@ -9,6 +9,11 @@ namespace ACMS.BO
     {
 
         //SELECT
+        /// <summary>
+        /// 取得附加檔案資料
+        /// </summary>
+        /// <param name="dirName">附加檔案目錄</param>
+        /// <returns>取得附加檔案資料</returns>
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public List<VO.UpFileVO> SELECT(string dirName)
         {

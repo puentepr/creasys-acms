@@ -31,6 +31,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
        
         if (!IsPostBack)
         {
+            ViewState["ShowPanel"] = false;
             Session["Team"] = "Yes";
             (this.Master as MyMasterPage).PanelMainGroupingText = "團隊報名";
             Wizard1.Visible = false;
@@ -117,7 +118,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         GridView_TemMember.DataBind();
 
         Wizard1.MoveTo(Wizard1.WizardSteps[0]);
-       
+        InitQueryBlock(ActivityID.ToString());
 
 
     }
@@ -178,14 +179,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
         ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
-        if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
-        {
-            ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
-        }
-        if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
-        {
-            ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
-        }
+        //if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+        //{
+        //    ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+        //}
+        //if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+        //{
+        //    ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+        //}
 
 
         InitQueryBlock(ActivityID.ToString());
@@ -229,7 +230,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         {
             Panel_TeamFix.Visible = false;
         }
-
+        if (tr_showteam_fix1.Visible || tr_showteam_fix2.Visible)
+        {
+            ViewState["ShowPanel"] = true; 
+        }
         lbltext_peopleStart.Text = myActivatyVO.teamextcount_min.ToString();
         lbltext_peopleEnd.Text = myActivatyVO.teamextcount_max.ToString();
 
@@ -286,7 +290,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
         foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
         {
-
+            ViewState["ShowPanel"] = true;
             if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOX")
             {
                 TextBox MyControl = new TextBox();
@@ -335,6 +339,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         ((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text).ToString("yyyy/MM/dd");
         ((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
         ((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("cancelregist_deadlineLabel")).Text).ToString("yyyy/MM/dd");
+        if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+        }
+        if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+        }
 
     }
 
@@ -757,7 +769,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
         if (MyFormMode == FormViewMode.ReadOnly)
         {
-            Response.Redirect("RegistedActivityQuery.aspx");        
+            Response.Redirect("RegistedActivityQuery.aspx?type=2");        
         }
         
         ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
@@ -849,14 +861,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
                 ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
-                if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
-                {
-                    ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
-                }
-                if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
-                {
-                    ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
-                }
+                //if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+                //{
+                //    ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+                //}
+                //if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+                //{
+                //    ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+                //}
 
             }
             catch
@@ -875,6 +887,16 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             }
         }
     }
+    protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
+    {
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+            if (((Boolean)ViewState["ShowPanel"]) == false)
+            {
+                Wizard1.MoveTo(Wizard1.WizardSteps[3]);
+            }
+        }
+    }
 }
 
 
@@ -887,6 +909,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
         if (!string.IsNullOrEmpty(activity_id))
         {
+            
             ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
             List<ACMS.VO.CustomFieldVO> myCustomFieldVOList = new List<ACMS.VO.CustomFieldVO>();
             myCustomFieldVOList = myCustomFieldDAO.SelectByActivity_id(new Guid(activity_id));
@@ -896,6 +919,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                 System.Web.UI.WebControls.Table MyTable = new System.Web.UI.WebControls.Table();
                 System.Web.UI.WebControls.TableRow MyTableRow;
 
+                ViewState["ShowPanel"] = true;
                 foreach (ACMS.VO.CustomFieldVO myCustomFieldVO in myCustomFieldVOList)
                 {
                     MyTableRow = new TableRow();

@@ -75,7 +75,8 @@
                 <td align="center" colspan="4">
                     <asp:Button ID="btnQuery" runat="server" Text="¬d¸ß" OnClick="btnQuery_Click" />
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <asp:Button ID="btnExport" runat="server" Text="¶×¥X" OnClick="btnExport_Click" />
+                    <asp:Button ID="btnExport" runat="server" Text="¶×¥X" OnClick="btnExport_Click" 
+                        style="height: 21px" />
                 </td>
             </tr>
         </table>

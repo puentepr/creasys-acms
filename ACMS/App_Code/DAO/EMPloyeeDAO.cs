@@ -22,7 +22,11 @@ public class EMPloyeeDAO : ACMS.DAO.BaseDAO
 		//
 	}
 
-
+    /// <summary>
+    /// 取得員工資料型別物件
+    /// </summary>
+    /// <param name="empID">員工</param>
+    /// <returns>取得員工資料型別物件</returns>
     public ACMS.VO.EmployeeVO getEmployee(string empID)
     {
         

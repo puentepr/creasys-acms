@@ -8,6 +8,23 @@ using Microsoft.VisualBasic;
 
 public partial class MasterPage : System.Web.UI.MasterPage
 {
+
+    public string PanelMainGroupingText
+    {
+        get
+        {
+            return (ViewState["PanelMainGroupingText"] == null ? "" : ViewState["PanelMainGroupingText"].ToString());
+        }
+        set
+        {
+            ViewState["PanelMainGroupingText"] = value;
+        }
+
+
+
+    }
+
+
     protected override void OnLoad(EventArgs e)
     {
         base.OnLoad(e);

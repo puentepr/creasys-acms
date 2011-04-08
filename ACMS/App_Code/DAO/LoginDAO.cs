@@ -9,6 +9,12 @@ namespace ACMS.DAO
     public class LoginDAO : BaseDAO
     {
         //人員登入並取得登入者資訊
+        /// <summary>
+        /// 人員登入並取得登入者資訊
+        /// </summary>
+        /// <param name="LoginID">登入帳號</param>
+        /// <param name="UserData">out 群組資料</param>
+        /// <returns>人員登入並取得登入者資訊</returns>
         public bool CheckLogin(String LoginID, out string UserData)
         {
             
@@ -63,6 +69,11 @@ namespace ACMS.DAO
         }
 
         //取得role_ids與role_names
+        /// <summary>
+        /// 取得群組代號
+        /// </summary>
+        /// <param name="emp_id">員工</param>
+        /// <returns>取得群組代號</returns>
         public string CheckRole(string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];

@@ -25,13 +25,15 @@
                         <asp:Label ID="lblPS" ForeColor ="Red" runat="server" Text="顏色說明:未報到-灰底；已報到-綠底；已完成-黃底；本人-紅色字體"></asp:Label>
                         &nbsp;<asp:DataList ID="DataList1" runat="server" DataSourceID="ObjectDataSource_ActivityProcessQuery"
                             RepeatColumns="3" CellPadding="4" ForeColor="#333333" GridLines="Both" OnItemDataBound="DataList1_ItemDataBound"
-                            ShowFooter="False" ShowHeader="False" DataKeyField="emp_id" Width="600px">
+                            ShowFooter="False" ShowHeader="False" DataKeyField="emp_id" Width="1000px" 
+                            RepeatDirection="Horizontal">
                             <AlternatingItemStyle BackColor="White" ForeColor="#284775" />
                             <ItemStyle BackColor="#F7F6F3" ForeColor="#333333" Width="200px" />
                             <ItemTemplate>
                               <asp:Label ID="lblSEQNO" runat="server" Text='<%# Eval("SEQNO") %>' />
                                 <asp:Label ID="NATIVE_NAMELabel" runat="server" Text='<%# Eval("NATIVE_NAME") %>' /><asp:Label
-                                    ID="emp_idLabel" runat="server" Text='<%# Eval("WORK_ID") %>' />-
+                                    ID="emp_idLabel" runat="server" Text='<%# Eval("WORK_ID") %>' />
+                                    <br />
                                 <asp:Label ID="check_statusLabel" runat="server" Text='<%# Eval("check_status") %>' />
                             </ItemTemplate>
                         </asp:DataList>

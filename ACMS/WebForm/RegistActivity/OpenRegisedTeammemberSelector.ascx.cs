@@ -27,7 +27,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
                 {
                     if (GridView1.DataKeys[gvr.RowIndex].Value.ToString() == newBoss)
                     {
-                        clsMyObj.ShowMessage("新隊長不可以取消報名!");
+                        clsMyObj.ShowMessage("您為此隊隊長，請更換隊長，再進行取消!");
                         this.mpSearch.Show();
                         return;
                     }
@@ -43,7 +43,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         {
             if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true && (gvr.FindControl("RadioButton1") as RadioButton).Checked == true)
             {
-                  clsMyObj.ShowMessage("隊長不可以取消報名!");
+                clsMyObj.ShowMessage("您為此隊隊長，請更換隊長，再進行取消!");
                     this.mpSearch.Show();
                     return;
                

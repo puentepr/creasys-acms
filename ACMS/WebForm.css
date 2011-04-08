@@ -6,6 +6,14 @@
     font: 14px verdana, arial, helvetica,微軟正黑體;
     color: #000000;
 }
+.pldisVisible
+{
+	display: none;
+}
+.plVisible
+{
+	display: inherit;
+}
 h1{
 padding:5px 0 5px 0;
 margin:0px;

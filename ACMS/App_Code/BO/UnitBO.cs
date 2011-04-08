@@ -8,6 +8,10 @@ namespace ACMS.BO
     public class UnitBO : BaseBO
     {
         //SELECT GridView的資料來源
+        /// <summary>
+        /// 主辦單位資料
+        /// </summary>
+        /// <returns>主辦單位資料</returns>
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public List<VO.UnitVO> SelectUnit()
         {
@@ -21,6 +25,11 @@ namespace ACMS.BO
         }
 
         //Update GridView的Update
+        /// <summary>
+        /// 修改主辦單位資料
+        /// </summary>
+        /// <param name="myUnitVO">主辦單位資料型別物件</param>
+        /// <returns>主辦單位資料</returns>
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Update)]
         public int UpdateUnit(VO.UnitVO myUnitVO)
         {

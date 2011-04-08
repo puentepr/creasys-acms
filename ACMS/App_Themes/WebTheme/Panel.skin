@@ -1,3 +1,2 @@
-<asp:Panel SkinID="DragPanel" runat="server" BackColor="white" BorderWidth="1" Style="
-    display: none" HorizontalAlign="Center">
+<asp:Panel SkinID="DragPanel" runat="server" BackColor="White" BorderWidth="1" Style="display: none" >
 </asp:Panel>    

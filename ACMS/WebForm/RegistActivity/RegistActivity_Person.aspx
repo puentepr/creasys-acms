@@ -197,7 +197,10 @@
                                         </asp:TemplateField>
                                         <asp:BoundField DataField="WORK_ID" HeaderText="工號" />
                                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" />
-                                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" ItemStyle-Width ="300px" />
+                                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
+                                            ItemStyle-Width ="300px" >
+                                            <ItemStyle Width="300px" />
+                                        </asp:BoundField>
                                     </Columns>
                                 </TServerControl:TGridView>
                                 <asp:ObjectDataSource ID="ObjectDataSource_RegisterPeoplenfo" runat="server" OldValuesParameterFormatString="original_{0}"
@@ -296,6 +299,8 @@
             </asp:Wizard>
             <asp:ValidationSummary ID="sum_WizardNext" runat="server" ShowMessageBox="True" ShowSummary="False"
                 ValidationGroup="WizardNext" />
+                
+               
         </ContentTemplate>
     </asp:UpdatePanel>
 </asp:Content>

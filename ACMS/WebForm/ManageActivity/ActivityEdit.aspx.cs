@@ -20,6 +20,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
     }
     protected void rblgrouplimit_Change(object sender, EventArgs e)
     {
+
         if (rblgrouplimit.SelectedValue == "Y")
         {
             FileUpload_GroupLimit.Enabled = true;
@@ -48,6 +49,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
         if (!IsPostBack)
         {
+           
             //取得必要的Session
             if (Session["form_mode"] == null)
             {
@@ -251,17 +253,19 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
     {
         (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(FormView1.FindControl("btnUpload"));
         (this.Master.Master.FindControl("ScriptManager1") as ScriptManager).RegisterPostBackControl(FormView1.FindControl("GridView_UpFiles"));
-
+     
     }
 
     //上傳附件檔案
     protected void btnUpload_Click(object sender, EventArgs e)
     {
+
+       
         FileUpload myFileUpload = (FileUpload)FormView1.FindControl("FileUpload1");
 
         if (myFileUpload.HasFile)
         {
-            //andy 2011/1/6 日sugar說要拿掉檢查.
+            //    //andy 2011/1/6 日sugar說要拿掉檢查.
             //if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) ==-1)
             //{
             //    clsMyObj.ShowMessage(string.Format("副檔名只能是[{0}]!", ConfigurationManager.AppSettings["ValidExtention"]));
@@ -282,19 +286,23 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
                     FileStream myFileStream = new FileStream(Path.Combine(myDirectoryInfo.FullName, myFileUpload.FileName), FileMode.Create);
                     myFileStream.Write(myFileUpload.FileBytes, 0, myFileUpload.FileBytes.Length);
+
                 }
                 catch
                 {
                     clsMyObj.ShowMessage("目錄權限不足.無法寫入檔案!");
-                    
- 
+
+
                 }
             }
             catch (Exception ex)
             {
-                clsMyObj.ShowMessage("檔案上傳時發生錯誤!:" + ex.Message );
+                clsMyObj.ShowMessage("檔案上傳時發生錯誤!:" + ex.Message);
+
             }
 
+
+            (FormView1.FindControl("Image1") as Image).CssClass = "pldisVisible";
             GridView GridView_UpFiles = (GridView)FormView1.FindControl("GridView_UpFiles");
 
             GridView_UpFiles.DataBind();
@@ -769,7 +777,27 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
         }
 
+        if (Wizard1.ActiveStepIndex == 1)
+        {
+           // ((Button)FormView1.FindControl("btnUpload")).OnClientClick = "window.document.getElementById(\"" + FormView1.FindControl("Image1").ClientID + "\").class=\"\";";
+        }
+      
+    }
+    protected void btnUpload_Init(object sender, EventArgs e)
+    {
         
+        ((Button)FormView1.FindControl("btnUpload")).OnClientClick = "document.getElementById('" + FormView1.FindControl("Image1").ClientID + "').className='plVisible'";
+
+
+    }
+    protected void chk1_CheckedChanged(object sender, EventArgs e)
+    {
+        int i;
+        bool chk1 = (GridView_GroupLimit.HeaderRow.FindControl("chk1") as CheckBox).Checked;
+        for (i = 0; i < GridView_GroupLimit.Rows.Count; i++)
+        {
+            ((CheckBox)GridView_GroupLimit.Rows[i].FindControl("chk1")).Checked = chk1;
+        }
     }
 }
 
@@ -913,13 +941,25 @@ public partial class WebForm_ManageActivity_ActivityEdit
             {
                 for (i = 0; i < GridView_Employee.Rows.Count; i++)
                 {
-                    if (((CheckBox)GridView_Employee.Rows[i].FindControl("chkRJRA")).Checked)
+                    if (((CheckBox)GridView_Employee.Rows[i].FindControl("chkRJRA")).Checked)//2011/4/7  打勾的新增,不打勾的要刪除
                     {
                         ACMS.VO.ActivityGroupLimitVO myActivityGroupLimitVO = new ACMS.VO.ActivityGroupLimitVO();
 
                         myActivityGroupLimitVO.activity_id = ActivityID;
                         myActivityGroupLimitVO.emp_id = GridView_Employee.DataKeys[i].Value.ToString();
-                        myActivityGroupLimitDAO.INSERT(myActivityGroupLimitVO, trans);
+                        try
+                        {
+                            myActivityGroupLimitDAO.INSERT(myActivityGroupLimitVO, trans);
+                        }
+                        catch
+                        {
+                        }
+                        
+                    }
+                    else
+                    {
+
+                        myActivityGroupLimitDAO.DELETE(GridView_Employee.DataKeys[i].Value.ToString(), ActivityID);
                     }
                 }
 
@@ -942,12 +982,23 @@ public partial class WebForm_ManageActivity_ActivityEdit
     protected void lbtnDel_GroupLimit_Click(object sender, EventArgs e)
     {
         //ACMS.VO.CustomFieldVO myCustomFieldVO = new ACMS.VO.CustomFieldVO();
+        //2011/4/7 修改為全選.刪除'
+        //int intkeyID = (int)GridView_GroupLimit.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
 
-        int intkeyID = (int)GridView_GroupLimit.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
+        //ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
+        //myActivityGroupLimitDAO.DELETE(intkeyID);
+        //=============================================================================
+        ACMS.DAO.ActivityGroupLimitDAO myDAO = new ACMS.DAO.ActivityGroupLimitDAO ();
+        string empid ;
+        foreach (GridViewRow gr in GridView_GroupLimit.Rows)
+        {
+            if (((CheckBox )gr.FindControl ("chk1")).Checked)
+            {
+                empid =((HiddenField)  gr.FindControl ("hiID")).Value ;
+                myDAO.DELETE(empid, ActivityID);
+            }
 
-        ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
-        myActivityGroupLimitDAO.DELETE(intkeyID);
-
+        }
         GridView_GroupLimit.DataBind();
     }
 

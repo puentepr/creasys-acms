@@ -26,6 +26,7 @@
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type">
                                 <ItemStyle HorizontalAlign="Center"  Width ="150px"/>
                                 <ItemTemplate>
+                                    <asp:HiddenField ID="hiID" runat="server"   Value='<%# Bind("id") %>' />
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>

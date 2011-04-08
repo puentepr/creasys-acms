@@ -8,6 +8,10 @@ namespace ACMS.DAO
 {
     public class RoleUserMappingDAO : BaseDAO
     {
+        /// <summary>
+        /// 取得角色對應檔資料
+        /// </summary>
+        /// <returns> 取得角色對應檔資料</returns>
         public List<VO.RoleUserMappingVO> SelectRoleUserMapping()
         {
             StringBuilder sb = new StringBuilder();
@@ -41,7 +45,12 @@ namespace ACMS.DAO
             aconn.Close();
             return myRoleUserMappingVOList;
         }
-
+        //Insert GridView的Insert
+        /// <summary>
+        /// 新增1筆角色對應資料
+        /// </summary>
+        /// <param name="myRoleUserMappingVO">角色對應型別物件</param>
+        /// <returns>新增1筆角色對應資料</returns>
         public int InsertRoleUserMapping(VO.RoleUserMappingVO myRoleUserMappingVO)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];
@@ -92,7 +101,11 @@ namespace ACMS.DAO
 
 
         }
-
+        /// <summary>
+        /// 刪除1筆角色對應資料
+        /// </summary>
+        /// <param name="myRoleUserMappingVO">角色對應型別物件</param>
+        /// <returns>刪除1筆角色對應資料</returns>
         public int DeleteRoleUserMapping(VO.RoleUserMappingVO myRoleUserMappingVO)
         {
             SqlParameter[] sqlParams = new SqlParameter[1];

@@ -343,7 +343,7 @@ public class clsMyObj
         ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by );
         if (custFieldSt != "")//有自訂欄位
         {
-            mail.Body = "<table border='1'><tr><td> <a href='" + webPath + "?ActID="
+            mail.Body = "<table border='1'><tr><td> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":個人報名成功通知</a><br/>"
                 + "　　"  +"<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
@@ -358,7 +358,7 @@ public class clsMyObj
         }
         else
         {
-            mail.Body = "<table border='1'><tr><td><a href='" + webPath + "?ActID="
+            mail.Body = "<table border='1'><tr><td><a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":個人報名成功通知</a><br/>"
                  + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
@@ -426,7 +426,7 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + webPath + "?ActID="
+        mail.Body = "<a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by )
             + "'>" + vo.activity_name + ":個人報名失敗通知</a>";
 
@@ -487,7 +487,7 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = mail.Body = "<a href='" + webPath + "?ActID="
+        mail.Body = mail.Body = "<a href='" + webPath + "?Type=1&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>"+ vo.activity_name + ":取消報名通知</a><br/>"
             +"活動名稱:"+vo.activity_name
@@ -686,7 +686,7 @@ public class clsMyObj
 
         if (custFieldSt != "")//有自訂欄位
         {
-            mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?ActID="
+            mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?Type=2&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
               + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
@@ -699,7 +699,7 @@ public class clsMyObj
         }
         else
         {
-            mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?ActID="
+            mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?Type=2&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
                  + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
@@ -777,7 +777,7 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + webPath + "?ActID="
+        mail.Body = "<a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
             + "'>" + vo.activity_name + ":團隊報名失敗通知</a>";
 
@@ -866,7 +866,7 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + webPath + "?ActID="
+        mail.Body = "<a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + ":團隊取消報名通知</a><br/>"
             +"活動名稱:"+vo.activity_name +"<br/>"
