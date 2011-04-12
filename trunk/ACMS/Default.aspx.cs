@@ -94,6 +94,8 @@ public partial class _Default : BasePage
     }
     protected void GridView2_DataBound(object sender, EventArgs e)
     {
+
+   
         if (GridView2.Rows.Count == 0)
         {
             GridView2.Visible = false;

@@ -257,9 +257,9 @@ namespace ACMS.DAO
 
             sb.AppendLine("DELETE Activity WHERE id=@id; ");
             sb.AppendLine("DELETE ActivityGroupLimit WHERE activity_id=@id; ");
-            sb.AppendLine("DELETE ActivityRegist WHERE activity_id=@id; ");  
-            sb.AppendLine("DELETE A FROM ActivityTeamMember A inner join ActivityTeam B on A.team_id=B.id WHERE B.activity_id=@id; ");
-            sb.AppendLine("DELETE ActivityTeam WHERE activity_id=@id; ");
+            sb.AppendLine("DELETE ActivityRegist WHERE activity_id=@id; ");
+            //sb.AppendLine("DELETE A FROM ActivityTeamMember A inner join ActivityRegist B on A.b_id=B.id WHERE B.activity_id=@id; ");
+           // sb.AppendLine("DELETE ActivityTeam WHERE activity_id=@id; ");
             sb.AppendLine("DELETE A FROM CustomFieldItem A inner join CustomField B on A.field_id=B.field_id WHERE B.activity_id=@id; ");
             sb.AppendLine("DELETE A FROM CustomFieldValue A inner join CustomField B on A.field_id=B.field_id WHERE B.activity_id=@id; ");
             sb.AppendLine("DELETE CustomField WHERE activity_id=@id; ");

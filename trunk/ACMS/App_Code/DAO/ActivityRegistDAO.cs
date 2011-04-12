@@ -789,7 +789,7 @@ namespace ACMS.DAO
                         {
                             InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID);
                             //團隊瓦解要寄信給所有人
-                            clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
+                            clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
 
                         }
                         //================================================
@@ -826,7 +826,7 @@ namespace ACMS.DAO
                             // insert into 取消人員名單
                             //InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID);
                             //團隊瓦解要寄信給所有人
-                            clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
+                            clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
                         }
                         else
                         {

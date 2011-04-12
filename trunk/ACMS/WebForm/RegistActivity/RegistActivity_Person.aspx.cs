@@ -31,7 +31,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     {
         if (!IsPostBack)
         {
-            ViewState["showPanael"] = false;
+            Session ["ShowPanel"] = false;
             Session.Remove("Team");
            ( (MyMasterPage)(this.Master )).PanelMainGroupingText = "個人報名";
             Wizard1.Visible = false;
@@ -572,6 +572,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
 
         FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
+        FormView_fixA.FindControl("lblID").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
+       
         FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
 
         (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
@@ -583,7 +585,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
         if (myActivatyVO.is_showperson_fix1 == "Y" || myActivatyVO.is_showperson_fix2 == "Y")
         {
-           ViewState[ "showPanael"] = true;
+            Session["ShowPanel"] = true;
         }
     }
 
@@ -636,7 +638,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         }
         if (Wizard1.ActiveStepIndex == 1)
         {
-            if (((Boolean)ViewState["showPanael"]) == false)
+            if (((Boolean)Session["ShowPanel"]) == false)
             {
                 Wizard1.MoveTo(Wizard1.WizardSteps[3]);
             }
@@ -677,7 +679,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
 
             if (myCustomFieldVOList != null && myCustomFieldVOList.Count > 0)
             {
-                ViewState["showPanael"] = true;
+                Session["ShowPanel"] = true;
                 System.Web.UI.WebControls.Table MyTable = new System.Web.UI.WebControls.Table();
                 System.Web.UI.WebControls.TableRow MyTableRow;
 

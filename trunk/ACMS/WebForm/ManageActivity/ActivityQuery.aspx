@@ -19,7 +19,7 @@
         <ContentTemplate>
     <table align="center">
         <tr>
-            <td>
+            <td align ="right">
                 活動日期
             </td>
             <td>
@@ -45,7 +45,7 @@
             </td>
         </tr>
         <tr>
-            <td>
+            <td align ="right">
                 活動主辦單位
             </td>
             <td>
@@ -59,6 +59,20 @@
             <td>
                 <asp:Button ID="btnQuery" runat="server" Text="查詢" OnClick="btnQuery_Click" />
             </td>
+        </tr>
+        <tr>
+            <td align ="right">
+                活動類型
+                </td>
+            <td>
+                 <asp:RadioButtonList ID="rblActivity_type" runat="server" 
+                     RepeatDirection="Horizontal" AutoPostBack="True" 
+                     onselectedindexchanged="rblActivity_type_SelectedIndexChanged">
+                                <asp:ListItem Value="1" Selected="True">個人活動</asp:ListItem>
+                                <asp:ListItem Value="2">團隊活動</asp:ListItem>
+                            </asp:RadioButtonList></td>
+            <td>
+                &nbsp;</td>
         </tr>
     </table>
     <asp:Label ID="lblGrideView1" runat="server" ForeColor="Red" Text="查無符合條件的資料... "
@@ -129,6 +143,10 @@
             <asp:Parameter Name="activity_enddate" Type="String" ConvertEmptyStringToNull="false" />
             <asp:Parameter Name="org_id" Type="String" ConvertEmptyStringToNull="false" />
             <asp:Parameter Name="querytype" Type="String" ConvertEmptyStringToNull="false" />
+            <asp:ControlParameter ControlID="rblActivity_type" 
+                ConvertEmptyStringToNull="False" Name="activity_type" 
+                PropertyName="SelectedValue" Type="String" />
+            
         </SelectParameters>
     </asp:ObjectDataSource>
     <uc2:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />

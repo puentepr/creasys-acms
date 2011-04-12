@@ -283,10 +283,10 @@ namespace ACMS.BO
         /// <param name="querytype">off = 歷史,else執行中</param>
         /// <returns>活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢</returns>
         [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
-        public DataTable ActivityQuery(string activity_startdate, string activity_enddate, string org_id, string querytype)
+        public DataTable ActivityQuery(string activity_startdate, string activity_enddate, string org_id, string querytype ,string activity_type  )
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-            DataTable DT = mySelectorDAO.ActivityQuery(activity_startdate, activity_enddate, org_id, querytype);
+            DataTable DT = mySelectorDAO.ActivityQuery(activity_startdate, activity_enddate, org_id, querytype, activity_type);
             return DT;
         }
 
