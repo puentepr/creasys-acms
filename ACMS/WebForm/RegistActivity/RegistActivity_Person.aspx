@@ -226,7 +226,8 @@
                                                         <table>
                                                             <tr>
                                                                 <td colspan="2">
-                                                                    <font color="blue">您所提供的身份證字號將僅做為此次活動之使用!!</font>
+                                                                    <asp:Label ID="lblID" runat="server" Text="您所提供的身份證字號將僅做為此次活動之使用!!"  ForeColor ="Blue"></asp:Label>
+                                                                    
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr_person_fix1" runat="server">

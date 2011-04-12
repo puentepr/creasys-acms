@@ -24,7 +24,7 @@ public partial class MasterPage1 : System.Web.UI.MasterPage
     }
     protected void Page_Load(object sender, EventArgs e)
     {
-        Label1.Text =string.Format("歡迎:{0}",clsAuth.NATIVE_NAME.Trim());
+        Label1.Text =string.Format("{0}",clsAuth.NATIVE_NAME.Trim());
         if (!IsPostBack)
         {
             ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();

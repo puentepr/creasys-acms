@@ -889,6 +889,95 @@ public class clsMyObj
 
     }
 
+    //團隊取消報名寄信已達下限
+    public static void CancelRegist_TeamUnderLimit(string activity_id, string emp_id, string cancel_by, string webPath)
+    {
+        //andy 
+        ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+        ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
+        Guid id = new Guid(activity_id);
+        vo = bo.SelectActivatyByActivatyID(id);
+        MailMessage mail = new MailMessage();
+
+
+        string[] emps = emp_id.Split(',');
+        EmployeeVO empVO = new EmployeeVO();
+        EMPloyeeDAO empDAO = new EMPloyeeDAO();
+
+        //收件者
+        string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
+        {
+            foreach (string st1 in smtpto)
+            {
+                mail.To.Add(st1);
+            }
+        }
+        else
+        {
+
+            if (string.Compare(cancel_by, "") != 0)
+            {
+                empVO = empDAO.getEmployee(cancel_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
+
+
+
+            foreach (string emp in emps)
+            {
+                if (emp != cancel_by)
+                {
+                    empVO = empDAO.getEmployee(emp);
+                    mail.To.Add(empVO.OFFICE_MAIL);
+                }
+            }
+
+        }
+
+        string empList = "";
+        empList += "<table><tr><td>工號</td> <td>姓名</td></tr>";
+        foreach (string emp in emps)
+        {
+
+
+            empList += "<tr><td>";
+            empVO = empDAO.getEmployee(emp);
+            empList += empVO.WORK_ID + "</td><td>";
+            empList += empVO.NATIVE_NAME + "</td></tr>";
+
+
+        }
+        empList += "</tr></table>";
+
+
+        mail.Subject = vo.activity_name + ":團隊取消報名通知(已達每隊人數下限,已全隊取消報名)";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
+        mail.IsBodyHtml = true;
+        mail.Body = "<a href='" + webPath + "?Type=2&ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+            + "'>" + vo.activity_name + ":團隊取消報名通知(已達每隊人數下限,已全隊取消報名)</a><br/>"
+            + "活動名稱:" + vo.activity_name + "<br/>"
+            + empList;
+
+
+
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        //smtp.EnableSsl = true;
+        try
+        {
+            smtp.Send(mail);
+
+        }
+        catch (Exception ex)
+        {
+            LogMsg.Log(ex.Message, 5, false);
+        }
+
+
+    }
 
 }
 

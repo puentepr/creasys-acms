@@ -484,4 +484,17 @@ public partial class HistoryWebForm_ActivityQuery : BasePage
         //    ((Label)gr.FindControl("lblactivity_enddate")).Text = ((Label)gr.FindControl("lblactivity_enddate")).Text.Replace("-", "/").Replace("T", " ");
         //}
     }
+    protected void rblActivity_type_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (rblActivity_type.SelectedValue == "1")
+        {
+            GridView1.Columns[6].HeaderText = "報名人數";
+        }
+        else
+        {
+            GridView1.Columns[6].HeaderText = "報名隊數";
+        }
+        GridView1.DataBind();
+
+    }
 }

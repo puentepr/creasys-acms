@@ -9,6 +9,7 @@ using ACMS;
 using NPOI.HSSF.UserModel;
 using System.Transactions;
 using System.Data.SqlClient;
+using TServerControl;
 using System.Configuration;
 
 public partial class WebForm_ManageActivity_ActivityEdit : BasePage
@@ -545,113 +546,139 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 e.Cancel = true;
             }
            Int32 max1 ,min1 ;
-            if (FormView1.Enabled == true)
-            {
-                if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit_count")).Text == "無上限")
-                {
-                    //((TextBox)FormView1.FindControl("txtlimit_count")).Text = "999999";
-                    ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "無上限";
+           if (FormView1.Enabled == true)
+           {
+               if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit_count")).Text == "無上限")
+               {
+                   //((TextBox)FormView1.FindControl("txtlimit_count")).Text = "999999";
+                   ((TextBox)FormView1.FindControl("txtlimit_count")).Text = "無上限";
 
-                    ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
-                    max1 = 999999;
-                }
-                else
-                {
-                    try
-                    {
-                        max1 = Int32.Parse(((TextBox)FormView1.FindControl("txtlimit_count")).Text);
-                    }
-                    catch {
+                   ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
+                   max1 = 999999;
+               }
+               else
+               {
+                   try
+                   {
+                       max1 = Int32.Parse(((TextBox)FormView1.FindControl("txtlimit_count")).Text);
 
-                        max1 = 0;
-                        if (ActivityType == "1")
-                        {
-                            clsMyObj.ShowMessage("活動人數上限不是整數");
-                        }
-                        else
-                        {
-                            clsMyObj.ShowMessage("活動隊數上限不是整數");
-                        }
-                        e.Cancel = true;
+                       if (max1 <= 0)
+                       {
+                           if (ActivityType == "1")
+                           {
+                               clsMyObj.ShowMessage("活動人數上限不是正整數");
+                           }
+                           else
+                           {
+                               clsMyObj.ShowMessage("活動隊數上限不是正整數");
+                           }
+                           e.Cancel = true;
+                       }
+                   }
 
-                    }
-                }
-                if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "無")
-                {
-                    // ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
-                    ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
-                    min1 = 0;
-                }
-                else
-                {
-                    try
-                    {
-                        min1 = Int32.Parse(((TextBox)FormView1.FindControl("txtlimit2_count")).Text);
-                    }
-                    catch
-                    {
+                   catch
+                   {
 
-                        min1  = 0;
-                        if (ActivityType == "1")
-                        {
-                            clsMyObj.ShowMessage("活動備取人數不是整數");
-                        }
-                        else
-                        {
-                            clsMyObj.ShowMessage("活動備取隊數不是整數");
-                        }
-                        e.Cancel = true;
+                       max1 = 0;
+                       if (ActivityType == "1")
+                       {
+                           clsMyObj.ShowMessage("活動人數上限不是整數");
+                       }
+                       else
+                       {
+                           clsMyObj.ShowMessage("活動隊數上限不是整數");
+                       }
+                       e.Cancel = true;
 
-                    }
-                }
+                   }
+               }
+               if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "無")
+               {
+                   // ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "0";
+                   ((TextBox)FormView1.FindControl("txtlimit2_count")).Text = "無";
+                   min1 = 0;
+               }
+               else
+               {
+                   try
+                   {
+                       min1 = Int32.Parse(((TextBox)FormView1.FindControl("txtlimit2_count")).Text);
+                       if (min1 < 0)
+                       {
+                           if (ActivityType == "1")
+                           {
+                               clsMyObj.ShowMessage("活動備取人數不是正整數");
+                           }
+                           else
+                           {
+                               clsMyObj.ShowMessage("活動備取隊數不是正整數");
+                           }
+                           e.Cancel = true;
+                       }
+                   }
+                   catch
+                   {
+
+                       min1 = 0;
+                       if (ActivityType == "1")
+                       {
+                           clsMyObj.ShowMessage("活動備取人數不是整數");
+                       }
+                       else
+                       {
+                           clsMyObj.ShowMessage("活動備取隊數不是整數");
+                       }
+                       e.Cancel = true;
+
+                   }
+               }
+
+
+
+               if (Convert.ToDateTime(txtregist_startdate.Text).Date <= DateTime.Today)
+               {
+                   clsMyObj.ShowMessage("「報名開始日」需晚於「今日」");
+
+                   e.Cancel = true;
+               }
+               decimal max = 0;
+               decimal min = 0;
+               if (ActivityType == "2")
+               {
+                   if (((TextBox)FormView1.FindControl("txtteam_member_max")).Text == "")
+                   {
+                       ((TextBox)FormView1.FindControl("txtteam_member_max")).Text = "0";
+                   }
+                   if (((TextBox)FormView1.FindControl("txtteam_member_min")).Text == "")
+                   {
+                       ((TextBox)FormView1.FindControl("txtteam_member_min")).Text = "0";
+                   }
+
+
+                   max = decimal.Parse(((TextBox)FormView1.FindControl("txtteam_member_max")).Text);
+                   min = decimal.Parse(((TextBox)FormView1.FindControl("txtteam_member_min")).Text);
+
+                   if (max < min)
+                   {
+                       clsMyObj.ShowMessage("每隊上限不可小於下限");
+                       e.Cancel = true;
+                       return;
+                   }
+                   if (min < 2)
+                   {
+                       clsMyObj.ShowMessage("每隊下限不可小於2");
+                       e.Cancel = true;
+                       return;
+                   }
+
+
+               }
+
+
 
               
+           }
 
-                if (Convert.ToDateTime(txtregist_startdate.Text).Date <= DateTime.Today)
-                {
-                    clsMyObj.ShowMessage("「報名開始日」需晚於「今日」");
-
-                    e.Cancel = true;
-                }
-                decimal max = 0;
-                decimal min = 0;
-                if (ActivityType == "2")
-                {
-                    if (((TextBox)FormView1.FindControl("txtteam_member_max")).Text == "")
-                    {
-                        ((TextBox)FormView1.FindControl("txtteam_member_max")).Text = "0";
-                    }
-                    if (((TextBox)FormView1.FindControl("txtteam_member_min")).Text == "")
-                    {
-                        ((TextBox)FormView1.FindControl("txtteam_member_min")).Text = "0";
-                    }
-
-                  
-                    max = decimal.Parse(((TextBox)FormView1.FindControl("txtteam_member_max")).Text);
-                    min = decimal.Parse(((TextBox)FormView1.FindControl("txtteam_member_min")).Text);
-
-                    if (max < min)
-                    {
-                        clsMyObj.ShowMessage("每隊上限不可小於下限");
-                        e.Cancel = true;
-                        return;
-                    }
-                    if (min<2)
-
-
-                    {
-                        clsMyObj.ShowMessage("每隊下限不可小於2");
-                        e.Cancel = true;
-                        return;
-                    }
-
-
-                }
-                
-               
-
-
-            }
         }
 
         if (Wizard1.ActiveStepIndex == 2)
@@ -707,25 +734,25 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 decimal min = 0;
                 if (ActivityType == "2")
                 {
-                    if (((TextBox)FormView2.FindControl("txtteamextcount_max")).Text == "")
-                    {
-                        ((TextBox)FormView2.FindControl("txtteamextcount_max")).Text = "0";
-                    }
-                    if (((TextBox)FormView2.FindControl("txtteamextcount_min")).Text == "")
-                    {
-                        ((TextBox)FormView2.FindControl("txtteamextcount_min")).Text = "0";
-                    }
+                    //if (((TextBox)FormView2.FindControl("txtteamextcount_max")).Text == "")
+                    //{
+                    //    ((TextBox)FormView2.FindControl("txtteamextcount_max")).Text = "0";
+                    //}
+                    //if (((TextBox)FormView2.FindControl("txtteamextcount_min")).Text == "")
+                    //{
+                    //    ((TextBox)FormView2.FindControl("txtteamextcount_min")).Text = "0";
+                    //}
 
 
-                    max = decimal.Parse(((TextBox)FormView2.FindControl("txtteamextcount_max")).Text);
-                    min = decimal.Parse(((TextBox)FormView2.FindControl("txtteamextcount_min")).Text);
+                    //max = decimal.Parse(((TextBox)FormView2.FindControl("txtteamextcount_max")).Text);
+                    //min = decimal.Parse(((TextBox)FormView2.FindControl("txtteamextcount_min")).Text);
 
-                    if (max < min)
-                    {
-                        clsMyObj.ShowMessage("每隊攜伴上限不可小於下限");
-                        e.Cancel = true;
-                        return;
-                    }
+                    //if (max < min)
+                    //{
+                    //    clsMyObj.ShowMessage("每隊攜伴上限不可小於下限");
+                    //    e.Cancel = true;
+                    //    return;
+                    //}
 
 
 
@@ -742,19 +769,55 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                     }
 
 
-                    max = decimal.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text);
-                    min = decimal.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text);
+                    //max = decimal.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text);
+                    //min = decimal.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text);
 
-                    if (max < min)
-                    {
-                        clsMyObj.ShowMessage("攜伴上限不可小於下限");
-                        e.Cancel = true;
-                        return;
-                    }
+                    //if (max < min)
+                    //{
+                    //    clsMyObj.ShowMessage("攜伴上限不可小於下限");
+                    //    e.Cancel = true;
+                    //    return;
+                    //}
 
                 }
 
+                if ((FormView2.FindControl("chkis_showperson_fix2") as TCheckBoxYN).YesNo == "Y")
+                {
+                    try
+                    {
+                        max = Int64.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text);
+                        min = Int64.Parse(((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text);
 
+                        if (max < min)
+                        {
+                            clsMyObj.ShowMessage("攜伴上限不可小於下限");
+                            e.Cancel = true;
+                            return;
+                        }
+                        if (max <= 0)
+                        {
+                            clsMyObj.ShowMessage("攜伴上限不可小於等於0");
+                            e.Cancel = true;
+                            return;
+                        }
+                        if (min <= 0)
+                        {
+                            clsMyObj.ShowMessage("攜伴下限不可小於等於0");
+                            e.Cancel = true;
+                            return;
+                        }
+                    }
+                    catch
+                    {
+                        clsMyObj.ShowMessage("攜伴上限及下限需正整數");
+                        e.Cancel = true;
+                        return;
+
+
+                    }
+
+
+                }
 
 
             }
@@ -857,7 +920,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
 
                 HSSFWorkbook workbook = new HSSFWorkbook(this.FileUpload_GroupLimit.FileContent);
                 HSSFSheet sheet = (HSSFSheet)workbook.GetSheetAt(0);
-
+                
                 DataTable table = new DataTable();
                 table.TableName = "table";
 
@@ -874,12 +937,34 @@ public partial class WebForm_ManageActivity_ActivityEdit
                 //table.Columns["id"].AutoIncrement = true;
                 table.Columns.Add("activity_id", typeof(System.Guid));
                 table.Columns.Add("emp_id");
-
+                bool isEmp=false;
                 int rowCount = sheet.LastRowNum;
+                int colii = 0;
+                if (rowCount >= 1)
+                {
+                    HSSFRow row1 = (HSSFRow)sheet.GetRow(0);
+                    for (int ii = 0; ii < row1.Cells.Count; ii++)
+                    {
+                        if (row1.Cells[ii].ToString ()  == "工號")
+                        {
+                            colii = ii;
+                            isEmp = true;
+                        }
+
+                    }
+                    if (isEmp == false)
+                    {
+                        clsMyObj.ShowMessage("沒有工號欄位");
+                        return;
+                
+                    } 
+                }
 
                 for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
                 {
+                   
                     HSSFRow row = (HSSFRow)sheet.GetRow(i);
+                    
                     DataRow dataRow = table.NewRow();
 
                     //for (int j = row.FirstCellNum; j < cellCount; j++)
@@ -892,7 +977,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
                     //}
                     //andy 修正為只有工號
                     dataRow["activity_id"] = ActivityID;
-                    dataRow["emp_id"] = row.GetCell(0).ToString();// +row.GetCell(1).ToString();
+                    dataRow["emp_id"] = row.GetCell(colii).ToString();// +row.GetCell(1).ToString();
 
                     table.Rows.Add(dataRow);
 
@@ -1018,6 +1103,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
             table.Columns[3].ColumnName = "Email";
             table.Columns[4].ColumnName = "部門編號";
             table.Columns[5].ColumnName = "部門名稱";
+            table.Columns[6].ColumnName = "部門簡稱";
 
             // 產生 Excel 資料流。
             MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;
@@ -1034,6 +1120,8 @@ public partial class WebForm_ManageActivity_ActivityEdit
             clsMyObj.ShowMessage("沒有資料!");
 
         }
+
+
 
 
 

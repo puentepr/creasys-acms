@@ -14,7 +14,7 @@
     <div class="SpaceDiv">
         <table align="center">
             <tr>
-                <td>
+                <td align="right">
                     活動名稱
                 </td>
                 <td colspan="3">
@@ -27,7 +27,7 @@
             </tr>
             <tr>
                 <td align="right">
-                    <asp:Label ID="lblC_NAME" runat="server" Text="公司別"></asp:Label>
+                   公司別
                 </td>
                 <td colspan="3" align="left">
                     <asp:DropDownList ID="ddlC_NAME" runat="server" AutoPostBack="True" DataSourceID="ObjectDataSource_CNAME"
@@ -40,7 +40,7 @@
                 </td>
             </tr>
             <tr>
-                <td>
+                <td align="right">
                     部門
                 </td>
                 <td colspan="3">

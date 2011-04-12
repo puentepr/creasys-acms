@@ -976,7 +976,7 @@ namespace ACMS.DAO
         /// <param name="org_id">主辦單位</param>
         /// <param name="querytype">off = 歷史,else執行中</param>
         /// <returns>活動資料管理-報名狀態查詢 + 6-4活動資料管理-歷史資料查詢</returns>
-        public DataTable ActivityQuery(string activity_startdate, string activity_enddate, string org_id, string querytype)
+        public DataTable ActivityQuery(string activity_startdate, string activity_enddate, string org_id, string querytype,string activity_type)
         {
             SqlParameter[] sqlParams = new SqlParameter[3];
 
@@ -1003,6 +1003,7 @@ namespace ACMS.DAO
             sb.AppendLine("           ((@activity_enddate between cast(convert(varchar, A.activity_startdate, 102) as datetime) and cast(convert(varchar, A.activity_enddate, 102) as datetime)) and @activity_enddate<>'' ) ");
             sb.AppendLine("         ) ");
             sb.AppendLine("    ) ");
+            sb.AppendLine("and A.activity_type='"+activity_type+ "'");
             if (org_id != "")//andy modi 因為報名查詢會有權限的管制
             {
                 sb.AppendLine("and (org_id=@org_id or @org_id='') ");

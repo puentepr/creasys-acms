@@ -31,7 +31,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
        
         if (!IsPostBack)
         {
-            ViewState["ShowPanel"] = false;
+            Session ["ShowPanel"] = false;
             Session["Team"] = "Yes";
             (this.Master as MyMasterPage).PanelMainGroupingText = "團隊報名";
             Wizard1.Visible = false;
@@ -232,7 +232,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         }
         if (tr_showteam_fix1.Visible || tr_showteam_fix2.Visible)
         {
-            ViewState["ShowPanel"] = true; 
+            Session["ShowPanel"] = true; 
         }
         lbltext_peopleStart.Text = myActivatyVO.teamextcount_min.ToString();
         lbltext_peopleEnd.Text = myActivatyVO.teamextcount_max.ToString();
@@ -290,7 +290,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
         foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
         {
-            ViewState["ShowPanel"] = true;
+            Session["ShowPanel"] = true;
             if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOX")
             {
                 TextBox MyControl = new TextBox();
@@ -891,7 +891,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     {
         if (Wizard1.ActiveStepIndex == 1)
         {
-            if (((Boolean)ViewState["ShowPanel"]) == false)
+            if (((Boolean)Session["ShowPanel"]) == false)
             {
                 Wizard1.MoveTo(Wizard1.WizardSteps[3]);
             }
@@ -919,7 +919,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                 System.Web.UI.WebControls.Table MyTable = new System.Web.UI.WebControls.Table();
                 System.Web.UI.WebControls.TableRow MyTableRow;
 
-                ViewState["ShowPanel"] = true;
+                Session["ShowPanel"] = true;
                 foreach (ACMS.VO.CustomFieldVO myCustomFieldVO in myCustomFieldVOList)
                 {
                     MyTableRow = new TableRow();

@@ -9,7 +9,23 @@
 <%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+   
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server"> 
+
+ <script type="text/javascript" >
+ <!--
+ function CheckAll() {
+//            for (c in document.all.getElementsByTagName("input"))
+//                if (c.indexOf("chkRJRA") > 0)
+     //                document.all[c].checked = event.srcElement.checked;
+     alert('add');
+        }
+
+
+    
+        
+       -->
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:UpdateProgress ID="UpdateProgress1" runat="server" DisplayAfter="0">
