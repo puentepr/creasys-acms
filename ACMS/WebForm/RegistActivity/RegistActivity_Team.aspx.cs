@@ -230,10 +230,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         {
             Panel_TeamFix.Visible = false;
         }
-        if (tr_showteam_fix1.Visible || tr_showteam_fix2.Visible)
-        {
-            Session["ShowPanel"] = true; 
-        }
+        //if (tr_showteam_fix1.Visible || tr_showteam_fix2.Visible)
+        //{
+        //    Session["ShowPanel"] = true; 
+        //}
+
+
+
         lbltext_peopleStart.Text = myActivatyVO.teamextcount_min.ToString();
         lbltext_peopleEnd.Text = myActivatyVO.teamextcount_max.ToString();
 
@@ -244,6 +247,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         //個人欄位
         //Page_is_showperson_fix1 = myActivatyVO.is_showperson_fix1;
         //Page_is_showperson_fix2 = myActivatyVO.is_showperson_fix2;
+        ACMS.BO.CustomFieldBO myCustFieldBo = new ACMS.BO.CustomFieldBO();
+        if (myCustFieldBo.SelectByActivity_id (ActivityID ).Count >0)
+        {
+            Session["ShowPanel"] = true; 
+
+        }
+
 
          (OpenTeamPersonInfo1.FindControl("tr_idno") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showidno=="Y");
          (OpenTeamPersonInfo1.FindControl("tr_remark") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showremark=="Y");
