@@ -193,6 +193,7 @@ namespace ACMS.DAO
                 myActivityRegistVO.ext_people = (int?)(MyDataReader["ext_people"] == DBNull.Value ? null : MyDataReader["ext_people"]);
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
+                myActivityRegistVO.team_name = (string)MyDataReader["team_name"];
             }
             MyDataReader.Close();
             aconn.Close();

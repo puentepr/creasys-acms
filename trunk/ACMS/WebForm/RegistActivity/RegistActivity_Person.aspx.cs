@@ -192,6 +192,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         Literal_notice.Text = myActivatyVO.notice;
 
         FormView_fixA.DataBind();
+        ACMS.BO.CustomFieldBO myCustFieldBo = new ACMS.BO.CustomFieldBO();
+        if (myCustFieldBo.SelectByActivity_id(ActivityID).Count > 0)
+        {
+            Session["ShowPanel"] = true;
+
+        }
+
         //FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
         //FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
 

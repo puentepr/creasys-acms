@@ -343,31 +343,37 @@ public class clsMyObj
         ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by );
         if (custFieldSt != "")//有自訂欄位
         {
-            mail.Body = "<table border='1'><tr><td> <a href='" + webPath + "?Type=1&ActID="
+            mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr>  <tr><td> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":個人報名成功通知</a><br/>"
                 + "　　"  +"<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
                 + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
                 + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
                 + "　　" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
-                + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
-                + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
-                + "" + custFieldSt
+                + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>";
+                 if (vo.is_showperson_fix2 .ToString().ToUpper ()=="Y")
+                 {
+                   mail.Body+="　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>";
+                 }
+               mail.Body+= "" + custFieldSt
                 + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
-                + "　　" +"<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr></table>";
+                + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
         }
         else
         {
-            mail.Body = "<table border='1'><tr><td><a href='" + webPath + "?Type=1&ActID="
+            mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":個人報名成功通知</a><br/>"
                  + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
                  + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
                 + "　　" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
-                 + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
-                 + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
-                + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
-             + "　　" +"<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr></table>";
+                 + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>";
+                if (vo.is_showperson_fix2 .ToString().ToUpper ()=="Y")
+                 {
+                     mail.Body += "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>";
+                 }
+               mail.Body+= ""+ "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
+             + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         }
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
@@ -487,12 +493,12 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = mail.Body = "<a href='" + webPath + "?Type=1&ActID="
+       mail.Body ="<table><tr><td style='background:#548DD4;Color:White' align='center'  ><b>取消個人報名通知</b></td> </tr><tr><td><b>親愛的同仁，您已取消活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=1&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>"+ vo.activity_name + ":取消報名通知</a><br/>"
-            +"活動名稱:"+vo.activity_name
-               + "<br/>工號:" + empVO.WORK_ID
-            +"<br/>姓名:" +empVO.NATIVE_NAME ;
+            + "<b><font color='Blue'>活動名稱:</font></b>" + vo.activity_name
+               + "<br/><b><font color='Blue'>工號:</font></b>" + empVO.WORK_ID
+            + "<br/><b><font color='Blue'>姓名:</font></b>" + empVO.NATIVE_NAME + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
          
 
 
@@ -686,28 +692,37 @@ public class clsMyObj
 
         if (custFieldSt != "")//有自訂欄位
         {
-            mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?Type=2&ActID="
+            mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=2&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
-              + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
-                + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
+
+              + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>";
+              if (regVO.team_name!="")
+              {
+                  mail.Body += "　　" + "<font color='Blue'><b>." + regVO.team_name + "</b></font><br/>";
+              }
+              mail.Body += "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
                 +  empList
-                + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
+               // + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
                 + "" + custFieldSt
                  + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
-                 + "<br/>"+ "　　<font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
+                 + "<br/>" + "　　<font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
         }
         else
         {
-            mail.Body = "<table border='1'<tr><td><a href='" + webPath + "?Type=2&ActID="
+            mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=2&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":團隊報名成功通知</a><br/>"
-                 + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
-                 + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
+                 + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>";
+            if (regVO.team_name != "")
+            {
+                mail.Body += "　　" + "<font color='Blue'><b>." + regVO.team_name + "</b></font><br/>";
+            }
+            mail.Body += "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
                 + empList
-                + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
+              //  + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
                 + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME
-            + "<br/>" + "　　<font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr></table>";
+            + "<br/>" + "　　<font color='Blue'><b>.編號:</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         }
 
@@ -866,11 +881,11 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + webPath + "?Type=2&ActID="
+        mail.Body = "<table><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + ":團隊取消報名通知</a><br/>"
-            +"活動名稱:"+vo.activity_name +"<br/>"
-            + empList;
+            + "<font color='Blue'><b>活動名稱:</b></font>" + vo.activity_name + "<br/>"
+            + empList + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
@@ -956,11 +971,11 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + webPath + "?Type=2&ActID="
+        mail.Body = "<table><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + ":團隊取消報名通知(已達每隊人數下限,已全隊取消報名)</a><br/>"
-            + "活動名稱:" + vo.activity_name + "<br/>"
-            + empList;
+            + "<font color='Blue'><b>活動名稱:</b></font>" + vo.activity_name + "<br/>"
+            + empList + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
