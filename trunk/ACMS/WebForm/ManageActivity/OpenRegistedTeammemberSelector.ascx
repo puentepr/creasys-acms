@@ -84,6 +84,7 @@
             <td>
                <asp:Button ID="btnQuery" runat="server" OnClick="btnQuery_Click" Text="查詢" ValidationGroup="Query" />  
                <asp:Button ID="btnOK" runat="server" Text="確定" OnClick="btnOK_Click" />
+               
         <asp:Button ID="btnCancel" runat="server" Text="關閉" />
             </td>
             <td>
