@@ -55,6 +55,7 @@
     </table>
     <div align="center">
         <asp:Button ID="btnOK" runat="server" Text="確定" OnClick="btnOK_Click" />
+          <asp:Button ID="btnCancelAll" runat="server" Text="全隊取消" OnClick="btnCancelAll_Click" />
         <asp:Button ID="btnCancel" runat="server" Text="關閉" />
     </div>
 </asp:Panel>
