@@ -26,7 +26,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
                 if (Session["Type"].ToString () == "2")
                 {
                   //  GridView1.Columns[5].HeaderText = "已報名隊數";
-                    GridView1.Columns[2].HeaderText = "活動隊數";
+                    GridView1.Columns[4].HeaderText = "可報名隊數";
                 }
             }
 

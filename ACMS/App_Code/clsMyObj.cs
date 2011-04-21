@@ -341,6 +341,7 @@ public class clsMyObj
 
         }
         ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by );
+        empVO = empDAO.getEmployee(emp_id );
         if (custFieldSt != "")//有自訂欄位
         {
             mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr>  <tr><td> <a href='" + webPath + "?Type=1&ActID="
@@ -376,9 +377,10 @@ public class clsMyObj
              + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         }
+        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"],587);
+        //smtp.EnableSsl = true;
+        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-       // smtp.EnableSsl = true;
-
         try
         {
             smtp.Send(mail);
@@ -469,6 +471,7 @@ public class clsMyObj
         string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
 
         EmployeeVO empVO = new EmployeeVO();
+        EmployeeVO empCancelVO = new EmployeeVO();
         EMPloyeeDAO empDAO = new EMPloyeeDAO();
         empVO = empDAO.getEmployee(emp_id);
 
@@ -489,21 +492,27 @@ public class clsMyObj
                 mail.To.Add(empVO.OFFICE_MAIL);
             }
         }
+        empVO = empDAO.getEmployee(emp_id);
+        empCancelVO = empDAO.getEmployee(cancel_by);
         mail.Subject = vo.activity_name + ":取消報名通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-       mail.Body ="<table><tr><td style='background:#548DD4;Color:White' align='center'  ><b>取消個人報名通知</b></td> </tr><tr><td><b>親愛的同仁，您已取消活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=1&ActID="
+       mail.Body ="<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>取消個人報名通知</b></td> </tr><tr><td><b>親愛的同仁，您已取消活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=1&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>"+ vo.activity_name + ":取消報名通知</a><br/>"
             + "<b><font color='Blue'>活動名稱:</font></b>" + vo.activity_name
                + "<br/><b><font color='Blue'>工號:</font></b>" + empVO.WORK_ID
-            + "<br/><b><font color='Blue'>姓名:</font></b>" + empVO.NATIVE_NAME + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+            + "<br/><b><font color='Blue'>姓名:</font></b>" + empVO.NATIVE_NAME
+             + "<br/><b><font color='Blue'>取消人:</font></b>" + empCancelVO.NATIVE_NAME + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
          
 
 
-        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-        //smtp.EnableSsl = true;
+       SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        
+       //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
+       //smtp.EnableSsl = true;
+       //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
 
         try
         {
@@ -676,20 +685,16 @@ public class clsMyObj
         empList += "<table><b><tr><td>　　工號</td> <td>姓名</td></tr></b>";
         foreach (string emp in emps)
         {
-           
-           
-                 empList +="<tr><td>";
-                empVO = empDAO.getEmployee(emp);
-                  empList +=  "　　"+ empVO.WORK_ID + "</td><td>";
-                empList +=  empVO.NATIVE_NAME +"</td></tr>";
-            
-             
+            empList += "<tr><td>";
+            empVO = empDAO.getEmployee(emp);
+            empList += "　　" + empVO.WORK_ID + "</td><td>";
+            empList += empVO.NATIVE_NAME + "</td></tr>";
         }
         empList +="</tr></table>";
         //+ "姓名:" + empVO.NATIVE_NAME + "<br/>"
         //       + "工號:" + empVO.WORK_ID + "<br/>"
 
-
+       
         if (custFieldSt != "")//有自訂欄位
         {
             mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=2&ActID="
@@ -728,7 +733,10 @@ public class clsMyObj
 
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        smtp.EnableSsl = true;
+        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
         //smtp.EnableSsl = true;
+        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
 
         try
         {
@@ -750,6 +758,7 @@ public class clsMyObj
     {//andy 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+     
         string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
@@ -815,11 +824,15 @@ public class clsMyObj
     }
 
     //團隊取消報名寄信
-    public static void CancelRegist_Team(string activity_id, string emp_id, string cancel_by, string webPath)
+    public static void CancelRegist_Team(string activity_id, string emp_id, string cancel_by, string webPath,string bossid )
     {
         //andy 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+        ACMS.DAO.ActivityRegistDAO regDAO = new ACMS.DAO.ActivityRegistDAO();
+        
+       
+      
         string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
@@ -828,6 +841,8 @@ public class clsMyObj
 
         string[] emps = emp_id.Split(',');
         EmployeeVO empVO = new EmployeeVO();
+        EmployeeVO empCancelVO = new EmployeeVO();
+        EmployeeVO empBossVO = new EmployeeVO();
         EMPloyeeDAO empDAO = new EMPloyeeDAO();
 
         //收件者
@@ -872,25 +887,44 @@ public class clsMyObj
             empList += empVO.WORK_ID + "</td><td>";
             empList += empVO.NATIVE_NAME + "</td></tr>";
 
-
+           
         }
         empList += "</tr></table>";
 
+        empCancelVO = empDAO.getEmployee(cancel_by);
 
+        if ((string.Compare(mailtype, "online") == 0))
+        {
+            empBossVO = empDAO.getEmployee(bossid);
+            if (empBossVO.ID != cancel_by)
+            {
+
+                empVO = empDAO.getEmployee(empBossVO.ID);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
+        }
         mail.Subject = vo.activity_name + ":團隊取消報名通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<table><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
+        mail.Body = "<table  border='1' ><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + ":團隊取消報名通知</a><br/>"
             + "<font color='Blue'><b>活動名稱:</b></font>" + vo.activity_name + "<br/>"
-            + empList + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+            + empList
+            + "<font color='Blue'><b>取消人:</b></font>" + empCancelVO.NATIVE_NAME + "<br/>"
+            
+            
+            + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
-        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings ["SMTPServer"]);
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+       
+
+        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
         //smtp.EnableSsl = true;
+        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
         try
         {
             smtp.Send(mail);
@@ -971,7 +1005,7 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<table><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
+        mail.Body = "<table  border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + ":團隊取消報名通知(已達每隊人數下限,已全隊取消報名)</a><br/>"
             + "<font color='Blue'><b>活動名稱:</b></font>" + vo.activity_name + "<br/>"
@@ -980,7 +1014,10 @@ public class clsMyObj
 
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        
+        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
         //smtp.EnableSsl = true;
+        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
         try
         {
             smtp.Send(mail);

@@ -75,16 +75,47 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
     {
         this.mpSearch.Show(); 
     }
+
+
+
+    protected void GridView_Employee_DataBound(object sender, EventArgs e)
+    {
+        foreach (GridViewRow gr in GridView_Employee.Rows)
+        {
+            if (((TServerControl.TCheckBoxYN)gr.FindControl("chkRJRA")).Enabled == false)
+            {
+                gr.ToolTip = "已經報名";
+            }
+        }
+
+        ACMS.BO.ActivatyBO Bo= new ACMS.BO.ActivatyBO();
+        ACMS.VO.ActivatyVO vo=new ACMS.VO.ActivatyVO ();
+        vo = Bo.SelectActivatyByActivatyID(new Guid(ActivityID));
+        if (GridView_Employee.Rows.Count == 0)
+        {
+            if (vo.is_grouplimit == "Y")
+            {
+                clsMyObj.ShowMessage("『此活動有限定參加人員，您查詢的人員未在名單內』");
+            }
+        }
+
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenTeamMemberSelector
 {
     public void InitDataAndShow(string activity_id)
     {
+        ActivityID = activity_id;
         GridView_Employee.Visible = false;
         ObjectDataSource_Employee.SelectParameters["activity_id"].DefaultValue = activity_id;
        // btnQuery_Click(null, null);
         this.mpSearch.Show(); 
+    }
+    public string ActivityID
+    {
+        get { if (ViewState["activity_id"] == null) { return new Guid().ToString(); } else return ViewState["activity_id"].ToString(); }
+        set { ViewState["activity_id"] = value; }
     }
 
     public string TitleName

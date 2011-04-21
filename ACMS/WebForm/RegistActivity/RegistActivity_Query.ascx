@@ -57,13 +57,13 @@
                                             <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
+                                    <asp:TemplateField HeaderText="活動開始日期" SortExpression="activity_startdate">
                                         <ItemStyle HorizontalAlign="Center" />
                                         <ItemTemplate>
                                             <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
-                                    <asp:TemplateField HeaderText="活動日期結束" SortExpression="activity_enddate">
+                                    <asp:TemplateField HeaderText="活動結束日期" SortExpression="activity_enddate">
                                         <ItemStyle HorizontalAlign="Center" />
                                         <ItemTemplate>
                                             <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>

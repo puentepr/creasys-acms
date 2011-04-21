@@ -23,24 +23,37 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     {
         MyHiddenField.ID = "__MyHiddenField";
         this.Form.Controls.Add(MyHiddenField);
-        InitQueryBlock(Request.Form[MyHiddenField.UniqueID]);
+        //  InitQueryBlock(Request.Form[MyHiddenField.UniqueID]);
+        //try
+        //{
+        //    InitQueryBlock(Session["activity_id"].ToString());
+        //}
+        //catch
+        //{
+        //}
     }
-
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Wizard1.ActiveStepIndex >= 1)
+        {
+            InitQueryBlock(ActivityID.ToString());
+        }
        
         if (!IsPostBack)
         {
             Session ["ShowPanel"] = false;
+          
             Session["Team"] = "Yes";
             (this.Master as MyMasterPage).PanelMainGroupingText = "團隊報名";
             Wizard1.Visible = false;
 
             if (Session["form_mode"] != null && Session["activity_id"] != null)
             {
+             
                 //以新增方式進來時
                 if (Session["form_mode"].ToString() == "regist")
                 {
+                    ActivityID =new Guid( Session["activity_id"].ToString());
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
                 }
@@ -48,6 +61,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 if (Session["form_mode"].ToString() == "preview")
                 {
                     hiMode1.Value = "preview";
+                    ActivityID = new Guid(Session["activity_id"].ToString());
                     Session["form_mode1"] = "preview";
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
@@ -56,6 +70,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 if (Session["form_mode"].ToString() == "edit")
                 {
                     //以編輯方式進來時
+                    ActivityID = new Guid(Session["activity_id"].ToString());
                     GoThirdStep_Click(null, null);
                 }
             }
@@ -66,7 +81,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             }
 
             Session["form_mode"] = null;
-            Session["activity_id"] = null;
+           // Session["activity_id"] = null;
 
         }
 
@@ -176,9 +191,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
 
         Wizard1.MoveTo(Wizard1.WizardSteps[1]);
-        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
-        ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
-
+        try
+        {
+            ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+            ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+        }
+        catch
+        { }
         //if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
         //{
         //    ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
@@ -189,7 +208,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         //}
 
 
-        InitQueryBlock(ActivityID.ToString());
+       // InitQueryBlock(ActivityID.ToString());
 
         //編輯時載入動態欄位資料
         GetDynamicValue();
@@ -219,7 +238,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
 
         //注意事項
-        Literal_notice.Text = myActivatyVO.notice;
+        Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
 
 
         //團隊固定欄位
@@ -305,23 +324,56 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             {
                 TextBox MyControl = new TextBox();
                 MyControl.ID = string.Format("txt{0}", myCustomFieldValueVO.field_id);
-                (PlaceHolder1.FindControl(MyControl.ID) as TextBox).Text = myCustomFieldValueVO.field_value;
+                try
+                {
+                    (PlaceHolder1.FindControl(MyControl.ID) as TextBox).Text = myCustomFieldValueVO.field_value;
+                }
+                catch
+                {
+
+                    InitQueryBlock(ActivityID.ToString());
+                    (PlaceHolder1.FindControl(MyControl.ID) as TextBox).Text = myCustomFieldValueVO.field_value;
+                
+                }
             }
             else if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOXLIST")
             {
                 TCheckBoxList MyControl = new TCheckBoxList();
                 MyControl.ID = string.Format("plh{0}", myCustomFieldValueVO.field_id);
-                (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+                try
+                {
+                    (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+                    CheckBoxList1_SelectedIndexChanged((PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList), null);
+                }
+                catch
+                {
 
-                CheckBoxList1_SelectedIndexChanged((PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList), null);
+                    InitQueryBlock(ActivityID.ToString());
+                    (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+                    CheckBoxList1_SelectedIndexChanged((PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList), null);
+
+                }
+               
 
             }
             else if (myCustomFieldValueVO.field_control.ToUpper() == "CHECKBOXLIST")
             {
                 TCheckBoxList MyControl = new TCheckBoxList();
-
+                               
                 MyControl.ID = string.Format("cbl{0}", myCustomFieldValueVO.field_id);
-                (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+
+                try
+                {
+                    (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+                }
+                catch
+                {
+
+                    InitQueryBlock(ActivityID.ToString());
+                    (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
+
+                }
+               
 
 
             }
@@ -329,8 +381,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             {
                 TRadioButtonList MyControl = new TRadioButtonList();
                 MyControl.ID = string.Format("radl{0}", myCustomFieldValueVO.field_id);
-                (MyControl as TRadioButtonList).ClearSelection();
-                (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
+                try
+                {
+                    (MyControl as TRadioButtonList).ClearSelection();
+                    (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
+                }
+                catch
+                {
+
+                    InitQueryBlock(ActivityID.ToString());
+                    (MyControl as TRadioButtonList).ClearSelection();
+                    (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
+
+                }
+
+
+           
             }
 
         }
@@ -459,7 +525,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
             }
 
-
+            //==如果是Edit則不可刪除人員
+            if (MyFormMode == FormViewMode.Edit)
+            {
+                (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
+            }
 
 
         }
@@ -853,10 +923,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         {  
             //系統預設會勾選第一筆資料
            // RadioButton RadioButton1 = (RadioButton)GridView_TemMember.Rows[0].FindControl("RadioButton1");         
-           //InitQueryBlock(ActivityID.ToString());
+          // InitQueryBlock(ActivityID.ToString());
             //RadioButton1_CheckedChanged(RadioButton1, null);
  
         }
+
+       
     }
 
 
@@ -907,6 +979,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             }
         }
     }
+    protected void GridView_TemMember_DataBound(object sender, EventArgs e)
+    {
+
+    }
 }
 
 
@@ -919,7 +995,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
         if (!string.IsNullOrEmpty(activity_id))
         {
-            
+           
+           
             ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
             List<ACMS.VO.CustomFieldVO> myCustomFieldVOList = new List<ACMS.VO.CustomFieldVO>();
             myCustomFieldVOList = myCustomFieldDAO.SelectByActivity_id(new Guid(activity_id));
@@ -1098,7 +1175,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
     public Guid ActivityID
     {
-        get { return new Guid(ViewState["ActivityID"].ToString()); }
+        get { if (ViewState["ActivityID"] == null) { return new Guid(); } else return new Guid(ViewState["ActivityID"].ToString()); }
         set { ViewState["ActivityID"] = value; }
     }
 

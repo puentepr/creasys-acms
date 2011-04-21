@@ -72,21 +72,22 @@
                                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
-                        <asp:BoundField DataField="limit_count11" HeaderText="活動人數" SortExpression="limit_count">
-                            <ItemStyle HorizontalAlign="Right" />
-                        </asp:BoundField>
-                        <asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
+                       
+                        <asp:TemplateField HeaderText="活動開始日期" SortExpression="activity_startdate">
                             <ItemTemplate>
                                 <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate") %>'></asp:Label>
                              </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
-                         <asp:TemplateField HeaderText="活動日期結束" SortExpression="activity_enddate">
+                         <asp:TemplateField HeaderText="活動結束日期" SortExpression="activity_enddate">
                             <ItemTemplate>
                                  <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
                             </ItemTemplate>
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:TemplateField>
+                         <asp:BoundField DataField="limit_count11" HeaderText="可報名人數" SortExpression="limit_count">
+                            <ItemStyle HorizontalAlign="Right" />
+                        </asp:BoundField>
                         <asp:BoundField DataField="registed_count" HeaderText="已報名人數" SortExpression="registed_count">
                             <ItemStyle HorizontalAlign="Center" />
                         </asp:BoundField>

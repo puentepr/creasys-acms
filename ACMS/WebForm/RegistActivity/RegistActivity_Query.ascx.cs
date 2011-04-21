@@ -50,6 +50,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
             Session.Remove("Agent");
             Session.Remove("Team");
             Guid activity_id = new Guid(GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+            Session["activity_id"] = activity_id;
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }
     }
@@ -82,6 +83,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Query : System.Web.UI
             Session["Agent"] = "Yes";
             Session.Remove("Team");
             Guid activity_id = new Guid(GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+            Session["activity_id"] = activity_id;
             GoSecondStep_Click(this, new RegistGoSecondEventArgs(activity_id));
         }
     }
