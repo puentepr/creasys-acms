@@ -17,7 +17,7 @@
         <ContentTemplate>
             <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
                 ActivityType="2" />
-            <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="0"
+            <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="1"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
                 StepPreviousButtonText="上一步" 
                 onactivestepchanged="Wizard1_ActiveStepChanged" 
@@ -200,7 +200,7 @@
                                             AllowHoverSelect="True" AutoGenerateColumns="False" EnableModelValidation="True"
                                             ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0"
                                             Width="100%" DataKeyNames="emp_id" OnRowDataBound="GridView_TemMember_RowDataBound"
-                                            OnDataBound="GridView_RegisterPeoplinfo_DataBound">
+                                            OnDataBound="GridView_TemMember_DataBound">
                                             <Columns>
                                                 <asp:BoundField DataField="WORK_ID" HeaderText="工號" />
                                                 <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" />

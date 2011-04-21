@@ -88,7 +88,7 @@
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID" SkinID="pager"
                     EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" 
-                    AllowPaging="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged">
+                    AllowPaging="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged"  OnDataBound ="GridView_Employee_DataBound">
                     <EmptyDataTemplate>
                         <font color="red">查詢結果無資料</font>
                     </EmptyDataTemplate>

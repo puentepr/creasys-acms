@@ -24,11 +24,17 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     {
         MyHiddenField.ID = "__MyHiddenField";
         this.Form.Controls.Add(MyHiddenField);
-        InitQueryBlock(Request.Form[MyHiddenField.UniqueID]);
+        
+        //InitQueryBlock(Request.Form[MyHiddenField.UniqueID]);
+       
     }
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if (Wizard1.ActiveStepIndex >= 1)
+        {
+            InitQueryBlock(ActivityID.ToString());
+        }
         if (!IsPostBack)
         {
             Session ["ShowPanel"] = false;
@@ -42,6 +48,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                 if (Session["form_mode"].ToString() == "regist")
                 {
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
+                   
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
                 }
                 //以預覽方式進來時
@@ -50,6 +57,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                     hiMode1.Value = "preview";
                     Session["form_mode1"] = "preview";
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
+                   
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
                 }
                 if (Session["form_mode"].ToString() == "edit")
@@ -67,7 +75,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
 
             Session["form_mode"] = null;
-            Session["activity_id"] = null;
+            //Session["activity_id"] = null;
 
         }
     }
@@ -95,7 +103,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
 
         MyHiddenField.Value = ActivityID.ToString();
-
+       
         //載入活動資訊
         GetActivityDefault();
         try
@@ -131,7 +139,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         //必要屬性
         MyFormMode = FormViewMode.Insert;
         ActivityID = new Guid(Session["activity_id"].ToString());
-
+       
         EmpID = clsAuth.ID;//預設是登入者 為了讓FormView顯示
         RegistBy = clsAuth.ID;//執行是登入者
 
@@ -162,6 +170,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
     private void GetActivityDefault()
     {
+        InitQueryBlock(ActivityID.ToString());
         //取得活動資訊
         ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
         ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
@@ -189,7 +198,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         ObjectDataSource_RegisterPeoplenfo.SelectParameters["emp_id"].DefaultValue = RegistBy;//由登入者所報名(含登入者本人)   
 
         //注意事項
-        Literal_notice.Text = myActivatyVO.notice;
+        Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
 
         FormView_fixA.DataBind();
         ACMS.BO.CustomFieldBO myCustFieldBo = new ACMS.BO.CustomFieldBO();
@@ -306,6 +315,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
         List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustomFieldValueDAO.SelectCustomFieldValue(ActivityID, EmpID);
 
+       
         foreach (ACMS.VO.CustomFieldValueVO myCustomFieldValueVO in myCustomFieldValueVOList)
         {
 
@@ -608,7 +618,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         {
             //系統預設會勾選第一筆資料
             RadioButton RadioButton1 = (RadioButton)GridView_RegisterPeoplinfo.Rows[0].FindControl("RadioButton1");
-            InitQueryBlock(ActivityID.ToString());
+            //InitQueryBlock(ActivityID.ToString());
             RadioButton1_CheckedChanged(RadioButton1, null);
 
         }
@@ -675,11 +685,12 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
 {
     protected void InitQueryBlock(string activity_id)
     {
+  
         MyHashtable.Clear();
-
         if (!string.IsNullOrEmpty(activity_id))
         {
           
+      
             ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
             List<ACMS.VO.CustomFieldVO> myCustomFieldVOList = new List<ACMS.VO.CustomFieldVO>();
             myCustomFieldVOList = myCustomFieldDAO.SelectByActivity_id(new Guid(activity_id));

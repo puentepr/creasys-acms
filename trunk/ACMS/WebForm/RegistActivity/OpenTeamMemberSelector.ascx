@@ -5,7 +5,7 @@
      <%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
 
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;"
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" 
     Width="800" Height="600">
     <!--display: none;-->
     <br />
@@ -97,7 +97,7 @@
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID" SkinID="pager"
                     EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" 
-                    AllowPaging="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged" 
+                    AllowPaging="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged"  OnDataBound ="GridView_Employee_DataBound"
                     onsorted="GridView_Employee_Sorted">
                     <EmptyDataTemplate>
                         <font color='Red' >查無資料</font>

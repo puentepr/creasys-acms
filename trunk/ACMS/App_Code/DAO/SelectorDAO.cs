@@ -40,7 +40,7 @@ namespace ACMS.DAO
             sb.AppendLine("  FROM Activity AA  ");
             sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
-            sb.AppendLine("  and AA.regist_startdate<=getdate() ");//報名已開始
+            sb.AppendLine("  and convert(date,AA.regist_startdate)<=getdate() ");//報名已開始
             sb.AppendLine("  and dateadd(day,0,AA.regist_deadline)>=convert(datetime,convert(varchar(10),getdate(),111)) ");//報名尚未截止
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//不限族群or我在這個族群
@@ -111,8 +111,8 @@ namespace ACMS.DAO
             sb.AppendLine("  FROM Activity AA  ");
             sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
-            sb.AppendLine("  and AA.regist_startdate<=getdate() ");//報名已開始
-            sb.AppendLine("  and dateadd(day,1,AA.regist_deadline)>getdate() ");//報名尚未截止
+            sb.AppendLine("  and convert(date,AA.regist_startdate)<=convert(date,getdate() )");//報名已開始
+            sb.AppendLine("  and convert(date,AA.regist_deadline)>=convert(date,getdate()  )");//報名尚未截止
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//可報名的活動
             sb.AppendLine(") A ");
@@ -627,13 +627,13 @@ namespace ACMS.DAO
             sb.AppendLine("A.id in (SELECT distinct activity_id FROM ActivityRegist WHERE emp_id=@emp_id) ");
             sb.AppendLine(" or A.id in (SELECT distinct activity_id FROM ActivityTeamMember WHERE emp_id=@emp_id) ");
             sb.AppendLine(" or @emp_id in (select emp_id from RoleUserMapping where role_id='1' )) ");
-            sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  A.activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
+            sb.AppendLine(" and convert(date,A.activity_startdate)<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  A.activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
             sb.AppendLine("union  select  A.id,A.activity_name, A.sn");
             sb.AppendLine("FROM Activity A ");
             sb.AppendLine("left join RoleUserMapping B on A.org_id=B.unit_id and B.emp_id=@emp_id");
             sb.AppendLine("WHERE A.active='Y' ");
             sb.AppendLine("and B.role_id in ('2','3')");
-            sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  A.activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
+            sb.AppendLine(" and convert(date,A.activity_startdate)<= convert(datetime,convert(varchar(10),GETDATE(),111))  and convert(date, A.activity_enddate)>=convert(datetime,convert(varchar(10),GETDATE(),111))");
          
             sb.AppendLine("ORDER BY sn ");
 
@@ -792,7 +792,7 @@ namespace ACMS.DAO
             sb.AppendLine("     or  0 in  (select unit_id from RoleUserMapping where emp_id='" + clsAuth.ID + "'))");
 
 
-            sb.AppendLine("and A.activity_enddate>=  Convert(Datetime,Convert(varchar(10),getDate(),111)) and A.regist_startdate>Convert(Datetime,Convert(varchar(10),getDate(),111))");//列出活動未結束的活動
+            sb.AppendLine("and A.activity_enddate>=  Convert(Datetime,Convert(varchar(10),getDate(),111)) and convert(date,A.regist_startdate)>Convert(Datetime,Convert(varchar(10),getDate(),111))");//列出活動未結束的活動
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline  ");
             sb.AppendLine("ORDER BY A.sn ");
 
@@ -1047,7 +1047,7 @@ namespace ACMS.DAO
             sb.AppendLine(string.Format("B.id in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
             sb.AppendLine(string.Format("or 0 in (select unit_id from RoleUserMapping where emp_id='{0}') ", clsAuth.ID));
             sb.AppendLine(") ");
-            sb.AppendLine(" and A.activity_startdate<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
+            sb.AppendLine(" and convert(date,A.activity_startdate)<= convert(datetime,convert(varchar(10),GETDATE(),111))  and  activity_enddate>=convert(datetime,convert(varchar(10),GETDATE(),111))");
             sb.AppendLine("ORDER BY A.sn; ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), null);
@@ -1463,7 +1463,7 @@ namespace ACMS.DAO
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
                 sb.AppendLine("  FROM ActivityRegist A");
 
-                sb.AppendLine(" left join ActivityTeamMember  C on A.activity_id =c.activity_id ");
+                sb.AppendLine(" left join ActivityTeamMember  C on A.activity_id =c.activity_id   and A.emp_id=C.boss_id");
                 sb.AppendLine(" left join V_ACSM_USER2 B on C.emp_id=B.ID ");
                 sb.AppendLine(" left join Activity D on A.activity_id =D.id");
                 sb.AppendLine("WHERE 1=1 and D.activity_type ='2' ");
