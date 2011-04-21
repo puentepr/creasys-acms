@@ -27,6 +27,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
                 {
                   //  GridView1.Columns[5].HeaderText = "已報名隊數";
                     GridView1.Columns[4].HeaderText = "可報名隊數";
+                    GridView1.Columns[5].HeaderText = "已報名隊數";
                 }
             }
 
