@@ -432,13 +432,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     {
         GridView GridView_UpFiles = (GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles");
         FileInfo myFileInfo = new FileInfo(GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+        string fileName = GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        fileName = this.ResolveUrl("~/Upfiles/" + fileName.Substring(fileName.IndexOf(ActivityID.ToString())));
 
         if (myFileInfo.Exists)
         {
-            Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
-            // 輸出檔案。
-            Response.WriteFile(myFileInfo.FullName);
-
+            //Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
+            //// 輸出檔案。
+            //Response.WriteFile(myFileInfo.FullName);
+            Response.Write("<script type=\"text/javascript\"> window.open('" + fileName + "')</script>");
         }
     }
 

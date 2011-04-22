@@ -71,7 +71,7 @@ public class clsMyObj
                     //已報名人數
                     if (register_count > limit_count)
                     {
-                        DR["registed_count"] = string.Format("正({0})+備({1})", limit_count, limit_count - limit_count);
+                        DR["registed_count"] = string.Format("正({0})+備({1})", limit_count, register_count - limit_count);
                     }
                     else
                     {

@@ -694,7 +694,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    errMsg += dr["field_name"].ToString() +"\\n";
+                    errMsg += dr["field_name"].ToString() +@"\n";
 
                 }
 
@@ -703,13 +703,25 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 return;
             }
 
+            dt = cDAO.CheckCustFieldItemOutOfRangInt(ActivityID);
+            if (dt.Rows.Count > 0)
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    errMsg += dr["field_name"].ToString() + @"\n";
 
+                }
+
+                clsMyObj.ShowMessage(errMsg + "以上費用欄位合計值超過正負20億,超過整數的範圍!");
+                e.Cancel = true;
+                return;
+            }
             dt = cDAO.CheckCustFieldItemNameDuplicate(ActivityID);
             if (dt.Rows.Count > 0)
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    errMsg += dr["field_item_name"].ToString() + "\\n";
+                    errMsg += dr["field_item_name"].ToString() + @"\n";
 
                 }
 
@@ -722,7 +734,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    errMsg += dr["field_name"].ToString() + "\\n";
+                    errMsg += dr["field_name"].ToString() +@"\n";
 
                 }
 
