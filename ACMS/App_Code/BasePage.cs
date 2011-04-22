@@ -30,7 +30,7 @@ public class BasePage : System.Web.UI.Page
     {
 
         string vbCrLf = "\r\n";
-        ScriptManager.RegisterStartupScript (obj, typeof(BasePage), "ShowMessage", "alert(\"" + Msg.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace(vbCrLf, "\\n\\r") + "\");", true);
+        ScriptManager.RegisterStartupScript (obj, typeof(BasePage), "ShowMessage", "alert(\"" + Msg.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace(vbCrLf, "\\r\\n") + "\");", true);
 
 
     }

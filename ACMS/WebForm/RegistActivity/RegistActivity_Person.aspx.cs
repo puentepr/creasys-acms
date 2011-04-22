@@ -417,7 +417,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
             if (myActivityRegistDAO.IsPersonRegisted(ActivityID, EmpID, "", "1") > 0)
             {
-                clsMyObj.ShowMessage(@"已存在此員工的報名成功紀錄!\n請選擇其他員工執行代理報名。");
+                clsMyObj.ShowMessage(@"已存在此員工的報名成功紀錄!請選擇其他員工執行代理報名。");
                 Wizard1.MoveTo(Wizard1.WizardSteps[0]);
             }
         }
@@ -576,7 +576,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         }
         else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
         {
-            clsMyObj.ShowMessage(@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
+            clsMyObj.ShowMessage(@"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
         }
         else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
         {

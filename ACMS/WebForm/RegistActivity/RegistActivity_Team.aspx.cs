@@ -239,7 +239,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
 
         //注意事項
-        Literal_notice.Text = myActivatyVO.notice.Replace("\n\r", "<br />");
+        Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
 
 
         //團隊固定欄位
@@ -410,7 +410,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         DataRowView drv = (DataRowView)FormView_ActivatyDetails.DataItem;
 
         (FormView_ActivatyDetails.FindControl("GridView_UpFiles") as GridView).Visible = (drv["is_showfile"].ToString() == "Y");
-        ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\n\r", "<br/>");
+        ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\r\n", "<br/>");
         ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
         ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
         ((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text).ToString("yyyy/MM/dd");
@@ -705,7 +705,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 {
                     if (myActivityTeamMemberVO.WritePersonInfo != "是")
                     {
-                        ShowMessageForAjax(this,string.Format(@"{0}尚未填寫個人相關欄位!\n無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
+                        ShowMessageForAjax(this,string.Format(@"{0}尚未填寫個人相關欄位!無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
                         Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                         return;
                     }
@@ -886,7 +886,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         }
         else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
         {
-             ShowMessageForAjax(this,@"抱歉，報名已額滿!\n若錄取名額有增加\n則可再次報名。");
+             ShowMessageForAjax(this,@"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
         }
         else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
         {
