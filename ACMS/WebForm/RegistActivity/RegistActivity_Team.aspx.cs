@@ -41,6 +41,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
        
         if (!IsPostBack)
         {
+            Session.Remove("form_mode1");
             Session ["ShowPanel"] = false;
           
             Session["Team"] = "Yes";
@@ -238,7 +239,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
 
         //注意事項
-        Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
+        Literal_notice.Text = myActivatyVO.notice.Replace("\n\r", "<br />");
 
 
         //團隊固定欄位
@@ -409,7 +410,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         DataRowView drv = (DataRowView)FormView_ActivatyDetails.DataItem;
 
         (FormView_ActivatyDetails.FindControl("GridView_UpFiles") as GridView).Visible = (drv["is_showfile"].ToString() == "Y");
-        ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\r\n", "<br/>");
+        ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("people_typeLabel")).Text.Replace("\n\r", "<br/>");
         ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
         ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text).ToString("yyyy/MM/dd HH:mm");
         ((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text = DateTime.Parse(((Label)FormView_ActivatyDetails.FindControl("regist_startdateLabel")).Text).ToString("yyyy/MM/dd");

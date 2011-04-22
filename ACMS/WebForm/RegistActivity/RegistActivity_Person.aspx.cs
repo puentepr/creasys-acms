@@ -37,6 +37,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         }
         if (!IsPostBack)
         {
+            Session.Remove ("form_mode1");
             Session ["ShowPanel"] = false;
             Session.Remove("Team");
            ( (MyMasterPage)(this.Master )).PanelMainGroupingText = "個人報名";
@@ -525,7 +526,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         {
             if (Session["form_mode1"].ToString() == "preview")
             {
-               
+                Session.Remove("form_mode1");
                 Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
             }
         }
