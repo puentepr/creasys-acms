@@ -310,7 +310,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
         ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = emp_id;
 
         ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
-
+        ACMS.DAO.ActivatyDAO myADAO = new ACMS.DAO.ActivatyDAO();
         if (myActivityTeamMemberDAO.IsTeamBoss(new Guid(activity_id), emp_id))
         {
             IsTeamBoss = "1";
@@ -319,7 +319,10 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
         {
             IsTeamBoss = "0";
         }
-
+        if (IsTeamBoss == "0" && myADAO.chkAdmin (new Guid (activity_id ) ,emp_id)== false)
+        {
+            btnCancelAll.Visible = false;
+        }
         GridView1.DataBind();
         this.mpSearch.Show();    
     }
