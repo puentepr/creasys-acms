@@ -330,7 +330,16 @@ namespace ACMS.DAO
             string strTableName = (activity_type == "1" ? "ActivityRegist" : "ActivityTeamMember");
 
             sb.AppendLine("SELECT A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count ");
-            sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
+
+            if (activity_type == "1")
+            {
+                sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
+            }
+            else
+            {
+                sb.AppendLine(",COUNT(distinct B.boss_id) as register_count ");//報名人(隊)數
+            }
+            
             sb.AppendLine(",convert(varchar(16),A.activity_startdate,120) as activity_startdate,convert(varchar(16),A.activity_enddate,120) as activity_enddate ,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM ");
             sb.AppendLine("( ");

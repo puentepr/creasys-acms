@@ -377,10 +377,7 @@ public class clsMyObj
              + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         }
-        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"],587);
-        //smtp.EnableSsl = true;
-        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
-        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         try
         {
             smtp.Send(mail);
@@ -439,9 +436,9 @@ public class clsMyObj
             + "'>" + vo.activity_name + ":個人報名失敗通知</a>";
 
 
-        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-        //smtp.EnableSsl = true;
+       SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
 
+       
         try
         {
             smtp.Send(mail);
@@ -505,14 +502,10 @@ public class clsMyObj
                + "<br/><b><font color='Blue'>工號:</font></b>" + empVO.WORK_ID
             + "<br/><b><font color='Blue'>姓名:</font></b>" + empVO.NATIVE_NAME
              + "<br/><b><font color='Blue'>取消人:</font></b>" + empCancelVO.NATIVE_NAME + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
-         
+
 
 
        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-        
-       //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
-       //smtp.EnableSsl = true;
-       //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
 
         try
         {
@@ -733,11 +726,6 @@ public class clsMyObj
 
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-        smtp.EnableSsl = true;
-        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
-        //smtp.EnableSsl = true;
-        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
-
         try
         {
             smtp.Send(mail);
@@ -806,8 +794,7 @@ public class clsMyObj
             + "'>" + vo.activity_name + ":團隊報名失敗通知</a>";
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-        //smtp.EnableSsl = true;
-
+      
         try
         {
             smtp.Send(mail);
@@ -920,11 +907,7 @@ public class clsMyObj
 
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-       
 
-        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
-        //smtp.EnableSsl = true;
-        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
         try
         {
             smtp.Send(mail);
@@ -1014,10 +997,8 @@ public class clsMyObj
 
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-        
-        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"], 587);
-        //smtp.EnableSsl = true;
-        //smtp.Credentials = new System.Net.NetworkCredential("jin0376", "bookisbook");
+
+      
         try
         {
             smtp.Send(mail);

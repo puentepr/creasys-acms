@@ -315,12 +315,16 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
     {
         GridView GridView_UpFiles = (GridView)FormView1.FindControl("GridView_UpFiles");
         FileInfo myFileInfo = new FileInfo(GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+        string fileName = GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        fileName=this.ResolveUrl ("~/Upfiles/"+fileName.Substring (fileName.IndexOf (ActivityID.ToString() )));
 
+       
         if (myFileInfo.Exists)
         {
-            Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
-            // 輸出檔案。
-            Response.WriteFile(myFileInfo.FullName);
+        //    Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
+        //    // 輸出檔案。
+        //    Response.WriteFile(myFileInfo.FullName);
+            Response.Write ("<script type=\"text/javascript\"> window.open('"+fileName +"')</script>");
         }
     }
 
@@ -690,7 +694,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    errMsg += dr["field_name"].ToString() +"\\r\\n";
+                    errMsg += dr["field_name"].ToString() +"\\n";
 
                 }
 
@@ -705,7 +709,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    errMsg += dr["field_item_name"].ToString() + "\\r\\n";
+                    errMsg += dr["field_item_name"].ToString() + "\\n";
 
                 }
 
@@ -718,7 +722,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             {
                 foreach (DataRow dr in dt.Rows)
                 {
-                    errMsg += dr["field_name"].ToString() + "\\r\\n";
+                    errMsg += dr["field_name"].ToString() + "\\n";
 
                 }
 
@@ -962,24 +966,33 @@ public partial class WebForm_ManageActivity_ActivityEdit
 
                 for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
                 {
-                   
-                    HSSFRow row = (HSSFRow)sheet.GetRow(i);
-                    
-                    DataRow dataRow = table.NewRow();
+                    try
+                    {
+                        HSSFRow row = (HSSFRow)sheet.GetRow(i);
 
-                    //for (int j = row.FirstCellNum; j < cellCount; j++)
-                    //{
-                    //    if (row.GetCell(j) != null)
-                    //    {
-                    //        dataRow[j] = row.GetCell(j).ToString();
-                    //    }
+                        DataRow dataRow = table.NewRow();
 
-                    //}
-                    //andy 修正為只有工號
-                    dataRow["activity_id"] = ActivityID;
-                    dataRow["emp_id"] = row.GetCell(colii).ToString();// +row.GetCell(1).ToString();
+                        //for (int j = row.FirstCellNum; j < cellCount; j++)
+                        //{
+                        //    if (row.GetCell(j) != null)
+                        //    {
+                        //        dataRow[j] = row.GetCell(j).ToString();
+                        //    }
 
-                    table.Rows.Add(dataRow);
+                        //}
+                        //andy 修正為只有工號
+                        if (row== null )
+                            continue;
+
+                        dataRow["activity_id"] = ActivityID;
+                        dataRow["emp_id"] = row.GetCell(colii).ToString();// +row.GetCell(1).ToString();
+
+                        table.Rows.Add(dataRow);
+                    }
+                    catch (Exception ex1)
+                    {
+
+                    }
 
                 }
 
