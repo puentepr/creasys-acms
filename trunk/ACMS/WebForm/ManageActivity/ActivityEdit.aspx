@@ -35,10 +35,11 @@
     </asp:UpdateProgress>
     <asp:UpdatePanel ID="UpdatePanel4" runat="server">
         <ContentTemplate>
-            <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
+            <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="2" DisplaySideBar="False"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
                 StepPreviousButtonText="上一步" OnFinishButtonClick="Wizard1_FinishButtonClick"
-                OnNextButtonClick="Wizard1_NextButtonClick" OnActiveStepChanged="Wizard1_ActiveStepChanged">
+                OnNextButtonClick="Wizard1_NextButtonClick" 
+                OnActiveStepChanged="Wizard1_ActiveStepChanged">
                 <WizardSteps>
                     <asp:WizardStep runat="server" Title="Step 1">
                         <font color="blue">此頁面您可編輯或上傳此活動公告或訊息(文字與圖檔)，提供報名者了解活動內容與規劃</font><br />
@@ -276,7 +277,7 @@
                             <ContentTemplate>
                                 <font color="blue">請勾選或自行設定此次報名者務必填寫的欄位內容，無須設定，請按下一步</font></font><br />
                                 <asp:FormView ID="FormView2" runat="server" DataSourceID="ObjectDataSource_Activaty2"
-                                    DataKeyNames="id">
+                                    DataKeyNames="id" ondatabound="FormView2_DataBound">
                                     <ItemTemplate>
                                         <asp:Panel ID="PanelCustomFieldA1" runat="server" GroupingText="勾選/身分ID，攜伴人數">
                                             <div>
@@ -287,10 +288,10 @@
                                                         <TServerControl:TCheckBoxYN ID="chkis_showperson_fix2" runat="server" Text="攜伴人數限制"
                                                             YesNo='<%# Bind("is_showperson_fix2") %>' AutoPostBack="True" OnCheckedChanged="chkis_showperson_fix2_CheckedChanged" />
                                                         <asp:TextBox ID="txtpersonextcount_min" runat="server" Text='<%# Bind("personextcount_min") %>'
-                                                            Width="50px"></asp:TextBox>
+                                                            Width="50px" Visible="False"></asp:TextBox>
                                                         ~
                                                         <asp:TextBox ID="txtpersonextcount_max" runat="server" Text='<%# Bind("personextcount_max") %>'
-                                                            Width="50px"></asp:TextBox>人
+                                                            Width="50px" Visible="False"></asp:TextBox>人
                                                         <asp:RequiredFieldValidator ID="chk_txtpersonextcount_min" runat="server" ControlToValidate="txtpersonextcount_min"
                                                             Display="Dynamic" ErrorMessage="攜伴人數限制必填" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
                                                         <asp:CompareValidator ID="chk_txtpersonextcount_min2" runat="server" ControlToValidate="txtpersonextcount_min"
