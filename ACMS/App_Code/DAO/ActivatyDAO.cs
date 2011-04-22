@@ -268,5 +268,29 @@ namespace ACMS.DAO
 
         }
 
+        public bool chkAdmin(Guid activity_id , string emp_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value =activity_id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar );
+            sqlParams[1].Value =emp_id; 
+             StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("select * from RoleUserMapping  ");
+            sb.AppendLine("where unit_id ='0'  and emp_id=@emp_id ");
+            sb.AppendLine("select * from Activity A");
+            sb.AppendLine("left join RoleUserMapping B on a.org_id =b.unit_id ");
+            sb.AppendLine("where A.id =@id and B.emp_id =@emp_id ");
+            DataSet ds = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            if (ds.Tables[0].Rows.Count>0)
+                return true;
+
+            if (ds.Tables[1].Rows.Count>0)
+                return true;
+            return false ;
+        }
+
     }
 }
