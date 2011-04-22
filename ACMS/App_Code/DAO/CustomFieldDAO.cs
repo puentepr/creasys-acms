@@ -116,6 +116,26 @@ namespace ACMS.DAO
             return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
         }
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="activity_id"></param>
+        /// <returns></returns>
+        public DataTable CheckCustFieldItemOutOfRangInt(Guid activity_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[1];
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("Select B.field_id ,B.field_name ,COUNT(A.field_id ) ,SUM(convert(int,A.field_item_text )) as Ttl  from dbo.CustomFieldItem A left join CustomField B on A.field_id =b.field_id ");
+            sb.AppendLine("where A.field_id in (select field_id  from dbo.CustomField  where activity_id =@activity_id and field_control ='textboxlist')");
+            sb.AppendLine("group by  B.field_id ,B.field_name ");
+            sb.AppendLine("having SUM(convert(int,A.field_item_text )) >2000000000  or SUM(convert(int,A.field_item_text )) <-2000000000 ");
+
+            return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
+        }
+        /// <summary>
         /// 檢查是否有選項重覆的名稱
         /// </summary>
         /// <param name="activity_id">活動代號</param>
