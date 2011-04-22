@@ -50,7 +50,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
         if (!IsPostBack)
         {
-           
+            Wizard1.ActiveStepIndex = 0;
             //取得必要的Session
             if (Session["form_mode"] == null)
             {
@@ -345,12 +345,32 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
     //勾選改變時要必填
     protected void chkis_showperson_fix2_CheckedChanged(object sender, EventArgs e)
     {
-        CheckBox chkis_showperson_fix2 = (CheckBox)sender;
-        chk_txtpersonextcount_min.Visible = chkis_showperson_fix2.Checked;
-        chk_txtpersonextcount_min2.Visible = chkis_showperson_fix2.Checked;
+        //CheckBox chkis_showperson_fix2 = (CheckBox)sender;
+        //chk_txtpersonextcount_min.Visible = chkis_showperson_fix2.Checked;
+        //chk_txtpersonextcount_min2.Visible = chkis_showperson_fix2.Checked;
 
-        chk_txtpersonextcount_max.Visible = chkis_showperson_fix2.Checked;
-        chk_txtpersonextcount_max2.Visible = chkis_showperson_fix2.Checked;
+        //chk_txtpersonextcount_max.Visible = chkis_showperson_fix2.Checked;
+        //chk_txtpersonextcount_max2.Visible = chkis_showperson_fix2.Checked;
+
+        if ((FormView2.FindControl("chkis_showperson_fix2") as TCheckBoxYN).YesNo == "Y")
+        {
+
+            FormView2.FindControl("txtpersonextcount_max").Visible = true;
+            FormView2.FindControl("txtpersonextcount_min").Visible = true;
+        }
+        else
+        {
+            FormView2.FindControl("txtpersonextcount_max").Visible = false ;
+            FormView2.FindControl("txtpersonextcount_min").Visible = false;
+
+           ((TextBox ) FormView2.FindControl("txtpersonextcount_max")).Text  = "0";
+            ((TextBox ) FormView2.FindControl("txtpersonextcount_min")).Text = "0";
+        }
+
+
+
+
+
     }
     //勾選改變時要必填
     protected void chkis_showremark_CheckedChanged(object sender, EventArgs e)
@@ -877,6 +897,21 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
         {
             ((CheckBox)GridView_GroupLimit.Rows[i].FindControl("chk1")).Checked = chk1;
         }
+    }
+    protected void FormView2_DataBound(object sender, EventArgs e)
+    {
+        if ((FormView2.FindControl("chkis_showperson_fix2") as TCheckBoxYN).YesNo == "Y")
+        {
+
+            FormView2.FindControl("txtpersonextcount_max").Visible = true;
+            FormView2.FindControl("txtpersonextcount_min").Visible = true;
+        }
+        else
+        {
+            FormView2.FindControl("txtpersonextcount_max").Visible = false;
+            FormView2.FindControl("txtpersonextcount_min").Visible = false;
+        }
+
     }
 }
 
