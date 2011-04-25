@@ -58,99 +58,115 @@ public partial class WebForm_ActivityCheck : BasePage
         }
 
         DataTable table = new DataTable();
-        ACMS.DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
-        //table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text,cbUnderDept.Checked,ddlC_NAME.SelectedValue  );
-        table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), "", "", "",true, "");
-        if (table.Rows.Count == 0)
-        {
-            clsMyObj.ShowMessage("沒有報名資料");
-            return;
-        }
         DataTable dt = new DataTable();
-        //‧進度excel匯出( 依報名編號、部門、工號、姓名、分機、E-MAIL、進度狀態 )
-
-       
-        dt.Columns.Add ("報名編號",System.Type.GetType("System.String"));
-        dt.Columns.Add("部門代號", System.Type.GetType("System.String"));
-        dt.Columns.Add("部門", System.Type.GetType("System.String"));
-        dt.Columns.Add("工號", System.Type.GetType("System.String"));
-        dt.Columns.Add("姓名", System.Type.GetType("System.String"));
-        dt.Columns.Add("分機", System.Type.GetType("System.String"));
-        dt.Columns.Add("EMAIL", System.Type.GetType("System.String"));
-        dt.Columns.Add("進度狀態", System.Type.GetType("System.String"));
-
-        string teamName = "";
-        int seqno = 0;
-        int seqno1 = 0;
         DataRow dtDr;
-        foreach (DataRow dr in table.Rows)
+
+        try
         {
-            dtDr = dt.NewRow();
-            if (dr["activity_type"].ToString () == "2")
+            ACMS.DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+            //table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), ViewState["DEPT_ID"].ToString(), txtemp_id.Text, txtemp_name.Text,cbUnderDept.Checked,ddlC_NAME.SelectedValue  );
+            table = mySelectorDAO.ActivityCheckQuery(ViewState["activity_id"].ToString(), "", "", "", true, "");
+            if (table.Rows.Count == 0)
             {
-                if (teamName != dr["team_name"].ToString ().Trim ())
+                clsMyObj.ShowMessage("沒有報名資料");
+                return;
+            }
+
+            //‧進度excel匯出( 依報名編號、部門、工號、姓名、分機、E-MAIL、進度狀態 )
+
+
+            dt.Columns.Add("報名編號", System.Type.GetType("System.String"));
+            dt.Columns.Add("部門代號", System.Type.GetType("System.String"));
+            dt.Columns.Add("部門", System.Type.GetType("System.String"));
+            dt.Columns.Add("工號", System.Type.GetType("System.String"));
+            dt.Columns.Add("姓名", System.Type.GetType("System.String"));
+            dt.Columns.Add("分機", System.Type.GetType("System.String"));
+            dt.Columns.Add("EMAIL", System.Type.GetType("System.String"));
+            dt.Columns.Add("進度狀態", System.Type.GetType("System.String"));
+
+            string teamName = "";
+            int seqno = 0;
+            int seqno1 = 0;
+
+            foreach (DataRow dr in table.Rows)
+            {
+                dtDr = dt.NewRow();
+                if (dr["activity_type"].ToString() == "2")
+                {
+                    if (teamName != dr["team_name"].ToString().Trim())
+                    {
+                        seqno++;
+                    }
+                    if (seqno > int.Parse(dr["team_max"].ToString()))
+                    {
+                        seqno1++;
+                    }
+                    teamName = dr["team_name"].ToString().Trim();
+
+                }
+                else
                 {
                     seqno++;
+                    if (seqno > int.Parse(dr["team_max"].ToString()))
+                    {
+                        seqno1++;
+                    }
                 }
-                if (seqno > int.Parse (dr["team_max"].ToString ()))
+                if (seqno1 > 0)
                 {
-                    seqno1++;
+                    dtDr["報名編號"] = "備取:" + seqno1.ToString();
                 }
-                teamName = dr["team_name"].ToString().Trim();
+                else
+                {
+                    dtDr["報名編號"] = "正取:" + seqno.ToString();
+                }
+                dtDr["部門代號"] = dr["DEPT_ID"].ToString();
+                dtDr["部門"] = dr["C_DEPT_NAME"].ToString();
+                dtDr["工號"] = dr["WORK_ID"].ToString();
+                dtDr["姓名"] = dr["NATIVE_NAME"].ToString();
+                dtDr["分機"] = dr["OFFICE_PHONE"].ToString();
+                dtDr["EMAIL"] = dr["OFFICE_MAIL"].ToString();
+                dtDr["進度狀態"] = dr["check_status"].ToString();
 
+
+                dt.Rows.Add(dtDr);
+            }
+
+            if (table != null && table.Rows.Count > 0)
+            {
+                table.Columns[0].ColumnName = "員工編號";
+                table.Columns[1].ColumnName = "員工姓名";
+                table.Columns[2].ColumnName = "員工部門";
+                table.Columns[3].ColumnName = "登錄狀態";
+
+                // 產生 Excel 資料流。
+                //MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;
+                MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(dt) as MemoryStream;
+                // 設定強制下載標頭。
+                //Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Server.UrlEncode("報名登錄狀態")));
+                Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Server.UrlEncode("RegistedStatus")));
+                // 輸出檔案。
+                Response.BinaryWrite(ms.ToArray());
+
+                ms.Close();
+                ms.Dispose();
             }
             else
             {
-                seqno++;
-                if (seqno > int.Parse(dr["team_max"].ToString()))
-                {
-                    seqno1++;
-                }
-            }
-            if (seqno1 > 0)
-            {
-                dtDr["報名編號"] ="備取:"+ seqno1.ToString();
-            }
-            else
-            {
-                dtDr["報名編號"] = "正取:" + seqno.ToString();
-            }
-            dtDr["部門代號"] = dr["DEPT_ID"].ToString();
-            dtDr["部門"] = dr["C_DEPT_NAME"].ToString();
-            dtDr["工號"] = dr["WORK_ID"].ToString();
-            dtDr["姓名"] = dr["NATIVE_NAME"].ToString();
-            dtDr["分機"] = dr["OFFICE_PHONE"].ToString();
-            dtDr["EMAIL"] = dr["OFFICE_MAIL"].ToString();
-            dtDr["進度狀態"] = dr["check_status"].ToString();
+                clsMyObj.ShowMessage("沒有資料!");
 
-
-            dt.Rows.Add(dtDr);
+            }
         }
-
-        if (table != null && table.Rows.Count > 0)
+        catch (Exception ex)
         {
-            table.Columns[0].ColumnName = "員工編號";
-            table.Columns[1].ColumnName = "員工姓名";
-            table.Columns[2].ColumnName = "員工部門";
-            table.Columns[3].ColumnName = "登錄狀態";
-
-            // 產生 Excel 資料流。
-            //MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;
-            MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(dt) as MemoryStream;
-            // 設定強制下載標頭。
-            //Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Server.UrlEncode("報名登錄狀態")));
-            Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Server.UrlEncode("RegistedStatus")));
-            // 輸出檔案。
-            Response.BinaryWrite(ms.ToArray());
-
-            ms.Close();
-            ms.Dispose();
+            WriteErrorLog("ExportDoc", ex.Message, "0");
         }
-        else
+        finally
         {
-            clsMyObj.ShowMessage("沒有資料!");
-
+            if (table != null) table.Dispose();
+            if (dt != null) dt.Dispose();         
         }
+
     }
 
     //更新
@@ -162,7 +178,7 @@ public partial class WebForm_ActivityCheck : BasePage
         }
 
         ACMS.DAO.BaseDAO myBaseDAO = new ACMS.DAO.BaseDAO();
-
+        SqlCommand cmd = new SqlCommand(); ;
         using (SqlConnection myConn = myBaseDAO.MyConn())
         {
             myConn.Open();
@@ -171,7 +187,7 @@ public partial class WebForm_ActivityCheck : BasePage
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand();
+                  
 
                     cmd.Connection = myConn;
                     cmd.Transaction = trans;
@@ -183,13 +199,13 @@ public partial class WebForm_ActivityCheck : BasePage
                         {
                             string emp_id = GridView1.DataKeys[gvr.RowIndex].Values[0].ToString();
                             string activity_type = GridView1.DataKeys[gvr.RowIndex].Values[1].ToString();
-                            
+
                             string status = ddlcheck_status.SelectedValue;
 
                             SqlParameter[] sqlParams = new SqlParameter[3];
 
                             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-                            sqlParams[0].Value = new Guid( ViewState["activity_id"].ToString());
+                            sqlParams[0].Value = new Guid(ViewState["activity_id"].ToString());
                             sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
                             sqlParams[1].Value = emp_id;
                             sqlParams[2] = new SqlParameter("@check_status", SqlDbType.Int);
@@ -205,7 +221,7 @@ public partial class WebForm_ActivityCheck : BasePage
                             {
                                 sb.AppendLine("UPDATE ActivityTeamMember ");
                             }
-               
+
                             sb.AppendLine("set check_status=@check_status ");
                             sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@emp_id; ");
 
@@ -226,6 +242,11 @@ public partial class WebForm_ActivityCheck : BasePage
                     trans.Rollback();
 
                     clsMyObj.ShowMessage("更新失敗!");
+                    WriteErrorLog("Update", ex.Message, "0");
+                }
+                finally
+                { 
+                if (cmd !=null ) cmd.Dispose();
                 }
 
             }

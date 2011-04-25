@@ -66,8 +66,8 @@ public class EMPloyeeDAO : ACMS.DAO.BaseDAO
             EMPloyee.OFFICE_MAIL = DR["OFFICE_MAIL"].ToString();
 
         }
-            
 
+        if (ds != null) ds.Dispose();
         return EMPloyee ;
 
     }

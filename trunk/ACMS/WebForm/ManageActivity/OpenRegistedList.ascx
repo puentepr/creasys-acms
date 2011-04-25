@@ -7,7 +7,7 @@
    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
         <ContentTemplate> 
     
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move; display: none;" Width="800" Height="500" ScrollBars ="Auto">
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style=" display: none;" Width="800" Height="500" ScrollBars ="Auto">
    
     <br /> <asp:updateprogress ID="Updateprogress1" runat="server" DisplayAfter="0">
 

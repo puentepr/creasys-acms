@@ -289,16 +289,18 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                     myFileStream.Write(myFileUpload.FileBytes, 0, myFileUpload.FileBytes.Length);
 
                 }
-                catch
+                catch (Exception ex1)
                 {
                     clsMyObj.ShowMessage("目錄權限不足.無法寫入檔案!");
-
+                    WriteErrorLog("UploadFile", ex1.Message, "0");
 
                 }
             }
             catch (Exception ex)
             {
                 clsMyObj.ShowMessage("檔案上傳時發生錯誤!:" + ex.Message);
+                WriteErrorLog("UploadFile", ex.Message, "0");
+
 
             }
 
@@ -333,13 +335,20 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
     {
         GridView GridView_UpFiles = (GridView)FormView1.FindControl("GridView_UpFiles");
         FileInfo myFileInfo = new FileInfo(GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
-
-        if (myFileInfo.Exists)
+        try
         {
-            myFileInfo.Delete();
-        }
+            if (myFileInfo.Exists)
+            {
+                myFileInfo.Delete();
+            }
 
-        GridView_UpFiles.DataBind();
+            GridView_UpFiles.DataBind();
+        }
+        catch (Exception ex)
+
+        { 
+        WriteErrorLog ("DeleteFile",ex.Message,"0");
+        }
     }
 
     //勾選改變時要必填
@@ -508,6 +517,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
         catch (Exception ex)
         {
             clsMyObj.ShowMessage("存檔失敗!");
+            WriteErrorLog("SaveData", ex.Message, "0");
         }
 
     }
@@ -922,38 +932,66 @@ public partial class WebForm_ManageActivity_ActivityEdit
     //新增
     protected void btnAddCustomField_Click(object sender, EventArgs e)
     {
-        ACMS.VO.CustomFieldVO myCustomFieldVO = new ACMS.VO.CustomFieldVO();
+        try
+        {
+            ACMS.VO.CustomFieldVO myCustomFieldVO = new ACMS.VO.CustomFieldVO();
 
-        myCustomFieldVO.activity_id = ActivityID;
-        myCustomFieldVO.field_name = txtfield_name.Text;
-        myCustomFieldVO.field_control = ddlfield_control.SelectedValue;
+            myCustomFieldVO.activity_id = ActivityID;
+            myCustomFieldVO.field_name = txtfield_name.Text;
+            myCustomFieldVO.field_control = ddlfield_control.SelectedValue;
 
-        ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
-        myCustomFieldDAO.INSERT(myCustomFieldVO);
+            ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
+            myCustomFieldDAO.INSERT(myCustomFieldVO);
 
-        GridView_CustomField.DataBind();
+            GridView_CustomField.DataBind();
 
-        txtfield_name.Text = "";
-        ddlfield_control.SelectedIndex = -1;
+            txtfield_name.Text = "";
+            ddlfield_control.SelectedIndex = -1;
+        }
+        catch (Exception ex)
+
+        {
+            WriteErrorLog("AddCustomField", ex.Message, "0");
+        }
     }
 
     //刪除
     protected void lbtnDeleteCustomField_Click(object sender, EventArgs e)
     {
-        ACMS.VO.CustomFieldVO myCustomFieldVO = new ACMS.VO.CustomFieldVO();
+        try
+        {
+            ACMS.VO.CustomFieldVO myCustomFieldVO = new ACMS.VO.CustomFieldVO();
 
-        int intfield_id = (int)GridView_CustomField.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
+            int intfield_id = (int)GridView_CustomField.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value;
 
-        ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
-        myCustomFieldDAO.DELETE(intfield_id);
+            ACMS.DAO.CustomFieldDAO myCustomFieldDAO = new ACMS.DAO.CustomFieldDAO();
+            myCustomFieldDAO.DELETE(intfield_id);
 
-        GridView_CustomField.DataBind();
+            GridView_CustomField.DataBind();
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("DeleteCustomField", ex.Message, "0");
+            ShowMessageForAjax(GridView_CustomField, ex.Message);
+
+        }
+
     }
 
     //編輯選項
     protected void lbtnEditItem_Click(object sender, EventArgs e)
     {
-        OpenListItem1.InitDataAndShow(Convert.ToInt32((sender as LinkButton).CommandArgument), (((sender as LinkButton).NamingContainer as GridViewRow).FindControl("ddlfield_control") as DropDownList).SelectedValue);
+        try
+        {
+            OpenListItem1.InitDataAndShow(Convert.ToInt32((sender as LinkButton).CommandArgument), (((sender as LinkButton).NamingContainer as GridViewRow).FindControl("ddlfield_control") as DropDownList).SelectedValue);
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("EditItem", ex.Message, "0");
+            ShowMessageForAjax(GridView_CustomField, ex.Message);
+
+        }
+
     }
 
 }
@@ -1028,7 +1066,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
 
                         //}
                         //andy 修正為只有工號
-                        if (row== null )
+                        if (row == null)
                             continue;
 
                         dataRow["activity_id"] = ActivityID;
@@ -1039,8 +1077,9 @@ public partial class WebForm_ManageActivity_ActivityEdit
                     catch (Exception ex1)
                     {
 
+                        WriteErrorLog("UploadGroupLimit", ex1.Message, "0");
+                        ShowMessageForAjax(GridView_CustomField, ex1.Message);
                     }
-
                 }
 
                 workbook = null;
@@ -1054,7 +1093,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
             }
             catch (Exception ex)
             {
-
+                WriteErrorLog("UploadGroupLimit", ex.Message, "0");
                 clsMyObj.ShowMessage("無法正常讀取上傳檔資料!");
             }
 
@@ -1064,7 +1103,15 @@ public partial class WebForm_ManageActivity_ActivityEdit
     //開啟族群限定新增
     protected void btnAddGroupLimit_Click(object sender, EventArgs e)
     {
-        OpenEmployeeSelector1.InitDataAndShow(ActivityID);
+        try
+        {
+            OpenEmployeeSelector1.InitDataAndShow(ActivityID);
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("btnAddGroupLimit", ex.Message, "0");
+            clsMyObj.ShowMessage(ex.Message );
+        }
     }
 
     //選取人員之後
@@ -1114,6 +1161,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
             {
                 trans.Rollback();
                 clsMyObj.ShowMessage("加入族群限定失敗!");
+                WriteErrorLog("GetEmployee", ex.Message, "0");
             }
         }
 
@@ -1135,53 +1183,69 @@ public partial class WebForm_ManageActivity_ActivityEdit
         //=============================================================================
         ACMS.DAO.ActivityGroupLimitDAO myDAO = new ACMS.DAO.ActivityGroupLimitDAO ();
         string empid ;
-        foreach (GridViewRow gr in GridView_GroupLimit.Rows)
+        try
         {
-            if (((CheckBox )gr.FindControl ("chk1")).Checked)
+            foreach (GridViewRow gr in GridView_GroupLimit.Rows)
             {
-                empid =((HiddenField)  gr.FindControl ("hiID")).Value ;
-                myDAO.DELETE(empid, ActivityID);
-            }
+                if (((CheckBox)gr.FindControl("chk1")).Checked)
+                {
+                    empid = ((HiddenField)gr.FindControl("hiID")).Value;
+                    myDAO.DELETE(empid, ActivityID);
+                }
 
+            }
+            GridView_GroupLimit.DataBind();
         }
-        GridView_GroupLimit.DataBind();
+        catch (Exception ex)
+
+        {
+            WriteErrorLog("Del_GroupLimit", ex.Message, "0");
+        }
     }
 
     //匯出族群限定名單
     protected void btnExport_GroupLimit_Click(object sender, EventArgs e)
     {
-        DataTable table = new DataTable();
-        ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
-        table = myActivityGroupLimitDAO.SelectEmployeeByActivity_id(ActivityID);
-
-        if (table != null && table.Rows.Count > 0)
+        try
         {
-            //table.Columns.RemoveAt(0);
-            table.Columns[0].ColumnName = "員工編號";
-            table.Columns[1].ColumnName = "員工姓名";
-            table.Columns[2].ColumnName = "分機";
-            table.Columns[3].ColumnName = "Email";
-            table.Columns[4].ColumnName = "部門編號";
-            table.Columns[5].ColumnName = "部門名稱";
-            table.Columns[6].ColumnName = "部門簡稱";
+            DataTable table = new DataTable();
+            ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
+            table = myActivityGroupLimitDAO.SelectEmployeeByActivity_id(ActivityID);
 
-            // 產生 Excel 資料流。
-            MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;
-            // 設定強制下載標頭。
-            Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Server.UrlEncode("族群限定")));
-            // 輸出檔案。
-            Response.BinaryWrite(ms.ToArray());
+            if (table != null && table.Rows.Count > 0)
+            {
+                //table.Columns.RemoveAt(0);
+                table.Columns[0].ColumnName = "員工編號";
+                table.Columns[1].ColumnName = "員工姓名";
+                table.Columns[2].ColumnName = "分機";
+                table.Columns[3].ColumnName = "Email";
+                table.Columns[4].ColumnName = "部門編號";
+                table.Columns[5].ColumnName = "部門名稱";
+                table.Columns[6].ColumnName = "部門簡稱";
 
-            ms.Close();
-            ms.Dispose();
+                // 產生 Excel 資料流。
+                MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;
+                // 設定強制下載標頭。
+                Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Server.UrlEncode("族群限定")));
+                // 輸出檔案。
+                Response.BinaryWrite(ms.ToArray());
+
+                ms.Close();
+                ms.Dispose();
+            }
+            else
+            {
+                clsMyObj.ShowMessage("沒有資料!");
+
+            }
+            if (table != null) table.Dispose();
+
         }
-        else
+        catch (Exception ex)
+
         {
-            clsMyObj.ShowMessage("沒有資料!");
-
+            WriteErrorLog("ExportLimitGrouop", ex.Message, "0");
         }
-
-
 
 
 

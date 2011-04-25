@@ -150,7 +150,14 @@ namespace ACMS.DAO
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
-            return clsMyObj.GetDataTable(DS);
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+            }
 
         }
 
@@ -197,6 +204,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myActivityRegistVO;
 
         }
@@ -244,6 +253,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myActivityRegistVO;
 
         }
@@ -288,6 +299,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myActivityRegistVO;
 
         }
@@ -1064,6 +1077,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return string.Join(",", myList.ToArray());
         }
 
@@ -1099,6 +1114,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myList;
         }
         /// <summary>

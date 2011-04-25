@@ -16,50 +16,72 @@ public partial class WebForm_ManageRole_ManageUnit : BasePage
 
     protected void btnInsert_Click(object sender, EventArgs e)
     {
-        ACMS.VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
-        myUnitVO.name = txtname.Text;
-
-        ACMS.DAO.UnitDAO myUnitDAO = new ACMS.DAO.UnitDAO();
-        if (myUnitDAO.chkDuplicateName(0, txtname.Text))
+        try
         {
-            clsMyObj.ShowMessage(txtname.Text+ "已重覆.無法新增");
-            return;
-        }
-        myUnitDAO.InsertUnit(myUnitVO);
+            ACMS.VO.UnitVO myUnitVO = new ACMS.VO.UnitVO();
+            myUnitVO.name = txtname.Text;
 
-        GridView1.DataBind();
+            ACMS.DAO.UnitDAO myUnitDAO = new ACMS.DAO.UnitDAO();
+            if (myUnitDAO.chkDuplicateName(0, txtname.Text))
+            {
+                clsMyObj.ShowMessage(txtname.Text + "已重覆.無法新增");
+                return;
+            }
+            myUnitDAO.InsertUnit(myUnitVO);
+
+            GridView1.DataBind();
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("Insert", ex.Message, "0");
+
+        }
     }
     protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
     {
-        ACMS.BO.UnitBO bbl = new ACMS.BO.UnitBO();
-        int id = int.Parse (GridView1.DataKeys[e.RowIndex].Value.ToString ()) ;
-        string name = ((TextBox)GridView1.Rows[e.RowIndex].FindControl("txtname_edit")).Text;
-        if (bbl .chkDuplicateName(id,name))
+        try
         {
-            clsMyObj.ShowMessage(name + "已重覆.無法存檔");
-            e.Cancel = true;
-            return;
+            ACMS.BO.UnitBO bbl = new ACMS.BO.UnitBO();
+            int id = int.Parse(GridView1.DataKeys[e.RowIndex].Value.ToString());
+            string name = ((TextBox)GridView1.Rows[e.RowIndex].FindControl("txtname_edit")).Text;
+            if (bbl.chkDuplicateName(id, name))
+            {
+                clsMyObj.ShowMessage(name + "已重覆.無法存檔");
+                e.Cancel = true;
+                return;
+            }
         }
+        catch (Exception ex)
+        {
+            WriteErrorLog("Updating", ex.Message, "0");
 
+        }
        
 
     }
     protected void GridView1_RowDeleting(object sender, GridViewDeleteEventArgs e)
     {
-        ACMS.BO.UnitBO bbl = new ACMS.BO.UnitBO();
-        int id = int.Parse(GridView1.DataKeys[e.RowIndex].Value.ToString());
-        string name = ((Label)GridView1.Rows[e.RowIndex].FindControl("Label1")).Text;
-        if (bbl.isStart(id))
+        try
         {
-            clsMyObj.ShowMessage(name + "已使用無法刪除資料");
-            e.Cancel = true;
-            return;
-        }
+            ACMS.BO.UnitBO bbl = new ACMS.BO.UnitBO();
+            int id = int.Parse(GridView1.DataKeys[e.RowIndex].Value.ToString());
+            string name = ((Label)GridView1.Rows[e.RowIndex].FindControl("Label1")).Text;
+            if (bbl.isStart(id))
+            {
+                clsMyObj.ShowMessage(name + "已使用無法刪除資料");
+                e.Cancel = true;
+                return;
+            }
             bbl.Delete(id);
             GridView1.DataBind();
             e.Cancel = true;
-       
-  
+
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("Delete", ex.Message, "0");
+
+        }
     }
   
 }

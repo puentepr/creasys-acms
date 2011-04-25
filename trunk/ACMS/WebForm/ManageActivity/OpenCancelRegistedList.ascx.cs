@@ -17,10 +17,12 @@ public partial class WebForm_RegistActivity_OpenCancelRegistedList : System.Web.
     }
     protected void btnQuery_Click(object sender, EventArgs e)
     {
-      
-        this.InitDataAndShow();  
-        GridView1.Visible = true;
-        GridView1.DataBind();
+       
+            this.InitDataAndShow();
+            GridView1.Visible = true;
+            GridView1.DataBind();
+        
+
     }
     
     protected void GridView1_PageIndexChanged(object sender, EventArgs e)

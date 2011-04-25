@@ -33,6 +33,8 @@ namespace ACMS.DAO
             }
             myIDataReader.Close();
             aconn.Close();
+            if (myIDataReader != null) myIDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myUnitVOList;
         }
         /// <summary>

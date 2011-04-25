@@ -31,52 +31,60 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Wizard1.ActiveStepIndex >= 1)
+        try
         {
-            InitQueryBlock(ActivityID.ToString());
+            if (Wizard1.ActiveStepIndex >= 1)
+            {
+                InitQueryBlock(ActivityID.ToString());
+            }
+            if (!IsPostBack)
+            {
+                Session.Remove("form_mode1");
+                Session["ShowPanel"] = false;
+                Session.Remove("Team");
+                ((MyMasterPage)(this.Master)).PanelMainGroupingText = "個人報名";
+                Wizard1.Visible = false;
+
+                if (Session["form_mode"] != null && Session["activity_id"] != null)
+                {
+                    //以新增方式進來時
+                    if (Session["form_mode"].ToString() == "regist")
+                    {
+                        RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
+
+                        GoSecondStep_Click(null, myRegistGoSecondEventArgs);
+                    }
+                    //以預覽方式進來時
+                    if (Session["form_mode"].ToString() == "preview")
+                    {
+                        hiMode1.Value = "preview";
+                        Session["form_mode1"] = "preview";
+                        RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
+
+                        GoSecondStep_Click(null, myRegistGoSecondEventArgs);
+                    }
+                    if (Session["form_mode"].ToString() == "edit")
+                    {
+                        //以編輯方式進來時
+                        GoThirdStep_Click(null, null);
+                    }
+                }
+                else
+                {
+                    //先查詢,再 GoSecondStep_Click
+
+                }
+
+
+
+                Session["form_mode"] = null;
+                //Session["activity_id"] = null;
+
+            }
         }
-        if (!IsPostBack)
+        catch (Exception ex)
         {
-            Session.Remove ("form_mode1");
-            Session ["ShowPanel"] = false;
-            Session.Remove("Team");
-           ( (MyMasterPage)(this.Master )).PanelMainGroupingText = "個人報名";
-            Wizard1.Visible = false;
-
-            if (Session["form_mode"] != null && Session["activity_id"] != null)
-            {
-                //以新增方式進來時
-                if (Session["form_mode"].ToString() == "regist")
-                {
-                    RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
-                   
-                    GoSecondStep_Click(null, myRegistGoSecondEventArgs);
-                }
-                //以預覽方式進來時
-                if (Session["form_mode"].ToString() == "preview")
-                {
-                    hiMode1.Value = "preview";
-                    Session["form_mode1"] = "preview";
-                    RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
-                   
-                    GoSecondStep_Click(null, myRegistGoSecondEventArgs);
-                }
-                if (Session["form_mode"].ToString() == "edit")
-                {
-                    //以編輯方式進來時
-                    GoThirdStep_Click(null, null);
-                }
-            }
-            else
-            {
-                //先查詢,再 GoSecondStep_Click
-
-            }
-
-
-
-            Session["form_mode"] = null;
-            //Session["activity_id"] = null;
+            WriteErrorLog("PageLoad", ex.Message, "0");
 
         }
     }
@@ -84,31 +92,32 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //新增報名
     protected void GoSecondStep_Click(object sender, RegistGoSecondEventArgs e)
     {
-        Wizard1.MoveTo(Wizard1.WizardSteps[0]);
-
-        RegistActivity_Query1.Visible = false;
-        Wizard1.Visible = true;
-
-        //必要屬性
-        MyFormMode = FormViewMode.Insert;
-
-
-        ActivityID = e.activity_id;
-
-        EmpID = clsAuth.ID;//預設是登入者
-        RegistBy = clsAuth.ID;//執行是登入者
-
-        PanelRegisterInfoA.Visible = true;
-        PanelRegisterInfoB.Visible = false;
-
-
-
-        MyHiddenField.Value = ActivityID.ToString();
-       
-        //載入活動資訊
-        GetActivityDefault();
         try
         {
+            Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+
+            RegistActivity_Query1.Visible = false;
+            Wizard1.Visible = true;
+
+            //必要屬性
+            MyFormMode = FormViewMode.Insert;
+
+
+            ActivityID = e.activity_id;
+
+            EmpID = clsAuth.ID;//預設是登入者
+            RegistBy = clsAuth.ID;//執行是登入者
+
+            PanelRegisterInfoA.Visible = true;
+            PanelRegisterInfoB.Visible = false;
+
+
+
+            MyHiddenField.Value = ActivityID.ToString();
+
+            //載入活動資訊
+            GetActivityDefault();
+
             ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
             ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
@@ -121,8 +130,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
             //    ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
             //}
         }
-        catch
+        catch (Exception ex)
         {
+            WriteErrorLog("SecondStep", ex.Message, "0");
+
         }
 
 
@@ -132,83 +143,93 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //編輯
     protected void GoThirdStep_Click(object sender, RegistGoSecondEventArgs e)
     {
-        Wizard1.MoveTo(Wizard1.WizardSteps[1]);
-      
-        RegistActivity_Query1.Visible = false;
-        Wizard1.Visible = true;
-
-        //必要屬性
-        MyFormMode = FormViewMode.Insert;
-        ActivityID = new Guid(Session["activity_id"].ToString());
-       
-        EmpID = clsAuth.ID;//預設是登入者 為了讓FormView顯示
-        RegistBy = clsAuth.ID;//執行是登入者
-
-        MyFormMode = FormViewMode.Edit;
-
-        PanelRegisterInfoA.Visible = false;
-        PanelRegisterInfoB.Visible = true;
-
-
-
-        MyHiddenField.Value = ActivityID.ToString();
-
-        //載入活動資訊
-        GetActivityDefault();
         try
         {
-    
-            
-        ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+            Wizard1.MoveTo(Wizard1.WizardSteps[1]);
+
+            RegistActivity_Query1.Visible = false;
+            Wizard1.Visible = true;
+
+            //必要屬性
+            MyFormMode = FormViewMode.Insert;
+            ActivityID = new Guid(Session["activity_id"].ToString());
+
+            EmpID = clsAuth.ID;//預設是登入者 為了讓FormView顯示
+            RegistBy = clsAuth.ID;//執行是登入者
+
+            MyFormMode = FormViewMode.Edit;
+
+            PanelRegisterInfoA.Visible = false;
+            PanelRegisterInfoB.Visible = true;
+
+
+
+            MyHiddenField.Value = ActivityID.ToString();
+
+            //載入活動資訊
+            GetActivityDefault();
+
+
+
+            ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
             ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
 
 
         }
-        catch
+        catch (Exception ex)
         {
+            WriteErrorLog("ThirdStep", ex.Message, "0");
+
         }
     }
 
     private void GetActivityDefault()
     {
-        InitQueryBlock(ActivityID.ToString());
-        //取得活動資訊
-        ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
-        ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
-
-        //報名截止日後要唯讀
-        if (myActivatyVO.regist_deadline < DateTime.Today)
+        try
         {
-            MyFormMode = FormViewMode.ReadOnly;
-            GridView_RegisterPeoplinfo.Enabled = false;
-            PanelCustomFieldA1.Enabled = false;
+            InitQueryBlock(ActivityID.ToString());
+            //取得活動資訊
+            ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
+            ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
+
+            //報名截止日後要唯讀
+            if (myActivatyVO.regist_deadline < DateTime.Today)
+            {
+                MyFormMode = FormViewMode.ReadOnly;
+                GridView_RegisterPeoplinfo.Enabled = false;
+                PanelCustomFieldA1.Enabled = false;
+            }
+
+            //活動海報訊息
+            Literal1.Text = myActivatyVO.activity_info;
+
+            //活動相關訊息
+            ObjectDataSource_ActivatyDetails.SelectParameters["id"].DefaultValue = ActivityID.ToString();
+            ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
+
+            //報名者資訊
+            ObjectDataSource_RegisterPersonInfo.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;//預設登入者
+
+            //所有報名者資訊
+            ObjectDataSource_RegisterPeoplenfo.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
+            ObjectDataSource_RegisterPeoplenfo.SelectParameters["emp_id"].DefaultValue = RegistBy;//由登入者所報名(含登入者本人)   
+
+            //注意事項
+            Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
+
+            FormView_fixA.DataBind();
+            ACMS.BO.CustomFieldBO myCustFieldBo = new ACMS.BO.CustomFieldBO();
+            if (myCustFieldBo.SelectByActivity_id(ActivityID).Count > 0)
+            {
+                Session["ShowPanel"] = true;
+
+            }
         }
-
-        //活動海報訊息
-        Literal1.Text = myActivatyVO.activity_info;
-
-        //活動相關訊息
-        ObjectDataSource_ActivatyDetails.SelectParameters["id"].DefaultValue = ActivityID.ToString();
-        ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
-
-        //報名者資訊
-        ObjectDataSource_RegisterPersonInfo.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;//預設登入者
-
-        //所有報名者資訊
-        ObjectDataSource_RegisterPeoplenfo.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
-        ObjectDataSource_RegisterPeoplenfo.SelectParameters["emp_id"].DefaultValue = RegistBy;//由登入者所報名(含登入者本人)   
-
-        //注意事項
-        Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
-
-        FormView_fixA.DataBind();
-        ACMS.BO.CustomFieldBO myCustFieldBo = new ACMS.BO.CustomFieldBO();
-        if (myCustFieldBo.SelectByActivity_id(ActivityID).Count > 0)
+        catch (Exception ex)
         {
-            Session["ShowPanel"] = true;
+            WriteErrorLog("GetDefault", ex.Message, "0");
 
         }
-
         //FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
         //FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
 
@@ -252,29 +273,39 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                 ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
             }
         }
-        catch
+        catch (Exception ex)
         {
+            WriteErrorLog("ActivityDetailDataBind", ex.Message, "0");
+
         }
     }
 
     //下載檔案
     protected void lbtnFileDownload_Click(object sender, EventArgs e)
     {
-        GridView GridView_UpFiles = (GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles");
-        FileInfo myFileInfo = new FileInfo(GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
-
-        //ScriptManager.RegisterClientScriptBlock(HttpContext.Current.Handler as Page, typeof(string), string.Format("alert_{0}", DateTime.Now.ToString("hhmmss")), js, true);
-        string fileName = GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
-        fileName = this.ResolveUrl("~/Upfiles/" + fileName.Substring(fileName.IndexOf(ActivityID.ToString())));
-
-
-        if (myFileInfo.Exists)
+        try
         {
-            //    Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
-            //    // 輸出檔案。
-            //    Response.WriteFile(myFileInfo.FullName);
-           // Response.Write("<script type=\"text/javascript\"> window.open('" + fileName + "')</script>");
-            ScriptManager.RegisterClientScriptBlock(this, typeof(string), string.Format("alert_{0}", DateTime.Now.ToString("hhmmss")), " window.open('" + fileName + "')", true);
+            GridView GridView_UpFiles = (GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles");
+            FileInfo myFileInfo = new FileInfo(GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+
+            //ScriptManager.RegisterClientScriptBlock(HttpContext.Current.Handler as Page, typeof(string), string.Format("alert_{0}", DateTime.Now.ToString("hhmmss")), js, true);
+            string fileName = GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+            fileName = this.ResolveUrl("~/Upfiles/" + fileName.Substring(fileName.IndexOf(ActivityID.ToString())));
+
+
+            if (myFileInfo.Exists)
+            {
+                //    Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
+                //    // 輸出檔案。
+                //    Response.WriteFile(myFileInfo.FullName);
+                // Response.Write("<script type=\"text/javascript\"> window.open('" + fileName + "')</script>");
+                ScriptManager.RegisterClientScriptBlock(this, typeof(string), string.Format("alert_{0}", DateTime.Now.ToString("hhmmss")), " window.open('" + fileName + "')", true);
+            }
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("DownLoadFile", ex.Message, "0");
+
         }
        
     }
@@ -282,21 +313,37 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //開啟選擇報名者視窗
     protected void btnAgent_Click(object sender, EventArgs e)
     {
-        OpenAgentSelector1.TitleName = "代理報名";
-        //OpenAgentSelector1.OkName = "報名";
-        OpenAgentSelector1.InitDataAndShow(ActivityID.ToString());
+        try
+        {
+            OpenAgentSelector1.TitleName = "代理報名";
+            //OpenAgentSelector1.OkName = "報名";
+            OpenAgentSelector1.InitDataAndShow(ActivityID.ToString());
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("Agent", ex.Message, "0");
+
+        }
     }
 
     //選取人員之後指定EmpID
     protected void GetSmallEmployees_Click(object sender, GetEmployeeEventArgs e)
     {
-        EmpID = e.id;
-        ObjectDataSource_RegisterPersonInfo.SelectParameters["emp_id"].DefaultValue = e.id;
-        FormView_RegisterPersonInfo.DataBind();
+        try
+        {
+            EmpID = e.id;
+            ObjectDataSource_RegisterPersonInfo.SelectParameters["emp_id"].DefaultValue = e.id;
+            FormView_RegisterPersonInfo.DataBind();
 
-        //個人固定欄位
-        ObjectDataSource_fixA.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
-        ObjectDataSource_fixA.SelectParameters["emp_id"].DefaultValue = EmpID;
+            //個人固定欄位
+            ObjectDataSource_fixA.SelectParameters["activity_id"].DefaultValue = ActivityID.ToString();
+            ObjectDataSource_fixA.SelectParameters["emp_id"].DefaultValue = EmpID;
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("GetSmallEmployees", ex.Message, "0");
+
+        }
 
     }
 
@@ -527,68 +574,75 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
-
-        //預覽時
-        if (Session["form_mode1"] != null)
+        try
         {
-            if (Session["form_mode1"].ToString() == "preview")
+            //預覽時
+            if (Session["form_mode1"] != null)
             {
-                Session.Remove("form_mode1");
-                Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+                if (Session["form_mode1"].ToString() == "preview")
+                {
+                    Session.Remove("form_mode1");
+                    Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+                }
             }
+
+
+
+            if (MyFormMode == FormViewMode.ReadOnly)
+            {
+                Response.Redirect("RegistedActivityQuery.aspx?type=1");
+            }
+
+            //以新增方式進來時
+            ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
+            List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
+            //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+            string path = Server.MapPath("~/UpFiles");
+            //報名
+            MySingleton.AlterRegistResult MyResult;
+
+            if (MyFormMode == FormViewMode.Insert)
+            {
+
+                //MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+                string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+
+            }
+            else
+            {
+                // MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+                string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+
+            }
+
+
+            if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
+            {
+                clsMyObj.ShowMessage("已存在報名成功紀錄，無法重複報名!");
+            }
+            else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
+            {
+                clsMyObj.ShowMessage(@"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
+            }
+            else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
+            {
+                clsMyObj.ShowMessage(@"資料存檔發生錯誤，無法完成報名。");
+            }
+            else
+            {
+
+
+            }
+
+
         }
-        
-
-
-        if (MyFormMode == FormViewMode.ReadOnly)
+        catch (Exception ex)
         {
-            Response.Redirect("RegistedActivityQuery.aspx?type=1");
+            WriteErrorLog("SaveData", ex.Message, "0");
         }
-
-        //以新增方式進來時
-        ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
-        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
-        //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
-        string path = Server.MapPath("~/UpFiles");
-        //報名
-        MySingleton.AlterRegistResult MyResult;
-
-        if (MyFormMode == FormViewMode.Insert)
-        {
-
-            //MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
-            string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
-
-        }
-        else
-        {
-           // MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
-            string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-            MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
-
-        }
-
-
-        if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
-        {
-            clsMyObj.ShowMessage("已存在報名成功紀錄，無法重複報名!");
-        }
-        else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
-        {
-            clsMyObj.ShowMessage(@"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
-        }
-        else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
-        {
-            clsMyObj.ShowMessage(@"資料存檔發生錯誤，無法完成報名。");
-        }
-        else
-        {
-            Response.Redirect("RegistedActivityQuery.aspx");
-        }
-
-
-
+        Response.Redirect("RegistedActivityQuery.aspx?type=1");
     }
 
     protected void FormView_fixA_DataBound(object sender, EventArgs e)

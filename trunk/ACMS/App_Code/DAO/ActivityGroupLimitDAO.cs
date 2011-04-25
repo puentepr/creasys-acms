@@ -13,20 +13,20 @@ namespace ACMS.DAO
         /// </summary>
         /// <param name="table">限制人員清單</param>
         /// <param name="activity_id">活動代號</param>
-        public void UpdateDataSet(DataTable table,Guid activity_id )
+        public void UpdateDataSet(DataTable table, Guid activity_id)
         {
 
             //===========andy 修正為直接加入ActivityGroupLimit,因為只傳入Work_ID
             StringBuilder sb = new StringBuilder();
             sb.AppendFormat(" insert into ActivityGroupLimit(activity_id,emp_id) select @activity_id,ID  from V_ACSM_USER2 where WORK_ID=@WORK_ID");
-            
+
             foreach (DataRow dr in table.Rows)
             {
                 SqlParameter[] sqlParams = new SqlParameter[2];
                 sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
                 sqlParams[0].Value = activity_id;
                 sqlParams[1] = new SqlParameter("@WORK_ID", SqlDbType.NVarChar, 50);
-                
+
                 sqlParams[1].Value = dr[1].ToString();
 
                 try
@@ -40,27 +40,27 @@ namespace ACMS.DAO
                 }
             }
             //===============================================()
-         //   StringBuilder sb = new StringBuilder();
+            //   StringBuilder sb = new StringBuilder();
 
-         //   sb.AppendFormat("SELECT A.activity_id,B.Work_ID, FROM ActivityGroupLimit A left join V_ACMS_USER2 B on A.emp_id=B.ID  WHERE 1=2");
+            //   sb.AppendFormat("SELECT A.activity_id,B.Work_ID, FROM ActivityGroupLimit A left join V_ACMS_USER2 B on A.emp_id=B.ID  WHERE 1=2");
 
-         //   SqlCommand mySqlCommand = new SqlCommand(sb.ToString());
-         //   mySqlCommand.Connection = MyConn();
+            //   SqlCommand mySqlCommand = new SqlCommand(sb.ToString());
+            //   mySqlCommand.Connection = MyConn();
 
-         //   SqlDataAdapter adapter = new SqlDataAdapter();
-         //   adapter.SelectCommand = mySqlCommand;
-         //   SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
+            //   SqlDataAdapter adapter = new SqlDataAdapter();
+            //   adapter.SelectCommand = mySqlCommand;
+            //   SqlCommandBuilder builder = new SqlCommandBuilder(adapter);
 
-         ////
-         //   DataTable DT = SelectCheckExistEmployeeByActivity_id(activity_id);
+            ////
+            //   DataTable DT = SelectCheckExistEmployeeByActivity_id(activity_id);
 
 
-         //   if (DT != null && DT.Rows.Count > 0)
-         //   {
-         //       table = Difference(table, DT);               
-         //   }
+            //   if (DT != null && DT.Rows.Count > 0)
+            //   {
+            //       table = Difference(table, DT);               
+            //   }
 
-         //   int n = adapter.Update(table);
+            //   int n = adapter.Update(table);
 
         }
 
@@ -88,7 +88,15 @@ namespace ACMS.DAO
 
             if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
             {
-                return DS.Tables[0];
+                try
+                {
+                    return DS.Tables[0];
+                }
+                finally
+                {
+                    if (DS != null) DS.Dispose();
+
+                }
             }
             else
             {
@@ -106,9 +114,9 @@ namespace ACMS.DAO
         /// <returns>匯出族群名單</returns>
         public DataTable SelectEmployeeByActivity_id(Guid activity_id)
         {
-             StringBuilder sb = new StringBuilder();
+            StringBuilder sb = new StringBuilder();
 
-           SqlParameter[] sqlParams = new SqlParameter[1];
+            SqlParameter[] sqlParams = new SqlParameter[1];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
@@ -123,7 +131,14 @@ namespace ACMS.DAO
 
             if (DS != null && DS.Tables.Count > 0 && DS.Tables[0].Rows.Count > 0)
             {
-                return DS.Tables[0];
+                try
+                {
+                    return DS.Tables[0];
+                }
+                finally
+                {
+                    if (DS != null) DS.Dispose();
+                }
             }
             else
             {
@@ -170,6 +185,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myEmployeeVOList;
 
         }
@@ -181,13 +198,13 @@ namespace ACMS.DAO
         /// <param name="myActivityGroupLimitVO">限制人員清單</param>
         /// <param name="trans">資料庫交易物件</param>
         /// <returns>新增限制人員清單</returns>
-        public int INSERT(VO.ActivityGroupLimitVO myActivityGroupLimitVO,SqlTransaction trans)
+        public int INSERT(VO.ActivityGroupLimitVO myActivityGroupLimitVO, SqlTransaction trans)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = myActivityGroupLimitVO.activity_id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar,50);
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 50);
             sqlParams[1].Value = myActivityGroupLimitVO.emp_id;
 
             StringBuilder sb = new StringBuilder();
@@ -212,7 +229,7 @@ namespace ACMS.DAO
 
             sqlParams[0] = new SqlParameter("@id", SqlDbType.Int);
             sqlParams[0].Value = id;
-           
+
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("DELETE ActivityGroupLimit WHERE id=@id; ");
@@ -220,19 +237,19 @@ namespace ACMS.DAO
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
 
-       /// <summary>
+        /// <summary>
         /// 刪除活動限制名冊
-       /// </summary>
-       /// <param name="emp_id">員工</param>
-       /// <param name="id">活動代號</param>
-       /// <returns></returns>
-        public int DELETE(string  emp_id,Guid id)
+        /// </summary>
+        /// <param name="emp_id">員工</param>
+        /// <param name="id">活動代號</param>
+        /// <returns></returns>
+        public int DELETE(string emp_id, Guid id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];
 
-            sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier );
+            sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar,emp_id.Length );
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, emp_id.Length);
             sqlParams[1].Value = emp_id;
 
             StringBuilder sb = new StringBuilder();
@@ -288,9 +305,17 @@ namespace ACMS.DAO
                 }
                 table.EndLoadData();
             }
-            return table;
+            try
+            {
+                return table;
+            }
+            finally
+            {
+                if (table != null) table.Dispose();
+
+
+            }
+
         }
-
-
     }
 }

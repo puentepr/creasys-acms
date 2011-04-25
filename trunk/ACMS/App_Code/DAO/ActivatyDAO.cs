@@ -59,8 +59,14 @@ namespace ACMS.DAO
             sb.AppendLine("AND A.id=@id ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            return clsMyObj.GetDataTable(DS);      
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+            }
 
         }
         /// <summary>
@@ -123,6 +129,9 @@ namespace ACMS.DAO
             
             MyDataReader.Close();
             aconn.Close();
+
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myActivatyVO;
 
         }
@@ -284,11 +293,18 @@ namespace ACMS.DAO
             sb.AppendLine("left join RoleUserMapping B on a.org_id =b.unit_id ");
             sb.AppendLine("where A.id =@id and B.emp_id =@emp_id ");
             DataSet ds = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-            if (ds.Tables[0].Rows.Count>0)
-                return true;
+            try
+            {
+                if (ds.Tables[0].Rows.Count > 0)
+                    return true;
 
-            if (ds.Tables[1].Rows.Count>0)
-                return true;
+                if (ds.Tables[1].Rows.Count > 0)
+                    return true;
+            }
+            finally
+            {
+                if (ds != null) ds.Dispose();
+            }
             return false ;
         }
 
