@@ -19,8 +19,17 @@ public partial class WebForm_ManageRole_ManageRole : BasePage
     //開窗選人
     protected void btnQueryPerson_Click(object sender, EventArgs e)
     {
-        OpenEmployeeSelector1.TitleName = "選取人員";
-        OpenEmployeeSelector1.InitDataAndShow(); 
+        try
+        {
+            OpenEmployeeSelector1.TitleName = "選取人員";
+            OpenEmployeeSelector1.InitDataAndShow();
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("QueryPerson", ex.Message, "0");
+
+        }
+
     }
 
     //選取人員之後
@@ -34,38 +43,54 @@ public partial class WebForm_ManageRole_ManageRole : BasePage
     //新增
     protected void btnInsert_Click(object sender, EventArgs e)
     {
-        ACMS.VO.RoleUserMappingVO myRoleUserMappingVO = new ACMS.VO.RoleUserMappingVO();
-        myRoleUserMappingVO.role_id = Convert.ToInt32(ddlRole.SelectedValue);
-
-        if (ddlRole.SelectedIndex > 1)
+        try
         {
-            myRoleUserMappingVO.unit_id = Convert.ToInt32(ddlUnit.SelectedValue);
+            ACMS.VO.RoleUserMappingVO myRoleUserMappingVO = new ACMS.VO.RoleUserMappingVO();
+            myRoleUserMappingVO.role_id = Convert.ToInt32(ddlRole.SelectedValue);
+
+            if (ddlRole.SelectedIndex > 1)
+            {
+                myRoleUserMappingVO.unit_id = Convert.ToInt32(ddlUnit.SelectedValue);
+            }
+            else
+            {
+                myRoleUserMappingVO.unit_id = 0;
+            }
+
+            myRoleUserMappingVO.emp_id = txtEmployee.Text.Replace("(", "").Replace(")", "");
+
+            ACMS.DAO.RoleUserMappingDAO myRoleUserMappingDAO = new ACMS.DAO.RoleUserMappingDAO();
+            myRoleUserMappingDAO.InsertRoleUserMapping(myRoleUserMappingVO);
+
+            GridView1.DataBind();
         }
-        else
+        catch (Exception ex)
         {
-            myRoleUserMappingVO.unit_id = 0;
+            WriteErrorLog("Insert", ex.Message, "0");
+
         }
-   
-        myRoleUserMappingVO.emp_id = txtEmployee.Text.Replace ("(","").Replace (")","");
-
-        ACMS.DAO.RoleUserMappingDAO myRoleUserMappingDAO = new ACMS.DAO.RoleUserMappingDAO();
-        myRoleUserMappingDAO.InsertRoleUserMapping(myRoleUserMappingVO);
-
-        GridView1.DataBind();
     }
 
     //刪除
     protected void lbtnDelete_Click(object sender, EventArgs e)
     {
-        string id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        try
+        {
+            string id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
 
-        ACMS.VO.RoleUserMappingVO myRoleUserMappingVO = new ACMS.VO.RoleUserMappingVO();
-        myRoleUserMappingVO.id = Convert.ToInt32(id);
-     
-        ACMS.DAO.RoleUserMappingDAO myRoleUserMappingDAO = new ACMS.DAO.RoleUserMappingDAO();
-        myRoleUserMappingDAO.DeleteRoleUserMapping(myRoleUserMappingVO);
+            ACMS.VO.RoleUserMappingVO myRoleUserMappingVO = new ACMS.VO.RoleUserMappingVO();
+            myRoleUserMappingVO.id = Convert.ToInt32(id);
 
-        GridView1.DataBind();
+            ACMS.DAO.RoleUserMappingDAO myRoleUserMappingDAO = new ACMS.DAO.RoleUserMappingDAO();
+            myRoleUserMappingDAO.DeleteRoleUserMapping(myRoleUserMappingVO);
+
+            GridView1.DataBind();
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("Delete", ex.Message, "0");
+
+        }
     }
 
     //變更選取角色

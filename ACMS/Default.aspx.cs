@@ -9,11 +9,19 @@ public partial class _Default : BasePage
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (!IsPostBack)
+        try
         {
-            ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
-            ObjectDataSource2.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
-           
+            if (!IsPostBack)
+            {
+                ObjectDataSource1.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
+                ObjectDataSource2.SelectParameters["emp_id"].DefaultValue = clsAuth.ID;
+
+            }
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("PageLoad", ex.Message, "0");
+
         }
     }
 

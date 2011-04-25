@@ -92,50 +92,57 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     protected void GoSecondStep_Click(object sender, RegistGoSecondEventArgs e)
     {
 
-
-        RegistActivity_Query1.Visible = false;
-        Wizard1.Visible = true;
-
-        //必要屬性
-        MyFormMode = FormViewMode.Insert;
-        ActivityID = e.activity_id;
-        EmpID = clsAuth.ID;//預設是登入者
-        RegistBy = clsAuth.ID;//執行是登入者
-
-        MyHiddenField.Value = ActivityID.ToString();
-
-        //載入活動資訊
-        GetActivityDefault();
-
-        //登入者為第一個團員
-        ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = new ACMS.VO.ActivityTeamMemberVO();
-
-        myActivityTeamMemberVO.activity_id = ActivityID;
-        myActivityTeamMemberVO.emp_id =clsAuth.ID;
-        myActivityTeamMemberVO.boss_id = RegistBy;
-        myActivityTeamMemberVO.idno = "";
-        myActivityTeamMemberVO.remark = "";
-        myActivityTeamMemberVO.check_status = 0;
-
-        myActivityTeamMemberVO.WORK_ID =clsAuth.WORK_ID;
-        myActivityTeamMemberVO.NATIVE_NAME = clsAuth.NATIVE_NAME;
-        myActivityTeamMemberVO.C_DEPT_ABBR = clsAuth.C_DEPT_ABBR;
-        myActivityTeamMemberVO.C_DEPT_NAME = clsAuth.C_DEPT_NAME;
-
-        myActivityTeamMemberVO.WritePersonInfo = "否";
-
-        //新增時，預設帶入登入者當團長
-        if (!Page_ActivityTeamMemberVOList.Exists(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == myActivityTeamMemberVO.emp_id; }))
+        try
         {
-            Page_ActivityTeamMemberVOList.Add(myActivityTeamMemberVO);
+            RegistActivity_Query1.Visible = false;
+            Wizard1.Visible = true;
+
+            //必要屬性
+            MyFormMode = FormViewMode.Insert;
+            ActivityID = e.activity_id;
+            EmpID = clsAuth.ID;//預設是登入者
+            RegistBy = clsAuth.ID;//執行是登入者
+
+            MyHiddenField.Value = ActivityID.ToString();
+
+            //載入活動資訊
+            GetActivityDefault();
+
+            //登入者為第一個團員
+            ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = new ACMS.VO.ActivityTeamMemberVO();
+
+            myActivityTeamMemberVO.activity_id = ActivityID;
+            myActivityTeamMemberVO.emp_id = clsAuth.ID;
+            myActivityTeamMemberVO.boss_id = RegistBy;
+            myActivityTeamMemberVO.idno = "";
+            myActivityTeamMemberVO.remark = "";
+            myActivityTeamMemberVO.check_status = 0;
+
+            myActivityTeamMemberVO.WORK_ID = clsAuth.WORK_ID;
+            myActivityTeamMemberVO.NATIVE_NAME = clsAuth.NATIVE_NAME;
+            myActivityTeamMemberVO.C_DEPT_ABBR = clsAuth.C_DEPT_ABBR;
+            myActivityTeamMemberVO.C_DEPT_NAME = clsAuth.C_DEPT_NAME;
+
+            myActivityTeamMemberVO.WritePersonInfo = "否";
+
+            //新增時，預設帶入登入者當團長
+            if (!Page_ActivityTeamMemberVOList.Exists(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == myActivityTeamMemberVO.emp_id; }))
+            {
+                Page_ActivityTeamMemberVOList.Add(myActivityTeamMemberVO);
+            }
+
+            GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
+            GridView_TemMember.DataBind();
+
+            Wizard1.MoveTo(Wizard1.WizardSteps[0]);
+            InitQueryBlock(ActivityID.ToString());
+
         }
+        catch (Exception ex)
+        {
+            WriteErrorLog("SecondStep", ex.Message, "0");
 
-        GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
-        GridView_TemMember.DataBind();
-
-        Wizard1.MoveTo(Wizard1.WizardSteps[0]);
-        InitQueryBlock(ActivityID.ToString());
-
+        }
 
     }
 
@@ -143,172 +150,188 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //編輯
     protected void GoThirdStep_Click(object sender, RegistGoSecondEventArgs e)
     {
-        RegistActivity_Query1.Visible = false;
-        Wizard1.Visible = true;
-      
-
-        //必要屬性
-        MyFormMode = FormViewMode.Edit;
-        ActivityID = new Guid(Session["activity_id"].ToString());
-
-        //載入報名資訊
-        ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
-        ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
-
-        myActivityRegistVO = myActivityRegistDAO.SelectActivityRegistByMemberID(ActivityID, clsAuth.ID);
-
-        EmpID =clsAuth.ID;
-        RegistBy = myActivityRegistVO.regist_by;
-
-        MyHiddenField.Value = ActivityID.ToString();
-
-        txtteam_name.Text = myActivityRegistVO.team_name;
-        txtext_people.Text = myActivityRegistVO.ext_people.ToString();
-
-
-        //不是團長不可編輯
-        if (EmpID != RegistBy)
-        {
-            txtteam_name.Enabled = false;
-            txtext_people.Enabled = false;
-
-            btnAddTeamMember.Visible = false;
-            //自訂欄位
-            PanelCustomFieldA1.Enabled = false;
-        }
-
-        //載入活動資訊
-        GetActivityDefault();
-
-
-        //編輯時，帶入資料庫資料
-
-        ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
-
-        Page_ActivityTeamMemberVOList =  myActivityTeamMemberDAO.SelectActivityTeamMember(ActivityID,RegistBy);
-
-        GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
-        GridView_TemMember.DataBind();
-
-
-        Wizard1.MoveTo(Wizard1.WizardSteps[1]);
         try
         {
-            ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
-            ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+            RegistActivity_Query1.Visible = false;
+            Wizard1.Visible = true;
+
+
+            //必要屬性
+            MyFormMode = FormViewMode.Edit;
+            ActivityID = new Guid(Session["activity_id"].ToString());
+
+            //載入報名資訊
+            ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+            ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
+
+            myActivityRegistVO = myActivityRegistDAO.SelectActivityRegistByMemberID(ActivityID, clsAuth.ID);
+
+            EmpID = clsAuth.ID;
+            RegistBy = myActivityRegistVO.regist_by;
+
+            MyHiddenField.Value = ActivityID.ToString();
+
+            txtteam_name.Text = myActivityRegistVO.team_name;
+            txtext_people.Text = myActivityRegistVO.ext_people.ToString();
+
+
+            //不是團長不可編輯
+            if (EmpID != RegistBy)
+            {
+                txtteam_name.Enabled = false;
+                txtext_people.Enabled = false;
+
+                btnAddTeamMember.Visible = false;
+                //自訂欄位
+                PanelCustomFieldA1.Enabled = false;
+            }
+
+            //載入活動資訊
+            GetActivityDefault();
+
+
+            //編輯時，帶入資料庫資料
+
+            ACMS.DAO.ActivityTeamMemberDAO myActivityTeamMemberDAO = new ACMS.DAO.ActivityTeamMemberDAO();
+
+            Page_ActivityTeamMemberVOList = myActivityTeamMemberDAO.SelectActivityTeamMember(ActivityID, RegistBy);
+
+            GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
+            GridView_TemMember.DataBind();
+
+
+            Wizard1.MoveTo(Wizard1.WizardSteps[1]);
+            try
+            {
+                ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
+                ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_enddateLabel")).Text.Replace("-", "/").Replace("T", " ");
+            }
+            catch
+            { }
+            //if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
+            //{
+            //    ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
+            //}
+            //if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
+            //{
+            //    ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
+            //}
+
+
+            // InitQueryBlock(ActivityID.ToString());
+
+            //編輯時載入動態欄位資料
+            GetDynamicValue();
         }
-        catch
-        { }
-        //if (((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text == "999999")
-        //{
-        //    ((Label)FormView_ActivatyDetails.FindControl("limit_countLabel")).Text = "無上限";
-        //}
-        //if (((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text == "0")
-        //{
-        //    ((Label)FormView_ActivatyDetails.FindControl("limit2_countLabel")).Text = "無";
-        //}
+        catch (Exception ex)
+        {
+            WriteErrorLog("ThirdStep", ex.Message, "0");
 
-
-       // InitQueryBlock(ActivityID.ToString());
-
-        //編輯時載入動態欄位資料
-        GetDynamicValue();
+        }
 
     }
 
     private void GetActivityDefault()
     {
-        //取得活動資訊
-        ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
-        ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
-
-        //報名截止日後要唯讀
-        if (myActivatyVO.regist_deadline < DateTime.Today)
+        try
         {
-            MyFormMode = FormViewMode.ReadOnly;
-            Panel_TeamFix.Enabled = false;
-            PanelTeamMember.Enabled = false;
-            PanelCustomFieldA1.Enabled = false;
+            //取得活動資訊
+            ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
+            ACMS.VO.ActivatyVO myActivatyVO = myActivatyDAO.SelectActivatyByID(ActivityID);
+
+            //報名截止日後要唯讀
+            if (myActivatyVO.regist_deadline < DateTime.Today)
+            {
+                MyFormMode = FormViewMode.ReadOnly;
+                Panel_TeamFix.Enabled = false;
+                PanelTeamMember.Enabled = false;
+                PanelCustomFieldA1.Enabled = false;
+            }
+
+            //活動海報訊息
+            Literal1.Text = myActivatyVO.activity_info;
+
+            //活動相關訊息
+            ObjectDataSource_ActivatyDetails.SelectParameters["id"].DefaultValue = ActivityID.ToString();
+            ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
+
+            //注意事項
+            Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
+
+
+            //團隊固定欄位
+            tr_showteam_fix1.Visible = (myActivatyVO.is_showteam_fix1 == "Y");
+            tr_showteam_fix2.Visible = (myActivatyVO.is_showteam_fix2 == "Y");
+
+            if (myActivatyVO.is_showteam_fix1 != "Y" && myActivatyVO.is_showteam_fix2 != "Y")
+            {
+                Panel_TeamFix.Visible = false;
+            }
+            //if (tr_showteam_fix1.Visible || tr_showteam_fix2.Visible)
+            //{
+            //    Session["ShowPanel"] = true; 
+            //}
+
+
+
+            lbltext_peopleStart.Text = myActivatyVO.teamextcount_min.ToString();
+            lbltext_peopleEnd.Text = myActivatyVO.teamextcount_max.ToString();
+
+            chk_text_people3.MinimumValue = myActivatyVO.teamextcount_min.ToString();
+            chk_text_people3.MaximumValue = myActivatyVO.teamextcount_max.ToString();
+
+
+            //個人欄位
+            //Page_is_showperson_fix1 = myActivatyVO.is_showperson_fix1;
+            //Page_is_showperson_fix2 = myActivatyVO.is_showperson_fix2;
+            ACMS.BO.CustomFieldBO myCustFieldBo = new ACMS.BO.CustomFieldBO();
+            if (myCustFieldBo.SelectByActivity_id(ActivityID).Count > 0)
+            {
+                Session["ShowPanel"] = true;
+
+            }
+
+
+            (OpenTeamPersonInfo1.FindControl("tr_idno") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = (myActivatyVO.is_showidno == "Y");
+            (OpenTeamPersonInfo1.FindControl("tr_remark") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = (myActivatyVO.is_showremark == "Y");
+
+            (OpenTeamPersonInfo1.FindControl("lblRemark") as Label).Text = myActivatyVO.remark_name;
+            (OpenTeamPersonInfo1.FindControl("chk_txtremark") as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填", myActivatyVO.remark_name);
+
+            if (myActivatyVO.is_showidno == "N" && myActivatyVO.is_showremark == "N")
+            {
+                IsPersonInfoRequired = false;
+                GridView_TemMember.Columns[3].Visible = false;
+                GridView_TemMember.Columns[4].Visible = false;
+            }
+            else
+            {
+                IsPersonInfoRequired = true;
+            }
+
+
+
+            Page_team_member_min = myActivatyVO.team_member_min;
+            Page_team_member_max = myActivatyVO.team_member_max;
+
+
+
+            //FormView_fixA.DataBind();
+            //FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
+            //FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
+
+            //(FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
+            //(FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
+
+            //RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
+            //myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
+            //myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
         }
-
-        //活動海報訊息
-        Literal1.Text = myActivatyVO.activity_info;
-
-        //活動相關訊息
-        ObjectDataSource_ActivatyDetails.SelectParameters["id"].DefaultValue = ActivityID.ToString();
-        ObjectDataSource_UpFiles.SelectParameters["dirName"].DefaultValue = Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString()));
-
-        //注意事項
-        Literal_notice.Text = myActivatyVO.notice.Replace("\r\n", "<br />");
-
-
-        //團隊固定欄位
-        tr_showteam_fix1.Visible=( myActivatyVO.is_showteam_fix1=="Y");
-        tr_showteam_fix2.Visible = (myActivatyVO.is_showteam_fix2 == "Y");
-
-        if (myActivatyVO.is_showteam_fix1 != "Y" && myActivatyVO.is_showteam_fix2 != "Y")
+        catch (Exception ex)
         {
-            Panel_TeamFix.Visible = false;
-        }
-        //if (tr_showteam_fix1.Visible || tr_showteam_fix2.Visible)
-        //{
-        //    Session["ShowPanel"] = true; 
-        //}
-
-
-
-        lbltext_peopleStart.Text = myActivatyVO.teamextcount_min.ToString();
-        lbltext_peopleEnd.Text = myActivatyVO.teamextcount_max.ToString();
-
-        chk_text_people3.MinimumValue = myActivatyVO.teamextcount_min.ToString();
-        chk_text_people3.MaximumValue = myActivatyVO.teamextcount_max.ToString();
-
-
-        //個人欄位
-        //Page_is_showperson_fix1 = myActivatyVO.is_showperson_fix1;
-        //Page_is_showperson_fix2 = myActivatyVO.is_showperson_fix2;
-        ACMS.BO.CustomFieldBO myCustFieldBo = new ACMS.BO.CustomFieldBO();
-        if (myCustFieldBo.SelectByActivity_id (ActivityID ).Count >0)
-        {
-            Session["ShowPanel"] = true; 
+            WriteErrorLog("GetDefault", ex.Message, "0");
 
         }
-
-
-         (OpenTeamPersonInfo1.FindControl("tr_idno") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showidno=="Y");
-         (OpenTeamPersonInfo1.FindControl("tr_remark") as System.Web.UI.HtmlControls.HtmlTableRow).Visible = ( myActivatyVO.is_showremark=="Y");
-
-        (OpenTeamPersonInfo1.FindControl("lblRemark") as Label).Text = myActivatyVO.remark_name;
-        (OpenTeamPersonInfo1.FindControl("chk_txtremark") as RequiredFieldValidator).ErrorMessage = string.Format("{0}必填", myActivatyVO.remark_name);
-
-        if (myActivatyVO.is_showidno == "N" && myActivatyVO.is_showremark == "N")
-        {
-            IsPersonInfoRequired = false;
-            GridView_TemMember.Columns[3].Visible = false;
-            GridView_TemMember.Columns[4].Visible = false;
-        }
-        else
-        {
-            IsPersonInfoRequired = true;
-        }
-
-
-
-        Page_team_member_min = myActivatyVO.team_member_min;
-        Page_team_member_max = myActivatyVO.team_member_max;
-
-
-
-        //FormView_fixA.DataBind();
-        //FormView_fixA.FindControl("tr_person_fix1").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
-        //FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
-
-        //(FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
-        //(FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
-
-        //RangeValidator myRangeValidator = (FormView_fixA.FindControl("tr_person_fix2").FindControl("chk_txtperson_fix2_3") as RangeValidator);
-        //myRangeValidator.MinimumValue = myActivatyVO.personextcount_min.ToString();
-        //myRangeValidator.MaximumValue = myActivatyVO.personextcount_max.ToString();
     }
     
     //編輯時載入自訂欄位資料
@@ -430,27 +453,43 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //下載檔案
     protected void lbtnFileDownload_Click(object sender, EventArgs e)
     {
-        GridView GridView_UpFiles = (GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles");
-        FileInfo myFileInfo = new FileInfo(GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
-        string fileName = GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
-        fileName = this.ResolveUrl("~/Upfiles/" + fileName.Substring(fileName.IndexOf(ActivityID.ToString())));
-
-        if (myFileInfo.Exists)
+        try
         {
-            //Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
-            //// 輸出檔案。
-            //Response.WriteFile(myFileInfo.FullName);
-            Response.Write("<script type=\"text/javascript\"> window.open('" + fileName + "')</script>");
+            GridView GridView_UpFiles = (GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles");
+            FileInfo myFileInfo = new FileInfo(GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString());
+            string fileName = GridView_UpFiles.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+            fileName = this.ResolveUrl("~/Upfiles/" + fileName.Substring(fileName.IndexOf(ActivityID.ToString())));
+
+            if (myFileInfo.Exists)
+            {
+                //Response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}", Server.UrlEncode((myFileInfo.Name))));
+                //// 輸出檔案。
+                //Response.WriteFile(myFileInfo.FullName);
+                Response.Write("<script type=\"text/javascript\"> window.open('" + fileName + "')</script>");
+            }
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("DownLoadFile", ex.Message, "0");
+
         }
     }
 
     //開啟選擇隊員視窗
     protected void btnAgent_Click(object sender, EventArgs e)
     {
-        OpenTeamMemberSelector1.TitleName = "選擇隊員";
-        //OpenAgentSelector1.OkName = "報名";
-        OpenTeamMemberSelector1.Visible = true;
-        OpenTeamMemberSelector1.InitDataAndShow(ActivityID.ToString());
+        try
+        {
+            OpenTeamMemberSelector1.TitleName = "選擇隊員";
+            //OpenAgentSelector1.OkName = "報名";
+            OpenTeamMemberSelector1.Visible = true;
+            OpenTeamMemberSelector1.InitDataAndShow(ActivityID.ToString());
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("Agent", ex.Message, "0");
+
+        }
     }
 
     //選取隊員之後
@@ -492,6 +531,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         catch (Exception ex)
         {
             ShowMessageForAjax(this,"加入隊員失敗!");
+            WriteErrorLog("GetEmployee_click", ex.Message, "0");
         }
 
         GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
@@ -547,29 +587,45 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //編輯隊員個人欄位
     protected void lbtnVOedit_Click(object sender, EventArgs e)
     {
-        string emp_id = GridView_TemMember.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        try
+        {
+            string emp_id = GridView_TemMember.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
 
-        ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == emp_id; });
+            ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == emp_id; });
 
-        OpenTeamPersonInfo1.UC_ActivityTeamMemberVO = myActivityTeamMemberVO;
-        OpenTeamPersonInfo1.Visible = true;
-        OpenTeamPersonInfo1.InitDataAndShow();
+            OpenTeamPersonInfo1.UC_ActivityTeamMemberVO = myActivityTeamMemberVO;
+            OpenTeamPersonInfo1.Visible = true;
+            OpenTeamPersonInfo1.InitDataAndShow();
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("VOEdit", ex.Message, "0");
+
+        }
     }
 
     //編輯隊員個人欄位之後
     protected void GetTeamPersonInfo_Click(object sender, EventArgs e)
     {
-        ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO =Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.emp_id; });
+        try
+        {
+            ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.emp_id; });
 
-        myActivityTeamMemberVO.WritePersonInfo = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.WritePersonInfo;
-        myActivityTeamMemberVO.idno_type = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno_type;
-        myActivityTeamMemberVO.idno = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno;
-        myActivityTeamMemberVO.remark = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.remark;
-        //myActivityTeamMemberVO.C_DEPT_NAME = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.C_DEPT_NAME;
+            myActivityTeamMemberVO.WritePersonInfo = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.WritePersonInfo;
+            myActivityTeamMemberVO.idno_type = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno_type;
+            myActivityTeamMemberVO.idno = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.idno;
+            myActivityTeamMemberVO.remark = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.remark;
+            //myActivityTeamMemberVO.C_DEPT_NAME = OpenTeamPersonInfo1.UC_ActivityTeamMemberVO.C_DEPT_NAME;
 
 
-        GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
-        GridView_TemMember.DataBind();
+            GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
+            GridView_TemMember.DataBind();
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("GetTemPersonInfo_click", ex.Message, "0");
+
+        }
 
     }
 
@@ -582,13 +638,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //刪除隊員
     protected void lbtnVOdelete_Click(object sender, EventArgs e)
     {
-        string emp_id =  GridView_TemMember.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
+        try
+        {
+            string emp_id = GridView_TemMember.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
 
-        ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == emp_id; });
-        Page_ActivityTeamMemberVOList.Remove(myActivityTeamMemberVO);
+            ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == emp_id; });
+            Page_ActivityTeamMemberVOList.Remove(myActivityTeamMemberVO);
 
-        GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
-        GridView_TemMember.DataBind();
+            GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
+            GridView_TemMember.DataBind();
+        }
+        catch (Exception ex)
+        {
+            WriteErrorLog("VoDelete", ex.Message, "0");
+
+        }
 
     }
 
@@ -767,16 +831,18 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //取得報名資訊
     private ACMS.VO.ActivityRegistVO GetActivityRegistVO()
     {
-        ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
+       
+            ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
 
-        myActivityRegistVO.activity_id = ActivityID;
-        myActivityRegistVO.emp_id = EmpID;//若是團員近來修改個人欄位時，此值會是團員ID,所以不能存ActivityRegist 只能存ActivityTeamMember
-        myActivityRegistVO.regist_by = RegistBy;
-        myActivityRegistVO.idno = "";
-        myActivityRegistVO.team_name = txtteam_name.Text;
-        myActivityRegistVO.ext_people =(txtext_people.Text=="" ? 0: Convert.ToInt32(txtext_people.Text));
+            myActivityRegistVO.activity_id = ActivityID;
+            myActivityRegistVO.emp_id = EmpID;//若是團員近來修改個人欄位時，此值會是團員ID,所以不能存ActivityRegist 只能存ActivityTeamMember
+            myActivityRegistVO.regist_by = RegistBy;
+            myActivityRegistVO.idno = "";
+            myActivityRegistVO.team_name = txtteam_name.Text;
+            myActivityRegistVO.ext_people = (txtext_people.Text == "" ? 0 : Convert.ToInt32(txtext_people.Text));
 
-        return myActivityRegistVO;
+            return myActivityRegistVO;
+       
 
     }
 
@@ -833,69 +899,77 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
-
-        //預覽時
-        if (Session["form_mode1"] != null)
+        try
         {
-            if (Session["form_mode1"].ToString() == "preview")
+            //預覽時
+            if (Session["form_mode1"] != null)
             {
-                Session.Remove("form_mode1");
+                if (Session["form_mode1"].ToString() == "preview")
+                {
+                    Session.Remove("form_mode1");
+                    Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+                }
+            }
+
+            if (hiMode1.Value == "preview")
+            {
                 Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
             }
-        }
 
-        if (hiMode1.Value == "preview")
+            if (MyFormMode == FormViewMode.ReadOnly)
+            {
+                Response.Redirect("RegistedActivityQuery.aspx?type=2");
+            }
+
+            ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
+            List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
+            //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
+
+            //報名
+            MySingleton.AlterRegistResult MyResult;
+            string path = Server.MapPath("~/UpFiles");
+            if (MyFormMode == FormViewMode.Insert)
+            {
+                //MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+                string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
+
+                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+
+            }
+            else
+            {
+                string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
+
+                //   MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+
+            }
+
+
+            if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
+            {
+                ShowMessageForAjax(this, "已存在報名成功紀錄，無法重複報名!");
+            }
+            else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
+            {
+                ShowMessageForAjax(this, @"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
+            }
+            else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
+            {
+                ShowMessageForAjax(this, @"資料存檔發生錯誤，無法完成報名。");
+            }
+            else
+            {
+                
+            }
+
+        }
+        catch (Exception ex)
 
         {
-            Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+            WriteErrorLog("SaveData", ex.Message, "0");
         }
-
-        if (MyFormMode == FormViewMode.ReadOnly)
-        {
-            Response.Redirect("RegistedActivityQuery.aspx?type=2");        
-        }
-        
-        ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
-        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
-        //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
-
-        //報名
-        MySingleton.AlterRegistResult MyResult;
-        string path = Server.MapPath("~/UpFiles");
-        if (MyFormMode == FormViewMode.Insert)
-        {
-            //MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
-            string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-
-            MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
-
-        }
-        else
-        {
-            string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-
-         //   MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
-            MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
-
-        }
-
-
-        if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
-        {
-             ShowMessageForAjax(this,"已存在報名成功紀錄，無法重複報名!");
-        }
-        else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
-        {
-             ShowMessageForAjax(this,@"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
-        }
-        else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
-        {
-             ShowMessageForAjax(this,@"資料存檔發生錯誤，無法完成報名。");
-        }
-        else
-        {
-            Response.Redirect("RegistedActivityQuery.aspx");
-        }
+        Response.Redirect("RegistedActivityQuery.aspx?type=2");
     }
 
     //protected void FormView_fixA_DataBound(object sender, EventArgs e)

@@ -23,7 +23,9 @@ namespace ACMS.BO
             //3-1.若是個人活動可以一直報名，第一次是自己第二次之後是幫別人報名
             //3-2.若是團隊活動並且報過名就不顯示了，只會顯示在"已報名活動查詢"然後使用編輯模式
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
+
             return mySelectorDAO.NewActivityList(activity_type, emp_id);
+
         }
 
         //2.個人報名 3.團隊報名 可報名活動查詢
@@ -41,7 +43,14 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.RegistActivity_Query(activity_name, activity_startdate, activity_enddate, activity_type, emp_id);
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //2.1個人報名-(個人活動新增時)被報名者人事資料
@@ -193,7 +202,14 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.GetAllMyActivity(emp_id);
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //5.2.活動進度查詢
@@ -207,7 +223,14 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.ActivityProcessQuery(activity_id);
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //6-1活動資料管理-新增修改活動查詢
@@ -223,7 +246,14 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.ActivityEditQuery(activity_name, activity_startdate, activity_enddate);
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //6-1 主辦單位設定 主辦單位 DDL DataSource
@@ -287,7 +317,14 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.ActivityQuery(activity_startdate, activity_enddate, org_id, querytype, activity_type);
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally 
+            {
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //6-3活動進度登錄 - 所有活動的DataSource
@@ -300,7 +337,14 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.GetAllActivity();
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //6-3活動進度登錄 
@@ -319,7 +363,14 @@ namespace ACMS.BO
         {
             DAO.SelectorDAO mySelectorDAO = new ACMS.DAO.SelectorDAO();
             DataTable DT = mySelectorDAO.ActivityCheckQuery(activity_id, DEPT_ID, emp_id, emp_name,UnderDept,COMPANY_CODE );
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //7-2 主辦單位設定 角色 DDL DataSource

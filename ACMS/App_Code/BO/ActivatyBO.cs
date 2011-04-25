@@ -14,7 +14,7 @@ namespace ACMS.BO
         /// </summary>
         /// <param name="id">活動代號</param>
         /// <returns>取得活動資料</returns>
-        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]       
+        [System.ComponentModel.DataObjectMethod(System.ComponentModel.DataObjectMethodType.Select)]
         public VO.ActivatyVO SelectActivatyByActivatyID(Guid id)
         {
             DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();

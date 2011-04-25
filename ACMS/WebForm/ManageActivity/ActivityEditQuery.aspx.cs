@@ -39,11 +39,19 @@ public partial class WebForm_ActivityEditQuery : BasePage
     //查詢
     protected void btnQuery_Click(object sender, EventArgs e)
     {
-        ObjectDataSource1.SelectParameters["activity_name"].DefaultValue = txtactivity_name.Text;
-        ObjectDataSource1.SelectParameters["activity_startdate"].DefaultValue = txtactivity_startdate.Text;
-        ObjectDataSource1.SelectParameters["activity_enddate"].DefaultValue = txtactivity_enddate.Text;
+        try
+        {
+            ObjectDataSource1.SelectParameters["activity_name"].DefaultValue = txtactivity_name.Text;
+            ObjectDataSource1.SelectParameters["activity_startdate"].DefaultValue = txtactivity_startdate.Text;
+            ObjectDataSource1.SelectParameters["activity_enddate"].DefaultValue = txtactivity_enddate.Text;
 
-        GridView1.DataBind();
+            GridView1.DataBind();
+        }
+        catch (Exception ex)
+
+        {
+            WriteErrorLog("Query", ex.Message, "0");
+        }
     }
 
 
@@ -78,22 +86,30 @@ public partial class WebForm_ActivityEditQuery : BasePage
     //刪除活動
     protected void lbtnDelActivaty_Click(object sender, EventArgs e)
     {
-        string theGUID = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
-
-        ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
-
-        myActivatyDAO.DeleteActivatyByID(theGUID);
-
-
-        //刪除相關檔案
-        DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("~/UpFiles", theGUID)));
-
-        if (myDirectoryInfo.Exists)
+        try
         {
-            myDirectoryInfo.Delete(true);
-        }
+            string theGUID = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Value.ToString();
 
-        GridView1.DataBind();
+            ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
+
+            myActivatyDAO.DeleteActivatyByID(theGUID);
+
+
+            //刪除相關檔案
+            DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("~/UpFiles", theGUID)));
+
+            if (myDirectoryInfo.Exists)
+            {
+                myDirectoryInfo.Delete(true);
+            }
+
+            GridView1.DataBind();
+        }
+        catch (Exception ex)
+
+        {
+            WriteErrorLog("DeleteActivity", ex.Message, "0");
+        }
 
     }
 

@@ -50,6 +50,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myCustomFieldValueVOList;
 
         }

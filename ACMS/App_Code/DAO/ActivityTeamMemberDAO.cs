@@ -58,6 +58,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myActivityTeamMemberVOList;
 
         }
@@ -86,17 +88,26 @@ namespace ACMS.DAO
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
-            if (MyDataReader.HasRows)
+            try
             {
-                MyDataReader.Close();
-                aconn.Close();
-                return true;
+                if (MyDataReader.HasRows)
+                {
+                    MyDataReader.Close();
+                    aconn.Close();
+
+                    return true;
+                }
+                else
+                {
+                    MyDataReader.Close();
+                    aconn.Close();
+                    return false;
+                }
             }
-            else
+            finally
             {
-                MyDataReader.Close();
-                aconn.Close();
-                return false;
+                if (MyDataReader != null) MyDataReader.Dispose();
+                if (aconn != null) aconn.Dispose();
             }
 
         }

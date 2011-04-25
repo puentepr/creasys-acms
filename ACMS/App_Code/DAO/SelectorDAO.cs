@@ -64,8 +64,21 @@ namespace ACMS.DAO
             {
                 clsMyObj.CheckFull(ref DT, true, true);
             }
+           
+            if (DS != null)
+            {
+                DS.Dispose();
+            }
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+               if( DT!=null) DT.Dispose();
+              
 
-            return DT;
+            }
         }
 
         //2.個人報名 3.團隊報名 可報名活動查詢
@@ -146,8 +159,19 @@ namespace ACMS.DAO
             {
                 clsMyObj.CheckFull(ref DT, true, true);
             }
+            if (DS != null)
+            {
+                DS.Dispose();
+            }
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DT != null) DT.Dispose();
 
-            return DT;
+            }
 
         }
 
@@ -171,9 +195,20 @@ namespace ACMS.DAO
             sb.AppendLine("WHERE ID=@emp_id ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
 
-            return clsMyObj.GetDataTable(DS);
-
+            }           
+            finally
+            {
+                if (DS != null)
+                {
+                    DS.Dispose();
+                }
+ 
+            }
+           
         }
 
         //2.2個人報名-(個人活動編輯時)//登入者代理(含自己)的會列出 or 登入者被別人代理報名也會列出
@@ -201,8 +236,15 @@ namespace ACMS.DAO
             sb.AppendLine("and (A.regist_by=@emp_id or A.emp_id=@emp_id) ");//登入者代理(含自己)的會列出 or 登入者被別人代理報名也會列出
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
+            }
+            finally
+            {
 
-            return clsMyObj.GetDataTable(DS);
+                if (DS != null) DS.Dispose();
+            }
 
         }
 
@@ -291,6 +333,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader!=null )  MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myEmployeeVOList;
         
         }
@@ -375,7 +419,15 @@ namespace ACMS.DAO
                 clsMyObj.CheckFull(ref DT, true, true);
             }
 
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+                if (DT != null) DT.Dispose();
+            }
 
         }
 
@@ -459,9 +511,15 @@ namespace ACMS.DAO
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
             DataTable DT = clsMyObj.GetDataTable(DS);
-
-            return DT;
-
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //4.1已報名活動查詢-取消個人報名-由登入者代理報名的人員(及本人)選單
@@ -494,8 +552,15 @@ namespace ACMS.DAO
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
             DataTable DT = clsMyObj.GetDataTable(DS);
-
-            return DT; 
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+                if (DT != null) DT.Dispose();
+            }
         
         }
         //4.2該活動由管理者的選單
@@ -574,7 +639,15 @@ namespace ACMS.DAO
 
             DataTable DT = clsMyObj.GetDataTable(DS);
 
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+                if (DT != null) DT.Dispose();
+            }
 
         }
 
@@ -608,8 +681,15 @@ namespace ACMS.DAO
 
             DataTable DT = clsMyObj.GetDataTable(DS);
 
-            return DT;
-
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+                if (DT != null) DT.Dispose();
+            }
         }
 
         //5.1活動進度查詢
@@ -647,8 +727,14 @@ namespace ACMS.DAO
             sb.AppendLine("ORDER BY sn ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            return clsMyObj.GetDataTable(DS);
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+            }
         }
 
         //5.2.活動進度查詢
@@ -751,8 +837,14 @@ namespace ACMS.DAO
                 }
  
             }
-
-            return dt;
+            try
+            {
+                return dt;
+            }
+            finally
+            {
+                if (dt != null) dt.Dispose();
+            }
 
             //return clsMyObj.GetDataTable(DS);
         }
@@ -814,7 +906,15 @@ namespace ACMS.DAO
                 clsMyObj.CheckFull(ref DT, true, true);
             }
 
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+                if (DT != null) DT.Dispose();
+            }
 
         }
 
@@ -849,6 +949,8 @@ namespace ACMS.DAO
             }
             myIDataReader.Close();
             aconn.Close();
+            if (myIDataReader != null) myIDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myUnitVOList;
         }
 
@@ -1035,8 +1137,14 @@ namespace ACMS.DAO
             }
             sb.AppendLine("drop table #AA  ");
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            return clsMyObj.GetDataTable(DS);
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+            }
         }
 
         //6-3活動進度登錄 - 所有活動的DataSource
@@ -1060,8 +1168,14 @@ namespace ACMS.DAO
             sb.AppendLine("ORDER BY A.sn; ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), null);
-
-            return clsMyObj.GetDataTable(DS);
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+            }
         }
 
         //6-3活動進度登錄 
@@ -1135,8 +1249,15 @@ namespace ACMS.DAO
             sb.AppendLine("order by createat ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
-
-            return clsMyObj.GetDataTable(DS);
+            try
+            {
+                return clsMyObj.GetDataTable(DS);
+            }
+            finally             
+            {
+                if (DS != null) DS.Dispose();
+               
+            }
         }         
                 
         //7-2 主辦單位設定 角色 DDL DataSource
@@ -1164,6 +1285,9 @@ namespace ACMS.DAO
             }
             myIDataReader.Close();
             aconn.Close();
+
+            if (myIDataReader != null) myIDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myRoleListVOList;
         }
 
@@ -1231,7 +1355,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
-
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myEmployeeVOList;
 
         }
@@ -1261,6 +1386,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myDDLVOList;
 
         }
@@ -1274,7 +1401,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT distinct [DEPT_ID],C_DEPT_NAME,[C_DEPT_ABBR] ");
             sb.AppendLine("FROM V_ACSM_USER2  ");
-            SqlConnection aconn=MyConn ();
+            SqlConnection aconn = MyConn();
 
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), null);
 
@@ -1292,7 +1419,11 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
+
             return myDDLVOList;
+
 
         }
         /// <summary>
@@ -1327,6 +1458,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myDDLVOList;
 
         }
@@ -1358,6 +1491,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myDDLVOList;
 
         }
@@ -1388,6 +1523,8 @@ namespace ACMS.DAO
             }
             MyDataReader.Close();
             aconn.Close();
+            if (MyDataReader != null) MyDataReader.Dispose();
+            if (aconn != null) aconn.Dispose();
             return myDDLVOList;
 
         }
@@ -1572,8 +1709,16 @@ namespace ACMS.DAO
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
             DataTable DT = clsMyObj.GetDataTable(DS);
-
-            return DT;
+            try
+            {
+                return DT;
+            }
+            finally
+            {
+                if (DS != null) DS.Dispose();
+                if (DT != null) DT.Dispose();
+            
+            }
 
         }
 

@@ -19,6 +19,18 @@ using System.Web.UI;
 public class BasePage : System.Web.UI.Page
 {
 
+
+    public  void WriteErrorLog(string FunctionName, string errMsg, string errStatus)
+    {
+        ACMS.DAO.BaseDAO dao1 = new ACMS.DAO.BaseDAO();
+        dao1.ErrorLog(this.Request.Url.AbsolutePath, errMsg, FunctionName, clsAuth.WORK_ID + clsAuth.NATIVE_NAME, errStatus);
+        clsMyObj.ShowMessage(errMsg);
+    }
+
+
+   
+
+
     /// <summary>
     /// 有UpdatePanel時秀出訊息
     /// </summary>
@@ -56,6 +68,7 @@ public class BasePage : System.Web.UI.Page
         {
             Msg = "您已閒置系統超過15分鐘，請您重新登入!";
         }
+        WriteErrorLog("OnError", Msg, "0");
         Response.Write("<script language=\"javascript\">alert(\"" + Msg.Replace("\\", "\\\\").Replace(vbCrLf, "\\r\\n").Replace("\"", "'").Replace(vbTab ,"") + "\")</Script>");
        Server.ClearError();
 		base.OnError(e);

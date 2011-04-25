@@ -205,10 +205,10 @@ public class clsMyObj
     }
 
     //個人報名成功寄信
-    public static void RegistSuccess(string activity_id, string emp_id, string regist_by,string webPath,string path)
+    public static void RegistSuccess(string activity_id, string emp_id, string regist_by, string webPath, string path)
     {//andy 
 
-       
+
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
         string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
@@ -216,8 +216,8 @@ public class clsMyObj
         vo = bo.SelectActivatyByActivatyID(id);
 
         MailMessage mail = new MailMessage();
-        
-      
+
+
 
 
         //收件者
@@ -226,8 +226,8 @@ public class clsMyObj
         EmployeeVO empVO = new EmployeeVO();
         EMPloyeeDAO empDAO = new EMPloyeeDAO();
         empVO = empDAO.getEmployee(emp_id);
-        ACMS.BO.ActivityRegistBO regBO = new ACMS.BO.ActivityRegistBO ();
-        ACMS.VO.ActivityRegistVO  regVO = regBO .SelectActivityRegistByPK(id,emp_id);
+        ACMS.BO.ActivityRegistBO regBO = new ACMS.BO.ActivityRegistBO();
+        ACMS.VO.ActivityRegistVO regVO = regBO.SelectActivityRegistByPK(id, emp_id);
 
         if ((string.Compare(mailtype, "online") != 0))
         {
@@ -239,7 +239,7 @@ public class clsMyObj
         }
         else
         {
-           
+
             mail.To.Add(empVO.OFFICE_MAIL);
             if (emp_id != regist_by)
             {
@@ -250,18 +250,18 @@ public class clsMyObj
 
         //取得附加檔案
         ACMS.DAO.UpFilestDAO uDAO = new ACMS.DAO.UpFilestDAO();
-        List<ACMS.VO.UpFileVO> listUpfileVo = uDAO.SELECT(path+"\\"+activity_id );
+        List<ACMS.VO.UpFileVO> listUpfileVo = uDAO.SELECT(path + "\\" + activity_id);
         Attachment data;
         foreach (ACMS.VO.UpFileVO UFvo in listUpfileVo)
         {
-            data=new Attachment(UFvo.path  );
+            data = new Attachment(UFvo.path);
 
 
-            mail.Attachments .Add(data);
+            mail.Attachments.Add(data);
 
         }
 
-        mail.Subject = vo.activity_name +":個人報名成功通知";
+        mail.Subject = vo.activity_name + ":個人報名成功通知";
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
@@ -272,39 +272,18 @@ public class clsMyObj
         List<ACMS.VO.CustomFieldItemVO> custFieldItemList;
         string custFieldSt = "";
         decimal ttl = 0;
-        string[]   FieldIDs;
+        string[] FieldIDs;
 
         foreach (CustomFieldValueVO custFieldVO in myCustomFieldValueVOList)
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt +="　　"+ "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font>" + custFieldVO.field_value + "<br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font>" + custFieldVO.field_value + "<br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
-                ttl=0;
-                custFieldSt += "　　"+"<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font><br/>";
-
-                FieldIDs=custFieldVO.field_value.Split (',');
-                custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO .field_id );
-                foreach (string fieldID in FieldIDs)
-                {
-                    foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
-                        if (int.Parse(fieldID) == custFieldItem.field_item_id)
-                        {
-                            custFieldSt += "　　"+custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "<br/>";
-                            ttl += decimal.Parse (custFieldItem.field_item_text);
-                        }
-                }
-
-                custFieldSt +="　　" + "<font color='Red'><b>合計:</b> " + ttl.ToString() + "</font><br/>";
-
-            }
-            if (custFieldVO.field_control.ToLower() == "checkboxlist")
-            {
-
-
-                custFieldSt += "　　"+ "<font color='Blue'><b>複選/</b>" + custFieldVO.field_name + ":</font><br/>";
+                ttl = 0;
+                custFieldSt += "　　" + "<font color='Blue'><b>" + custFieldVO.field_name + ":</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -313,8 +292,29 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt +=  "　　"+custFieldItem.field_item_name +  custFieldItem.field_item_text + ",";
-                            
+                            custFieldSt += "　　" + custFieldItem.field_item_name + ":" + custFieldItem.field_item_text + "<br/>";
+                            ttl += decimal.Parse(custFieldItem.field_item_text);
+                        }
+                }
+
+                custFieldSt += "　　" + "<font color='Red'><b>合計:</b> " + ttl.ToString() + "</font><br/>";
+
+            }
+            if (custFieldVO.field_control.ToLower() == "checkboxlist")
+            {
+
+
+                custFieldSt += "　　" + "<font color='Blue'><b>複選/</b>" + custFieldVO.field_name + ":</font><br/>";
+
+                FieldIDs = custFieldVO.field_value.Split(',');
+                custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (string fieldID in FieldIDs)
+                {
+                    foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
+                        if (int.Parse(fieldID) == custFieldItem.field_item_id)
+                        {
+                            custFieldSt += "　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+
                         }
                 }
                 custFieldSt += "<br/>";
@@ -322,7 +322,7 @@ public class clsMyObj
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "　　" +"<font color='Blue'><b>單選/</b>" + custFieldVO.field_name + ":</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>單選/</b>" + custFieldVO.field_name + ":</font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -331,7 +331,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt +=  "　　"+custFieldItem.field_item_name  + custFieldItem.field_item_text + ",";
+                            custFieldSt += "　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
 
                         }
                 }
@@ -340,25 +340,25 @@ public class clsMyObj
 
 
         }
-        ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by );
-        empVO = empDAO.getEmployee(emp_id );
+        ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by);
+        empVO = empDAO.getEmployee(emp_id);
         if (custFieldSt != "")//有自訂欄位
         {
             mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr>  <tr><td> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + vo.activity_name + ":個人報名成功通知</a><br/>"
-                + "　　"  +"<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
+                + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>"
                 + "　　" + "<font color='Blue'><b>.活動名稱:</b></font>" + vo.activity_name + "<br/>"
                 + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
                 + "　　" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
                 + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>";
-                 if (vo.is_showperson_fix2 .ToString().ToUpper ()=="Y")
-                 {
-                   mail.Body+="　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>";
-                 }
-               mail.Body+= "" + custFieldSt
-                + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
-                + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+            if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
+            {
+                mail.Body += "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>";
+            }
+            mail.Body += "" + custFieldSt
+             + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME + "<br/>"
+             + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
         }
         else
         {
@@ -369,15 +369,17 @@ public class clsMyObj
                  + "　　" + "<font color='Blue'><b>.報名日期:</b></font>" + DateTime.Today.ToString("yyyy/MM/dd") + "<br/>"
                 + "　　" + "<font color='Blue'><b>.姓名:</b></font>" + empVO.NATIVE_NAME + "<br/>"
                  + "　　" + "<font color='Blue'><b>.工號:</b></font>" + empVO.WORK_ID + "<br/>";
-                if (vo.is_showperson_fix2 .ToString().ToUpper ()=="Y")
-                 {
-                     mail.Body += "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>";
-                 }
-               mail.Body+= ""+ "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME+ "<br/>"
-             + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+            if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
+            {
+                mail.Body += "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>";
+            }
+            mail.Body += "" + "　　" + "<font color='Blue'><b>.報名人姓名:</b></font>" + regByEmpVO.NATIVE_NAME + "<br/>"
+          + "　　" + "<font color='Blue'><b>.編號:</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         }
-         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+
+
         try
         {
             smtp.Send(mail);
@@ -388,7 +390,7 @@ public class clsMyObj
             LogMsg.Log(ex.Message, 5, false);
 
         }
-     
+
 
     }
 
