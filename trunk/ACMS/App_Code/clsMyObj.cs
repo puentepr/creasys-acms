@@ -369,7 +369,7 @@ public class clsMyObj
             }
             mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>"+ "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-                + "'>" + vo.activity_name + "：報名成功通知</a></td></tr><br/>"+"<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+                + "'>" + vo.activity_name + "：報名成功通知</a></td></tr>"+"<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
         }
         else
         {
@@ -396,7 +396,7 @@ public class clsMyObj
             }
             mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-                + "'>" + vo.activity_name + "：報名成功通知</a></td></tr><br/>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+                + "'>" + vo.activity_name + "：報名成功通知</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
           //  mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=1&ActID="
           //      + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
           //      + "'>" + vo.activity_name + "：個人報名成功通知</a><br/>"
