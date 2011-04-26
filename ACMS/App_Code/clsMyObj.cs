@@ -539,7 +539,7 @@ public class clsMyObj
             + "<br/>" + "　　" + "<b><font color='Blue'>．取消日期：</font></b>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") ;
             if(cancel_by!=emp_id)
             {
-                mail.Body += "　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
+                mail.Body += "<br/>"+"　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
                 
             }
             mail.Body += "<br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
