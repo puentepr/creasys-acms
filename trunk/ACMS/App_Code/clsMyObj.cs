@@ -532,7 +532,7 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>取消個人報名通知</b></td> </tr>"+
+        mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>取消個人報名通知</b></td> </tr>"
             + "<tr><td><br/><br/>" + "　　" + "<b><font color='Blue'>．姓名：</font></b>" + empVO.NATIVE_NAME
             + "<br/>" + "　　" + "<b><font color='Blue'>．工號：</font></b>" + empVO.WORK_ID
             + "<br/>" + "　　" + "<b><font color='Blue'>．活動名稱：</font></b>" + vo.activity_name
@@ -849,7 +849,7 @@ public class clsMyObj
             mail.Body += "　　" + "<font color='Blue'><b>．團隊名稱：" + regVO.team_name + "</b></font><br/>";
         }
             mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Today.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
-                + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font>" + empList.TrimEnd("、")
+                + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font>" + empList
             //  + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
            // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
         + "<br/>" + "　　<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":","第")+ "隊</font></td></tr>"+"<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
