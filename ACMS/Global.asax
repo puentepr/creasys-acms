@@ -110,12 +110,6 @@
 
         // Construct a GenericIdentity object based on the current Windows
         // identity name and authentication type.
-        string userName = Context.User.Identity.Name;
-        userName = userName.Substring(userName.IndexOf("\\") + 1);
-        myLoginDAO.CheckLogin(userName, out UserData);
-        
-
-
         if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("NoPermission.aspx".ToLower()) >= 0)
         {
             return;
@@ -124,11 +118,21 @@
         {
             return;
         }
+        string userName = Context.User.Identity.Name;
+        userName = userName.Substring(userName.IndexOf("\\") + 1);
+        if (myLoginDAO.CheckLogin(userName, out UserData) == false)
+
+        {
+            Response.Redirect("~/NoID.aspx"); 
+        }
+
+
         
         if (!(Request.IsAuthenticated))
         {
             Response.Redirect("~/NoPermission.aspx");
         }
+       
 
         //if (Context.User.IsInRole(""))
         //{
