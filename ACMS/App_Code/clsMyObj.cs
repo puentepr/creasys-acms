@@ -357,7 +357,7 @@ public class clsMyObj
                 mail.Body += "　　" + "<font color='Blue'><b>.攜眷人數：</b></font>" + regVO.ext_people.ToString() + "<br/>";
             }
 
-            mail.Body += "　　" + "<font color='Blue'><b>" + new string("-", 44) + "</b></font><br/><br/>";
+            mail.Body += "　　" + "<font color='Blue'><b>" + @"-</b></font><br/><br/>";
 
             mail.Body += "　　" + "<font color='Blue'><b>以下為此次您報名登入資料，敬請確認：</b></font><br/>";
 
@@ -384,7 +384,7 @@ public class clsMyObj
                 mail.Body += "　　" + "<font color='Blue'><b>.攜眷人數：</b></font>" + regVO.ext_people.ToString() + "<br/>";
             }
 
-            mail.Body += "　　" + "<font color='Blue'><b>" + new string("-", 44) + "</b></font><br/><br/>";
+            mail.Body += "　　" + "<font color='Blue'><b>" +@"-</b></font><br/><br/>";
 
             mail.Body += "　　" + "<font color='Blue'><b>以下為此次您報名登入資料，敬請確認：</b></font><br/>";
 
