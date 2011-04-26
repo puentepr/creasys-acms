@@ -279,7 +279,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>" + custFieldVO.field_name + "：</b></font>" + custFieldVO.field_value + "<br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font>" + custFieldVO.field_value + "<br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
@@ -346,7 +346,7 @@ public class clsMyObj
         empVO = empDAO.getEmployee(emp_id);
         if (custFieldSt != "")//有自訂欄位
         {
-            mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr>" 
+            mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>" 
                 + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
                 + "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Today.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
@@ -365,7 +365,7 @@ public class clsMyObj
             //如果是他人代理報名,則顯示以下文字
             if (regist_by != emp_id)
             {
-                mail.Body += "　　" + "<font color='Blue'><b>．此活動由</b></font><font color='Black'><s>" + regByEmpVO.NATIVE_NAME + "<</s></font><font color='Blue'><b>代理您完成報名</b></font><br/>";
+                mail.Body += "　　" + "<font color='Blue'><b>．此活動由</b></font><font color='Black'><u>" + regByEmpVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成報名</b></font><br/>";
             }
             mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>"+ "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
