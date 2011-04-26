@@ -279,12 +279,12 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font>" + custFieldVO.field_value + "<br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　" + custFieldVO.field_value + "<br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
                 ttl = 0;
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
+                custFieldSt += "　　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -293,12 +293,12 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　" + custFieldItem.field_item_name + "：$" + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　" + custFieldItem.field_item_name + "$ " + custFieldItem.field_item_text + "<br/>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "　　" + "<font color='Red'><b>合計：</b>$ " + ttl.ToString() + "</font><br/>";
+                custFieldSt += "　　　" + "<font color='Red'><b>合計：</b>$ " + ttl.ToString() + "</font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
@@ -349,7 +349,7 @@ public class clsMyObj
             mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>" 
                 + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
-                + "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Today.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
+                + "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
                 + "　　" + "<font color='Blue'><b>．姓名：</b></font>" + empVO.NATIVE_NAME + "<br/>";
              //   + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>";
             if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
@@ -376,7 +376,7 @@ public class clsMyObj
             mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>"
                 + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
-                + "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Today.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
+                + "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
                 + "　　" + "<font color='Blue'><b>．姓名：</b></font>" + empVO.NATIVE_NAME + "<br/>";
             //   + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>";
             if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
@@ -536,13 +536,13 @@ public class clsMyObj
             + "<tr><td><br/><br/>" + "　　" + "<b><font color='Blue'>．姓名：</font></b>" + empVO.NATIVE_NAME
             + "<br/>" + "　　" + "<b><font color='Blue'>．工號：</font></b>" + empVO.WORK_ID
             + "<br/>" + "　　" + "<b><font color='Blue'>．活動名稱：</font></b>" + vo.activity_name
-            + "<br/>" + "　　" + "<b><font color='Blue'>．取消日期：</font></b>" + DateTime.Today.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>";
+            + "<br/>" + "　　" + "<b><font color='Blue'>．取消日期：</font></b>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") ;
             if(cancel_by!=emp_id)
             {
-                mail.Body += "<br/>" + "　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
-
+                mail.Body += "　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
+                
             }
-            mail.Body += "</td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
+            mail.Body += "<br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + "：報名連結</a><br/></td></tr>"+"<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
@@ -848,7 +848,7 @@ public class clsMyObj
         {
             mail.Body += "　　" + "<font color='Blue'><b>．團隊名稱：" + regVO.team_name + "</b></font><br/>";
         }
-            mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Today.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
+            mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
                 + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font>" + empList
             //  + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
            // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
@@ -1028,14 +1028,14 @@ public class clsMyObj
         mail.Body = "<table  border='1' ><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr>"
    
             + "<tr><td><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
-            + "<font color='Blue'><b>．取消日期：</b>" + DateTime.Today.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
+            + "<font color='Blue'><b>．取消日期：</b>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
             + empList
             + "<font color='Blue'><b>取消人:：/b></font>" + empCancelVO.NATIVE_NAME + "<br/>"
 
 
             + "</td></tr>" + "<tr><td><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-            + "'>" + vo.activity_name + "：團隊取消報名通知</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+            + "'>" + vo.activity_name + "：團隊取消報名</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
