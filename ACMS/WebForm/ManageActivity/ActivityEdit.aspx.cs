@@ -512,14 +512,14 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
             myActivatyDAO.UpdateActivaty(myActivatyVO);
 
-            Response.Redirect("ActivityEditQuery.aspx");
+         
         }
         catch (Exception ex)
         {
             clsMyObj.ShowMessage("存檔失敗!");
             WriteErrorLog("SaveData", ex.Message, "0");
         }
-
+        Response.Redirect("ActivityEditQuery.aspx");
     }
 
     protected void Wizard1_NextButtonClick(object sender, WizardNavigationEventArgs e)
