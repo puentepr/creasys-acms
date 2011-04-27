@@ -324,18 +324,18 @@ public class clsMyObj
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
                 custFieldSt += "　　" + "<font color='Blue'><b>．單選/</b>" + custFieldVO.field_name + "：</font><br/>";
-                custFieldSt += "　　　" + "<font color='black'>" + custFieldVO.field_value + "</font>";
-                //FieldIDs = custFieldVO.field_value.Split(',');
-                //custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
-                //foreach (string fieldID in FieldIDs)
-                //{
-                //    foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
-                //        if (int.Parse(fieldID) == custFieldItem.field_item_id)
-                //        {
-                //            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
+                //custFieldSt += "　　　" + "<font color='black'>" + custFieldVO.field_value + "</font>";
+                FieldIDs = custFieldVO.field_value.Split(',');
+                custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (string fieldID in FieldIDs)
+                {
+                    foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
+                        if (int.Parse(fieldID) == custFieldItem.field_item_id)
+                        {
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
 
-                //        }
-                //}
+                        }
+                }
                 custFieldSt += "<br/>";
             }
 
@@ -538,18 +538,18 @@ public class clsMyObj
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
                 custFieldSt += "　　" + "<font color='Blue'><b>．單選/</b>" + custFieldVO.field_name + "：</font><br/>";
-                custFieldSt += "　　　" + "<font color='black'>" + custFieldVO.field_value  + "</font>";
-                //FieldIDs = custFieldVO.field_value.Split(',');
-                //custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
-                //foreach (string fieldID in FieldIDs)
-                //{
-                //    foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
-                //        if (int.Parse(fieldID) == custFieldItem.field_item_id)
-                //        {
-                //            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
+                //custFieldSt += "　　　" + "<font color='black'>" + custFieldVO.field_value + "</font>";
+                FieldIDs = custFieldVO.field_value.Split(',');
+                custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                foreach (string fieldID in FieldIDs)
+                {
+                    foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
+                        if (int.Parse(fieldID) == custFieldItem.field_item_id)
+                        {
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
 
-                //        }
-                //}
+                        }
+                }
                 custFieldSt += "<br/>";
             }
 
