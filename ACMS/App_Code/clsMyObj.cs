@@ -767,7 +767,7 @@ public class clsMyObj
                 mail.Body += "<br/>"+"　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
                 
             }
-            mail.Body += "<br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
+            mail.Body += "<<br/>br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
             + "'>" + vo.activity_name + "：報名連結</a><br/></td></tr>"+"<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
