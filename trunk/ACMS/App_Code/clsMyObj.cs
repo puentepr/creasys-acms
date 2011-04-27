@@ -293,12 +293,12 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + "$ " + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　　" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "<br/>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "　　　" + "<font color='Red'><b>合計：</b>$ " + ttl.ToString() + "</font><br/>";
+                custFieldSt += "　　　" + "<font color='Red'><b>合計：</b>　$" + ttl.ToString() + "</font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
@@ -346,7 +346,7 @@ public class clsMyObj
         empVO = empDAO.getEmployee(emp_id);
         if (custFieldSt != "")//有自訂欄位
         {
-            mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知 (資料已重新更新)</b></td> </tr><tr><td>"
+            mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知 (資料已重新更新)</b></td> </tr><tr><td>"
                 + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
                 + "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
@@ -518,12 +518,12 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + "$ " + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　　" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "<br/>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "　　　" + "<font color='Red'><b>合計：</b>$ " + ttl.ToString() + "</font><br/>";
+                custFieldSt += "　　　" + "<font color='Red'><b>合計：</b>　$" + ttl.ToString() + "</font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
@@ -598,7 +598,7 @@ public class clsMyObj
         }
         else
         {
-            mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>"
+            mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>"
                 + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
                 + "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
