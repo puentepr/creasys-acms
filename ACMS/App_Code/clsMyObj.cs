@@ -284,21 +284,23 @@ public class clsMyObj
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
                 ttl = 0;
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                custFieldSt += "<table>";
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "</font><br/>";
+                            custFieldSt += "<tr><td>" + "　　　" + "<font color='black'>" + custFieldItem.field_item_name + "</font></td><td>　<font color='black'>$" + custFieldItem.field_item_text + "</font></td></tr>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "　　　" + "<font color='Red'>合計：　$" + ttl.ToString() + "</font><br/>";
+                custFieldSt += "<tr><td>" + "　　　" + "<font color='Red'>合計：</font></td><td>　<font color='Red'>$" + ttl.ToString() + "</font></td></tr>";
+                custFieldSt += "</table>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
@@ -498,21 +500,23 @@ public class clsMyObj
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
                 ttl = 0;
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                custFieldSt += "<table>";
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "</font><br/>";
+                            custFieldSt += "<tr><td>" + "　　　" + "<font color='black'>" + custFieldItem.field_item_name + "</font></td><td>　<font color='black'>$" + custFieldItem.field_item_text + "</font></td></tr>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "　　　" + "<font color='Red'>合計：　$" + ttl.ToString() + "</font><br/>";
+                custFieldSt += "<tr><td>" + "　　　" + "<font color='Red'>合計：</font></td><td>　<font color='Red'>$" + ttl.ToString() + "</font></td></tr>";
+                            custFieldSt += "</table>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
