@@ -279,7 +279,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" + custFieldVO.field_value + "<br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" + "<font color='black'>" + custFieldVO.field_value + "</font><br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
@@ -293,7 +293,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "</font><br/>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
@@ -314,7 +314,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
 
                         }
                 }
@@ -332,7 +332,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
 
                         }
                 }
@@ -504,7 +504,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" + custFieldVO.field_value + "<br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" +"<font color='black'>"+ custFieldVO.field_value + "</font><br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
@@ -518,7 +518,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + "　$" + custFieldItem.field_item_text + "</font><br/>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
@@ -539,7 +539,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            custFieldSt += "　　　" +"<font color='black'>"+custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
 
                         }
                 }
@@ -557,7 +557,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            custFieldSt += "　　　" +"<font color='black'>"+ custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
 
                         }
                 }
