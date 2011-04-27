@@ -279,7 +279,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" + "<font color='black'>" + custFieldVO.field_value + "</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" + "<font color='black'>" + custFieldVO.field_value.Trim() + "</font><br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
@@ -493,7 +493,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" + "<font color='black'>" + custFieldVO.field_value + "</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>　　　" + "<font color='black'>" + custFieldVO.field_value.Trim() + "</font><br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
