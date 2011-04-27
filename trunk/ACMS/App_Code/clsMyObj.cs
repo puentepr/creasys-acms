@@ -1067,7 +1067,7 @@ public class clsMyObj
 
         //}
 
-        mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td></tr><tr><td>"
+        mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td></tr><tr><td><br/><br/>"
              + "　　" + "<font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>";
 
         if (regVO.team_name != "")
@@ -1080,7 +1080,7 @@ public class clsMyObj
            // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
         + "<br/>" + "　　<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":","第")+ "隊</font></td></tr>"+"<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-            + "'>" + vo.activity_name + "：團隊報名成功連結</a><br/></td></tr>"+"<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+            + "'>" + vo.activity_name + "：團隊報名成功連結</a><br/><br/><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         try
