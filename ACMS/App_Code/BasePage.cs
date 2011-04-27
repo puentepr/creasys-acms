@@ -70,7 +70,7 @@ public class BasePage : System.Web.UI.Page
         }
         WriteErrorLog("OnError", Msg, "0");
         Response.Write("<script language=\"javascript\">alert(\"" + Msg.Replace("\\", "\\\\").Replace(vbCrLf, "\\r\\n").Replace("\"", "'").Replace(vbTab ,"") + "\")</Script>");
-       Server.ClearError();
+        Server.ClearError();
 		base.OnError(e);
 	}
 

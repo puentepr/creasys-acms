@@ -33,8 +33,7 @@
             <My:UpdateProgress ID="myprogress1" runat="server" />
         </ProgressTemplate>
     </asp:UpdateProgress>
-    <asp:UpdatePanel ID="UpdatePanel4" runat="server">
-        <ContentTemplate>
+   
             <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="2" DisplaySideBar="False"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
                 StepPreviousButtonText="上一步" OnFinishButtonClick="Wizard1_FinishButtonClick"
@@ -42,223 +41,234 @@
                 OnActiveStepChanged="Wizard1_ActiveStepChanged">
                 <WizardSteps>
                     <asp:WizardStep runat="server" Title="Step 1">
-                        <font color="blue">此頁面您可編輯或上傳此活動公告或訊息(文字與圖檔)，提供報名者了解活動內容與規劃</font><br />
-                        <asp:Panel ID="plFCKEditor" runat="server">
-                            <asp:Literal ID="liactivity_info" runat="server" Visible="False"></asp:Literal>
-                            <FCKeditorV2:FCKeditor ID="FCKeditor1" runat="server" Width="800px" Height="400px"
-                                BasePath="~/FCKeditor/">
-                            </FCKeditorV2:FCKeditor>
-                        </asp:Panel>
+                        <asp:UpdatePanel ID="UpdatePanel4" runat="server">
+                            <ContentTemplate>
+                                <font color="blue">此頁面您可編輯或上傳此活動公告或訊息(文字與圖檔)，提供報名者了解活動內容與規劃</font><br />
+                                <asp:Panel ID="plFCKEditor" runat="server">
+                                    <asp:Literal ID="liactivity_info" runat="server" Visible="False"></asp:Literal>
+                                    <FCKeditorV2:FCKeditor ID="FCKeditor1" runat="server" Width="800px" Height="400px"
+                                        BasePath="~/FCKeditor/">
+                                    </FCKeditorV2:FCKeditor>
+                                </asp:Panel>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
                     </asp:WizardStep>
                     <asp:WizardStep runat="server" Title="Step 2">
-                        <font color="blue">請填寫本次活動的基本資訊，同時亦可上傳活動相關檔案 </font></font><br />
-                        <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="ObjectDataSource_Activaty"
-                            EnableModelValidation="True" OnPreRender="FormView1_PreRender">
-                            <ItemTemplate>
-                                <table align="center">
-                                    <tr>
-                                        <td>
-                                            活動主辦單位
-                                        </td>
-                                        <td>
-                                            <TServerControl:TDropDownList ID="ddlorg_id" runat="server" DataSourceID="ObjectDataSource_Unit"
-                                                DataTextField="name" DataValueField="id" SelectedValue='<%# Bind("org_id") %>'>
-                                            </TServerControl:TDropDownList>
-                                            <asp:RequiredFieldValidator ID="chk_ddlorg_id" runat="server" ControlToValidate="ddlorg_id"
-                                                Display="Dynamic" ErrorMessage="活動主辦單位必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                            <asp:ObjectDataSource ID="ObjectDataSource_Unit" runat="server" OldValuesParameterFormatString="original_{0}"
-                                                SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            活動名稱&nbsp;&nbsp;
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtactivity_name" runat="server" Text='<%# Bind("activity_name") %>'
-                                                Width="350px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="chk_txtactivity_name" runat="server" ControlToValidate="txtactivity_name"
-                                                Display="Dynamic" ErrorMessage="活動名稱必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            活動對象
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtpeople_type" runat="server" Text='<%# Bind("people_type") %>'
-                                                Height="47px" TextMode="MultiLine" Width="350px"></asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="chk_txtpeople_type" runat="server" ControlToValidate="txtpeople_type"
-                                                Display="Dynamic" ErrorMessage="活動對象必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            活動日期(起)
-                                        </td>
-                                        <td>
-                                            <uc3:DatetimePicker ID="txtactivity_startdate" DateTimeValue='<%# Bind("activity_startdate") %>'
-                                                runat="server" EnableTheming="False" EnableViewState="True" RequiredErrorMessage="活動日期(起)必填"
-                                                FormatErrorMessage="活動日期(起)格式不正確" ValidationGroup="WizardNext" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            活動日期(迄)
-                                        </td>
-                                        <td>
-                                            <uc3:DatetimePicker ID="txtactivity_enddate" runat="server" DateTimeValue='<%# Bind("activity_enddate") %>'
-                                                EnableTheming="True" RequiredErrorMessage="活動日期(迄)必填" FormatErrorMessage="活動日期(迄)格式不正確"
-                                                ValidationGroup="WizardNext" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <asp:Literal ID="lbllimit_count" runat="server" Visible="False">活動人數上限</asp:Literal>
-                                            <asp:Literal ID="lbllimit_count_team" runat="server" Visible="False">活動隊數上限</asp:Literal>
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtlimit_count" runat="server" Text='<%# Bind("limit_count") %>' />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <asp:Literal ID="lbllimit2_count" runat="server" Visible="False">活動備取人數</asp:Literal>
-                                            <asp:Literal ID="lbllimit2_count_team" runat="server" Visible="False">活動備取隊數</asp:Literal>
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtlimit2_count" runat="server" Text='<%# Bind("limit2_count") %>' />
-                                        </td>
-                                    </tr>
-                                    <tr id="trteam_member_max" runat="server">
-                                        <td>
-                                            每隊人數上限
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtteam_member_max" runat="server" Text='<%# Bind("team_member_max") %>' />
-                                            <asp:RequiredFieldValidator ID="chk_txtteam_member_max" runat="server" Display="Dynamic"
-                                                ErrorMessage="每隊人數上限必填" ValidationGroup="WizardNext" ControlToValidate="txtteam_member_max"></asp:RequiredFieldValidator>
-                                            <asp:CompareValidator ID="chk_txtteam_member_max2" runat="server" ControlToValidate="txtteam_member_max"
-                                                ErrorMessage="每隊人數上限必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
-                                                Display="Dynamic"></asp:CompareValidator>
-                                        </td>
-                                    </tr>
-                                    <tr id="trteam_member_min" runat="server">
-                                        <td>
-                                            每隊人數下限
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtteam_member_min" runat="server" Text='<%# Bind("team_member_min") %>' />
-                                            <asp:RequiredFieldValidator ID="chk_txtteam_member_min" runat="server" Display="Dynamic"
-                                                ErrorMessage="每隊人數下限必填" ValidationGroup="WizardNext" ControlToValidate="txtteam_member_min"></asp:RequiredFieldValidator>
-                                            <asp:CompareValidator ID="chk_txtteam_member_min2" runat="server" ControlToValidate="txtteam_member_min"
-                                                ErrorMessage="每隊人數下限必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
-                                                Display="Dynamic"></asp:CompareValidator>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            報名開始日
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtregist_startdate" runat="server" Text='<%# Bind("regist_startdate","{0:d}") %>' />
-                                            <ajaxToolkit:CalendarExtender ID="txtregist_startdate_CalendarExtender" runat="server"
-                                                Format="yyyy/MM/dd" TargetControlID="txtregist_startdate">
-                                            </ajaxToolkit:CalendarExtender>
-                                            <asp:RequiredFieldValidator ID="chk_txtregist_startdate" runat="server" ControlToValidate="txtregist_startdate"
-                                                Display="Dynamic" ErrorMessage="報名開始日必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                            <asp:CompareValidator ID="chk_txtregist_startdate2" runat="server" ControlToValidate="txtregist_startdate"
-                                                Display="Dynamic" ErrorMessage="報名開始日格式不正確" Operator="DataTypeCheck" Type="Date"
-                                                ValidationGroup="WizardNext"></asp:CompareValidator>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            報名截止日
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtregist_deadline" runat="server" Text='<%# Bind("regist_deadline","{0:d}") %>' />
-                                            <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="yyyy/MM/dd"
-                                                TargetControlID="txtregist_deadline">
-                                            </ajaxToolkit:CalendarExtender>
-                                            <asp:RequiredFieldValidator ID="chk_txtregist_deadline" runat="server" ControlToValidate="txtregist_deadline"
-                                                Display="Dynamic" ErrorMessage="報名截止日必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                            <asp:CompareValidator ID="chk_txtregist_deadline2" runat="server" ControlToValidate="txtregist_deadline"
-                                                Display="Dynamic" ErrorMessage="報名截止日格式不正確" Operator="DataTypeCheck" Type="Date"
-                                                ValidationGroup="WizardNext"></asp:CompareValidator>
-                                            <asp:CompareValidator ID="chk_txtregist_deadline3" runat="server" ControlToCompare="txtregist_startdate"
-                                                ControlToValidate="txtregist_deadline" Display="Dynamic" ErrorMessage="報名開始日不可晚於報名截止日"
-                                                Operator="GreaterThanEqual" Type="Date" ValidationGroup="WizardNext"></asp:CompareValidator>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            取消報名截止日
-                                        </td>
-                                        <td>
-                                            <asp:TextBox ID="txtcancelregist_deadline" runat="server" Text='<%# Bind("cancelregist_deadline","{0:d}") %>' />
-                                            <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" TargetControlID="txtcancelregist_deadline"
-                                                Format="yyyy/MM/dd">
-                                            </ajaxToolkit:CalendarExtender>
-                                            <asp:RequiredFieldValidator ID="chk_txtcancelregist_deadline" runat="server" ControlToValidate="txtcancelregist_deadline"
-                                                ErrorMessage="取消報名截止日必填" Display="Dynamic" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
-                                            <asp:CompareValidator ID="chk_txtcancelregist_deadline2" runat="server" ControlToValidate="txtcancelregist_deadline"
-                                                ErrorMessage="取消報名截止日格式不正確" Operator="DataTypeCheck" Type="Date" Display="Dynamic"
-                                                ValidationGroup="WizardNext"></asp:CompareValidator>
-                                            <asp:CompareValidator ID="chk_txtcancelregist_deadline3" runat="server" ControlToCompare="txtregist_deadline"
-                                                ControlToValidate="txtcancelregist_deadline" Display="Dynamic" ErrorMessage="報名截止日不可晚於取消報名截止日"
-                                                Operator="GreaterThanEqual" Type="Date" ValidationGroup="WizardNext"></asp:CompareValidator>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            活動進度顯示
-                                        </td>
-                                        <td>
-                                            <TServerControl:TCheckBoxYN ID="chkis_showprogres" runat="server" YesNo='<%# Eval("is_showprogress") %>' />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            附加檔案
-                                        </td>
-                                        <td>
-                                            <asp:FileUpload ID="FileUpload1" runat="server" />
-                                            <asp:Button ID="btnUpload" runat="server" Text="上傳" OnClick="btnUpload_Click" 
-                                                oninit="btnUpload_Init" />
-                                            <asp:Image ID="Image1" runat="server" ImageUrl="~/images/loading.gif" CssClass="pldisVisible" />
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="2">
-                                            <TServerControl:TGridView ID="GridView_UpFiles" runat="server" AutoGenerateColumns="False"
-                                                DataKeyNames="path" DataSourceID="ObjectDataSource_UpFiles" AllowHoverEffect="True"
-                                                AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-                                                SkinID="pager" TotalRowCount="0" Width="100%" AllowSorting="False">
-                                                <Columns>
-                                                    <asp:BoundField DataField="name" HeaderText="活動資料下載" SortExpression="name" />
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <asp:LinkButton ID="lbtnFileDownload" runat="server" CommandArgument='<%# Eval("path") %>'
-                                                                OnClick="lbtnFileDownload_Click">下載</asp:LinkButton>
-                                                        </ItemTemplate>
-                                                        <ItemStyle Width="50px" HorizontalAlign="Center" />
-                                                    </asp:TemplateField>
-                                                    <asp:TemplateField>
-                                                        <ItemTemplate>
-                                                            <asp:LinkButton ID="lbtnFileDelete" runat="server" CommandArgument='<%# Eval("path") %>'
-                                                                OnClientClick="return confirm('確定要刪除嗎?')" OnClick="lbtnFileDelete_Click">刪除</asp:LinkButton>
-                                                        </ItemTemplate>
-                                                        <ItemStyle Width="50px" HorizontalAlign="Center" />
-                                                    </asp:TemplateField>
-                                                </Columns>
-                                            </TServerControl:TGridView>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <br />
-                            </ItemTemplate>
-                        </asp:FormView>
+                        <asp:UpdatePanel ID="UpdatePanel5" runat="server">
+                            <ContentTemplate>
+                                <font color="blue">請填寫本次活動的基本資訊，同時亦可上傳活動相關檔案 </font></font><br />
+                                <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="ObjectDataSource_Activaty"
+                                    EnableModelValidation="True" OnPreRender="FormView1_PreRender">
+                                    <ItemTemplate>
+                                        <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                            <ContentTemplate>
+                                                <table align="center">
+                                                    <tr>
+                                                        <td>
+                                                            活動主辦單位
+                                                        </td>
+                                                        <td>
+                                                            <TServerControl:TDropDownList ID="ddlorg_id" runat="server" DataSourceID="ObjectDataSource_Unit"
+                                                                DataTextField="name" DataValueField="id" SelectedValue='<%# Bind("org_id") %>'>
+                                                            </TServerControl:TDropDownList>
+                                                            <asp:RequiredFieldValidator ID="chk_ddlorg_id" runat="server" ControlToValidate="ddlorg_id"
+                                                                Display="Dynamic" ErrorMessage="活動主辦單位必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                                            <asp:ObjectDataSource ID="ObjectDataSource_Unit" runat="server" OldValuesParameterFormatString="original_{0}"
+                                                                SelectMethod="SelectUnit" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            活動名稱&nbsp;&nbsp;
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtactivity_name" runat="server" Text='<%# Bind("activity_name") %>'
+                                                                Width="350px"></asp:TextBox>
+                                                            <asp:RequiredFieldValidator ID="chk_txtactivity_name" runat="server" ControlToValidate="txtactivity_name"
+                                                                Display="Dynamic" ErrorMessage="活動名稱必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            活動對象
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtpeople_type" runat="server" Text='<%# Bind("people_type") %>'
+                                                                Height="47px" TextMode="MultiLine" Width="350px"></asp:TextBox>
+                                                            <asp:RequiredFieldValidator ID="chk_txtpeople_type" runat="server" ControlToValidate="txtpeople_type"
+                                                                Display="Dynamic" ErrorMessage="活動對象必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            活動日期(起)
+                                                        </td>
+                                                        <td>
+                                                            <uc3:DatetimePicker ID="txtactivity_startdate" DateTimeValue='<%# Bind("activity_startdate") %>'
+                                                                runat="server" EnableTheming="False" EnableViewState="True" RequiredErrorMessage="活動日期(起)必填"
+                                                                FormatErrorMessage="活動日期(起)格式不正確" ValidationGroup="WizardNext" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            活動日期(迄)
+                                                        </td>
+                                                        <td>
+                                                            <uc3:DatetimePicker ID="txtactivity_enddate" runat="server" DateTimeValue='<%# Bind("activity_enddate") %>'
+                                                                EnableTheming="True" RequiredErrorMessage="活動日期(迄)必填" FormatErrorMessage="活動日期(迄)格式不正確"
+                                                                ValidationGroup="WizardNext" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Literal ID="lbllimit_count" runat="server" Visible="False">活動人數上限</asp:Literal>
+                                                            <asp:Literal ID="lbllimit_count_team" runat="server" Visible="False">活動隊數上限</asp:Literal>
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtlimit_count" runat="server" Text='<%# Bind("limit_count") %>' />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <asp:Literal ID="lbllimit2_count" runat="server" Visible="False">活動備取人數</asp:Literal>
+                                                            <asp:Literal ID="lbllimit2_count_team" runat="server" Visible="False">活動備取隊數</asp:Literal>
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtlimit2_count" runat="server" Text='<%# Bind("limit2_count") %>' />
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trteam_member_max" runat="server">
+                                                        <td>
+                                                            每隊人數上限
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtteam_member_max" runat="server" Text='<%# Bind("team_member_max") %>' />
+                                                            <asp:RequiredFieldValidator ID="chk_txtteam_member_max" runat="server" Display="Dynamic"
+                                                                ErrorMessage="每隊人數上限必填" ValidationGroup="WizardNext" ControlToValidate="txtteam_member_max"></asp:RequiredFieldValidator>
+                                                            <asp:CompareValidator ID="chk_txtteam_member_max2" runat="server" ControlToValidate="txtteam_member_max"
+                                                                ErrorMessage="每隊人數上限必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
+                                                                Display="Dynamic"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr id="trteam_member_min" runat="server">
+                                                        <td>
+                                                            每隊人數下限
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtteam_member_min" runat="server" Text='<%# Bind("team_member_min") %>' />
+                                                            <asp:RequiredFieldValidator ID="chk_txtteam_member_min" runat="server" Display="Dynamic"
+                                                                ErrorMessage="每隊人數下限必填" ValidationGroup="WizardNext" ControlToValidate="txtteam_member_min"></asp:RequiredFieldValidator>
+                                                            <asp:CompareValidator ID="chk_txtteam_member_min2" runat="server" ControlToValidate="txtteam_member_min"
+                                                                ErrorMessage="每隊人數下限必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
+                                                                Display="Dynamic"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            報名開始日
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtregist_startdate" runat="server" Text='<%# Bind("regist_startdate","{0:d}") %>' />
+                                                            <ajaxToolkit:CalendarExtender ID="txtregist_startdate_CalendarExtender" runat="server"
+                                                                Format="yyyy/MM/dd" TargetControlID="txtregist_startdate">
+                                                            </ajaxToolkit:CalendarExtender>
+                                                            <asp:RequiredFieldValidator ID="chk_txtregist_startdate" runat="server" ControlToValidate="txtregist_startdate"
+                                                                Display="Dynamic" ErrorMessage="報名開始日必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                                            <asp:CompareValidator ID="chk_txtregist_startdate2" runat="server" ControlToValidate="txtregist_startdate"
+                                                                Display="Dynamic" ErrorMessage="報名開始日格式不正確" Operator="DataTypeCheck" Type="Date"
+                                                                ValidationGroup="WizardNext"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            報名截止日
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtregist_deadline" runat="server" Text='<%# Bind("regist_deadline","{0:d}") %>' />
+                                                            <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" Format="yyyy/MM/dd"
+                                                                TargetControlID="txtregist_deadline">
+                                                            </ajaxToolkit:CalendarExtender>
+                                                            <asp:RequiredFieldValidator ID="chk_txtregist_deadline" runat="server" ControlToValidate="txtregist_deadline"
+                                                                Display="Dynamic" ErrorMessage="報名截止日必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                                            <asp:CompareValidator ID="chk_txtregist_deadline2" runat="server" ControlToValidate="txtregist_deadline"
+                                                                Display="Dynamic" ErrorMessage="報名截止日格式不正確" Operator="DataTypeCheck" Type="Date"
+                                                                ValidationGroup="WizardNext"></asp:CompareValidator>
+                                                            <asp:CompareValidator ID="chk_txtregist_deadline3" runat="server" ControlToCompare="txtregist_startdate"
+                                                                ControlToValidate="txtregist_deadline" Display="Dynamic" ErrorMessage="報名開始日不可晚於報名截止日"
+                                                                Operator="GreaterThanEqual" Type="Date" ValidationGroup="WizardNext"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            取消報名截止日
+                                                        </td>
+                                                        <td>
+                                                            <asp:TextBox ID="txtcancelregist_deadline" runat="server" Text='<%# Bind("cancelregist_deadline","{0:d}") %>' />
+                                                            <ajaxToolkit:CalendarExtender ID="CalendarExtender3" runat="server" TargetControlID="txtcancelregist_deadline"
+                                                                Format="yyyy/MM/dd">
+                                                            </ajaxToolkit:CalendarExtender>
+                                                            <asp:RequiredFieldValidator ID="chk_txtcancelregist_deadline" runat="server" ControlToValidate="txtcancelregist_deadline"
+                                                                ErrorMessage="取消報名截止日必填" Display="Dynamic" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
+                                                            <asp:CompareValidator ID="chk_txtcancelregist_deadline2" runat="server" ControlToValidate="txtcancelregist_deadline"
+                                                                ErrorMessage="取消報名截止日格式不正確" Operator="DataTypeCheck" Type="Date" Display="Dynamic"
+                                                                ValidationGroup="WizardNext"></asp:CompareValidator>
+                                                            <asp:CompareValidator ID="chk_txtcancelregist_deadline3" runat="server" ControlToCompare="txtregist_deadline"
+                                                                ControlToValidate="txtcancelregist_deadline" Display="Dynamic" ErrorMessage="報名截止日不可晚於取消報名截止日"
+                                                                Operator="GreaterThanEqual" Type="Date" ValidationGroup="WizardNext"></asp:CompareValidator>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            活動進度顯示
+                                                        </td>
+                                                        <td>
+                                                            <TServerControl:TCheckBoxYN ID="chkis_showprogres" runat="server" YesNo='<%# Eval("is_showprogress") %>' />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            附加檔案
+                                                        </td>
+                                                        <td>
+                                                            <asp:FileUpload ID="FileUpload1" runat="server" />
+                                                            <asp:Button ID="btnUpload" runat="server" Text="上傳" OnClick="btnUpload_Click" OnInit="btnUpload_Init" />
+                                                            <asp:Image ID="Image1" runat="server" ImageUrl="~/images/loading.gif" CssClass="pldisVisible" />
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="2">
+                                                            <TServerControl:TGridView ID="GridView_UpFiles" runat="server" AutoGenerateColumns="False"
+                                                                DataKeyNames="path" DataSourceID="ObjectDataSource_UpFiles" AllowHoverEffect="True"
+                                                                AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
+                                                                SkinID="pager" TotalRowCount="0" Width="100%" AllowSorting="False">
+                                                                <Columns>
+                                                                    <asp:BoundField DataField="name" HeaderText="活動資料下載" SortExpression="name" />
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lbtnFileDownload" runat="server" CommandArgument='<%# Eval("path") %>'
+                                                                                OnClick="lbtnFileDownload_Click">下載</asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle Width="50px" HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                    <asp:TemplateField>
+                                                                        <ItemTemplate>
+                                                                            <asp:LinkButton ID="lbtnFileDelete" runat="server" CommandArgument='<%# Eval("path") %>'
+                                                                                OnClientClick="return confirm('確定要刪除嗎?')" OnClick="lbtnFileDelete_Click">刪除</asp:LinkButton>
+                                                                        </ItemTemplate>
+                                                                        <ItemStyle Width="50px" HorizontalAlign="Center" />
+                                                                    </asp:TemplateField>
+                                                                </Columns>
+                                                            </TServerControl:TGridView>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                                <br />
+                                            </ContentTemplate>
+                                        </asp:UpdatePanel>
+                                    </ItemTemplate>
+                                </asp:FormView>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
                         <asp:ObjectDataSource ID="ObjectDataSource_Activaty" runat="server" OldValuesParameterFormatString="original_{0}"
                             SelectMethod="SelectActivatyByActivatyID" TypeName="ACMS.BO.ActivatyBO">
                             <SelectParameters>
@@ -523,11 +533,15 @@
                         </asp:UpdatePanel>
                     </asp:WizardStep>
                     <asp:WizardStep runat="server" Title="Step 5">
+                    <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional">
+                            <ContentTemplate>
                         <font color="blue">請註明同仁於報名本次活動時，所需留意的事項或要點</font><br />
                         <asp:RequiredFieldValidator ID="chk_txtnotice" runat="server" ControlToValidate="txtnotice"
                             ErrorMessage="注意事項必填" ValidationGroup="WizardNext">*</asp:RequiredFieldValidator>
                         <br />
                         <asp:TextBox ID="txtnotice" runat="server" Height="300px" TextMode="MultiLine" Width="400px"></asp:TextBox>
+                        </ContentTemplate>
+                                </asp:UpdatePanel>
                     </asp:WizardStep>
                 </WizardSteps>
                 <StepNavigationTemplate>
@@ -545,6 +559,5 @@
                 ShowMessageBox="True" ShowSummary="False" />
             <asp:ValidationSummary ID="sum_Query" runat="server" DisplayMode="List" ShowMessageBox="True"
                 ShowSummary="False" ValidationGroup="Query" />
-        </ContentTemplate>
-    </asp:UpdatePanel>
+      
 </asp:Content>

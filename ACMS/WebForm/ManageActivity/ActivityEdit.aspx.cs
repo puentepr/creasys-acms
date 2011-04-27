@@ -260,55 +260,79 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
     //上傳附件檔案
     protected void btnUpload_Click(object sender, EventArgs e)
     {
-
-       
-        FileUpload myFileUpload = (FileUpload)FormView1.FindControl("FileUpload1");
-
-        if (myFileUpload.HasFile)
+        //先檢查5M的總容量限制
+        long ttlByte = 0;
+        ACMS.BO.UpFileBO upBO = new ACMS.BO.UpFileBO();
+        List <ACMS.VO.UpFileVO> upFiles = upBO .SELECT (Server.MapPath ("~/UPFiles/"+ActivityID .ToString()));
+        foreach (ACMS.VO.UpFileVO upFile in upFiles)
         {
-            //    //andy 2011/1/6 日sugar說要拿掉檢查.
-            //if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) ==-1)
-            //{
-            //    clsMyObj.ShowMessage(string.Format("副檔名只能是[{0}]!", ConfigurationManager.AppSettings["ValidExtention"]));
-            //    return;
-            //}
+            ttlByte += new FileInfo(upFile.path).Length ;
+        }
 
 
-            try
+
+        FileUpload myFileUpload = (FileUpload)FormView1.FindControl("FileUpload1");
+        if (myFileUpload.FileBytes.LongLength+ttlByte   >= 5100000)
+        {
+            WriteErrorLog("UploadFile", "已超過總容量5M的管制", "0");
+            return;
+        }
+
+        try
+        {
+
+           
+
+            if (myFileUpload.HasFile)
             {
+                //    //andy 2011/1/6 日sugar說要拿掉檢查.
+                //if (ConfigurationManager.AppSettings["ValidExtention"].ToLower().IndexOf(Path.GetExtension(myFileUpload.FileName).Replace(".","").ToLower()) ==-1)
+                //{
+                //    clsMyObj.ShowMessage(string.Format("副檔名只能是[{0}]!", ConfigurationManager.AppSettings["ValidExtention"]));
+                //    return;
+                //}
+
+
                 try
                 {
-                    DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString())));
-
-                    if (!myDirectoryInfo.Exists)
+                    try
                     {
-                        myDirectoryInfo.Create();
+                        DirectoryInfo myDirectoryInfo = new DirectoryInfo(Server.MapPath(Path.Combine("~/UpFiles", ActivityID.ToString())));
+
+                        if (!myDirectoryInfo.Exists)
+                        {
+                            myDirectoryInfo.Create();
+                        }
+
+                        FileStream myFileStream = new FileStream(Path.Combine(myDirectoryInfo.FullName, myFileUpload.FileName), FileMode.Create);
+                        myFileStream.Write(myFileUpload.FileBytes, 0, myFileUpload.FileBytes.Length);
+
                     }
+                    catch (Exception ex1)
+                    {
+                        clsMyObj.ShowMessage("目錄權限不足.無法寫入檔案!");
+                        WriteErrorLog("UploadFile", ex1.Message, "0");
 
-                    FileStream myFileStream = new FileStream(Path.Combine(myDirectoryInfo.FullName, myFileUpload.FileName), FileMode.Create);
-                    myFileStream.Write(myFileUpload.FileBytes, 0, myFileUpload.FileBytes.Length);
-
+                    }
                 }
-                catch (Exception ex1)
+                catch (Exception ex)
                 {
-                    clsMyObj.ShowMessage("目錄權限不足.無法寫入檔案!");
-                    WriteErrorLog("UploadFile", ex1.Message, "0");
+                    clsMyObj.ShowMessage("檔案上傳時發生錯誤!:" + ex.Message);
+                    WriteErrorLog("UploadFile", ex.Message, "0");
+
 
                 }
+
+
+                (FormView1.FindControl("Image1") as Image).CssClass = "pldisVisible";
+                GridView GridView_UpFiles = (GridView)FormView1.FindControl("GridView_UpFiles");
+
+                GridView_UpFiles.DataBind();
             }
-            catch (Exception ex)
-            {
-                clsMyObj.ShowMessage("檔案上傳時發生錯誤!:" + ex.Message);
-                WriteErrorLog("UploadFile", ex.Message, "0");
-
-
-            }
-
-
-            (FormView1.FindControl("Image1") as Image).CssClass = "pldisVisible";
-            GridView GridView_UpFiles = (GridView)FormView1.FindControl("GridView_UpFiles");
-
-            GridView_UpFiles.DataBind();
+        }
+        catch (Exception ex2)
+        {
+            WriteErrorLog("UploadFile", ex2.Message, "0");
         }
     }
 
