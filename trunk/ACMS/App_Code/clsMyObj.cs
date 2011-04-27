@@ -307,7 +307,7 @@ public class clsMyObj
 
                 custFieldSt += "　　" + "<font color='Blue'><b>．複選/</b>" + custFieldVO.field_name + "：</font><br/>";
 
-                FieldIDs = custFieldVO.field_value.Split(',');
+                FieldIDs = custFieldVO.field_value.Split('、');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
                 foreach (string fieldID in FieldIDs)
                 {
@@ -332,7 +332,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
 
                         }
                 }
@@ -342,6 +342,7 @@ public class clsMyObj
 
         }
         #endregion
+
         ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by);
         empVO = empDAO.getEmployee(emp_id);
         if (custFieldSt != "")//有自訂欄位
@@ -520,7 +521,7 @@ public class clsMyObj
 
                 custFieldSt += "　　" + "<font color='Blue'><b>．複選/</b>" + custFieldVO.field_name + "：</font><br/>";
 
-                FieldIDs = custFieldVO.field_value.Split(',');
+                FieldIDs = custFieldVO.field_value.Split('、');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
                 foreach (string fieldID in FieldIDs)
                 {
@@ -545,7 +546,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
 
                         }
                 }
