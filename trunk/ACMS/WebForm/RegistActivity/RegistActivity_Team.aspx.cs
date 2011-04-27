@@ -899,27 +899,27 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
-        try
+        //預覽時
+        if (Session["form_mode1"] != null)
         {
-            //預覽時
-            if (Session["form_mode1"] != null)
+            if (Session["form_mode1"].ToString() == "preview")
             {
-                if (Session["form_mode1"].ToString() == "preview")
-                {
-                    Session.Remove("form_mode1");
-                    Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
-                }
-            }
-
-            if (hiMode1.Value == "preview")
-            {
+                Session.Remove("form_mode1");
                 Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
             }
+        }
 
-            if (MyFormMode == FormViewMode.ReadOnly)
-            {
-                Response.Redirect("RegistedActivityQuery.aspx?type=2");
-            }
+        if (hiMode1.Value == "preview")
+        {
+            Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+        }
+
+        if (MyFormMode == FormViewMode.ReadOnly)
+        {
+            Response.Redirect("RegistedActivityQuery.aspx?type=2");
+        }
+        try
+        {
 
             ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
             List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
@@ -960,12 +960,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             }
             else
             {
-                
+
             }
 
         }
         catch (Exception ex)
-
         {
             WriteErrorLog("SaveData", ex.Message, "0");
         }
