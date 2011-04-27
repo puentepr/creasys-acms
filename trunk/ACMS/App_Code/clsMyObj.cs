@@ -1068,17 +1068,17 @@ public class clsMyObj
         //}
 
         mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td></tr><tr><td><br/><br/>"
-             + "　　" + "<font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>";
+             + "　　" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>";
 
         if (regVO.team_name != "")
         {
-            mail.Body += "　　" + "<font color='Blue'><b>．團隊名稱：" + regVO.team_name + "</b></font><br/>";
+            mail.Body += "　　" + "<font color='Blue'><b>．團隊名稱：</b></font><font color='black'>" + regVO.team_name + "</font><br/>";
         }
-            mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
-                + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font>" + empList
+        mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
+                + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font><font color='black'>" + empList
             //  + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
            // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
-        + "<br/>" + "　　<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":","第")+ "隊</font></td></tr>"+"<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
+        + "<br/></font>" + "　　<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font></td></tr>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
             + "'>" + vo.activity_name + "：團隊報名成功連結</a><br/><br/><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
