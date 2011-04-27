@@ -347,10 +347,10 @@ public class clsMyObj
         if (custFieldSt != "")//有自訂欄位
         {
             mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知 (資料已重新更新)</b></td> </tr><tr><td>"
-                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
+                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
-                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>";
+                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>";
             //   + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>";
             if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
             {
@@ -374,10 +374,10 @@ public class clsMyObj
         else
         {
             mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>"
-                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
+                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
-                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>";
+                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID+ "</font><br/>";
             //   + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>";
             if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
             {
@@ -572,10 +572,10 @@ public class clsMyObj
         if (custFieldSt != "")//有自訂欄位
         {
             mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>"
-                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
+                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
-                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>";
+                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>";
              //   + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>";
             if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
             {
@@ -599,10 +599,10 @@ public class clsMyObj
         else
         {
             mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td>"
-                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
+                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME+ "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "　　" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
-                + "　　" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>";
+                + "　　" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>";
             //   + "　　" + "<font color='Blue'><b>．工號：</b></font>" + empVO.WORK_ID + "<br/>";
             if (vo.is_showperson_fix2.ToString().ToUpper() == "Y")
             {
