@@ -178,7 +178,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         }
         catch (Exception ex)
         {
-            WriteErrorLog("ThirdStep", ex.Message, "0");
+           // WriteErrorLog("ThirdStep", ex.Message, "0");
 
         }
     }
@@ -275,7 +275,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         }
         catch (Exception ex)
         {
-            WriteErrorLog("ActivityDetailDataBind", ex.Message, "0");
+          //  WriteErrorLog("ActivityDetailDataBind", ex.Message, "0");
 
         }
     }
@@ -574,25 +574,25 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
+
+        //預覽時
+        if (Session["form_mode1"] != null)
+        {
+            if (Session["form_mode1"].ToString() == "preview")
+            {
+                Session.Remove("form_mode1");
+                Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
+            }
+        }
+
+
+
+        if (MyFormMode == FormViewMode.ReadOnly)
+        {
+            Response.Redirect("RegistedActivityQuery.aspx?type=1");
+        }
         try
         {
-            //預覽時
-            if (Session["form_mode1"] != null)
-            {
-                if (Session["form_mode1"].ToString() == "preview")
-                {
-                    Session.Remove("form_mode1");
-                    Response.Redirect("~/WebForm/ManageActivity/ActivityEditQuery.aspx");
-                }
-            }
-
-
-
-            if (MyFormMode == FormViewMode.ReadOnly)
-            {
-                Response.Redirect("RegistedActivityQuery.aspx?type=1");
-            }
-
             //以新增方式進來時
             ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
             List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
