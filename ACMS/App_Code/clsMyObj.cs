@@ -1074,7 +1074,7 @@ public class clsMyObj
         {
             mail.Body += "　　" + "<font color='Blue'><b>．團隊名稱：</b></font><font color='black'>" + regVO.team_name + "</font><br/>";
         }
-        mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
+        mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
                    + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font><font color='black'>" + empList + "</font><br/>" 
             //  + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
            // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
