@@ -314,7 +314,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
 
                         }
                 }
@@ -332,7 +332,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
 
                         }
                 }
@@ -528,7 +528,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
 
                         }
                 }
@@ -546,7 +546,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>,";
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
 
                         }
                 }
