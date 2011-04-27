@@ -1351,10 +1351,10 @@ public class clsMyObj
                 + "<tr><td><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
                 + "<font color='Blue'><b>．取消日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
                 + empList;
-            if (cancel_by != emp)
-            {
-                mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
-            }
+            //if (cancel_by != emp)
+            //{
+            //    mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
+            //}
 
             mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'><font color='red'>※團隊報名人數已低於下限，系統已取消此隊伍參加資格</font><br/><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
