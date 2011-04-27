@@ -298,7 +298,7 @@ public class clsMyObj
                         }
                 }
 
-                custFieldSt += "　　　" + "<font color='Red'><b>合計：</b>　$" + ttl.ToString() + "</font><br/>";
+                custFieldSt += "　　　" + "<font color='Red'>合計：　$" + ttl.ToString() + "</font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
@@ -512,7 +512,7 @@ public class clsMyObj
                         }
                 }
 
-                custFieldSt += "　　　" + "<font color='Red'><b>合計：</b>　$" + ttl.ToString() + "</font><br/>";
+                custFieldSt += "　　　" + "<font color='Red'>合計：　$" + ttl.ToString() + "</font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
