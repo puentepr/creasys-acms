@@ -1067,7 +1067,7 @@ public class clsMyObj
 
         //}
 
-        mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td></tr><tr><td><br/><br/>"
+        mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td></tr><tr><td><br/><br/>"
              + "　　" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>";
 
         if (regVO.team_name != "")
