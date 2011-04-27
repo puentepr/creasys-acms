@@ -1075,10 +1075,10 @@ public class clsMyObj
             mail.Body += "　　" + "<font color='Blue'><b>．團隊名稱：</b></font><font color='black'>" + regVO.team_name + "</font><br/>";
         }
         mail.Body += "　　" + "<font color='Blue'><b>．報名日期：</b></font></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>"
-                + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font><font color='black'>" + empList
+                   + "　　" + "<font color='Blue'><b>．團隊隊友：</b></font><font color='black'>" + empList + "</font><br/>" 
             //  + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
            // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
-        + "<br/></font>" + "　　<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font><br/><br/><br/></td></tr>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
+                   + "　　"+"<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font><br/><br/><br/></td></tr>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
             + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
             + "'>" + vo.activity_name + "：團隊報名成功連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
