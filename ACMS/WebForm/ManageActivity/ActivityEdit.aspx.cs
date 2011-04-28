@@ -262,11 +262,15 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
     {
         //先檢查5M的總容量限制
         long ttlByte = 0;
+       
         ACMS.BO.UpFileBO upBO = new ACMS.BO.UpFileBO();
         List <ACMS.VO.UpFileVO> upFiles = upBO .SELECT (Server.MapPath ("~/UPFiles/"+ActivityID .ToString()));
+        StreamReader  sr ;
         foreach (ACMS.VO.UpFileVO upFile in upFiles)
         {
-            ttlByte += new FileInfo(upFile.path).Length ;
+            sr = new StreamReader(upFile.path);
+            ttlByte += sr.ReadToEnd ().Length;
+            sr.Close();
         }
 
 
