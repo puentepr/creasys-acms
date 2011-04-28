@@ -87,13 +87,15 @@ namespace ACMS.DAO
             sqlParams[2].Value = myActivityRegistVO.emp_id;
             sqlParams[3] = new SqlParameter("@regist_by", SqlDbType.NVarChar, 50);
             sqlParams[3].Value = myActivityRegistVO.regist_by;
+           // sqlParams[4] = new SqlParameter("@idno_ext", SqlDbType.NVarChar, 50);
+           // sqlParams[4].Value = myActivityRegistVO.idno_ext;
 
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("INSERT ActivityRegist ");
-            sb.AppendLine("([id],[activity_id],[emp_id],[regist_by],[ticket_id],[idno],[ext_people],[createat],[check_status]) ");
+            sb.AppendLine("([id],[activity_id],[emp_id],[regist_by],[ticket_id],[idno],[ext_people],[createat],[check_status]) ");//,idno_exrt
             sb.AppendLine("VALUES ");
-            sb.AppendLine("(@id,@activity_id,@emp_id,@regist_by,null,'',null,getdate(),0) ");
+            sb.AppendLine("(@id,@activity_id,@emp_id,@regist_by,null,'',null,getdate(),0) ");//,@idno_ext
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
@@ -201,6 +203,7 @@ namespace ACMS.DAO
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
                 myActivityRegistVO.team_name = (string)MyDataReader["team_name"];
+                //myActivityRegistVO.idno_ext = MyDataReader["idno_ext"].ToString();
             }
             MyDataReader.Close();
             aconn.Close();
@@ -250,6 +253,8 @@ namespace ACMS.DAO
                 myActivityRegistVO.ext_people = (int?)(MyDataReader["ext_people"] == DBNull.Value ? null : MyDataReader["ext_people"]);
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
+                myActivityRegistVO.team_name = MyDataReader["team_name"].ToString();
+              //  myActivityRegistVO.idno_ext = MyDataReader["idno_ext"].ToString();
             }
             MyDataReader.Close();
             aconn.Close();
@@ -295,6 +300,8 @@ namespace ACMS.DAO
                 myActivityRegistVO.ext_people = (int?)(MyDataReader["ext_people"] == DBNull.Value ? null : MyDataReader["ext_people"]);
                 myActivityRegistVO.createat = (DateTime)MyDataReader["createat"];
                 myActivityRegistVO.check_status = (int)MyDataReader["check_status"];
+               // myActivityRegistVO.idno_ext = MyDataReader["idno_ext"].ToString();
+                myActivityRegistVO.team_name = MyDataReader["team_name"].ToString();
 
             }
             MyDataReader.Close();
@@ -443,6 +450,8 @@ namespace ACMS.DAO
             sqlParams[6].Value = myActivityRegistVO.team_name;
             sqlParams[7] = new SqlParameter("@ext_people", SqlDbType.Int);
             sqlParams[7].Value = myActivityRegistVO.ext_people;
+           // sqlParams[8] = new SqlParameter("@idno_ext", SqlDbType.NVarChar, myActivityRegistVO.idno_ext.Length);
+//sqlParams[8].Value = myActivityRegistVO.idno_ext;
 
             StringBuilder sb = new StringBuilder();
 
@@ -469,9 +478,9 @@ namespace ACMS.DAO
             if (type == "insert")
             {
                 sb.AppendLine("INSERT ActivityRegist ");
-                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno_type],[idno],[team_name],[ext_people],[createat],[check_status]) ");
+                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno_type],[idno],[team_name],[ext_people],[createat],[check_status]) ");//,idno_ext
                 sb.AppendLine("SELECT ");
-                sb.AppendLine("@activity_id,@emp_id,@regist_by,@idno_type,@idno,@team_name,@ext_people,getdate(),0 ");
+                sb.AppendLine("@activity_id,@emp_id,@regist_by,@idno_type,@idno,@team_name,@ext_people,getdate(),0");//,@idno_ext
                 sb.AppendLine("where 1=1 ");
 
                 //沒有重複報名
@@ -543,7 +552,7 @@ namespace ACMS.DAO
                 sb.AppendLine("set idno_type=@idno_type ");
                 sb.AppendLine(",idno=@idno ");
                 sb.AppendLine(",team_name=@team_name ");
-                sb.AppendLine(",ext_people=@ext_people ");
+                sb.AppendLine(",ext_people=@ext_people");// ,idno_ext=@idno_ext
                 sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@regist_by ");
 
                 //沒有重複報名
@@ -730,7 +739,7 @@ namespace ACMS.DAO
         /// <param name="activity_type">活動類別</param>
         /// <param name="webPath">網址根目錄</param>
         /// <returns>取消報名-刪除</returns>
-        public int DeleteRegist(Guid activity_id, string emp_id, string activity_type, string webPath)
+        public int DeleteRegist(Guid activity_id, string emp_id, string activity_type, string webPath ,string allTeams)
         {
             bool sendMail = false;
             //先取得團隊所
@@ -873,7 +882,14 @@ namespace ACMS.DAO
                             // insert into 取消人員名單
                            // InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID);
                             //一般取消報名寄給取消的那些人
-                            clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath,bossid);
+                            if (allTeams == "All")
+                            {
+                                clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
+                            }
+                            else
+                            {
+                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid);
+                            }
                         }
 
                     }
@@ -1173,6 +1189,26 @@ namespace ACMS.DAO
             return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
 
         }
+
+
+        public void DelRegistTeamAll(Guid activity_id, string emp_id)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+            sqlParams[1].Value = emp_id;
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine(" delete from ActivityRegist where emp_id=@emp_id and activity_id=@activity_id");
+            sb.AppendLine(" delete from ActivityTeamMember where boss_id=@emp_id and activity_id=@activity_id");
+
+            SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+        
+        }
+
     }
 
 }

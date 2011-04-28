@@ -199,7 +199,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                 GridView_RegisterPeoplinfo.Enabled = false;
                 PanelCustomFieldA1.Enabled = false;
             }
-
+            
             //活動海報訊息
             Literal1.Text = myActivatyVO.activity_info;
 
@@ -505,6 +505,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         myActivityRegistVO.regist_by = RegistBy;
         myActivityRegistVO.idno_type = (FormView_fixA.FindControl("tr_person_fix1").FindControl("rblidno_type") as RadioButtonList).SelectedIndex;
         myActivityRegistVO.idno = (FormView_fixA.FindControl("tr_person_fix1").FindControl("txtperson_fix1") as TextBox).Text;
+       // myActivityRegistVO.idno_ext = (FormView_fixA.FindControl("tr_person_fix1").FindControl("txtidno_ext") as TextBox).Text;
+
         myActivityRegistVO.team_name = "";
         try
         {
@@ -606,14 +608,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
 
                 //MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path,"");
 
             }
             else
             {
                 // MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path,"");
 
             }
 
@@ -952,6 +954,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
         set { ViewState["regist_by"] = value; }
     }
 
+    //public string idno_ext
+    //{
+    //    get { return ViewState["idno_ext"].ToString(); }
+    //    set { ViewState["idno_ext"] = value; }
+    //}
 
 
 }

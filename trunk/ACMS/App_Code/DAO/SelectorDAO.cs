@@ -377,7 +377,7 @@ namespace ACMS.DAO
 
             if (activity_type == "1")
             {
-                sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
+                sb.AppendLine(",COUNT(distinct B.emp_id) as register_count ");//報名人(隊)數
             }
             else
             {
@@ -393,7 +393,17 @@ namespace ACMS.DAO
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and (AA.activity_type=@activity_type) ");
             sb.AppendLine("  and ((AA.activity_enddate>getdate() and @activity_enddate_finish='N') or (AA.activity_enddate<=getdate() and @activity_enddate_finish='Y') ) ");//執行中活動(N) 或 歷史資料查詢(Y)            
-            sb.AppendLine("  and BB.emp_id=@emp_id ");//(被報名者=登入者)的活動
+
+            if (activity_type == "1")
+            {
+                sb.AppendLine("  and (BB.emp_id=@emp_id or BB.regist_by=@emp_id) ");//(被報名者=登入者)的活動or 代理報名
+            }
+            else
+            {
+
+                sb.AppendLine("  and (BB.emp_id=@emp_id ) ");//(被報名者=登入者)的活動
+            }
+          
             sb.AppendLine(") A ");
             sb.AppendLine(string.Format("left join {0} B on A.id=B.activity_id ", strTableName));
             sb.AppendLine("WHERE 1=1 ");
@@ -710,7 +720,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT  A.id,A.activity_name, A.sn ");
             sb.AppendLine("FROM Activity A ");           
-            sb.AppendLine("WHERE A.active='Y' ");
+            sb.AppendLine("WHERE A.active='Y' and A.is_showprogress ='Y'");
             sb.AppendLine("and ");
             sb.AppendLine("(");
             sb.AppendLine("A.id in (SELECT distinct activity_id FROM ActivityRegist WHERE emp_id=@emp_id) ");
@@ -720,7 +730,7 @@ namespace ACMS.DAO
             sb.AppendLine("union  select  A.id,A.activity_name, A.sn");
             sb.AppendLine("FROM Activity A ");
             sb.AppendLine("left join RoleUserMapping B on A.org_id=B.unit_id and B.emp_id=@emp_id");
-            sb.AppendLine("WHERE A.active='Y' ");
+            sb.AppendLine("WHERE A.active='Y'   ");
             sb.AppendLine("and B.role_id in ('2','3')");
             sb.AppendLine(" and convert(date,A.activity_startdate)<= convert(datetime,convert(varchar(10),GETDATE(),111))  and convert(date, A.activity_enddate)>=convert(datetime,convert(varchar(10),GETDATE(),111))");
          
