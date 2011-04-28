@@ -26,6 +26,7 @@ namespace ACMS.VO
         private int? _ext_people;
         private DateTime _createat;
         private int _check_status;
+       // private string _idno_ext="";
         
 
         public int id { get { return _id; } set { _id = value; } }
@@ -34,6 +35,7 @@ namespace ACMS.VO
         public string regist_by { get { return _regist_by; } set { _regist_by = value; } }
         public int idno_type { get { return _idno_type; } set { _idno_type = value; } }
         public string idno { get { return _idno; } set { _idno = value; } }
+       // public string idno_ext { get { return _idno_ext; } set { _idno_ext = value; } }
         public string team_name { get { return _team_name; } set { _team_name = value; } } 
         public int? ext_people { get { return _ext_people; } set { _ext_people = value; } }
         public DateTime createat { get { return _createat; } set { _createat = value; } }

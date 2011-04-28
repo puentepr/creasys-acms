@@ -72,6 +72,7 @@ public class clsMyObj
                     if (register_count > limit_count)
                     {
                         DR["registed_count"] = string.Format("正({0})+備({1})", limit_count, register_count - limit_count);
+                        DR["limit_count11"] = limit_count;
                     }
                     else
                     {
@@ -1511,7 +1512,7 @@ public class MySingleton
     }
 
     //個人活動報名或取消報名
-    public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline, string webPath ,string path)
+    public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline, string webPath ,string path,string allTeam)
     {
         lock (this)
         {
@@ -1595,7 +1596,7 @@ public class MySingleton
                 if (Convert.ToDateTime(regist_deadline) >=DateTime.Today)
                 {
                     //報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1",webPath ) > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1",webPath, allTeam ) > 0)
                     {
                         //andy-取消報名寄信
                         clsMyObj.CancelRegist( activity_id.ToString(),  emp_id, clsAuth.ID,webPath );
@@ -1637,7 +1638,7 @@ public class MySingleton
     }
 
     //團隊活動報名或取消報名
-    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline ,string webPath,string path)
+    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline ,string webPath,string path,  string  allTeam )
     {
         lock (this)
         {
@@ -1709,7 +1710,16 @@ public class MySingleton
                     if (intSaveResult == 1)
                     {
                         //團隊修改寄信
-                        clsMyObj.RegistSuccess_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, webPath, path);
+                        if (allTeam == "All")//全隊取消
+                        {
+                            clsMyObj.CancelRegist_TeamUnderLimit(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, webPath);
+                        }
+
+                        else
+                        {
+                            clsMyObj.RegistSuccess_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, webPath, path);
+                        }
+
                         return AlterRegistResult.UpdateRegistSucess;
                     }
                     else
@@ -1724,11 +1734,11 @@ public class MySingleton
                             if (RegistCount > 0)
                             {
                                 //andy-報名失敗寄信
-                                clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
+                                clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, webPath);
 
                                 return AlterRegistResult.RegistFail_Already;
                             }
-                        }                   
+                        }
 
                         return AlterRegistResult.UpdateRegistFail;
                     }
@@ -1749,7 +1759,7 @@ public class MySingleton
                 if (Convert.ToDateTime(regist_deadline) >= DateTime.Today)
                 {
                     //取消報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath ) > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath,allTeam  ) > 0)
                     {
                         //寄信
                        // clsMyObj.RegistSuccess_Team(activity_id.ToString (), emp_id, "", webPath);

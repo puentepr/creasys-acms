@@ -56,7 +56,25 @@ namespace ACMS.DAO
 
         }
 
-   
+
+        public void  DeleteCustomFieldValue(Guid activity_id, string emp_id)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+            sqlParams[1].Value = emp_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("delete from CustomFieldValue where field_id in ( ");
+            sb.AppendLine("select field_id from  CustomField A  where A.activity_id=@activity_id ) ");
+          
+            sb.AppendLine(" and emp_id=@emp_id ");
+            SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+
+        }
 
     }
 }

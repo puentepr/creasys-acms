@@ -243,6 +243,7 @@
                                                                             </td>
                                                                             <td>
                                                                                 <asp:TextBox ID="txtperson_fix1" runat="server" Text='<%# Bind("idno") %>'></asp:TextBox>
+                                                                              
                                                                                 <asp:RequiredFieldValidator ID="chk_txtperson_fix1" runat="server" ControlToValidate="txtperson_fix1"
                                                                                     Display="Dynamic" ErrorMessage="身分證字號必填" ValidationGroup="WizardNext" Text="*"></asp:RequiredFieldValidator>
                                                                             </td>
