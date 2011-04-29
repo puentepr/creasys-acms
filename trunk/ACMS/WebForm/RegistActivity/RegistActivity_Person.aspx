@@ -271,8 +271,8 @@
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr_person_fix21" runat="server">
-                                                             <td  style="vertical-align :text-top" colspan ="2">
-                                                              <asp:Label ID="lbWarn"  Font-Bold ="True" runat="server" ForeColor ="Red" Text="攜伴（或眷屬）的相關資訊皆為必填，額外的欄位可輸入#符號代替"></asp:Label>     
+                                                             <td  style="vertical-align :text-top ;text-align:center" colspan ="2">
+                                                              <asp:Label ID="lbWarn"  Font-Bold ="True" runat="server" ForeColor ="Red" Text="欄位皆為必填，與您此次報名資料無關之欄位，請輸入”無”"></asp:Label>     
                                                              </td>
                                                             </tr>
                                                         </table>
