@@ -876,9 +876,9 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                             e.Cancel = true;
                             return;
                         }
-                        if (min <= 0)
+                        if (min < 0)
                         {
-                            clsMyObj.ShowMessage("攜伴下限不可小於等於0");
+                            clsMyObj.ShowMessage("攜伴下限不可小於0");
                             e.Cancel = true;
                             return;
                         }
