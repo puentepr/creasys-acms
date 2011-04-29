@@ -223,7 +223,7 @@
                                                 <asp:FormView ID="FormView_fixA" runat="server" DataSourceID="ObjectDataSource_fixA"
                                                     OnDataBound="FormView_fixA_DataBound">
                                                     <ItemTemplate>
-                                                        <table>
+                                                        <table style ="font-size :9px">
                                                             <tr>
                                                                 <td colspan="2">
                                                                     <asp:Label ID="lblID" runat="server" Text="您所提供的身份證字號將僅做為此次活動之使用!!"  ForeColor ="Blue"></asp:Label>
@@ -235,7 +235,7 @@
                                                                     <table>
                                                                         <tr>
                                                                             <td width="200" style="text-align: right">
-                                                                                <asp:RadioButtonList ID="rblidno_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblidno_type_SelectedIndexChanged"
+                                                                                <asp:RadioButtonList  ID="rblidno_type" runat="server" AutoPostBack="True" OnSelectedIndexChanged="rblidno_type_SelectedIndexChanged"
                                                                                     RepeatDirection="Horizontal" SelectedIndex='<%# Bind("idno_type") %>' RepeatColumns="2" RepeatLayout="Flow">
                                                                                     <asp:ListItem Selected="True">身分證字號</asp:ListItem>
                                                                                     <asp:ListItem>護照號碼</asp:ListItem>
@@ -252,10 +252,10 @@
                                                                 </td>
                                                             </tr>
                                                             <tr id="tr_person_fix2" runat="server">
-                                                                <td width="200" style="text-align: right">
+                                                                <td width="200" style="text-align: right;vertical-align :text-top">
                                                                     攜伴人數
                                                                 </td>
-                                                                <td width="200">
+                                                                <td width="200" style="vertical-align :text-top" >
                                                                     <asp:TextBox ID="txtperson_fix2" runat="server" Text='<%# Bind("ext_people") %>'
                                                                         Width="50px"></asp:TextBox>
                                                                     (<asp:Label ID="lblAf2Start" runat="server" Text="Label"></asp:Label>~<asp:Label
@@ -266,8 +266,14 @@
                                                                                 ErrorMessage="攜伴人數限制必填數字" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
                                                                                 Text="*"></asp:CompareValidator><asp:RangeValidator ID="chk_txtperson_fix2_3" runat="server"
                                                                                     ControlToValidate="txtperson_fix2" Display="Dynamic" ErrorMessage="人數必在限制範圍內"
-                                                                                    Type="Integer" ValidationGroup="WizardNext" Text="*"></asp:RangeValidator>
+                                                                                    Type="Integer" ValidationGroup="WizardNext" Text="*"></asp:RangeValidator><br />
+                                                                       
                                                                 </td>
+                                                            </tr>
+                                                            <tr id="tr_person_fix21" runat="server">
+                                                             <td  style="vertical-align :text-top" colspan ="2">
+                                                              <asp:Label ID="lbWarn"  Font-Bold ="True" runat="server" ForeColor ="Red" Text="攜伴（或眷屬）的相關資訊皆為必填，額外的欄位可輸入#符號代替"></asp:Label>     
+                                                             </td>
                                                             </tr>
                                                         </table>
                                                     </ItemTemplate>

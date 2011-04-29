@@ -656,6 +656,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         FormView_fixA.FindControl("lblID").Visible = (myActivatyVO.is_showperson_fix1 == "Y");
        
         FormView_fixA.FindControl("tr_person_fix2").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
+        FormView_fixA.FindControl("tr_person_fix21").Visible = (myActivatyVO.is_showperson_fix2 == "Y");
 
         (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2Start") as Label).Text = myActivatyVO.personextcount_min.ToString();
         (FormView_fixA.FindControl("tr_person_fix2").FindControl("lblAf2End") as Label).Text = myActivatyVO.personextcount_max.ToString();
@@ -773,7 +774,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                     System.Web.UI.WebControls.TableCell MyTableCell_Control = new TableCell();
                  
                     MyTableRow = new TableRow();
-                  
+                    MyTableRow.Font.Size = 9;
                     MyTableCell_Title.HorizontalAlign = HorizontalAlign.Right;
                     MyTableCell_Title.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
                     MyTableCell_Control.Width = System.Web.UI.WebControls.Unit.Pixel(200);// "40%";
