@@ -310,7 +310,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
                         FileStream myFileStream = new FileStream(Path.Combine(myDirectoryInfo.FullName, myFileUpload.FileName), FileMode.Create);
                         myFileStream.Write(myFileUpload.FileBytes, 0, myFileUpload.FileBytes.Length);
-
+                        myFileStream.Close();
                     }
                     catch (Exception ex1)
                     {
