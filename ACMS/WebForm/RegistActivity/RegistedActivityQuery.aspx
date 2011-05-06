@@ -123,8 +123,8 @@
                     </SelectParameters>
                 </asp:ObjectDataSource>
                 <uc1:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server"
-                    OnCancelPersonRegistClick="CancelPersonRegist_Click" />
-                <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" OnCancelTeamRegistClick="CancelTeamRegist_Click"  />
+                    OnCancelPersonRegistClick="CancelPersonRegist_Click" Visible="false" />
+                <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" OnCancelTeamRegistClick="CancelTeamRegist_Click"  Visible="false"  />
             </ContentTemplate>
         </asp:UpdatePanel>
     </div>

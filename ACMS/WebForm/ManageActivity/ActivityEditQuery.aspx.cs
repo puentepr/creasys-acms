@@ -71,6 +71,20 @@ public partial class WebForm_ActivityEditQuery : BasePage
             //    (e.Row.FindControl("ibtnAdd") as ImageButton).Visible = false;
             //    (e.Row.FindControl("ibtnDel") as ImageButton).Visible = true;
             //}
+
+            if (((HiddenField)e.Row.FindControl("hiactive")).Value == "")
+            {
+                e.Row.FindControl("lbtnPreviewRegist").Visible = false ;
+
+                e.Row.FindControl("lbactive").Visible = true ;
+                
+            }
+            else
+            {
+                e.Row.FindControl("lbtnPreviewRegist").Visible = true;
+                e.Row.FindControl("lbactive").Visible = false;
+                
+            }
         }
     }
 

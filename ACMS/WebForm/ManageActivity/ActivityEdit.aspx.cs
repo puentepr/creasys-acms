@@ -75,6 +75,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
                 //新增一筆活動              
                 myActivatyVO.id = ActivityID;
+                myActivatyVO.emp_id = clsAuth.WORK_ID + clsAuth.NATIVE_NAME;
                 myActivatyVO.activity_type = ActivityType;
                 myActivatyDAO.INSERT_NewOne(myActivatyVO);
 
@@ -428,6 +429,127 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
         chk_txtteamextcount_max.Visible = chkis_showteam_fix2.Checked;
         chk_txtteamextcount_max2.Visible = chkis_showteam_fix2.Checked;
     }
+    //步驟存檔
+
+    private void saveStep()
+    {
+
+
+        ACMS.VO.ActivatyVO myActivatyVO = new ACMS.VO.ActivatyVO();
+
+        myActivatyVO.id = ActivityID;
+        myActivatyVO.activity_type = ActivityType;
+        myActivatyVO.activity_info = FCKeditor1.Value;
+        myActivatyVO.org_id = ((DropDownList)FormView1.FindControl("ddlorg_id")).SelectedValue;
+        myActivatyVO.activity_name = ((TextBox)FormView1.FindControl("txtactivity_name")).Text;
+        myActivatyVO.people_type = ((TextBox)FormView1.FindControl("txtpeople_type")).Text;
+        myActivatyVO.activity_startdate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_startdate")).DateTimeValue;
+        myActivatyVO.activity_enddate = ((WebForm_DatetimePicker)FormView1.FindControl("txtactivity_enddate")).DateTimeValue;
+        if (((TextBox)FormView1.FindControl("txtlimit_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit_count")).Text == "無上限")
+        {
+            myActivatyVO.limit_count =999999;
+            myActivatyVO.limit2_count = 0;
+        }
+        if (((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "" || ((TextBox)FormView1.FindControl("txtlimit2_count")).Text == "無")
+        {
+            myActivatyVO.limit2_count = 0;
+        }
+        try
+        {
+        myActivatyVO.limit_count = Convert.ToInt32(((TextBox)FormView1.FindControl("txtlimit_count")).Text);
+        myActivatyVO.limit2_count = Convert.ToInt32(((TextBox)FormView1.FindControl("txtlimit2_count")).Text);
+        }
+        catch 
+        {}
+
+        if (((TextBox)FormView1.FindControl("txtteam_member_max")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtteam_member_max")).Text = "0";
+        }
+        if (((TextBox)FormView1.FindControl("txtteam_member_min")).Text == "")
+        {
+            ((TextBox)FormView1.FindControl("txtteam_member_min")).Text = "0";
+        }
+
+        if (ActivityType == "2")
+        {
+            myActivatyVO.team_member_max = Convert.ToInt32(((TextBox)FormView1.FindControl("txtteam_member_max")).Text);
+            myActivatyVO.team_member_min = Convert.ToInt32(((TextBox)FormView1.FindControl("txtteam_member_min")).Text);
+        }
+        try
+        {
+            myActivatyVO.regist_startdate = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtregist_startdate")).Text);    
+            myActivatyVO.regist_deadline = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtregist_deadline")).Text);
+            myActivatyVO.cancelregist_deadline = Convert.ToDateTime(((TextBox)FormView1.FindControl("txtcancelregist_deadline")).Text);
+        }
+        catch
+        { }
+  
+        myActivatyVO.is_showfile = "Y";
+        myActivatyVO.is_showprogress = ((CheckBox)FormView1.FindControl("chkis_showprogres")).Checked == true ? "Y" : "N";
+
+
+        myActivatyVO.is_showperson_fix1 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix1")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showperson_fix2 = ((CheckBox)FormView2.FindControl("chkis_showperson_fix2")).Checked == true ? "Y" : "N";
+
+        if (((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text = "0";
+        }
+        if (((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text = "0";
+        }
+        if (ActivityType == "1")
+        {
+
+            myActivatyVO.personextcount_max = Convert.ToInt32(((TextBox)FormView2.FindControl("txtpersonextcount_max")).Text);
+            myActivatyVO.personextcount_min = Convert.ToInt32(((TextBox)FormView2.FindControl("txtpersonextcount_min")).Text);
+        }
+        myActivatyVO.is_showidno = ((CheckBox)FormView2.FindControl("chkis_showidno")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showremark = ((CheckBox)FormView2.FindControl("chkis_showremark")).Checked == true ? "Y" : "N";
+        myActivatyVO.remark_name = ((TextBox)FormView2.FindControl("txtremark_name")).Text;
+
+        myActivatyVO.is_showteam_fix1 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix1")).Checked == true ? "Y" : "N";
+        myActivatyVO.is_showteam_fix2 = ((CheckBox)FormView2.FindControl("chkis_showteam_fix2")).Checked == true ? "Y" : "N";
+
+        if (((TextBox)FormView2.FindControl("txtteamextcount_max")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtteamextcount_max")).Text = "0";
+        }
+
+        if (((TextBox)FormView2.FindControl("txtteamextcount_min")).Text == "")
+        {
+            ((TextBox)FormView2.FindControl("txtteamextcount_min")).Text = "0";
+        }
+
+
+
+        if (ActivityType == "2" && chkis_showteam_fix2.Checked == true)
+        {
+            myActivatyVO.teamextcount_max = Convert.ToInt32(((TextBox)FormView2.FindControl("txtteamextcount_max")).Text);
+            myActivatyVO.teamextcount_min = Convert.ToInt32(((TextBox)FormView2.FindControl("txtteamextcount_min")).Text);
+        }
+
+        myActivatyVO.is_grouplimit = rblgrouplimit.SelectedValue;
+        myActivatyVO.notice = txtnotice.Text;
+        myActivatyVO.active = "";
+
+        try
+        {
+            ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
+            myActivatyDAO.UpdateActivaty(myActivatyVO);
+
+
+        }
+        catch (Exception ex)
+        {
+            clsMyObj.ShowMessage("存檔失敗!");
+            WriteErrorLog("SaveData", ex.Message, "0");
+        }
+
+    
+    }
 
     //存檔
     protected void Wizard1_FinishButtonClick(object sender, WizardNavigationEventArgs e)
@@ -443,6 +565,11 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             {
                 Response.Redirect("HistoryActivityQuery.aspx?type=off");
             }
+        }
+        if (txtnotice.Text.Trim() == "")
+        {
+            clsMyObj.ShowMessage("注意事項不可空白");
+            return;
         }
 
         ACMS.VO.ActivatyVO myActivatyVO = new ACMS.VO.ActivatyVO();
@@ -898,6 +1025,8 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
             }
         }
+
+        saveStep();
     }
 
 

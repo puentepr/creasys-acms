@@ -871,7 +871,7 @@ namespace ACMS.DAO
         {
             //列出活動未結束的活動
 
-            SqlParameter[] sqlParams = new SqlParameter[3];
+            SqlParameter[] sqlParams = new SqlParameter[4];
 
             sqlParams[0] = new SqlParameter("@activity_name", SqlDbType.NVarChar, 50);
             sqlParams[0].Value = activity_name;
@@ -879,10 +879,11 @@ namespace ACMS.DAO
             sqlParams[1].Value = activity_startdate;
             sqlParams[2] = new SqlParameter("@activity_enddate", SqlDbType.NVarChar, 20);
             sqlParams[2].Value = activity_enddate;
-
+            sqlParams[3] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 20);
+            sqlParams[3].Value = clsAuth.WORK_ID + clsAuth.NATIVE_NAME;
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine("SELECT convert(varchar(16),activity_startdate,120) as activity_startdate ,  convert(varchar(16),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_type,A.activity_name,A.people_type, A.limit_count,A.limit2_count ");
+            sb.AppendLine("SELECT A.active,convert(varchar(16),activity_startdate,120) as activity_startdate ,  convert(varchar(16),activity_enddate,120) as activity_enddate, A.sn,A.id,A.activity_type,A.activity_name,A.people_type, A.limit_count,A.limit2_count ");
             sb.AppendLine(",COUNT(B.emp_id) as register_count ");//報名人(隊)數
             sb.AppendLine(",A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline ");
             sb.AppendLine("FROM Activity A");          
@@ -904,7 +905,8 @@ namespace ACMS.DAO
 
 
             sb.AppendLine("and A.activity_enddate>=  Convert(Datetime,Convert(varchar(10),getDate(),111)) and convert(date,A.regist_startdate)>Convert(Datetime,Convert(varchar(10),getDate(),111))");//列出活動未結束的活動
-            sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline  ");
+            sb.AppendLine(" or (isNull( A.active,'N')='N' and A.emp_id=@emp_id)");
+            sb.AppendLine("GROUP BY A.sn,A.id,A.activity_type,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate,A.regist_startdate,A.regist_deadline,A.cancelregist_deadline ,A.active ");
             sb.AppendLine("ORDER BY A.sn ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -1585,7 +1587,7 @@ namespace ACMS.DAO
             StringBuilder sb = new StringBuilder();
             if (List_Type == "0")//已報名清冊
             {
-                sb.AppendLine(" SELECT distinct A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+                sb.AppendLine(" SELECT distinct A.team_name,A.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME,C.boss_id ");
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
                 sb.AppendLine("  FROM ActivityRegist A");
                 sb.AppendLine(" left join V_ACSM_USER2 B on A.emp_id=B.ID ");
@@ -1615,7 +1617,7 @@ namespace ACMS.DAO
                 sb.AppendLine(" and B.EXPERIENCE_START_DATE>= @EXPERIENCE_START_DATE");
                 sb.AppendLine(" and (B.COMPANY_CODE =@C_NAME or @C_NAME='')");
 
-                sb.AppendLine(" union SELECT distinct A.team_name,C.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ");
+                sb.AppendLine(" union SELECT distinct A.team_name,C.emp_id,B.ID,B.C_DEPT_NAME,B.C_DEPT_ABBR,B.WORK_ID,B.NATIVE_NAME ,C.boss_id");
                 sb.AppendLine("  ,case  A.check_status  WHEN 0 THEN '未報到' WHEN 1 THEN '已報到' WHEN 2 THEN '已完成' WHEN -1 THEN '已取消' WHEN -2 THEN '已離職' WHEN -3 THEN '留職停薪' ELSE '' END as check_status");
                 sb.AppendLine("  FROM ActivityRegist A");
 
@@ -1652,7 +1654,7 @@ namespace ACMS.DAO
             }
             else
             {
-                sb.AppendLine(" SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME ,B.C_DEPT_NAME,B.C_DEPT_ABBR ,'未報名' as check_status");
+                sb.AppendLine(" SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME ,B.C_DEPT_NAME,B.C_DEPT_ABBR ,'未報名' as check_status,'' as boss_id");
                 sb.AppendLine(" from ActivityGroupLimit E");
                 sb.AppendLine(" left join V_ACSM_USER2 B on E.emp_id=B.ID ");
                 sb.AppendLine(" left join Activity C on E.activity_id =C.ID ");
@@ -1683,7 +1685,7 @@ namespace ACMS.DAO
 
 
                 sb.AppendLine("    union ");
-                sb.AppendLine("   SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME,B.C_DEPT_NAME ,B.C_DEPT_ABBR ,'未報名' as check_status");
+                sb.AppendLine("   SELECT '' as team_name,B.WORK_ID ,B.NATIVE_NAME,B.C_DEPT_NAME ,B.C_DEPT_ABBR ,'未報名' as check_status,'' as boss_id");
                 sb.AppendLine(" from ActivityGroupLimit E ");
                 sb.AppendLine(" left join V_ACSM_USER2 B on E.emp_id=B.ID ");
                 sb.AppendLine(" left join Activity C on E.activity_id =C.ID ");

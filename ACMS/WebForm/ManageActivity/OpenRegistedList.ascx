@@ -17,7 +17,7 @@
 
 </asp:updateprogress>
     <div align="center">
-        <asp:Label ID="lblTitle" runat="server" Text="報名清單" SkinID="title"></asp:Label>
+        <asp:Label ID="lblTitle" runat="server" Text="檢視名單" SkinID="title"></asp:Label>
     </div>
     <table align="center">
     <tr>
@@ -82,7 +82,9 @@
                <asp:Label ID="報名狀況" runat="server" Text="報名狀態"></asp:Label>
             </td>
             <td>
-               <asp:RadioButtonList ID="ddlListType" runat="server" RepeatDirection="Horizontal">
+               <asp:RadioButtonList ID="ddlListType" runat="server" 
+                    RepeatDirection="Horizontal" 
+                    onselectedindexchanged="ddlListType_SelectedIndexChanged">
                     <asp:ListItem Text="已報名" Value="0" Selected="True"></asp:ListItem>
                     <asp:ListItem Text="未報名" Value="1"></asp:ListItem>
                     
@@ -121,7 +123,8 @@
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
                         <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" />
                          <asp:BoundField DataField="team_name" HeaderText="隊名" SortExpression="team_name" />
-                          <asp:BoundField DataField="check_status" HeaderText="報名狀況" SortExpression="check_status" />
+                          <asp:BoundField DataField="check_status" HeaderText="登錄進度" SortExpression="check_status" />
+                          <asp:BoundField DataField="boss_id" HeaderText="隊長" SortExpression="team_name" />
                         
                     </Columns>
                 </TServerControl:TGridView>

@@ -34,7 +34,7 @@
         </ProgressTemplate>
     </asp:UpdateProgress>
    
-            <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="2" DisplaySideBar="False"
+            <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="0" DisplaySideBar="False"
                 FinishPreviousButtonText="˙" StartNextButtonText="˙" StepNextButtonText="˙"
                 StepPreviousButtonText="˙" OnFinishButtonClick="Wizard1_FinishButtonClick"
                 OnNextButtonClick="Wizard1_NextButtonClick" 
@@ -350,13 +350,10 @@
                                                     <asp:TextBox ID="txtteamextcount_max" runat="server"
                                                             Text='<%# Bind("teamextcount_max") %>' Width="50px" Visible="False"></asp:TextBox>
                                                     &nbsp;<asp:RequiredFieldValidator ID="chk_txtteamextcount_min" runat="server" ControlToValidate="txtteamextcount_min"
-                                                        Display="Dynamic" ErrorMessage="程ぶ拟︸计ゲ恶" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
-                                                    <asp:CompareValidator ID="chk_txtteamextcount_min2" runat="server" ControlToValidate="txtteamextcount_min"
+                                                        Display="Dynamic" ErrorMessage="程ぶ拟︸计ゲ恶" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator><asp:CompareValidator ID="chk_txtteamextcount_min2" runat="server" ControlToValidate="txtteamextcount_min"
                                                         ErrorMessage="拟︸计ゲ恶计" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
-                                                        Visible="False" Display="Dynamic"></asp:CompareValidator>
-                                                    <asp:RequiredFieldValidator ID="chk_txtteamextcount_max" runat="server" ControlToValidate="txtteamextcount_max"
-                                                        Display="Dynamic" ErrorMessage="程拟︸计ゲ恶" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator>
-                                                    <asp:CompareValidator ID="chk_txtteamextcount_max2" runat="server" ControlToValidate="txtteamextcount_max"
+                                                        Visible="False" Display="Dynamic"></asp:CompareValidator><asp:RequiredFieldValidator ID="chk_txtteamextcount_max" runat="server" ControlToValidate="txtteamextcount_max"
+                                                        Display="Dynamic" ErrorMessage="程拟︸计ゲ恶" ValidationGroup="WizardNext" Visible="False"></asp:RequiredFieldValidator><asp:CompareValidator ID="chk_txtteamextcount_max2" runat="server" ControlToValidate="txtteamextcount_max"
                                                         ErrorMessage="拟︸计ゲ恶计" Operator="DataTypeCheck" Type="Integer" ValidationGroup="WizardNext"
                                                         Visible="False" Display="Dynamic"></asp:CompareValidator>
                                                 </ContentTemplate>

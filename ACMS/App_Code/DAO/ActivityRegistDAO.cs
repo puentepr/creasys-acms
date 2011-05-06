@@ -739,7 +739,7 @@ namespace ACMS.DAO
         /// <param name="activity_type">活動類別</param>
         /// <param name="webPath">網址根目錄</param>
         /// <returns>取消報名-刪除</returns>
-        public int DeleteRegist(Guid activity_id, string emp_id, string activity_type, string webPath ,string allTeams)
+        public int DeleteRegist(Guid activity_id, string emp_id, string activity_type, string webPath ,string allTeams,string RegWebPath)
         {
             bool sendMail = false;
             //先取得團隊所
@@ -835,7 +835,7 @@ namespace ACMS.DAO
                             InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID);
                             sendMail = true;
                             //團隊瓦解要寄信給所有人
-                            clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
+                            clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, RegWebPath);
 
                         }
                         //================================================
@@ -874,7 +874,7 @@ namespace ACMS.DAO
                             //團隊瓦解要寄信給所有人
                             if (sendMail == false)
                             {
-                                clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
+                                clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, RegWebPath);
                             }
                         }
                         else
@@ -882,13 +882,14 @@ namespace ACMS.DAO
                             // insert into 取消人員名單
                            // InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID);
                             //一般取消報名寄給取消的那些人
+                            string NowMembers = AllTeamMemberByMembers(activity_id, OriginMembers);
                             if (allTeams == "All")
                             {
-                                clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath);
+                                clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, RegWebPath);
                             }
                             else
                             {
-                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid);
+                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers);
                             }
                         }
 
@@ -1019,7 +1020,7 @@ namespace ACMS.DAO
                             cmd.Parameters.Clear();
                             cmd.Parameters.AddRange(sqlParams);
                             int intCancelAll = cmd.ExecuteNonQuery();
-
+                            string NowMembers = AllTeamMemberByMembers(activity_id, OriginMembers);
                             if (intCancelAll > 0)
                             {
                                 sb.Length = 0;
@@ -1032,13 +1033,13 @@ namespace ACMS.DAO
                                 cmd.ExecuteNonQuery();
                                 InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID);
                                 //andy-團隊瓦解要寄信給所有人
-                                clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath,bossid );
+                                clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers);
                             }
                             else
                             {
                                 //andy-一般取消報名寄給取消的那些人
                                 InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID);
-                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath,bossid);
+                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers);
                             }
 
                         }
@@ -1208,6 +1209,32 @@ namespace ACMS.DAO
             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         
         }
+
+        
+        //public Boolean  EmpIsRegisted(Guid activity_id, string emp_id,string boss_id)
+        //{
+
+        //    SqlParameter[] sqlParams = new SqlParameter[3];
+
+        //    sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+        //    sqlParams[0].Value = activity_id;
+        //    sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+        //    sqlParams[1].Value = emp_id;
+        //     sqlParams[2] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+        //    sqlParams[2].Value = emp_id;
+
+        //    StringBuilder sb = new StringBuilder();
+        //    sb.AppendLine("   select emp_id  into #AA from ActivityRegist where activity_id =@id and  emp_id =@emp_id and emp_id <>@boss_id  union");
+        //    sb.AppendLine(" select emp_id  from ActivityTeamMember where activity_id =@id and emp_id=@emp_id and boss_id <>@boss_id ");
+        //    sb.AppendLine("  select AA=@@ROWCOUNT ");
+        //    sb.AppendLine("  drop table #AA");
+           
+
+        //   return ( SqlHelper.ExecuteScalar (MyConn(), CommandType.Text, sb.ToString(), sqlParams).ToString() !="0");
+        
+        //}
+
+        
 
     }
 

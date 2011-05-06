@@ -576,7 +576,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
-
+        
         //預覽時
         if (Session["form_mode1"] != null)
         {
@@ -606,16 +606,21 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
             if (MyFormMode == FormViewMode.Insert)
             {
 
+                //if (dao.IsPersonRegisted (ActivityID ,myActivityRegistVO.emp_id ,"","1")>0)
+                //{
+                //    clsMyObj.ShowMessage ("已報名,無法重覆報名");
+                //    return ;
+                //}
                 //MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path,"");
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Person.aspx");
 
             }
             else
             {
                 // MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path,"");
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Person.aspx");
 
             }
 
@@ -623,14 +628,17 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
             if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
             {
                 clsMyObj.ShowMessage("已存在報名成功紀錄，無法重複報名!");
+                return ;
             }
             else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
             {
                 clsMyObj.ShowMessage(@"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
+                return ;
             }
             else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
             {
                 clsMyObj.ShowMessage(@"資料存檔發生錯誤，無法完成報名。");
+                return ;
             }
             else
             {

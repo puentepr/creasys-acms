@@ -37,6 +37,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
                 if (Session["EmpID"] != null)
                 {
                     btnQuery.Visible = false;
+                    OpenRegisedTeammemberSelector1.Visible = true;
                     OpenRegisedTeammemberSelector1.activity_id = Session["ActID"].ToString();
                     OpenRegisedTeammemberSelector1.emp_id = Session["EmpID"].ToString();
                     ACMS.VO.ActivatyVO vo1 = new ACMS.VO.ActivatyVO();
@@ -189,6 +190,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
 
             if (activity_type == "1")
             {
+                OpenRegistedByMeEmpSelector1.Visible = true;
                 OpenRegistedByMeEmpSelector1.activity_id = activity_id;
                 OpenRegistedByMeEmpSelector1.regist_by = clsAuth.ID;
                 OpenRegistedByMeEmpSelector1.regist_deadline = regist_deadline;
@@ -197,6 +199,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
             }
             else
             {
+                OpenRegisedTeammemberSelector1.Visible = true;
                 OpenRegisedTeammemberSelector1.activity_id = activity_id;
                 OpenRegisedTeammemberSelector1.emp_id = clsAuth.ID;
                 OpenRegisedTeammemberSelector1.regist_deadline = regist_deadline;
