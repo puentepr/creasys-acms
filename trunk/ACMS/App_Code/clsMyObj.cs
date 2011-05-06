@@ -20,7 +20,7 @@ public class clsMyObj
         //
     }
 
-   
+
 
     public static void ShowMessage(string message)
     {
@@ -62,69 +62,74 @@ public class clsMyObj
 
             foreach (DataRow DR in myDataTable.Rows)
             {
-                int limit_count = Convert.ToInt32(DR["limit_count"]);
-                int limit2_count = Convert.ToInt32(DR["limit2_count"]);
-                int register_count = Convert.ToInt32(DR["register_count"]);
-
-                if (IsShowregisted_count == true)
+                try
                 {
-                    //已報名人數
-                    if (register_count > limit_count)
+                    int limit_count = Convert.ToInt32(DR["limit_count"]);
+                    int limit2_count = Convert.ToInt32(DR["limit2_count"]);
+                    int register_count = Convert.ToInt32(DR["register_count"]);
+
+                    if (IsShowregisted_count == true)
                     {
-                        DR["registed_count"] = string.Format("正({0})+備({1})", limit_count, register_count - limit_count);
-                        DR["limit_count11"] = limit_count;
-                    }
-                    else
-                    {
-                        if (limit_count == 999999)
+                        //已報名人數
+                        if (register_count > limit_count)
                         {
-                            DR["registed_count"] = register_count;
-                            DR["limit_count11"] = "無上限";
+                            DR["registed_count"] = string.Format("正({0})+備({1})", limit_count, register_count - limit_count);
+                            DR["limit_count11"] = limit_count;
                         }
                         else
                         {
-                            DR["limit_count11"] = limit_count;
-                            DR["registed_count"] = string.Format("正({0})+備({1})", register_count, 0);
-                        }
-                    }
-
-                }
-
-                if (IsShowregisted_count == true)
-                {
-                    //剩餘名額
-                    if (limit_count == 999999)
-                    {
-                        DR["registable_count"] = "";
-                    }
-                    else
-                    {
-                        if (register_count < (limit_count + limit2_count))
-                        {
-                            int registableA = 0;
-                            int registableB = 0;
-
-                            if (register_count >= limit_count)
+                            if (limit_count == 999999)
                             {
-                                registableA = 0;
-                                registableB = (limit_count + limit2_count) - register_count;
+                                DR["registed_count"] = register_count;
+                                DR["limit_count11"] = "無上限";
                             }
                             else
                             {
-                                registableA = limit_count - register_count;
-                                registableB = limit2_count;
+                                DR["limit_count11"] = limit_count;
+                                DR["registed_count"] = string.Format("正({0})+備({1})", register_count, 0);
                             }
+                        }
 
-                            DR["registable_count"] = string.Format("正({0})+備({1})", registableA, registableB);
+                    }
+
+                    if (IsShowregisted_count == true)
+                    {
+                        //剩餘名額
+                        if (limit_count == 999999)
+                        {
+                            DR["registable_count"] = "";
                         }
                         else
                         {
-                            DR["registable_count"] = "額滿";
+                            if (register_count < (limit_count + limit2_count))
+                            {
+                                int registableA = 0;
+                                int registableB = 0;
+
+                                if (register_count >= limit_count)
+                                {
+                                    registableA = 0;
+                                    registableB = (limit_count + limit2_count) - register_count;
+                                }
+                                else
+                                {
+                                    registableA = limit_count - register_count;
+                                    registableB = limit2_count;
+                                }
+
+                                DR["registable_count"] = string.Format("正({0})+備({1})", registableA, registableB);
+                            }
+                            else
+                            {
+                                DR["registable_count"] = "額滿";
+                            }
                         }
                     }
+
                 }
-
-
+                catch 
+                {
+                }
             }
 
             myDataTable.AcceptChanges();
@@ -137,7 +142,7 @@ public class clsMyObj
     //回傳4代表檢查碼不對   
     public static string IDChk(string vid)
     {
-        string[] a = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O" }; 
+        string[] a = new string[] { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O" };
 
         List<string> FirstEng = new List<string>(a);// { "A", "B", "C", "D", "E", "F", "G", "H", "J", "K", "L", "M", "N", "P", "Q", "R", "S", "T", "U", "V", "X", "Y", "W", "Z", "I", "O" };
         string aa = vid.ToUpper();
@@ -308,25 +313,34 @@ public class clsMyObj
             {
 
 
-                custFieldSt += "　　" + "<font color='Blue'><b>．複選/</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                bool doIt = false;
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
+                            if (!doIt)
+                            {
+                                custFieldSt += "　　　";
+                            }
+
+
+                            custFieldSt += "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
+                            doIt = true;
 
                         }
                 }
+                custFieldSt = custFieldSt.Substring(0, custFieldSt.Length - 1);
                 custFieldSt += "<br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．單選/</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
                 //custFieldSt += "　　　" + "<font color='black'>" + custFieldVO.field_value + "</font>";
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -517,32 +531,38 @@ public class clsMyObj
                 }
 
                 custFieldSt += "<tr><td>" + "　　　" + "<font color='Red'>合計：</font></td><td>　<font color='Red'>$" + ttl.ToString() + "</font></td></tr>";
-                            custFieldSt += "</table>";
+                custFieldSt += "</table>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
             {
 
 
-                custFieldSt += "　　" + "<font color='Blue'><b>．複選/</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                bool doIt = false;
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
+                            if (!doIt)
+                            {
+                                custFieldSt += "　　　";
+                            }
                             custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
-
+                            doIt = true;
                         }
                 }
+                custFieldSt = custFieldSt.Substring(0, custFieldSt.Length - 1);
                 custFieldSt += "<br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．單選/</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
                 //custFieldSt += "　　　" + "<font color='black'>" + custFieldVO.field_value + "</font>";
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -675,24 +695,24 @@ public class clsMyObj
         //寄件者
         mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
         mail.IsBodyHtml = true;
-        mail.Body = "<a href='" + webPath + "?Type=2&ActID="
-            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by )
+        mail.Body = "<a href='" + webPath + "?Type=1&ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
             + "'>" + vo.activity_name + ":個人報名失敗通知</a>";
 
 
-       SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
 
-       
+
         try
         {
             smtp.Send(mail);
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             LogMsg.Log(ex.Message, 5, false);
         }
-     
+
 
 
     }
@@ -725,7 +745,7 @@ public class clsMyObj
         }
         else
         {
-           
+
             mail.To.Add(empVO.OFFICE_MAIL);
             if (emp_id != cancel_by)
             {
@@ -743,19 +763,19 @@ public class clsMyObj
             + "<tr><td><br/><br/>" + "　　" + "<b><font color='Blue'>．姓名：</font></b>" + empVO.NATIVE_NAME
             + "<br/>" + "　　" + "<b><font color='Blue'>．工號：</font></b>" + empVO.WORK_ID
             + "<br/>" + "　　" + "<b><font color='Blue'>．活動名稱：</font></b>" + vo.activity_name
-            + "<br/>" + "　　" + "<b><font color='Blue'>．取消日期：</font></b>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") ;
-            if(cancel_by!=emp_id)
-            {
-                mail.Body += "<br/>"+"　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
-                
-            }
-            mail.Body += "<br/><br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
-            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-            + "'>" + vo.activity_name + "：報名連結</a><br/></td></tr>"+"<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+            + "<br/>" + "　　" + "<b><font color='Blue'>．取消日期：</font></b>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+        if (cancel_by != emp_id)
+        {
+            mail.Body += "<br/>" + "　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
+
+        }
+        mail.Body += "<br/><br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
+        + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+        + "'>" + vo.activity_name + "：報名連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
-       SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
 
         try
         {
@@ -767,7 +787,7 @@ public class clsMyObj
             LogMsg.Log(ex.Message, 5, false);
 
         }
-     
+
 
     }
 
@@ -843,7 +863,7 @@ public class clsMyObj
 
 
         ACMS.DAO.CustomFieldValueDAO myCustFieldValueDAO = new ACMS.DAO.CustomFieldValueDAO();
-        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(id,regist_by);
+        List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(id, regist_by);
         ACMS.BO.CustomFieldItemBO myCustFieldItemBO = new ACMS.BO.CustomFieldItemBO();
         List<ACMS.VO.CustomFieldItemVO> custFieldItemList;
         string custFieldSt = "";
@@ -881,25 +901,32 @@ public class clsMyObj
             {
 
 
-                custFieldSt += "　　" + "<font color='Blue'><b>．複選/</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                bool doIt = false;
                 foreach (string fieldID in FieldIDs)
                 {
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            if (!doIt)
+                            {
+                                custFieldSt += "　　　";
+                            }
 
+                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
+                            doIt = true;
                         }
                 }
+                custFieldSt = custFieldSt.Substring(0, custFieldSt.Length - 1);
                 custFieldSt += "<br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "　　" + "<font color='Blue'><b>．單選/</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "　　" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -991,6 +1018,17 @@ public class clsMyObj
 
         ACMS.VO.EmployeeVO regByEmpVO = empDAO.getEmployee(regist_by);
 
+        //string empList = "";
+        //empList += "<table><b><tr><td>　　工號</td> <td>姓名</td></tr></b>";
+        //foreach (string emp in emps)
+        //{
+        //    empList += "<tr><td>";
+        //    empVO = empDAO.getEmployee(emp);
+        //    empList += "　　" + empVO.WORK_ID + "</td><td>";
+        //    empList += empVO.NATIVE_NAME + "</td></tr>";
+        //}
+        //empList += "</tr></table>";
+
         //string empList = ""; 
         //empList += "<table><b><tr><td>　　工號</td> <td>姓名</td></tr></b>";
         //foreach (string emp in emps)
@@ -1008,11 +1046,11 @@ public class clsMyObj
             empList += empVO.NATIVE_NAME + "、";
         }
         empList = empList.TrimEnd('、');
-       // empList += "</tr></table>";
+        // empList += "</tr></table>";
         //+ "姓名:" + empVO.NATIVE_NAME + "<br/>"
         //       + "工號:" + empVO.WORK_ID + "<br/>"
 
-       
+
         //if (custFieldSt != "")//有自訂欄位
         //{
         //    mail.Body = "<table border='1'<tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td> </tr><tr><td><b>親愛的同仁，恭喜您已完成此活動報名。</b></td> </tr><tr><td><a href='" + webPath + "?Type=2&ActID="
@@ -1057,12 +1095,12 @@ public class clsMyObj
         {
             mail.Body += "　　" + "<font color='Blue'><b>．團隊名稱：</b></font><font color='black'>" + regVO.team_name + "</font><br/>";
         }
-              mail.Body += "　　" + "<font color='Blue'><b>．團隊隊友：</b></font><font color='black'>" + empList + "</font><br/>" 
+        mail.Body += "　　" + "<font color='Blue'><b>．團隊隊友：</b></font><font color='black'>" + empList + "</font><br/>"
             //  + "　　" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
-           // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
-                   + "　　"+"<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font><br/><br/><br/></td></tr>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
-            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-            + "'>" + vo.activity_name + "：團隊報名成功連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+            // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
+             + "　　" + "<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font><br/><br/><br/></td></tr>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
+      + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
+      + "'>" + vo.activity_name + "：團隊報名成功連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         try
@@ -1073,8 +1111,8 @@ public class clsMyObj
         catch (Exception ex)
         {
             //clsMyObj.ShowMessage(ex.Message );
-            
-            LogMsg.Log (ex.Message,5,false);
+
+            LogMsg.Log(ex.Message, 5, false);
         }
 
 
@@ -1085,7 +1123,7 @@ public class clsMyObj
     {//andy 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
         ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
-     
+
         string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
@@ -1133,13 +1171,13 @@ public class clsMyObj
             + "'>" + vo.activity_name + ":團隊報名失敗通知</a>";
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-      
+
         try
         {
             smtp.Send(mail);
 
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             LogMsg.Log(ex.Message, 5, false);
 
@@ -1150,7 +1188,7 @@ public class clsMyObj
     }
 
     //團隊取消報名寄信
-    public static void CancelRegist_Team(string activity_id, string emp_id, string cancel_by, string webPath, string bossid)
+    public static void CancelRegist_Team(string activity_id, string emp_id, string cancel_by, string webPath, string bossid, string OrginMembers,string nowMembers)
     {
         //andy 
         ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
@@ -1165,35 +1203,35 @@ public class clsMyObj
         MailMessage mail = new MailMessage();
 
 
-        string[] emps = emp_id.Split(',');
+        string[] emps = OrginMembers.Split(',');
         EmployeeVO empVO = new EmployeeVO();
         EmployeeVO empCancelVO = new EmployeeVO();
         EmployeeVO empBossVO = new EmployeeVO();
         EMPloyeeDAO empDAO = new EMPloyeeDAO();
-
-
-        string mailtype="";
-        foreach (string emp in emps)
+        string mailtype = "";
+        //收件者
+        //mail.To.Clear();
+        mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
         {
-            //收件者
-            mail.To.Clear();
-            mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
-            if ((string.Compare(mailtype, "online") != 0))
+            foreach (string st1 in smtpto)
             {
-                foreach (string st1 in smtpto)
-                {
-                    mail.To.Add(st1);
-                }
+                mail.To.Add(st1);
             }
-            else
+        }
+        else
+        {
+
+            if (string.Compare(cancel_by, "") != 0)
             {
+                empVO = empDAO.getEmployee(cancel_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
 
-                if (string.Compare(cancel_by, "") != 0)
-                {
-                    empVO = empDAO.getEmployee(cancel_by);
-                    mail.To.Add(empVO.OFFICE_MAIL);
-                }
 
+
+            foreach (string emp in emps)
+            {
 
                 if (emp != cancel_by)
                 {
@@ -1204,68 +1242,77 @@ public class clsMyObj
 
         }
 
+        //string empList = "";
+        //empList += "";
+        emps = nowMembers.Split(',');
         string empList = "";
-        empList += "";
         foreach (string emp in emps)
         {
-
-
-
             empVO = empDAO.getEmployee(emp);
-            empList = "<font color='blue'><b>．姓名：</b></font>";
-            empList += empVO.NATIVE_NAME + "<br/>";
-            empList += " <font color='blue'><b>．工號：</b></font>";
-            empList += empVO.WORK_ID + "<br/>";
+            empList += empVO.NATIVE_NAME + "、";
+        }
+        empList = empList.TrimEnd('、');
 
-            empCancelVO = empDAO.getEmployee(cancel_by);
+        //foreach (string emp in emps)
+        //{
 
-            if ((string.Compare(mailtype, "online") == 0))
+
+
+        //empVO = empDAO.getEmployee(emp);
+        //empList = "<font color='blue'><b>．姓名：</b></font>";
+        //empList += empVO.NATIVE_NAME + "<br/>";
+        //empList += " <font color='blue'><b>．工號：</b></font>";
+        //empList += empVO.WORK_ID + "<br/>";
+
+        empCancelVO = empDAO.getEmployee(cancel_by);
+
+        if ((string.Compare(mailtype, "online") == 0))
+        {
+            empBossVO = empDAO.getEmployee(bossid);
+            if (empBossVO.ID != cancel_by)
             {
-                empBossVO = empDAO.getEmployee(bossid);
-                if (empBossVO.ID != cancel_by)
-                {
 
-                    empVO = empDAO.getEmployee(empBossVO.ID);
-                    mail.To.Add(empVO.OFFICE_MAIL);
-                }
+                empVO = empDAO.getEmployee(empBossVO.ID);
+                mail.To.Add(empVO.OFFICE_MAIL);
             }
-            mail.Subject = vo.activity_name + "：團隊取消報名通知";
-            //寄件者
-            mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
-            mail.IsBodyHtml = true;
-            mail.Body = "<table  border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr>"
+        }
+        mail.Subject = vo.activity_name + "：團隊取消報名通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
+        mail.IsBodyHtml = true;
+        mail.Body = "<table  border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr>"
 
-                + "<tr><td><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
-                + "<font color='Blue'><b>．取消日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
-                + empList;
-            if (cancel_by != emp)
-            {
-                mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
-            }
+            + "<tr><td><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
+            + "<font color='Blue'><b>．取消日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
+            + "<font color='Blue'><b>．團隊的隊友：</b></font><font color='black'>" + empList + "</font><br/>";
+        //if (cancel_by != emp)
+        //{
+        mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
+        //}
 
-            mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'>※報名人數未低於下限，其餘隊友仍具有活動參加資格<br/><a href='" + webPath + "?Type=2&ActID="
-            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-            + "'>" + vo.activity_name + "：報名連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
-
-
-
-            SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-
-            try
-            {
-                smtp.Send(mail);
-
-            }
-            catch (Exception ex)
-            {
-                LogMsg.Log(ex.Message, 5, false);
-            }
+        mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'>※報名人數未低於下限，其餘隊友仍具有活動參加資格<br/><a href='" + webPath + "?Type=2&ActID="
+        + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+        + "'>" + vo.activity_name + "：報名連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
+
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+
+        try
+        {
+            smtp.Send(mail);
+
+        }
+        catch (Exception ex)
+        {
+            LogMsg.Log(ex.Message, 5, false);
         }
 
 
     }
+
+
+
 
     //團隊取消報名寄信已達下限
     public static void CancelRegist_TeamUnderLimit(string activity_id, string emp_id, string cancel_by, string webPath)
@@ -1291,28 +1338,28 @@ public class clsMyObj
 
 
         string mailtype = "";
-        foreach (string emp in emps)
+
+        //收件者
+        //mail.To.Clear();
+        mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+        if ((string.Compare(mailtype, "online") != 0))
         {
-            //收件者
-            mail.To.Clear();
-            mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
-            if ((string.Compare(mailtype, "online") != 0))
+            foreach (string st1 in smtpto)
             {
-                foreach (string st1 in smtpto)
-                {
-                    mail.To.Add(st1);
-                }
+                mail.To.Add(st1);
             }
-            else
+        }
+        else
+        {
+
+            if (string.Compare(cancel_by, "") != 0)
             {
+                empVO = empDAO.getEmployee(cancel_by);
+                mail.To.Add(empVO.OFFICE_MAIL);
+            }
 
-                if (string.Compare(cancel_by, "") != 0)
-                {
-                    empVO = empDAO.getEmployee(cancel_by);
-                    mail.To.Add(empVO.OFFICE_MAIL);
-                }
-
-
+            foreach (string emp in emps)
+            {
                 if (emp != cancel_by)
                 {
                     empVO = empDAO.getEmployee(emp);
@@ -1328,12 +1375,16 @@ public class clsMyObj
         {
 
 
-
             empVO = empDAO.getEmployee(emp);
-            empList = "<font color='blue'><b>．姓名：</b></font>";
-            empList += empVO.NATIVE_NAME + "<br/>";
-            empList += " <font color='blue'><b>．工號：</b></font>";
-            empList += empVO.WORK_ID + "<br/>";
+            empList += empVO.NATIVE_NAME + "、";
+
+
+
+            //empVO = empDAO.getEmployee(emp);
+            //empList = "<font color='blue'><b>．姓名：</b></font>";
+            //empList += empVO.NATIVE_NAME + "<br/>";
+            //empList += " <font color='blue'><b>．工號：</b></font>";
+            //empList += empVO.WORK_ID + "<br/>";
 
             empCancelVO = empDAO.getEmployee(cancel_by);
 
@@ -1347,127 +1398,127 @@ public class clsMyObj
             //        mail.To.Add(empVO.OFFICE_MAIL);
             //    }
             //}
-            mail.Subject = vo.activity_name + "：團隊取消報名通知";
-            //寄件者
-            mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
-            mail.IsBodyHtml = true;
-            mail.Body = "<table  border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr>"
+        }
+        empList = empList.TrimEnd('、');
+        mail.Subject = vo.activity_name + "：團隊取消報名通知";
+        //寄件者
+        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
+        mail.IsBodyHtml = true;
+        mail.Body = "<table  border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr>"
 
-                + "<tr><td><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
-                + "<font color='Blue'><b>．取消日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
-                + empList;
-            //if (cancel_by != emp)
-            //{
-            //    mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
-            //}
+            + "<tr><td><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
+            + "<font color='Blue'><b>．取消日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
+           + "<font color='Blue'><b>．團隊的隊友：</b></font><font color='black'>" + empList + "</font><br/>";
+        //if (cancel_by != emp)
+        //{
+        //    mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
+        //}
 
-            mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'><font color='red'>※團隊報名人數已低於下限，系統已取消此隊伍參加資格</font><br/><a href='" + webPath + "?Type=2&ActID="
-            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-            + "'>" + vo.activity_name + "：報名連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+        mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'><font color='red'>※團隊報名人數已低於下限，系統已取消此隊伍參加資格</font><br/><a href='" + webPath + "?Type=2&ActID="
+        + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+        + "'>" + vo.activity_name + "：報名連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
-            SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
 
-            try
-            {
-                smtp.Send(mail);
-
-            }
-            catch (Exception ex)
-            {
-                LogMsg.Log(ex.Message, 5, false);
-            }
-
+        try
+        {
+            smtp.Send(mail);
 
         }
-
-        //ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
-        //ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
-        //string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
-        //Guid id = new Guid(activity_id);
-        //vo = bo.SelectActivatyByActivatyID(id);
-        //MailMessage mail = new MailMessage();
-
-
-        //string[] emps = emp_id.Split(',');
-        //EmployeeVO empVO = new EmployeeVO();
-        //EMPloyeeDAO empDAO = new EMPloyeeDAO();
-
-        ////收件者
-        //string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
-        //if ((string.Compare(mailtype, "online") != 0))
-        //{
-        //    foreach (string st1 in smtpto)
-        //    {
-        //        mail.To.Add(st1);
-        //    }
-        //}
-        //else
-        //{
-
-        //    if (string.Compare(cancel_by, "") != 0)
-        //    {
-        //        empVO = empDAO.getEmployee(cancel_by);
-        //        mail.To.Add(empVO.OFFICE_MAIL);
-        //    }
-
-
-
-        //    foreach (string emp in emps)
-        //    {
-        //        if (emp != cancel_by)
-        //        {
-        //            empVO = empDAO.getEmployee(emp);
-        //            mail.To.Add(empVO.OFFICE_MAIL);
-        //        }
-        //    }
-
-        //}
-
-        //string empList = "";
-        //empList += "<table><tr><td>工號</td> <td>姓名</td></tr>";
-        //foreach (string emp in emps)
-        //{
-
-
-        //    empList += "<tr><td>";
-        //    empVO = empDAO.getEmployee(emp);
-        //    empList += empVO.WORK_ID + "</td><td>";
-        //    empList += empVO.NATIVE_NAME + "</td></tr>";
-
-
-        //}
-        //empList += "</tr></table>";
-
-
-        //mail.Subject = vo.activity_name + "：團隊取消報名通知(已達每隊人數下限,已全隊取消報名)";
-        ////寄件者
-        //mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
-        //mail.IsBodyHtml = true;
-        //mail.Body = "<table  border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
-        //    + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-        //    + "'>" + vo.activity_name + ":團隊取消報名通知(已達每隊人數下限,已全隊取消報名)</a><br/>"
-        //    + "<font color='Blue'><b>活動名稱:</b></font>" + vo.activity_name + "<br/>"
-        //    + empList + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
-
-
-
-        //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-
-      
-        //try
-        //{
-        //    smtp.Send(mail);
-
-        //}
-        //catch (Exception ex)
-        //{
-        //    LogMsg.Log(ex.Message, 5, false);
-        //}
+        catch (Exception ex)
+        {
+            LogMsg.Log(ex.Message, 5, false);
+        }
 
 
     }
+
+    //ACMS.VO.ActivatyVO vo = new ACMS.VO.ActivatyVO();
+    //ACMS.BO.ActivatyBO bo = new ACMS.BO.ActivatyBO();
+    //string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
+    //Guid id = new Guid(activity_id);
+    //vo = bo.SelectActivatyByActivatyID(id);
+    //MailMessage mail = new MailMessage();
+
+
+    //string[] emps = emp_id.Split(',');
+    //EmployeeVO empVO = new EmployeeVO();
+    //EMPloyeeDAO empDAO = new EMPloyeeDAO();
+
+    ////收件者
+    //string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+    //if ((string.Compare(mailtype, "online") != 0))
+    //{
+    //    foreach (string st1 in smtpto)
+    //    {
+    //        mail.To.Add(st1);
+    //    }
+    //}
+    //else
+    //{
+
+    //    if (string.Compare(cancel_by, "") != 0)
+    //    {
+    //        empVO = empDAO.getEmployee(cancel_by);
+    //        mail.To.Add(empVO.OFFICE_MAIL);
+    //    }
+
+
+
+    //    foreach (string emp in emps)
+    //    {
+    //        if (emp != cancel_by)
+    //        {
+    //            empVO = empDAO.getEmployee(emp);
+    //            mail.To.Add(empVO.OFFICE_MAIL);
+    //        }
+    //    }
+
+    //}
+
+    //string empList = "";
+    //empList += "<table><tr><td>工號</td> <td>姓名</td></tr>";
+    //foreach (string emp in emps)
+    //{
+
+
+    //    empList += "<tr><td>";
+    //    empVO = empDAO.getEmployee(emp);
+    //    empList += empVO.WORK_ID + "</td><td>";
+    //    empList += empVO.NATIVE_NAME + "</td></tr>";
+
+
+    //}
+    //empList += "</tr></table>";
+
+
+    //mail.Subject = vo.activity_name + "：團隊取消報名通知(已達每隊人數下限,已全隊取消報名)";
+    ////寄件者
+    //mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
+    //mail.IsBodyHtml = true;
+    //mail.Body = "<table  border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr><tr><td><b>親愛的同仁，您取消活動報名。</b></td> </tr> <tr><td><a href='" + webPath + "?Type=2&ActID="
+    //    + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+    //    + "'>" + vo.activity_name + ":團隊取消報名通知(已達每隊人數下限,已全隊取消報名)</a><br/>"
+    //    + "<font color='Blue'><b>活動名稱:</b></font>" + vo.activity_name + "<br/>"
+    //    + empList + "</td></tr><tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+
+
+
+    //SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+
+
+    //try
+    //{
+    //    smtp.Send(mail);
+
+    //}
+    //catch (Exception ex)
+    //{
+    //    LogMsg.Log(ex.Message, 5, false);
+    //}
+
 
 }
 
@@ -1512,7 +1563,7 @@ public class MySingleton
     }
 
     //個人活動報名或取消報名
-    public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline, string webPath ,string path,string allTeam)
+    public AlterRegistResult AlterRegist(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id,string regist_deadline, string cancelregist_deadline, string webPath ,string path,string allTeam,string RegWebPath)
     {
         lock (this)
         {
@@ -1527,7 +1578,7 @@ public class MySingleton
                     if (intSaveResult == 1)
                     {
                         //andy-報名成功寄信
-                        clsMyObj.RegistSuccess(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath ,path );
+                        clsMyObj.RegistSuccess(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath ,path  );
 
                         return AlterRegistResult.RegistSucess;
                     }
@@ -1596,10 +1647,10 @@ public class MySingleton
                 if (Convert.ToDateTime(regist_deadline) >=DateTime.Today)
                 {
                     //報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1",webPath, allTeam ) > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id, "1",webPath, allTeam,RegWebPath  ) > 0)
                     {
                         //andy-取消報名寄信
-                        clsMyObj.CancelRegist( activity_id.ToString(),  emp_id, clsAuth.ID,webPath );
+                        clsMyObj.CancelRegist( activity_id.ToString(),  emp_id, clsAuth.ID,RegWebPath );
 
                         return AlterRegistResult.CancelRegistSucess;
                     }
@@ -1638,7 +1689,7 @@ public class MySingleton
     }
 
     //團隊活動報名或取消報名
-    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline ,string webPath,string path,  string  allTeam )
+    public AlterRegistResult AlterRegist_Team(ActivityRegistVO myActivityRegistVO, List<CustomFieldValueVO> myCustomFieldValueVOList, List<ActivityTeamMemberVO> myActivityTeamMemberVOList, AlterRegistType myAlterRegistType, Guid activity_id, string emp_id, string regist_deadline, string cancelregist_deadline ,string webPath,string path,  string  allTeam ,string  RegWebPath )
     {
         lock (this)
         {
@@ -1712,7 +1763,7 @@ public class MySingleton
                         //團隊修改寄信
                         if (allTeam == "All")//全隊取消
                         {
-                            clsMyObj.CancelRegist_TeamUnderLimit(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, webPath);
+                            clsMyObj.CancelRegist_TeamUnderLimit(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, RegWebPath);
                         }
 
                         else
@@ -1759,7 +1810,7 @@ public class MySingleton
                 if (Convert.ToDateTime(regist_deadline) >= DateTime.Today)
                 {
                     //取消報名截止日之前-刪除
-                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath,allTeam  ) > 0)
+                    if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath,allTeam ,RegWebPath  ) > 0)
                     {
                         //寄信
                        // clsMyObj.RegistSuccess_Team(activity_id.ToString (), emp_id, "", webPath);

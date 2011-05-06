@@ -221,6 +221,18 @@
                                                     </ItemTemplate>
                                                     <ItemStyle HorizontalAlign="Center" />
                                                 </asp:TemplateField>
+                                                <asp:TemplateField>
+                                                    <ItemTemplate>
+                                                        <asp:CheckBox ID="chkDel" runat="server" />
+                                                    </ItemTemplate>
+                                                    <HeaderTemplate>
+                                                        <asp:CheckBox ID="chkDelHead" runat="server" AutoPostBack="True" 
+                                                            oncheckedchanged="chkDelHead_CheckedChanged" Text="¥þ¿ï" />
+                                                        <asp:LinkButton ID="lbtnVOdeleteHeader" runat="server" CausesValidation="False" 
+                                                            ForeColor="White" OnClick="lbtnVOdeleteHeader_Click" Text="§R°£"></asp:LinkButton>
+                                                    </HeaderTemplate>
+                                                    <ItemStyle Wrap="False" />
+                                                </asp:TemplateField>
                                             </Columns>
                                         </TServerControl:TGridView>
                                         <uc5:OpenTeamPersonInfo ID="OpenTeamPersonInfo1" runat="server" 

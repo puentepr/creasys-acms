@@ -47,7 +47,10 @@ namespace ACMS.VO
         private string _is_grouplimit;
         private string _notice;
         private string _active;
+        private string _emp_id;
 
+
+        public string emp_id { get { return _emp_id; } set { _emp_id = value; } }
         public Guid id { get { return _id; } set { _id = value; } }
         public string activity_type { get { return _activity_type; } set { _activity_type = value; } }
         public string activity_info { get { return _activity_info; } set { _activity_info = value; } }

@@ -55,7 +55,11 @@
                         OnRowDataBound="GridView1_RowDataBound" AllowHoverEffect="True" 
                         AllowHoverSelect="True" ondatabound="GridView1_DataBound" TotalRowCount="0">
                         <Columns>
-                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"  ItemStyle-HorizontalAlign ="Center" ItemStyle-Width="150px"/>
+                            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" 
+                                SortExpression="activity_name"  ItemStyle-HorizontalAlign ="Center" 
+                                ItemStyle-Width="150px">
+                                <ItemStyle HorizontalAlign="Center" Width="150px" />
+                            </asp:BoundField>
                             <asp:TemplateField HeaderText="活動對象" SortExpression="people_typ"">
                             <ItemStyle HorizontalAlign="Center"  Width="150px" />
                                 <ItemTemplate>
@@ -107,7 +111,10 @@
                                 <ItemTemplate>
                                     <asp:LinkButton ID="lbtnPreviewRegist" runat="server" 
                                         CommandArgument='<%# Bind("activity_type") %>' CommandName="Preview" 
-                                        OnClick="lbtnPreviewRegist_Click">報名預覽</asp:LinkButton>
+                                        OnClick="lbtnPreviewRegist_Click" Visible="False">報名預覽</asp:LinkButton>
+                                    <asp:HiddenField ID="hiactive" runat="server" Value='<%# Bind("active") %>' />
+                                    <asp:Label ID="lbactive" runat="server" ForeColor="Red" Text="未完成" 
+                                        Visible="False"></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

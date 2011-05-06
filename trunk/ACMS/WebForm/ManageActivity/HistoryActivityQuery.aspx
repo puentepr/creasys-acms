@@ -138,6 +138,8 @@
                 Name="activity_type" PropertyName="SelectedValue" Type="String" />
         </SelectParameters>
     </asp:ObjectDataSource>
-    <uc2:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server" />
-    <uc3:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" />
+    <uc2:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" 
+        runat="server" Visible="False" />
+    <uc3:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" 
+        runat="server" Visible="False" />
 </asp:Content>

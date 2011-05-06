@@ -336,7 +336,8 @@ public partial class WebForm_ActivityQuery : BasePage
             if (table.Rows[0]["activity_type"].ToString() == "2")
             {
                 myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(table.Rows[0]["id"].ToString()), table.Rows[0]["boss_id"].ToString());
-                dt.Columns.Add("隊名", System.Type.GetType("System.String"));
+                dt.Columns.Add("隊名", System.Type.GetType("System.String")); 
+                dt.Columns.Add("隊長", System.Type.GetType("System.String"));
             }
             else
             {
@@ -439,6 +440,7 @@ public partial class WebForm_ActivityQuery : BasePage
                         // dtDr["自訂欄位"] = GetCustomField(dr["id"].ToString(), dr["boss_id"].ToString());
                         GetCustomFieldNew(dr["id"].ToString(), dr["boss_id"].ToString(), ref dtDr);
                         dtDr["隊名"] = dr["team_name"].ToString().Trim();
+                        dtDr["隊長"] = dr["boss_id"].ToString().Trim();
                     }
 
 
@@ -505,7 +507,7 @@ public partial class WebForm_ActivityQuery : BasePage
            // Response.Redirect("~/WebForm/RegistActivity/RegistActivity_Team.aspx?ActID=" + activity_id);
             //Session["ActID"] = activity_id;
          // Response.Redirect("~/WebForm/RegistActivity/RegistedActivityQuery.aspx");
-
+            OpenRegistedTeammemberSelector1.Visible = true;
             OpenRegistedTeammemberSelector1.activity_id = activity_id;
            //OpenRegistedTeammemberSelector1.emp_id = clsAuth.ID;
             OpenRegistedTeammemberSelector1.regist_deadline = regist_deadline;

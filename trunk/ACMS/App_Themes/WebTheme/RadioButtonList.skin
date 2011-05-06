@@ -1,2 +1,2 @@
-                <asp:RadioButtonList runat="server" Font-Size="9pt">
+                <asp:RadioButtonList runat="server" Font-Size="12px" Font-Color="Red">
                 </asp:RadioButtonList>

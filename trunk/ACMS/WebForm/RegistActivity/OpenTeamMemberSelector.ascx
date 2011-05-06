@@ -97,22 +97,29 @@
                     AllowHoverSelect="True" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
                     TotalRowCount="0" AutoGenerateColumns="False" DataKeyNames="ID" SkinID="pager"
                     EnableModelValidation="True" DataSourceID="ObjectDataSource_Employee" 
-                    AllowPaging="True" OnPageIndexChanged="GridView_Employee_PageIndexChanged"  OnDataBound ="GridView_Employee_DataBound"
-                    onsorted="GridView_Employee_Sorted">
+                    AllowPaging="True" 
+                    OnPageIndexChanged="GridView_Employee_PageIndexChanged"  OnDataBound ="GridView_Employee_DataBound"
+                    onsorted="GridView_Employee_Sorted" 
+                    onrowdatabound="GridView_Employee_RowDataBound">
                     <EmptyDataTemplate>
                         <font color='Red' >查無資料</font>
                     </EmptyDataTemplate>
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" SortExpression="WORK_ID" ReadOnly="True" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" />
+                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
+                            SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" >
+                            <ItemStyle Width="200px" />
+                        </asp:BoundField>
                         <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME"  Visible ="False"/>
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <TServerControl:TCheckBoxYN ID="chkRJRA" runat="server" Enabled='<%# Eval("keyValue") %>' />
+                                 <asp:HiddenField ID="hiID" runat="server" Value='<%# Bind("ID") %>' />
                             </ItemTemplate>
                             <HeaderTemplate>
-                                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="全選" />
+                                <TServerControl:TCheckBoxYN ID="chkRJRA" runat="server" 
+                                    oncheckedchanged="chkRJRA_CheckedChanged" AutoPostBack="True" Text="全選" />
                             </HeaderTemplate>
                         </asp:TemplateField>
                     </Columns>

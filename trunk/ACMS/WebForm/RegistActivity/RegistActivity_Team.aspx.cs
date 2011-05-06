@@ -38,23 +38,23 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         {
             InitQueryBlock(ActivityID.ToString());
         }
-       
+
         if (!IsPostBack)
         {
             Session.Remove("form_mode1");
-            Session ["ShowPanel"] = false;
-          
+            Session["ShowPanel"] = false;
+
             Session["Team"] = "Yes";
             (this.Master as MyMasterPage).PanelMainGroupingText = "團隊報名";
             Wizard1.Visible = false;
 
             if (Session["form_mode"] != null && Session["activity_id"] != null)
             {
-             
+
                 //以新增方式進來時
                 if (Session["form_mode"].ToString() == "regist")
                 {
-                    ActivityID =new Guid( Session["activity_id"].ToString());
+                    ActivityID = new Guid(Session["activity_id"].ToString());
                     RegistGoSecondEventArgs myRegistGoSecondEventArgs = new RegistGoSecondEventArgs(new Guid(Session["activity_id"].ToString()));
                     GoSecondStep_Click(null, myRegistGoSecondEventArgs);
                 }
@@ -82,7 +82,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             }
 
             Session["form_mode"] = null;
-           // Session["activity_id"] = null;
+            // Session["activity_id"] = null;
 
         }
 
@@ -333,7 +333,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
         }
     }
-    
+
     //編輯時載入自訂欄位資料
     private void GetDynamicValue()
     {
@@ -357,7 +357,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
                     InitQueryBlock(ActivityID.ToString());
                     (PlaceHolder1.FindControl(MyControl.ID) as TextBox).Text = myCustomFieldValueVO.field_value;
-                
+
                 }
             }
             else if (myCustomFieldValueVO.field_control.ToUpper() == "TEXTBOXLIST")
@@ -377,13 +377,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                     CheckBoxList1_SelectedIndexChanged((PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList), null);
 
                 }
-               
+
 
             }
             else if (myCustomFieldValueVO.field_control.ToUpper() == "CHECKBOXLIST")
             {
                 TCheckBoxList MyControl = new TCheckBoxList();
-                               
+
                 MyControl.ID = string.Format("cbl{0}", myCustomFieldValueVO.field_id);
 
                 try
@@ -397,7 +397,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                     (PlaceHolder1.FindControl(MyControl.ID) as TCheckBoxList).SelectedValueList = myCustomFieldValueVO.field_value;
 
                 }
-               
+
 
 
             }
@@ -420,7 +420,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 }
 
 
-           
+
             }
 
         }
@@ -483,6 +483,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             OpenTeamMemberSelector1.TitleName = "選擇隊員";
             //OpenAgentSelector1.OkName = "報名";
             OpenTeamMemberSelector1.Visible = true;
+            OpenTeamMemberSelector1.Page_ActivityTeamMemberVOList = Page_ActivityTeamMemberVOList;
             OpenTeamMemberSelector1.InitDataAndShow(ActivityID.ToString());
         }
         catch (Exception ex)
@@ -513,7 +514,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                     myActivityTeamMemberVO.idno = "";
                     myActivityTeamMemberVO.remark = "";
                     myActivityTeamMemberVO.check_status = 0;
-                    myActivityTeamMemberVO.WritePersonInfo="否";
+                    myActivityTeamMemberVO.WritePersonInfo = "否";
 
                     myActivityTeamMemberVO.WORK_ID = GridView_Employee.Rows[i].Cells[0].Text.ToString();
                     myActivityTeamMemberVO.NATIVE_NAME = GridView_Employee.Rows[i].Cells[1].Text.ToString();
@@ -522,7 +523,20 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                     if (!Page_ActivityTeamMemberVOList.Exists(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == myActivityTeamMemberVO.emp_id; }))
                     {
                         Page_ActivityTeamMemberVOList.Add(myActivityTeamMemberVO);
-                    }                  
+                    }
+
+                }
+                else
+                {
+
+                    ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == GridView_Employee.DataKeys[i].Value.ToString(); });
+                    if (myActivityTeamMemberVO != null)
+                    {
+                        if (myActivityTeamMemberVO.emp_id != myActivityTeamMemberVO.boss_id)
+                        {
+                            Page_ActivityTeamMemberVOList.Remove(myActivityTeamMemberVO);
+                        }
+                    }
 
                 }
             }
@@ -530,14 +544,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         }
         catch (Exception ex)
         {
-            ShowMessageForAjax(this,"加入隊員失敗!");
+            ShowMessageForAjax(this, "加入隊員失敗!");
             WriteErrorLog("GetEmployee_click", ex.Message, "0");
         }
 
         GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
         GridView_TemMember.DataBind();
 
-       
+
 
     }
 
@@ -554,6 +568,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             if (myActivityTeamMemberVO.emp_id == myActivityTeamMemberVO.boss_id)
             {
                 (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
+                (e.Row.FindControl("chkDel")).Visible = false;
             }
 
 
@@ -629,7 +644,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
     }
 
-    
+
 
 
 
@@ -727,10 +742,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //            (MyControl as TRadioButtonList).ClearSelection();
     //            (PlaceHolder1.FindControl(MyControl.ID) as TRadioButtonList).SelectedValue = myCustomFieldValueVO.field_value;
     //        }
-        
+
     //    }
 
-    
+
 
 
     //}
@@ -755,7 +770,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         (PlaceHolder1.FindControl(lblSumValueID) as Label).Text = intSum.ToString();
     }
 
-   //下一步
+    //下一步
     protected void btnNext_Click(object sender, EventArgs e)
     {
         if (Wizard1.ActiveStepIndex == 1)
@@ -769,7 +784,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 {
                     if (myActivityTeamMemberVO.WritePersonInfo != "是")
                     {
-                        ShowMessageForAjax(this,string.Format(@"{0}尚未填寫個人相關欄位!無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
+                        ShowMessageForAjax(this, string.Format(@"{0}尚未填寫個人相關欄位!無法繼續報名程序!", myActivityTeamMemberVO.NATIVE_NAME));
                         Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                         return;
                     }
@@ -782,7 +797,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 //因為有可能更改團員，團隊成員人數符合限制,才能按下一步
                 if (!(GridView_TemMember.Rows.Count >= Page_team_member_min && GridView_TemMember.Rows.Count <= Page_team_member_max))
                 {
-                    ShowMessageForAjax(this,string.Format(@"團隊成員人數必須介於{0}~{1}人!", Page_team_member_min, Page_team_member_max));
+                    ShowMessageForAjax(this, string.Format(@"團隊成員人數必須介於{0}~{1}人!", Page_team_member_min, Page_team_member_max));
                     Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                     return;
                 }
@@ -807,7 +822,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
                 if (!string.IsNullOrEmpty(strDouble))
                 {
-                    ShowMessageForAjax(this,string.Format(@"{0}已經是別的團隊的成員，請選擇其他成員!", strDouble));
+                    ShowMessageForAjax(this, string.Format(@"{0}已經是別的團隊的成員，請選擇其他成員!", strDouble));
                     Wizard1.MoveTo(Wizard1.WizardSteps[0]);
                     return;
                 }
@@ -831,18 +846,18 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //取得報名資訊
     private ACMS.VO.ActivityRegistVO GetActivityRegistVO()
     {
-       
-            ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
 
-            myActivityRegistVO.activity_id = ActivityID;
-            myActivityRegistVO.emp_id = EmpID;//若是團員近來修改個人欄位時，此值會是團員ID,所以不能存ActivityRegist 只能存ActivityTeamMember
-            myActivityRegistVO.regist_by = RegistBy;
-            myActivityRegistVO.idno = "";
-            myActivityRegistVO.team_name = txtteam_name.Text;
-            myActivityRegistVO.ext_people = (txtext_people.Text == "" ? 0 : Convert.ToInt32(txtext_people.Text));
+        ACMS.VO.ActivityRegistVO myActivityRegistVO = new ACMS.VO.ActivityRegistVO();
 
-            return myActivityRegistVO;
-       
+        myActivityRegistVO.activity_id = ActivityID;
+        myActivityRegistVO.emp_id = EmpID;//若是團員近來修改個人欄位時，此值會是團員ID,所以不能存ActivityRegist 只能存ActivityTeamMember
+        myActivityRegistVO.regist_by = RegistBy;
+        myActivityRegistVO.idno = "";
+        myActivityRegistVO.team_name = txtteam_name.Text;
+        myActivityRegistVO.ext_people = (txtext_people.Text == "" ? 0 : Convert.ToInt32(txtext_people.Text));
+
+        return myActivityRegistVO;
+
 
     }
 
@@ -933,7 +948,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 //MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
 
-                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path,"");
+                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Team.aspx");
 
             }
             else
@@ -941,7 +956,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
 
                 //   MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
-                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path,"");
+                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Team.aspx");
 
             }
 
@@ -949,14 +964,17 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             if (MyResult == MySingleton.AlterRegistResult.RegistFail_Already)
             {
                 ShowMessageForAjax(this, "已存在報名成功紀錄，無法重複報名!");
+                return;
             }
             else if (MyResult == MySingleton.AlterRegistResult.RegistFail_Full)
             {
                 ShowMessageForAjax(this, @"抱歉，報名已額滿!若錄取名額有增加則可再次報名。");
+                return;
             }
             else if (MyResult == MySingleton.AlterRegistResult.RegistFail)
             {
                 ShowMessageForAjax(this, @"資料存檔發生錯誤，無法完成報名。");
+                return;
             }
             else
             {
@@ -996,15 +1014,15 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     protected void GridView_RegisterPeoplinfo_DataBound(object sender, EventArgs e)
     {
         if (GridView_TemMember.Rows.Count > 0)
-        {  
+        {
             //系統預設會勾選第一筆資料
-           // RadioButton RadioButton1 = (RadioButton)GridView_TemMember.Rows[0].FindControl("RadioButton1");         
-          // InitQueryBlock(ActivityID.ToString());
+            // RadioButton RadioButton1 = (RadioButton)GridView_TemMember.Rows[0].FindControl("RadioButton1");         
+            // InitQueryBlock(ActivityID.ToString());
             //RadioButton1_CheckedChanged(RadioButton1, null);
- 
+
         }
 
-       
+
     }
 
 
@@ -1032,7 +1050,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             catch
             {
             }
-           
+
             GridView gvUpfiles = ((GridView)FormView_ActivatyDetails.FindControl("GridView_UpFiles"));
             if (gvUpfiles != null)
             {
@@ -1059,8 +1077,45 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     {
 
     }
-}
 
+    protected void chkDelHead_CheckedChanged(object sender, EventArgs e)
+    {
+        bool chk = ((CheckBox)sender).Checked;
+        foreach (GridViewRow gr in GridView_TemMember.Rows)
+        {
+            ((CheckBox)(gr.FindControl("chkDel"))).Checked = chk;
+        }
+
+    }
+    protected void lbtnVOdeleteHeader_Click(object sender, EventArgs e)
+    {
+
+        foreach (GridViewRow gr in GridView_TemMember.Rows)
+        {
+            try
+            {
+                if (((CheckBox)gr.FindControl("chkDel")).Checked)
+                {
+                    string emp_id = GridView_TemMember.DataKeys[gr.RowIndex].Value.ToString();
+
+                    ACMS.VO.ActivityTeamMemberVO myActivityTeamMemberVO = Page_ActivityTeamMemberVOList.Find(delegate(ACMS.VO.ActivityTeamMemberVO p) { return p.emp_id == emp_id; });
+                    if (myActivityTeamMemberVO.emp_id != myActivityTeamMemberVO.boss_id)
+                    {
+                        Page_ActivityTeamMemberVOList.Remove(myActivityTeamMemberVO);
+                    }
+
+                }
+            }
+            catch (Exception ex)
+            {
+                WriteErrorLog("HeaderVoDelete", ex.Message, "0");
+
+            }
+        }
+        GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
+        GridView_TemMember.DataBind();
+    }
+}
 
 //產生"自訂欄位"控制項
 public partial class WebForm_RegistActivity_RegistActivity_Team

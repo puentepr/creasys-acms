@@ -15,7 +15,7 @@ namespace ACMS.DAO
         /// <returns>新增一筆活動資料</returns>
         public int INSERT_NewOne(VO.ActivatyVO myActivatyVO)
         {
-            SqlParameter[] sqlParams = new SqlParameter[3];
+            SqlParameter[] sqlParams = new SqlParameter[4];
 
             sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = myActivatyVO.id;
@@ -23,6 +23,8 @@ namespace ACMS.DAO
             sqlParams[1].Value = myActivatyVO.activity_type;
             sqlParams[2] = new SqlParameter("@activity_info", SqlDbType.NText);
             sqlParams[2].Value = myActivatyVO.activity_info;
+            sqlParams[3] = new SqlParameter("@emp_id", SqlDbType.NVarChar, myActivatyVO.emp_id.Length );
+            sqlParams[3].Value = myActivatyVO.emp_id;
 
             StringBuilder sb = new StringBuilder();
 
@@ -32,9 +34,9 @@ namespace ACMS.DAO
             //sb.AppendLine("(@id,@activity_info,@activity_name,@activity_type,@people_type,@activity_startdate,@activity_enddate,@limit_count,@limit2_count,@team_member_max,@team_member_min,@regist_deadline,@cancelregist_deadline,@is_showfile,@is_showprogress,@is_showextpeoplecount,@is_showremark,@is_grouplimit) ");
 
             sb.AppendLine("INSERT Activity ");
-            sb.AppendLine("([id],[activity_type],[activity_info],[org_id],[activity_name],[people_type],[activity_startdate],[activity_enddate],[limit_count],[limit2_count],[team_member_max],[team_member_min],[regist_startdate],[regist_deadline],[cancelregist_deadline],[is_showfile],[is_showprogress],[is_showperson_fix1],[is_showperson_fix2],[personextcount_max],[personextcount_min],[is_showidno],[is_showremark],[remark_name],[is_showteam_fix1],[is_showteam_fix2],[teamextcount_max],[teamextcount_min],[is_grouplimit],[notice],[active]) ");
+            sb.AppendLine("([id],[activity_type],[activity_info],[org_id],[activity_name],[people_type],[activity_startdate],[activity_enddate],[limit_count],[limit2_count],[team_member_max],[team_member_min],[regist_startdate],[regist_deadline],[cancelregist_deadline],[is_showfile],[is_showprogress],[is_showperson_fix1],[is_showperson_fix2],[personextcount_max],[personextcount_min],[is_showidno],[is_showremark],[remark_name],[is_showteam_fix1],[is_showteam_fix2],[teamextcount_max],[teamextcount_min],[is_grouplimit],[notice],[active],[emp_id]) ");
             sb.AppendLine("VALUES ");
-            sb.AppendLine("(@id,@activity_type,'','','','',null,null,null,null,null,null,null,null,null,'N','N','N','N',null,null,'N','N','','N','N',null,null,'N','',null) ");
+            sb.AppendLine("(@id,@activity_type,'','','','',null,null,null,null,null,null,null,null,null,'N','N','N','N',null,null,'N','N','','N','N',null,null,'N','',null,@emp_id) ");
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
@@ -157,23 +159,81 @@ namespace ACMS.DAO
             sqlParams[5] = new SqlParameter("@people_type", SqlDbType.NVarChar, 50);
             sqlParams[5].Value = myActivatyVO.people_type;
             sqlParams[6] = new SqlParameter("@activity_startdate", SqlDbType.DateTime);
-            sqlParams[6].Value = myActivatyVO.activity_startdate;
+            if (myActivatyVO.activity_startdate == null || myActivatyVO.activity_startdate==DateTime.Today )
+            {
+                sqlParams[6].Value = DBNull.Value;
+            }
+            else
+            {
+                sqlParams[6].Value = myActivatyVO.activity_startdate;
+            }
             sqlParams[7] = new SqlParameter("@activity_enddate", SqlDbType.DateTime);
-            sqlParams[7].Value = myActivatyVO.activity_enddate;
+
+            if (myActivatyVO.activity_enddate == null || myActivatyVO.activity_enddate == DateTime.Today)
+            {
+                sqlParams[7].Value = DBNull.Value;
+            }
+            else
+            { 
+                sqlParams[7].Value = myActivatyVO.activity_enddate;
+            }
+            
             sqlParams[8] = new SqlParameter("@limit_count", SqlDbType.Int);
-            sqlParams[8].Value = myActivatyVO.limit_count;
+            if (myActivatyVO.activity_startdate == DateTime.Today)
+            {
+                sqlParams[8].Value = DBNull.Value;
+            }
+            else
+            {
+                sqlParams[8].Value = myActivatyVO.limit_count;
+            }
             sqlParams[9] = new SqlParameter("@limit2_count", SqlDbType.Int);
-            sqlParams[9].Value = myActivatyVO.limit2_count;
+            if (myActivatyVO.activity_startdate == DateTime.Today)
+            {
+                sqlParams[9].Value = DBNull.Value;
+            }
+            else
+            {
+                sqlParams[9].Value = myActivatyVO.limit2_count;
+            }
             sqlParams[10] = new SqlParameter("@team_member_max", SqlDbType.Int);
             sqlParams[10].Value = myActivatyVO.team_member_max;
             sqlParams[11] = new SqlParameter("@team_member_min", SqlDbType.Int);
             sqlParams[11].Value = myActivatyVO.team_member_min;
             sqlParams[12] = new SqlParameter("@regist_startdate", SqlDbType.DateTime);
-            sqlParams[12].Value = myActivatyVO.regist_startdate;
+
+            if (myActivatyVO.regist_startdate == null)
+            {
+                sqlParams[12].Value = DBNull.Value;
+            }
+            else
+            {
+                sqlParams[12].Value = myActivatyVO.regist_startdate;
+            }
+          
             sqlParams[13] = new SqlParameter("@regist_deadline", SqlDbType.DateTime);
-            sqlParams[13].Value = myActivatyVO.regist_deadline;
+
+            if (myActivatyVO.regist_deadline == null)
+            {
+                sqlParams[13].Value = DBNull.Value;
+            }
+            else
+            {
+                sqlParams[13].Value = myActivatyVO.regist_deadline;
+            }
+            
             sqlParams[14] = new SqlParameter("@cancelregist_deadline", SqlDbType.DateTime);
-            sqlParams[14].Value = myActivatyVO.cancelregist_deadline;
+
+            if (myActivatyVO.cancelregist_deadline == null)
+            {
+                sqlParams[14].Value = DBNull.Value;
+            }
+            else
+            {
+                sqlParams[14].Value = myActivatyVO.cancelregist_deadline;
+            }
+
+          
             sqlParams[15] = new SqlParameter("@is_showfile", SqlDbType.NChar, 1);
             sqlParams[15].Value = myActivatyVO.is_showfile;
             sqlParams[16] = new SqlParameter("@is_showprogress", SqlDbType.NChar, 1);
@@ -205,8 +265,15 @@ namespace ACMS.DAO
             sqlParams[29] = new SqlParameter("@notice", SqlDbType.NText);
             sqlParams[29].Value = myActivatyVO.notice;
             sqlParams[30] = new SqlParameter("@active", SqlDbType.NChar, 1);
-            sqlParams[30].Value = myActivatyVO.active;
-
+            if (myActivatyVO.active == "Y")
+            {
+                sqlParams[30].Value = myActivatyVO.active;
+            }
+            else
+            {
+                sqlParams[30].Value = DBNull.Value;
+            }
+          
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("UPDATE Activity ");
