@@ -181,7 +181,8 @@
                     DataSourceID="ObjectDataSource_Employee" EnableModelValidation="True" 
                     onpageindexchanged="GridView_Employee_PageIndexChanged" PageSize="5" 
                     ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" SkinID="pager" 
-                    TotalRowCount="0" Visible="False" onsorted="GridView_Employee_Sorted">
+                    TotalRowCount="0" Visible="False" onsorted="GridView_Employee_Sorted" 
+                    onrowdatabound="GridView_Employee_RowDataBound">
                     <EmptyDataTemplate>
                         <font color="Red">查詢不到符合條件的資料... </font>
                     </EmptyDataTemplate>
@@ -192,13 +193,15 @@
                             SortExpression="NATIVE_NAME" />
                         <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門"  ItemStyle-Width="200px"
                             SortExpression="C_DEPT_NAME" >
-                            <ItemStyle Width="200px" />
+                            <ItemStyle Width="400px" />
                         </asp:BoundField>
                         <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME" />
                         <asp:TemplateField>
                             <ItemTemplate>
                                 <TServerControl:TCheckBoxYN ID="chkRJRA" runat="server" 
                                     Checked='<%# Eval("keyValue") %>' EnabledYN="Y" YesNo="N"   Enabled="True"/>
+                               
+                                <asp:HiddenField ID="hiemp_id" runat="server" Value='<%# Bind("ID") %>' />
                                
                             </ItemTemplate>
                             <HeaderTemplate>

@@ -343,7 +343,12 @@ namespace ACMS.DAO
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
 
         }
-
+        /// <summary>
+        /// 檢查是否為權限管理者.後台管理者.活動管理者
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <returns></returns>
         public bool chkAdmin(Guid activity_id , string emp_id)
         {
             SqlParameter[] sqlParams = new SqlParameter[2];

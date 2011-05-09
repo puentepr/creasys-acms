@@ -576,6 +576,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     //完成
     protected void FinishButton_Click(object sender, EventArgs e)
     {
+        ACMS.DAO.ActivityGroupLimitDAO  limDAO=new ACMS.DAO.ActivityGroupLimitDAO ();
         
         //預覽時
         if (Session["form_mode1"] != null)
@@ -602,7 +603,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
             string path = Server.MapPath("~/UpFiles");
             //報名
             MySingleton.AlterRegistResult MyResult;
+            if (limDAO.GroupLimitIsExist (ActivityID.ToString () ,myActivityRegistVO.emp_id )==false  )
+            {
 
+                clsMyObj.ShowMessage(myActivityRegistVO.emp_id+"不在可報名的名單中!");
+                return;
+            
+            }
             if (MyFormMode == FormViewMode.Insert)
             {
 
@@ -613,14 +620,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                 //}
                 //MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Person.aspx");
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/Default.aspx", path, "", aa + "/Default.aspx");
 
             }
             else
             {
                 // MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
-                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Person.aspx");
+                MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/Default.aspx", path, "", aa + "/Default.aspx");
 
             }
 
@@ -651,6 +658,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         catch (Exception ex)
         {
             WriteErrorLog("SaveData", ex.Message, "0");
+            return;
         }
         Response.Redirect("RegistedActivityQuery.aspx?type=1");
     }

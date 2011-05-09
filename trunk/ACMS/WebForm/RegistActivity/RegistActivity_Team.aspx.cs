@@ -933,6 +933,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         {
             Response.Redirect("RegistedActivityQuery.aspx?type=2");
         }
+         ACMS.DAO.ActivityGroupLimitDAO  limDAO=new ACMS.DAO.ActivityGroupLimitDAO ();
         try
         {
 
@@ -943,12 +944,26 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             //報名
             MySingleton.AlterRegistResult MyResult;
             string path = Server.MapPath("~/UpFiles");
+            string errMsg = "";
+            foreach (ACMS.VO.ActivityTeamMemberVO vo in Page_ActivityTeamMemberVOList)
+            {
+                if (limDAO.GroupLimitIsExist(ActivityID.ToString(), vo.emp_id) == false)
+                {
+                    errMsg += vo.emp_id + ",";
+                }
+            }
+            if (errMsg != "")
+            {
+
+                clsMyObj.ShowMessage("以下人員不在可報名名單中,所以無法報名:"+errMsg.TrimEnd (','));
+                return;
+            }
             if (MyFormMode == FormViewMode.Insert)
             {
                 //MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
 
-                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Team.aspx");
+                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/Default.aspx", path, "", aa + "/Default.aspx");
 
             }
             else
@@ -956,7 +971,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
 
                 //   MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
-                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/WebForm/RegistActivity/RegistedActivityQuery.aspx", path, "", aa + "/WebForm/RegistActivity/RegistActivity_Team.aspx");
+                MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistUpdate, new Guid(), "", "", "", aa + "/Default.aspx", path, "", aa + "/Default.aspx");
 
             }
 

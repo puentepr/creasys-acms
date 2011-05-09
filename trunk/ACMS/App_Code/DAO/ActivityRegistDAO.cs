@@ -327,7 +327,7 @@ namespace ACMS.DAO
 
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar,-1);
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar,100);
             sqlParams[1].Value = emp_id;
             sqlParams[2] = new SqlParameter("@boss_id", SqlDbType.NVarChar, 100);
             sqlParams[2].Value = boss_id;
@@ -1191,24 +1191,24 @@ namespace ACMS.DAO
 
         }
 
-
-        public void DelRegistTeamAll(Guid activity_id, string emp_id)
-        {
-
-            SqlParameter[] sqlParams = new SqlParameter[2];
-
-            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
-            sqlParams[0].Value = activity_id;
-            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
-            sqlParams[1].Value = emp_id;
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine(" delete from ActivityRegist where emp_id=@emp_id and activity_id=@activity_id");
-            sb.AppendLine(" delete from ActivityTeamMember where boss_id=@emp_id and activity_id=@activity_id");
-
-            SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         
-        }
+        //public void DelRegistTeamAll(Guid activity_id, string emp_id)
+        //{
+
+        //    SqlParameter[] sqlParams = new SqlParameter[2];
+
+        //    sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+        //    sqlParams[0].Value = activity_id;
+        //    sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 100);
+        //    sqlParams[1].Value = emp_id;
+
+        //    StringBuilder sb = new StringBuilder();
+        //    sb.AppendLine(" delete from ActivityRegist where emp_id=@emp_id and activity_id=@activity_id");
+        //    sb.AppendLine(" delete from ActivityTeamMember where boss_id=@emp_id and activity_id=@activity_id");
+
+        //    SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+        
+        //}
 
         
         //public Boolean  EmpIsRegisted(Guid activity_id, string emp_id,string boss_id)

@@ -43,11 +43,11 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     {
         if (ddlListType .SelectedValue =="0")
         {
-            GridView1.Columns[4].HeaderText = "登錄進度";
+            GridView1.Columns[5].HeaderText = "登錄進度";
         }
         else
         {
-            GridView1.Columns[4].HeaderText = "報名狀況";
+            GridView1.Columns[5].HeaderText = "報名狀況";
         }
 
     }
@@ -70,12 +70,12 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector
             if (value == "1")
             {
                 GridView1.Columns[3].Visible = false;
-                GridView1.Columns[5].Visible = false;
+                GridView1.Columns[4].Visible = false;
             }
             else
             {
                 GridView1.Columns[3].Visible = true;
-                GridView1.Columns[5].Visible = true;
+                GridView1.Columns[4].Visible = true;
             }
         
         }

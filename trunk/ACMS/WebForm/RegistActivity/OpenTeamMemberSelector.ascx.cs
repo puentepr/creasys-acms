@@ -43,6 +43,7 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
         {
             GetEmployeesClick(this, e);
         }
+        mpSearch.Show();
         //try
         //{
         //    GridView_Employee.PageIndex = GridView_Employee.PageIndex + 1;

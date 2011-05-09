@@ -149,7 +149,20 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             //    btnExport_GroupLimit.Enabled = false;
             //}
 
+            if (rblgrouplimit.SelectedValue == "Y")
+            {
 
+
+                FileUpload_GroupLimit.Enabled = true;
+                HyperLink1.Enabled = true;
+                btnAdd_GroupLimit.Enabled = true;
+                btnExport_GroupLimit.Enabled = true;
+                btnUpload_GroupLimit.Enabled = true;
+                Panel_GroupLimit.Visible = true;
+            }
+
+          
+           
             //如果已經過了活動開始報名日，則某些功能需唯讀
             if (myActivatyVO.regist_startdate <= DateTime.Now)
             {
@@ -181,6 +194,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 }
 
             }
+
             txtnotice.Text = myActivatyVO.notice;
 
             //活動資訊-活動內容
@@ -245,6 +259,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 rblgrouplimit.Enabled = true;
                 Panel_GroupLimit.Enabled = true;
                 GridView_GroupLimit.Columns[3].Visible = false;
+                GridView_GroupLimit.DataBind();
 
             }
         }
@@ -433,7 +448,10 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
     private void saveStep()
     {
-
+        if (MyFormMode == FormViewMode.ReadOnly)
+        {
+            return;
+        }
 
         ACMS.VO.ActivatyVO myActivatyVO = new ACMS.VO.ActivatyVO();
 
@@ -874,6 +892,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
         if (Wizard1.ActiveStepIndex == 2)
         {
+            GridView_GroupLimit.DataBind();
             string errMsg = "";
             ACMS.DAO.CustomFieldDAO cDAO = new ACMS.DAO.CustomFieldDAO();
             DataTable dt = cDAO.CheckCustFieldItemEmpty(ActivityID);
@@ -1264,7 +1283,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
     {
         try
         {
-            OpenEmployeeSelector1.InitDataAndShow(ActivityID);
+            OpenEmployeeSelector1.InitDataAndShow(ActivityID,MyFormMode,ActivityType  );
         }
         catch (Exception ex)
         {
@@ -1276,7 +1295,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
     //選取人員之後
     protected void GetEmployees_Click(object sender, EventArgs e)
     {
-        GridView GridView_Employee = (GridView)OpenEmployeeSelector1.FindControl("GridView_Employee");
+        GridView GridView_Employee = (GridView)sender;
         int i;
 
         ACMS.DAO.BaseDAO myBaseDAO = new ACMS.DAO.BaseDAO();
@@ -1294,6 +1313,8 @@ public partial class WebForm_ManageActivity_ActivityEdit
                 {
                     if (((CheckBox)GridView_Employee.Rows[i].FindControl("chkRJRA")).Checked)//2011/4/7  打勾的新增,不打勾的要刪除
                     {
+
+
                         ACMS.VO.ActivityGroupLimitVO myActivityGroupLimitVO = new ACMS.VO.ActivityGroupLimitVO();
 
                         myActivityGroupLimitVO.activity_id = ActivityID;
@@ -1305,7 +1326,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
                         catch
                         {
                         }
-                        
+
                     }
                     else
                     {
@@ -1313,6 +1334,9 @@ public partial class WebForm_ManageActivity_ActivityEdit
                         myActivityGroupLimitDAO.DELETE(GridView_Employee.DataKeys[i].Value.ToString(), ActivityID);
                     }
                 }
+
+
+
 
                 trans.Commit();
             }

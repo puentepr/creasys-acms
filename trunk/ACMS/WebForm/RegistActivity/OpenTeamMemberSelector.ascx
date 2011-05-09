@@ -6,7 +6,7 @@
 <script src="<%=this.ResolveUrl("~/js/JScript.js") %>" type="text/javascript"></script>
 
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" 
-    Width="800" Height="600">
+    Width="900" Height="600">
     <!--display: none;-->
     <br />
      <asp:updateprogress ID="Updateprogress1" runat="server" DisplayAfter="0">
@@ -75,7 +75,8 @@
                         </td>
                         <td align="right">
                             <asp:Button ID="btnQuery" runat="server" OnClick="btnQuery_Click" Text="查詢" />
-                            <asp:Button ID="btnOK" runat="server" OnClick="btnOK_Click" Text="確定" />
+                            <asp:Button ID="btnOK" runat="server" OnClick="btnOK_Click" Text="確定" 
+                                style="height: 21px" />
                             <asp:Button ID="btnCancel" runat="server" Text="關閉" />
                         </td>
                     </tr>
@@ -108,8 +109,8 @@
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" SortExpression="WORK_ID" ReadOnly="True" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
                         <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" 
-                            SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" >
-                            <ItemStyle Width="200px" />
+                            SortExpression="C_DEPT_NAME"  >
+                            <ItemStyle Width="450px" />
                         </asp:BoundField>
                         <asp:BoundField DataField="C_NAME" HeaderText="公司別" SortExpression="C_NAME"  Visible ="False"/>
                         <asp:TemplateField>

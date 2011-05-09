@@ -9,6 +9,40 @@ namespace ACMS.DAO
     public class ActivityGroupLimitDAO : BaseDAO
     {
         /// <summary>
+        /// 檢查是否可以報名(若存在限制名單中或不用限制人員的活動則傳回true.)
+        /// </summary>
+        /// <param name="activity_id">活動代號</param>
+        /// <param name="emp_id">員工</param>
+        /// <returns>檢查是否可以報名(若存在限制名單中或不用限制人員的活動則傳回true.)</returns>
+        public Boolean GroupLimitIsExist(string  activity_id, string emp_id)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.NVarChar );
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar);
+            sqlParams[1].Value = emp_id;
+            sb.AppendLine("SELECT id from Activity where id =@activity_id and is_grouplimit='N'");
+            sb.AppendLine("SELECT activity_id,emp_id ");
+            sb.AppendLine("FROM ActivityGroupLimit ");
+            sb.AppendLine("WHERE activity_id = @activity_id  and emp_id=@emp_id ");
+
+            DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                return true;
+            }
+            if (DS.Tables[1].Rows.Count > 0)
+            {
+                return true;
+            }
+
+            return false;
+
+        }
+        /// <summary>
         /// 新增限制人員清單
         /// </summary>
         /// <param name="table">限制人員清單</param>
@@ -317,5 +351,6 @@ namespace ACMS.DAO
             }
 
         }
+      
     }
 }
