@@ -386,9 +386,11 @@ public class clsMyObj
             {
                 mail.Body += "　　" + "<font color='Blue'><b>．此活動由</b></font><font color='Black'><u>" + regByEmpVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成報名</b></font><br/>";
             }
-            mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
+            mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>"
+                + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-                + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+            //    + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+              + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
         }
         else
         {
@@ -415,7 +417,7 @@ public class clsMyObj
             }
             mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-                + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+                + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
 
         }
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
@@ -552,7 +554,7 @@ public class clsMyObj
                             {
                                 custFieldSt += "　　　";
                             }
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
+                            custFieldSt +=  "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
                             doIt = true;
                         }
                 }
@@ -609,7 +611,7 @@ public class clsMyObj
             }
             mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-                + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+                + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
         }
         else
         {
@@ -636,7 +638,7 @@ public class clsMyObj
             }
             mail.Body += "　　" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-                + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+                + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
 
         }
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
@@ -771,7 +773,7 @@ public class clsMyObj
         }
         mail.Body += "<br/><br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
         + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-        + "'>" + vo.activity_name + "：報名連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+        + "'>"  + "報名系統連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
@@ -916,7 +918,7 @@ public class clsMyObj
                                 custFieldSt += "　　　";
                             }
 
-                            custFieldSt += "　　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
+                            custFieldSt += "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
                             doIt = true;
                         }
                 }
@@ -1100,7 +1102,7 @@ public class clsMyObj
             // + "　　" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
              + "　　" + "<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font><br/><br/><br/></td></tr>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
       + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-      + "'>" + vo.activity_name + "：團隊報名成功連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+      + "'>"  + "報名系統連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
         try
@@ -1292,7 +1294,7 @@ public class clsMyObj
 
         mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'>※報名人數未低於下限，其餘隊友仍具有活動參加資格<br/><a href='" + webPath + "?Type=2&ActID="
         + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-        + "'>" + vo.activity_name + "：報名連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+        + "'>"  + "報名系統連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
@@ -1416,7 +1418,7 @@ public class clsMyObj
 
         mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'><font color='red'>※團隊報名人數已低於下限，系統已取消此隊伍參加資格</font><br/><a href='" + webPath + "?Type=2&ActID="
         + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-        + "'>" + vo.activity_name + "：報名連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+        + "'>" + "報名系統連結</a><br/>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
 
 
@@ -1592,7 +1594,7 @@ public class MySingleton
                         if (RegistCount > 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
+                           // clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
 
                             return AlterRegistResult.RegistFail_Already;
                         }
@@ -1603,12 +1605,12 @@ public class MySingleton
                         if (RegistableCount <= 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
+                            //clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
                             return AlterRegistResult.RegistFail_Full;
                         }
 
                         //andy-報名失敗寄信
-                        clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
+                       // clsMyObj.RegistFail(myActivityRegistVO.activity_id.ToString(), myActivityRegistVO.emp_id, myActivityRegistVO.regist_by,webPath );
 
                         return AlterRegistResult.RegistFail;
                     }
@@ -1731,7 +1733,7 @@ public class MySingleton
                         if (RegistCount > 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
+                           // clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                             return AlterRegistResult.RegistFail_Already;
                         }
@@ -1742,13 +1744,13 @@ public class MySingleton
                         if (RegistableCount <= 0)
                         {
                             //andy-報名失敗寄信
-                            clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
+                            //clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                             return AlterRegistResult.RegistFail_Full;
                         }
 
                         //andy-報名失敗寄信
-                        clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
+                        //clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by,webPath);
 
                         return AlterRegistResult.RegistFail;
                     }
@@ -1785,7 +1787,7 @@ public class MySingleton
                             if (RegistCount > 0)
                             {
                                 //andy-報名失敗寄信
-                                clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, webPath);
+                               // clsMyObj.RegistFail_Team(myActivityRegistVO.activity_id.ToString(), strEmp_id, myActivityRegistVO.regist_by, webPath);
 
                                 return AlterRegistResult.RegistFail_Already;
                             }
@@ -1813,7 +1815,7 @@ public class MySingleton
                     if (myActivityRegistDAO.DeleteRegist(activity_id, emp_id,"2",webPath,allTeam ,RegWebPath  ) > 0)
                     {
                         //寄信
-                       // clsMyObj.RegistSuccess_Team(activity_id.ToString (), emp_id, "", webPath);
+                        //clsMyObj.RegistSuccess_Team(activity_id.ToString (), emp_id, "", webPath);
 
                         return AlterRegistResult.CancelRegistSucess;
                     }
