@@ -707,7 +707,7 @@ public class clsMyObj
 
         try
         {
-            smtp.Send(mail);
+           // smtp.Send(mail);
 
         }
         catch (Exception ex)
@@ -1176,7 +1176,7 @@ public class clsMyObj
 
         try
         {
-            smtp.Send(mail);
+            //smtp.Send(mail);
 
         }
         catch (Exception ex)
@@ -1830,7 +1830,7 @@ public class MySingleton
                     if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2",webPath) > 0)
                     {
                         //寄信
-                        //clsMyObj.RegistSuccess_Team(activity_id.ToString(), emp_id,"", webPath,path);
+                        clsMyObj.RegistSuccess_Team(activity_id.ToString(), emp_id,"", webPath,path);
                        
                         return AlterRegistResult.CancelRegistSucess;
                     }
