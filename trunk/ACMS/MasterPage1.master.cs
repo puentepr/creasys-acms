@@ -71,9 +71,9 @@ public partial class MasterPage1 : System.Web.UI.MasterPage
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("");
             sb.AppendLine("<script>");
-            sb.AppendLine("document.getElementById('ActivityEditQuery').style.display  = 'none';");
+           // sb.AppendLine("document.getElementById('ActivityEditQuery').style.display  = 'none';");
             //sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
-            // ActivityEditQuery.Visible = false;
+             ActivityEditQuery.Visible = false;
             RightsManagement.Visible = false;
             sb.AppendLine("</script>");
             ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam3", sb.ToString(), false);
