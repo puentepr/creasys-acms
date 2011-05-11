@@ -52,9 +52,11 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("");
                 sb.AppendLine("<script>");
-                sb.AppendLine("document.getElementById('ActivityManagement').style.display  = 'none';");
-                sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+               // sb.AppendLine("document.getElementById('ActivityManagement').style.display  = 'none';");
+               // sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
                 sb.AppendLine("</script>");
+                ActivityManagement.Visible = false;
+                RightsManagement.Visible = false;
                 ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);
             }
 
@@ -63,8 +65,10 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("");
                 sb.AppendLine("<script>");
-                sb.AppendLine("document.getElementById('ActivityEditQuery').style.display  = 'none';");
-                sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+               // sb.AppendLine("document.getElementById('ActivityEditQuery').style.display  = 'none';");
+                ActivityEditQuery.Visible = false;
+               // sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+                RightsManagement.Visible = false;
                 sb.AppendLine("</script>");
                 ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);
 
@@ -76,8 +80,9 @@ public partial class MasterPage : System.Web.UI.MasterPage
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("");
                 sb.AppendLine("<script>");             
-                sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+              //  sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
                 sb.AppendLine("</script>");
+                RightsManagement.Visible = false;
                 ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);  
             }
 
