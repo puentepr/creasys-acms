@@ -558,7 +558,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     //隊員RowDataBound
     protected void GridView_TemMember_RowDataBound(object sender, GridViewRowEventArgs e)
     {
+        if (e.Row.RowType == DataControlRowType.Header && (MyFormMode == FormViewMode.Edit || MyFormMode == FormViewMode.ReadOnly ))
+        {
+          //  e.Row.FindControl("chkDelHead").Visible = false;
+          //  e.Row.FindControl("lbtnVOdeleteHeader").Visible = false;
 
+        }
+        ACMS.DAO.ActivityRegistDAO regDao = new ACMS.DAO.ActivityRegistDAO();
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
 
@@ -571,7 +577,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 (e.Row.FindControl("chkDel")).Visible = false;
             }
 
-
+            if (regDao.IsPersonRegisted(ActivityID,myActivityTeamMemberVO.emp_id ,"","2")>0)
+            {
+            
+             (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
+             (e.Row.FindControl("chkDel")).Visible = false;
+            
+            }
 
             //團長能改大家的資料，但是團員只能改自己的資料
             if (EmpID != RegistBy)
@@ -581,12 +593,14 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                     (e.Row.FindControl("lbtnVOedit") as LinkButton).Visible = false;
                 }
                 (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
+               // (e.Row.FindControl("chkDel")).Visible = false;
             }
 
             //==如果是Edit則不可刪除人員
             if (MyFormMode == FormViewMode.Edit)
             {
                 (e.Row.FindControl("lbtnVOdelete") as LinkButton).Visible = false;
+               // (e.Row.FindControl("chkDel")).Visible = false;
             }
 
 
@@ -1098,7 +1112,10 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         bool chk = ((CheckBox)sender).Checked;
         foreach (GridViewRow gr in GridView_TemMember.Rows)
         {
-            ((CheckBox)(gr.FindControl("chkDel"))).Checked = chk;
+            if (((CheckBox)(gr.FindControl("chkDel"))).Visible)
+            {
+                ((CheckBox)(gr.FindControl("chkDel"))).Checked = chk;
+            }
         }
 
     }
