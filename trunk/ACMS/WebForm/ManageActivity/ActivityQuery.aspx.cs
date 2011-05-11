@@ -14,6 +14,7 @@ public partial class WebForm_ActivityQuery : BasePage
         {
             if (Session["EmpID"] != null)
             {
+                rblActivity_type.SelectedValue = "2";
                 //btnQuery.Visible = false;
                 OpenRegisedTeammemberSelector1.activity_id = Session["ActID"].ToString();
                 OpenRegisedTeammemberSelector1.emp_id = Session["EmpID"].ToString();
@@ -21,7 +22,7 @@ public partial class WebForm_ActivityQuery : BasePage
                 ACMS.BO.ActivatyBO bo1 = new ACMS.BO.ActivatyBO();
                 Guid id1 = new Guid(Session["ActID"].ToString());
                 vo1 = bo1.SelectActivatyByActivatyID(id1);
-
+                OpenRegisedTeammemberSelector1.Visible = true;
                 OpenRegisedTeammemberSelector1.regist_deadline = vo1.regist_deadline.ToString();
                 OpenRegisedTeammemberSelector1.cancelregist_deadline = vo1.cancelregist_deadline.ToString();
                 OpenRegisedTeammemberSelector1.InitDataAndShow();
