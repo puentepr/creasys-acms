@@ -3,7 +3,7 @@
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
 <%@ Register Src="~/WebForm/UpdateProgress.ascx" TagName="UpdateProgress" TagPrefix="My" %>
-<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1"  Width="400" Height="500" ScrollBars="Auto">
+<asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1"  Width="800" Height="500" ScrollBars="Auto">
     <!---->
     <br />
     <br />
@@ -29,7 +29,7 @@
                     <Columns>
                         <asp:BoundField DataField="WORK_ID" HeaderText="員工編號" ReadOnly="True" SortExpression="WORK_ID" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" SortExpression="NATIVE_NAME" />
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" ItemStyle-Width="200px" />
+                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" SortExpression="C_DEPT_NAME" ItemStyle-Width="400px" />
                         <asp:TemplateField HeaderText="隊長">
                             <ItemTemplate>
                                 <asp:RadioButton ID="RadioButton1" runat="server" AutoPostBack="True" OnCheckedChanged="RadioButton1_CheckedChanged" />

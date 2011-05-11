@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegistedEmployeeSelector.ascx.cs" Inherits="WebForm_OpenRegistedEmployeeSelector" %>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1" Style="cursor: move;
-    " Width="400" Height="500"><!--display: none;-->
+    " Width="800" Height="500"><!--display: none;-->
     <br />
     <div align="center">
         <asp:Label ID="lblTitle" runat="server" Text="取消個人報名" SkinID="title"></asp:Label>
@@ -50,7 +50,7 @@
                             SortExpression="WORK_ID" />
                         <asp:BoundField DataField="NATIVE_NAME" HeaderText="姓名" 
                             SortExpression="NATIVE_NAME" />
-                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" ItemStyle-Width="200px"
+                        <asp:BoundField DataField="C_DEPT_NAME" HeaderText="部門" ItemStyle-Width="400px"
                             SortExpression="C_DEPT_NAME" />
                         <asp:TemplateField>
                             <ItemTemplate>
