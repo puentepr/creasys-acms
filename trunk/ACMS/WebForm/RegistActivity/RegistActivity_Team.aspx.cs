@@ -550,6 +550,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
 
         GridView_TemMember.DataSource = Page_ActivityTeamMemberVOList;
         GridView_TemMember.DataBind();
+        OpenTeamMemberSelector1.Page_ActivityTeamMemberVOList = Page_ActivityTeamMemberVOList;
 
 
 
