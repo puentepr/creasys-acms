@@ -139,7 +139,7 @@ html .jqueryslidemenu{height: 1%;} /*Holly Hack for IE7 and below*/
                     <li><a href="~/WebForm/RegistActivity/ActivityProgressQuery.aspx" runat="server">活動進度查詢</a></li>
                     <li id="ActivityManagement"  runat ="server" ><a href="#">活動資料管理</a>
                         <ul>
-                            <li id ="ActivityEditQuery"  runat ="server" ><a href="~/WebForm/ManageActivity/ActivityEditQuery.aspx" runat="server" >新增/修改活動</a></li>
+                            <li id ="ActivityEditQuery"   ><a href="~/WebForm/ManageActivity/ActivityEditQuery.aspx" runat="server">新增/修改活動</a></li>
                             <li><a href="~/WebForm/ManageActivity/ActivityQuery.aspx" runat="server" >報名狀態查詢</a></li>
                             <li><a href="~/WebForm/ManageActivity/ActivityCheck.aspx" runat="server" >活動進度登錄</a></li>
                             <li><a href="~/WebForm/ManageActivity/HistoryActivityQuery.aspx?type=off" runat="server">歷史資料查詢</a></li>
