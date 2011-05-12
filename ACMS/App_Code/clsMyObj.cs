@@ -1246,13 +1246,27 @@ public class clsMyObj
 
         //string empList = "";
         //empList += "";
-        emps = nowMembers.Split(',');
-        string empList = "";
-        foreach (string emp in emps)
+       
+        if (nowMembers == "")
         {
-            empVO = empDAO.getEmployee(emp);
-            empList += empVO.NATIVE_NAME + "、";
+            emps = OrginMembers.Split(',');
         }
+        else
+        {
+            emps = nowMembers.Split(',');
+
+        }
+
+        string empList = "";
+        if (emp_id != "")
+        {
+            foreach (string emp in emps)
+            {
+                empVO = empDAO.getEmployee(emp);
+                empList += empVO.NATIVE_NAME + "、";
+            }
+        }
+
         empList = empList.TrimEnd('、');
 
         //foreach (string emp in emps)
@@ -1830,7 +1844,7 @@ public class MySingleton
                     if (myActivityRegistDAO.CancelRegist(activity_id, emp_id,"2",webPath) > 0)
                     {
                         //寄信
-                        clsMyObj.RegistSuccess_Team(activity_id.ToString(), emp_id,"", webPath,path);
+                       // clsMyObj.RegistSuccess_Team(activity_id.ToString(), emp_id,"", webPath,path);
                        
                         return AlterRegistResult.CancelRegistSucess;
                     }
