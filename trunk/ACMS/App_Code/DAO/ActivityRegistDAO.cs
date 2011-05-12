@@ -45,7 +45,43 @@ namespace ACMS.DAO
                 SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
             }
         }
+        public void InsertActivityRegistCancel(Guid activity_id, string emp_id, string activity_type, string cancel_by,SqlConnection conn)
+        {
+           
+            SqlParameter[] sqlParams = new SqlParameter[3];
+            string[] emp_ids = emp_id.Split(',');
+            SqlCommand cmd;
 
+            foreach (string emp_id1 in emp_ids)
+            {
+                sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+                sqlParams[0].Value = activity_id;
+                sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, 50);
+                sqlParams[1].Value = emp_id1;
+                sqlParams[2] = new SqlParameter("@cancel_by", SqlDbType.NVarChar, 50);
+                sqlParams[2].Value = cancel_by;
+
+                StringBuilder sb = new StringBuilder();
+                if (activity_type == "1")
+                {
+                    sb.AppendLine(" insert into ActivityRegistCancel(activity_id,emp_id,boss_id,team_name,regist_by,createat,cancel_by,cancel_date)  select  @activity_id,@emp_id,'','',regist_by,createat,@cancel_by ,getDate()  from ActivityRegist  where activity_id=@activity_id and  emp_id=@emp_id ");
+
+                }
+                else
+                {
+                    sb.AppendLine(" insert into ActivityRegistCancel(activity_id,emp_id,boss_id,team_name,regist_by,createat,cancel_by,cancel_date)  select @activity_id,@emp_id,A.boss_id ,B.team_name ,B.regist_by,B.createat,@cancel_by,getDate()  from ActivityTeamMember A");
+                    sb.AppendLine(" left join ActivityRegist B on A.activity_id =B.activity_id and A.boss_id=B.emp_id ");
+                    sb.AppendLine("  where A.activity_id=@activity_id and  A.emp_id=@emp_id");
+                }
+                cmd = new SqlCommand(sb.ToString(), conn);
+                cmd.Parameters.Clear();
+                cmd.Parameters.Add(sqlParams[0]);
+                cmd.Parameters.Add(sqlParams[1]);
+                cmd.Parameters.Add(sqlParams[2]);
+                cmd.ExecuteNonQuery ();
+                //SqlHelper.ExecuteNonQuery(conn, CommandType.Text, sb.ToString(), sqlParams);
+            }
+        }
         /// <summary>
         /// 將要刪除的成員資料新增到取消人員清冊中(找出不在新成員名單中)-團隊專用
         /// </summary>
@@ -920,7 +956,7 @@ namespace ACMS.DAO
         {
             //先取得團隊所有成員(用逗號隔開)，因為若團隊會消滅的話要寄給所有成員
             string OriginMembers = AllTeamMemberByMembers(activity_id, emp_id);
-          
+
             SqlParameter[] sqlParams = new SqlParameter[2];
             string bossid = "";
             sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
@@ -930,13 +966,14 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-           
+            string NowMembers = "";
+            string doJob = "";
 
             using (System.Transactions.TransactionScope trans = new System.Transactions.TransactionScope())
             {
                 using (SqlConnection myConn = MyConn())
                 {
-                          
+
 
                     try
                     {
@@ -967,7 +1004,7 @@ namespace ACMS.DAO
                         {
                             sb.AppendLine("UPDATE ActivityTeamMember SET check_status=-1 WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
                         }
-                   
+
                         myConn.Open();
                         cmd.Connection = myConn;
                         cmd.CommandText = sb.ToString();
@@ -978,13 +1015,13 @@ namespace ACMS.DAO
                         if (activity_type == "2")
                         {
                             //2011/3/28日要先加到取消報名人員
-                            InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID);
+                            InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID, myConn);
 
                             //============================2011/3/28 add 
                             sb.Length = 0;
 
                             //若團隊人數低於門檻則團隊消滅
-                            sb.AppendLine(string.Format("Seclect count(*) from ActivityRegist WHERE activity_id=@activity_id and emp_id in (SELECT distinct boss_id FROM ActivityTeamMember WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split('{0}',','))) ", OriginMembers));//原本的emp_id已被刪除所以要用OriginMembers
+                            sb.AppendLine(string.Format("Select count(*) from ActivityRegist WHERE activity_id=@activity_id and emp_id in (SELECT distinct boss_id FROM ActivityTeamMember WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split('{0}',','))) ", OriginMembers));//原本的emp_id已被刪除所以要用OriginMembers
                             //若低於門檻
                             sb.AppendLine("and  exists( ");
                             sb.AppendLine("select A.team_member_min,COUNT(B.emp_id)");
@@ -999,7 +1036,7 @@ namespace ACMS.DAO
                             cmd.Parameters.AddRange(sqlParams);
                             if (cmd.ExecuteScalar().ToString() != "0")
                             {
-                                InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID);
+                                InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID, myConn);
                             }
                             //================================================
 
@@ -1020,7 +1057,7 @@ namespace ACMS.DAO
                             cmd.Parameters.Clear();
                             cmd.Parameters.AddRange(sqlParams);
                             int intCancelAll = cmd.ExecuteNonQuery();
-                            string NowMembers = AllTeamMemberByMembers(activity_id, OriginMembers);
+                            NowMembers = AllTeamMemberByMembers(activity_id, OriginMembers, myConn);
                             if (intCancelAll > 0)
                             {
                                 sb.Length = 0;
@@ -1031,15 +1068,18 @@ namespace ACMS.DAO
                                 cmd.Parameters.Clear();
                                 cmd.Parameters.AddRange(sqlParams);
                                 cmd.ExecuteNonQuery();
-                                InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID);
+                                InsertActivityRegistCancel(activity_id, OriginMembers, "2", clsAuth.ID, myConn);
+
                                 //andy-團隊瓦解要寄信給所有人
-                                clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers);
+                                doJob = "1";
+                                //clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers);
                             }
                             else
                             {
                                 //andy-一般取消報名寄給取消的那些人
-                                InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID);
-                                clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers);
+                                InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID, myConn);
+                                doJob = "2";
+                                //clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers);
                             }
 
                         }
@@ -1052,10 +1092,15 @@ namespace ACMS.DAO
                 }
 
                 trans.Complete();
+
+
             }
+            if (doJob == "1")
+            { clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers); }
+            if (doJob == "2")
+            { clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers); }
             return 1;
         }
-
 
 
         //隊員取得團隊所有成員(用逗號隔開)
@@ -1082,7 +1127,7 @@ namespace ACMS.DAO
             sb.AppendLine("SELECT distinct boss_id ");
             sb.AppendLine("FROM ActivityTeamMember ");
             sb.AppendLine("WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) ");
-            sb.AppendLine(") ");
+            sb.AppendLine(") and check_status>=0");
             SqlConnection aconn = MyConn();
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
@@ -1096,6 +1141,39 @@ namespace ACMS.DAO
             aconn.Close();
             if (MyDataReader != null) MyDataReader.Dispose();
             if (aconn != null) aconn.Dispose();
+            return string.Join(",", myList.ToArray());
+        }
+        public string AllTeamMemberByMembers(Guid activity_id, string emp_id,SqlConnection conn)
+        {
+            SqlParameter[] sqlParams = new SqlParameter[2];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@emp_id", SqlDbType.NVarChar, -1);
+            sqlParams[1].Value = emp_id;
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("SELECT emp_id ");
+            sb.AppendLine("FROM ActivityTeamMember ");
+            sb.AppendLine("where activity_id=@activity_id and boss_id in ( ");
+            sb.AppendLine("SELECT distinct boss_id ");
+            sb.AppendLine("FROM ActivityTeamMember ");
+            sb.AppendLine("WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) ");
+            sb.AppendLine(")  and check_status>=0");
+            
+            SqlDataReader MyDataReader = SqlHelper.ExecuteReader(conn, CommandType.Text, sb.ToString(), sqlParams);
+
+            List<string> myList = new List<string>();
+
+            while (MyDataReader.Read())
+            {
+                myList.Add((string)MyDataReader["emp_id"]);
+            }
+            MyDataReader.Close();
+          
+            if (MyDataReader != null) MyDataReader.Dispose();
+         
             return string.Join(",", myList.ToArray());
         }
 
