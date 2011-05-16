@@ -956,7 +956,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
             List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
             //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
-
+            ACMS.DAO.ActivityRegistDAO dao = new ACMS.DAO.ActivityRegistDAO();
             //報名
             MySingleton.AlterRegistResult MyResult;
             string path = Server.MapPath("~/UpFiles");
@@ -976,6 +976,16 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             }
             if (MyFormMode == FormViewMode.Insert)
             {
+
+
+                if (dao.RegistableCount(ActivityID) < 0)
+                {
+
+                    clsMyObj.ShowMessage("已額滿,無法報名");
+                    return;
+
+                }
+
                 //MyResult = MySingleton.GetMySingleton().AlterRegist_Team(myActivityRegistVO, myCustomFieldValueVOList, Page_ActivityTeamMemberVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
 

@@ -598,6 +598,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         {
             //以新增方式進來時
             ACMS.VO.ActivityRegistVO myActivityRegistVO = GetActivityRegistVO(); //取得報名資訊      
+            ACMS.DAO.ActivityRegistDAO dao = new ACMS.DAO.ActivityRegistDAO();
             List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList = GetCustomFieldValueVOList();//取得自訂欄位值
             //ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
             string path = Server.MapPath("~/UpFiles");
@@ -613,12 +614,22 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
             if (MyFormMode == FormViewMode.Insert)
             {
 
-                //if (dao.IsPersonRegisted (ActivityID ,myActivityRegistVO.emp_id ,"","1")>0)
-                //{
-                //    clsMyObj.ShowMessage ("已報名,無法重覆報名");
-                //    return ;
-                //}
-                //MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+                if (dao.IsPersonRegisted(ActivityID, myActivityRegistVO.emp_id, "", "1") > 0)
+                {
+                    clsMyObj.ShowMessage("已報名,無法重覆報名");
+                    return;
+                }
+                if (dao.RegistableCount(ActivityID) < 0)
+                {
+
+                    clsMyObj.ShowMessage("已額滿,無法報名");
+                    return;
+
+                }
+
+
+
+               // MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", this.Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx", path);
                 string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
                 MyResult = MySingleton.GetMySingleton().AlterRegist(myActivityRegistVO, myCustomFieldValueVOList, MySingleton.AlterRegistType.RegistInsert, new Guid(), "", "", "", aa + "/Default.aspx", path, "", aa + "/Default.aspx");
 
