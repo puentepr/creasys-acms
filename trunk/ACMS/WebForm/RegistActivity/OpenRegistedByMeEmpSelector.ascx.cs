@@ -29,43 +29,43 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
 
         }
 
-            if (emp_id.EndsWith(","))
-            {
-                emp_id = emp_id.Substring(0, emp_id.Length - 1);
-            }
+        if (emp_id.EndsWith(","))
+        {
+            emp_id = emp_id.Substring(0, emp_id.Length - 1);
+        }
 
+        MySingleton.AlterRegistResult MyResult = MySingleton.AlterRegistResult.CancelRegistSucess;
         if (!string.IsNullOrEmpty(emp_id))
         {
-           // MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist(null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
+            // MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist(null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, ((Button)sender).Page.Request.Url.AbsoluteUri.Substring(0, Request.Url.AbsoluteUri.IndexOf('/', 7)) + "/ACMS/WebForm/RegistActivity/RegistedActivityQuery.aspx",path);
             string aa = string.Format("{0}://{1}{2}", HttpContext.Current.Request.Url.Scheme, HttpContext.Current.Request.Url.Authority, HttpContext.Current.Request.ApplicationPath).TrimEnd('/');
+            MyResult = MySingleton.GetMySingleton().AlterRegist(null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, aa + "/Default.aspx", path, "", aa + "/Default.aspx");
 
-            MySingleton.AlterRegistResult MyResult = MySingleton.GetMySingleton().AlterRegist(null, null, MySingleton.AlterRegistType.CancelRegist, new Guid(activity_id), emp_id, regist_deadline, cancelregist_deadline, aa + "/Default.aspx", path, "", aa + "/Default.aspx");
-            
-            
-            GridView1.DataBind();  
- 
-            if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
-            {
-                clsMyObj.ShowMessage("取消報名完成。");
-            }
-            else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail_DayOver)
-            {
-                clsMyObj.ShowMessage("取消報名截止日之後無法取消報名!。");
-            }
-            else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail)
-            {
-                clsMyObj.ShowMessage("取消報名失敗!。");
-            }     
-        
+
+            GridView1.DataBind();
+
+
         }
 
 
         if (CancelPersonRegistClick != null)
         {
+            this.Visible = false;
             CancelPersonRegistClick(this, e);
         }
 
-
+        if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
+        {
+            clsMyObj.ShowMessage("取消報名完成。");
+        }
+        else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail_DayOver)
+        {
+            clsMyObj.ShowMessage("取消報名截止日之後無法取消報名!。");
+        }
+        else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail)
+        {
+            clsMyObj.ShowMessage("取消報名失敗!。");
+        }     
 
 
     }

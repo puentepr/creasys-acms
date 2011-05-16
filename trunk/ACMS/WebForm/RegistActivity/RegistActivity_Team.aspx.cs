@@ -185,6 +185,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 //自訂欄位
                 PanelCustomFieldA1.Enabled = false;
             }
+           
 
             //載入活動資訊
             GetActivityDefault();
@@ -200,7 +201,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
             GridView_TemMember.DataBind();
 
 
-            Wizard1.MoveTo(Wizard1.WizardSteps[1]);
+            Wizard1.MoveTo(Wizard1.WizardSteps[0]);
             try
             {
                 ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text = ((Label)FormView_ActivatyDetails.FindControl("activity_startdateLabel")).Text.Replace("-", "/").Replace("T", " ");
