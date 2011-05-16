@@ -53,7 +53,8 @@
                             </asp:RadioButtonList>
                         </td>
                         <td>
-                            <asp:Button ID="btnQuery" runat="server" OnClick="btnQuery_Click" Text="查詢" />
+                            <asp:Button ID="btnQuery" runat="server" OnClick="btnQuery_Click" Text="查詢" 
+                                style="height: 21px" />
                         </td>
                     </tr>
                 </table>

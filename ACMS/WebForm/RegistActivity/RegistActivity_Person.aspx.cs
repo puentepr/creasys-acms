@@ -145,7 +145,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     {
         try
         {
-            Wizard1.MoveTo(Wizard1.WizardSteps[1]);
+            Wizard1.MoveTo(Wizard1.WizardSteps[0]);
 
             RegistActivity_Query1.Visible = false;
             Wizard1.Visible = true;
