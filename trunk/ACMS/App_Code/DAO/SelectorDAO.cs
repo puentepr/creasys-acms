@@ -54,6 +54,7 @@ namespace ACMS.DAO
             }
             //sb.AppendLine(" and A.regist_deadline>=convert(datetime,convert(varchar(10),getdate(),111))");
             sb.AppendLine("GROUP BY A.sn,A.id,A.activity_name,A.people_type,A.limit_count,A.limit2_count,A.activity_startdate,A.activity_enddate ");
+            sb.AppendLine("HAVING COUNT(B.emp_id)<(A.limit_count+A.limit2_count)");//未額滿
             sb.AppendLine("ORDER BY A.sn ");
 
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
