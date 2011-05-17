@@ -81,7 +81,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="txtactivity_name" runat="server" Text='<%# Bind("activity_name") %>'
-                                                        Width="350px"></asp:TextBox>
+                                                        Width="350px" MaxLength ="50"></asp:TextBox>
                                                     <asp:RequiredFieldValidator ID="chk_txtactivity_name" runat="server" ControlToValidate="txtactivity_name"
                                                         Display="Dynamic" ErrorMessage="活動名稱必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                                 </td>
@@ -92,7 +92,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="txtpeople_type" runat="server" Text='<%# Bind("people_type") %>'
-                                                        Height="47px" TextMode="MultiLine" Width="350px"></asp:TextBox>
+                                                        Height="47px" TextMode="MultiLine" Width="350px" MaxLength ="50"></asp:TextBox>
                                                     <asp:RequiredFieldValidator ID="chk_txtpeople_type" runat="server" ControlToValidate="txtpeople_type"
                                                         Display="Dynamic" ErrorMessage="活動對象必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                                 </td>
