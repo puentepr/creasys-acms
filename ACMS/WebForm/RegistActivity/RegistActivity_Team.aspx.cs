@@ -34,9 +34,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
     }
     protected void Page_Load(object sender, EventArgs e)
     {
-        if (Wizard1.ActiveStepIndex >= 1)
+        //if (Wizard1.ActiveStepIndex >= 1)
+        try
         {
             InitQueryBlock(ActivityID.ToString());
+        }
+        catch
+        { 
         }
 
         if (!IsPostBack)
@@ -73,6 +77,8 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                     //以編輯方式進來時
                     ActivityID = new Guid(Session["activity_id"].ToString());
                     GoThirdStep_Click(null, null);
+                    Wizard1.FindControl("FinishNavigationTemplateContainerID$btnHome").Visible = true;
+                    ((Button)Wizard1.FindControl("FinishNavigationTemplateContainerID$FinishButton")).Text = "儲存並發送確認信";
                 }
             }
             else
@@ -1330,6 +1336,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
 
     }
 
+
+    protected void Home_Click(object sender, EventArgs e)
+    {
+        Response.Redirect(this.ResolveUrl("~/Default.aspx"));
+    }
 }
 
 //必要屬性

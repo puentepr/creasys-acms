@@ -15,9 +15,10 @@
         <ContentTemplate>
             <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
                 ActivityType="1" />
-            <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="0"
+            <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="3"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
-                StepPreviousButtonText="上一步" OnNextButtonClick="Wizard1_NextButtonClick" OnActiveStepChanged="Wizard1_ActiveStepChanged">
+                StepPreviousButtonText="上一步" OnNextButtonClick="Wizard1_NextButtonClick" 
+                OnActiveStepChanged="Wizard1_ActiveStepChanged">
                 <StartNavigationTemplate>
                     <asp:Button ID="btnStart" runat="server" CausesValidation="true" CommandName="MoveNext"
                         CssClass="WizardControlButton" Text="下一步" />
@@ -299,8 +300,11 @@
                     </asp:WizardStep>
                 </WizardSteps>
                 <FinishNavigationTemplate>
-                    <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" CommandName="MovePrevious"
+                <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" CommandName="MovePrevious"
                         Text="上一步" />
+                     <asp:Button ID="btnHome" runat="server" CommandName="MoveComplete" OnClick="Home_Click" Visible ="false"
+                        Text="不儲存修改" />
+                    
                     <asp:Button ID="FinishButton" runat="server" CommandName="MoveComplete" OnClick="FinishButton_Click"
                         Text="完成" />
                 </FinishNavigationTemplate>
