@@ -256,9 +256,12 @@
                         <asp:Literal ID="Literal_notice" runat="server"></asp:Literal>
                     </asp:WizardStep>
                 </WizardSteps>
-                <FinishNavigationTemplate>
-                    <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" CommandName="MovePrevious"
+                <FinishNavigationTemplate > 
+                 <asp:Button ID="FinishPreviousButton" runat="server" CausesValidation="False" CommandName="MovePrevious"
                         Text="上一步" />
+                <asp:Button ID="btnHome" runat="server" CommandName="MoveComplete" OnClick="Home_Click"  Visible ="false"
+                        Text="不儲存修改" />
+                  
                     <asp:Button ID="FinishButton" runat="server" CommandName="MoveComplete" OnClick="FinishButton_Click"
                         Text="完成" />
                 </FinishNavigationTemplate>

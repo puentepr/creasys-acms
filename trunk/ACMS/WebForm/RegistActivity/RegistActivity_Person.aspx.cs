@@ -33,9 +33,13 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
     {
         try
         {
-            if (Wizard1.ActiveStepIndex >= 1)
+            //if (Wizard1.ActiveStepIndex >= 1)
+            try
             {
                 InitQueryBlock(ActivityID.ToString());
+            }
+            catch
+            { 
             }
             if (!IsPostBack)
             {
@@ -66,7 +70,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                     if (Session["form_mode"].ToString() == "edit")
                     {
                         //以編輯方式進來時
+                    
                         GoThirdStep_Click(null, null);
+                        Wizard1.FindControl("FinishNavigationTemplateContainerID$btnHome").Visible = true;
+                        ((Button)Wizard1.FindControl("FinishNavigationTemplateContainerID$FinishButton")).Text = "儲存並發送確認信";
+                       
                     }
                 }
                 else
@@ -769,6 +777,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
                
             }
         }
+    }
+   
+    protected void Home_Click(object sender, EventArgs e)
+    {
+        Response.Redirect (this.ResolveUrl ("~/Default.aspx"));
     }
 }
 
