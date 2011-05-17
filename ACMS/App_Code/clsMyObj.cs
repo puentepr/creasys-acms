@@ -728,71 +728,81 @@ public class clsMyObj
         string[] smtpto = System.Configuration.ConfigurationManager.AppSettings["SMTPTo"].Split(',');
         Guid id = new Guid(activity_id);
         vo = bo.SelectActivatyByActivatyID(id);
-        MailMessage mail = new MailMessage();
+        string[] empids = emp_id.Split(',');
 
-        //收件者
-        string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
 
-        EmployeeVO empVO = new EmployeeVO();
-        EmployeeVO empCancelVO = new EmployeeVO();
-        EMPloyeeDAO empDAO = new EMPloyeeDAO();
-        empVO = empDAO.getEmployee(emp_id);
 
-        if ((string.Compare(mailtype, "online") != 0))
+        foreach (string st in empids)
         {
-            foreach (string st1 in smtpto)
+
+            MailMessage mail = new MailMessage();
+
+            //收件者
+            string mailtype = System.Configuration.ConfigurationManager.AppSettings["MailType"].ToLower();
+
+            EmployeeVO empVO = new EmployeeVO();
+            EmployeeVO empCancelVO = new EmployeeVO();
+            EMPloyeeDAO empDAO = new EMPloyeeDAO();
+
+            empVO = empDAO.getEmployee(emp_id);
+
+            if ((string.Compare(mailtype, "online") != 0))
             {
-                mail.To.Add(st1);
+                foreach (string st1 in smtpto)
+                {
+                    mail.To.Add(st1);
+                }
             }
-        }
-        else
-        {
-
-            mail.To.Add(empVO.OFFICE_MAIL);
-            if (emp_id != cancel_by)
+            else
             {
-                empVO = empDAO.getEmployee(cancel_by);
+                empVO = empDAO.getEmployee(st);
                 mail.To.Add(empVO.OFFICE_MAIL);
+
+
+                if (st != cancel_by)
+                {
+                    empVO = empDAO.getEmployee(cancel_by);
+                    mail.To.Add(empVO.OFFICE_MAIL);
+                }
             }
-        }
-        empVO = empDAO.getEmployee(emp_id);
-        empCancelVO = empDAO.getEmployee(cancel_by);
-        mail.Subject = vo.activity_name + "：取消報名通知";
-        //寄件者
-        mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
-        mail.IsBodyHtml = true;
-        mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>取消個人報名通知</b></td> </tr>"
-            + "<tr><td><br/><br/>" + "　　" + "<b><font color='Blue'>．姓名：</font></b>" + empVO.NATIVE_NAME
-            + "<br/>" + "　　" + "<b><font color='Blue'>．工號：</font></b>" + empVO.WORK_ID
-            + "<br/>" + "　　" + "<b><font color='Blue'>．活動名稱：</font></b>" + vo.activity_name
-            + "<br/>" + "　　" + "<b><font color='Blue'>．取消日期：</font></b>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
-        if (cancel_by != emp_id)
-        {
-            mail.Body += "<br/>" + "　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
+            empVO = empDAO.getEmployee(st);
+            empCancelVO = empDAO.getEmployee(cancel_by);
+            mail.Subject = vo.activity_name + "：取消報名通知";
+            //寄件者
+            mail.From = new System.Net.Mail.MailAddress(System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"], "報名系統通知");
+            mail.IsBodyHtml = true;
+            mail.Body = "<table border='1'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>取消個人報名通知</b></td> </tr>"
+                + "<tr><td><br/><br/>" + "　　" + "<b><font color='Blue'>．姓名：</font></b>" + empVO.NATIVE_NAME
+                + "<br/>" + "　　" + "<b><font color='Blue'>．工號：</font></b>" + empVO.WORK_ID
+                + "<br/>" + "　　" + "<b><font color='Blue'>．活動名稱：</font></b>" + vo.activity_name
+                + "<br/>" + "　　" + "<b><font color='Blue'>．取消日期：</font></b>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss");
+            if (cancel_by != emp_id)
+            {
+                mail.Body += "<br/>" + "　　" + "<b><font color='Blue'>．此活動由</font></b><font color='black'><u>" + empCancelVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成取消</b></font>";
+
+            }
+            mail.Body += "<br/><br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
+            + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
+            + "'>" + "報名系統連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
+
+
+
+            SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+
+            try
+            {
+                smtp.Send(mail);
+
+            }
+            catch (Exception ex)
+            {
+                LogMsg.Log(ex.Message, 5, false);
+
+            }
+
 
         }
-        mail.Body += "<br/><br/><br/></td></tr><tr><td align='center'><a href='" + webPath + "?Type=1&ActID="
-        + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(cancel_by)
-        + "'>"  + "報名系統連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
-
-
-
-        SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
-
-        try
-        {
-            smtp.Send(mail);
-
-        }
-        catch (Exception ex)
-        {
-            LogMsg.Log(ex.Message, 5, false);
-
-        }
-
-
     }
-
 
     //團隊報名成功寄信
     public static void RegistSuccess_Team(string activity_id, string emp_id, string regist_by, string webPath, string path)
