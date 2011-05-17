@@ -13,8 +13,7 @@
         <asp:Label ID="lblUserName" runat="server" Text="帳號"></asp:Label>
         <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
         <br />
-        <asp:Label ID="lblPassword" runat="server" Text="密碼"></asp:Label>
-        <asp:TextBox ID="txtPassword" runat="server" TextMode="Password"></asp:TextBox>
+       
         <asp:Button ID="btnLogin" runat="server" Text="登入" onclick="btnLogin_Click"/>    
     </div>
     </form>
