@@ -589,7 +589,7 @@ namespace ACMS.DAO
                 sb.AppendLine(",idno=@idno ");
                 sb.AppendLine(",team_name=@team_name ");
                 sb.AppendLine(",ext_people=@ext_people");// ,idno_ext=@idno_ext
-                sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@regist_by ");
+                sb.AppendLine("WHERE activity_id=@activity_id and emp_id=@emp_id ");
 
                 //沒有重複報名
                 if (activity_type == "2")
