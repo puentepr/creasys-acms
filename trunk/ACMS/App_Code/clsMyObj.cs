@@ -365,7 +365,7 @@ public class clsMyObj
         if (custFieldSt != "")//有自訂欄位
         {
             mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知 (資料已重新更新)</b></td> </tr><tr><td style ='padding-right :50px;padding-left :50px'>"
-                + "" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
+                + "<br/><br/>" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
                 + "" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
                 + "" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>";
@@ -386,7 +386,7 @@ public class clsMyObj
             {
                 mail.Body += "" + "<font color='Blue'><b>．此活動由</b></font><font color='Black'><u>" + regByEmpVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成報名</b></font><br/>";
             }
-            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>"
+            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "<br/><br/></font></td></tr>"
                 + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
             //    + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
@@ -394,8 +394,8 @@ public class clsMyObj
         }
         else
         {
-            mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td style ='padding-right :50px;padding-left :50px'>"
-                + "" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
+            mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知(資料已重新更新)</b></td> </tr><tr><td style ='padding-right :50px;padding-left :50px'>"
+                + "<br/><br/>" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
                 + "" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
                 + "" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>";
@@ -415,7 +415,7 @@ public class clsMyObj
             {
                 mail.Body += "" + "<font color='Blue'><b>．此活動由</b></font><font color='Black'><u>" + regByEmpVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成報名</b></font><br/>";
             }
-            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
+            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "<br/><br/></font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
 
@@ -588,7 +588,7 @@ public class clsMyObj
         if (custFieldSt != "")//有自訂欄位
         {
             mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td style ='padding-right :50px;padding-left :50px'>"
-                + "" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
+                + "<br/><br/>" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
                 + "" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
                 + "" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>";
@@ -609,14 +609,14 @@ public class clsMyObj
             {
                 mail.Body += "" + "<font color='Blue'><b>．此活動由</b></font><font color='Black'><u>" + regByEmpVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成報名</b></font><br/>";
             }
-            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
+            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "<br/><br/></font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
         }
         else
         {
             mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>個人報名成功通知</b></td> </tr><tr><td style ='padding-right :50px;padding-left :50px'>"
-                + "" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
+                + "<br/><br/>" + "<font color='Blue'><b>．姓名：</b></font><font color='black'>" + empVO.NATIVE_NAME + "</font><br/>"
                 + "" + "<font color='Blue'><b>．工號：</b></font><font color='black'>" + empVO.WORK_ID + "</font><br/>"
                 + "" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                 + "" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>";
@@ -636,7 +636,7 @@ public class clsMyObj
             {
                 mail.Body += "" + "<font color='Blue'><b>．此活動由</b></font><font color='Black'><u>" + regByEmpVO.NATIVE_NAME + "</u></font><font color='Blue'><b>代理您完成報名</b></font><br/>";
             }
-            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "</font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
+            mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "<br/><br/></font></td></tr>" + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
                 + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
 
