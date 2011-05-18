@@ -67,7 +67,8 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
             clsMyObj.ShowMessage("目前已有下列人員已經報名:" + erremp_id.TrimEnd(',') + "所以無法完成此項作業");
             return;
         }
-
+        this.Visible = false;
+        
         if (GetEmployeesClick != null)
         {
             GetEmployeesClick(this.GridView_Employee, e);
@@ -81,12 +82,16 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         }
 
         clsMyObj.ShowMessage("確定已完成");
+       
+        this.Visible = true;
         this.mpSearch.Show();
 
 
 
 
     }
+
+   
     protected void GridView_Employee_PageIndexChanged(object sender, EventArgs e)
     {
         this.mpSearch.Show();
@@ -183,6 +188,7 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector
 
     public void InitDataAndShow(Guid activity_id,FormViewMode  fMode,string activity_type)
     {
+        this.Visible = true;
         myactivity_id = activity_id;
         ViewState["activity_id"] = activity_id;
         myMode = fMode;

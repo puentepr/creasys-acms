@@ -238,5 +238,5 @@
     </div>
 </asp:Panel>
 <asp:Button ID="btnDummy" runat="server" SkinID="null" Style="display: none" />
-<ajaxToolkit:ModalPopupExtender ID="mpSearch" runat="server" CancelControlID="btnCancel"
-    PopupControlID="panel1" PopupDragHandleControlID="panel1" TargetControlID="btnDummy" />
+<ajaxToolkit:ModalPopupExtender ID="mpSearch" runat="server" CancelControlID="btnCancel" 
+    PopupControlID="panel1" PopupDragHandleControlID="panel1" TargetControlID="btnDummy"    />
