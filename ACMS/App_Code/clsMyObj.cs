@@ -285,7 +285,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>" + "<font color='black'>" + custFieldVO.field_value.Trim() + "</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>" + "<font color='black'>　　" + custFieldVO.field_value.Trim() + "</font><br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
@@ -300,12 +300,12 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "<tr><td>" + "" + "<font color='black'>" + custFieldItem.field_item_name + "</font></td><td><font color='black'>$" + custFieldItem.field_item_text + "</font></td></tr>";
+                            custFieldSt += "<tr><td>" + "" + "<font color='black'>　　" + custFieldItem.field_item_name + "</font></td><td><font color='black'>$" + custFieldItem.field_item_text + "</font></td></tr>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "<tr><td>" + "" + "<font color='Red'>合計：</font></td><td><font color='Red'>$" + ttl.ToString() + "</font></td></tr>";
+                custFieldSt += "<tr><td>" + "" + "<font color='Red'>　　合計：</font></td><td><font color='Red'>$" + ttl.ToString() + "</font></td></tr>";
                 custFieldSt += "</table>";
 
             }
@@ -313,7 +313,7 @@ public class clsMyObj
             {
 
 
-                custFieldSt += "" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -325,7 +325,7 @@ public class clsMyObj
                         {
                             if (!doIt)
                             {
-                                custFieldSt += "";
+                                custFieldSt += "　　";
                             }
 
 
@@ -340,7 +340,7 @@ public class clsMyObj
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
                 //custFieldSt += "" + "<font color='black'>" + custFieldVO.field_value + "</font>";
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -349,7 +349,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
+                            custFieldSt += "　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
 
                         }
                 }
@@ -512,7 +512,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>" + "<font color='black'>" + custFieldVO.field_value.Trim() + "</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>" + "<font color='black'>　　" + custFieldVO.field_value.Trim() + "</font><br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
@@ -527,12 +527,12 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "<tr><td>" + "" + "<font color='black'>" + custFieldItem.field_item_name + "</font></td><td><font color='black'>$" + custFieldItem.field_item_text + "</font></td></tr>";
+                            custFieldSt += "<tr><td>" + "　　" + "<font color='black'>" + custFieldItem.field_item_name + "</font></td><td><font color='black'>$" + custFieldItem.field_item_text + "</font></td></tr>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "<tr><td>" + "" + "<font color='Red'>合計：</font></td><td><font color='Red'>$" + ttl.ToString() + "</font></td></tr>";
+                custFieldSt += "<tr><td>" + "" + "<font color='Red'>　　合計：</font></td><td><font color='Red'>$" + ttl.ToString() + "</font></td></tr>";
                 custFieldSt += "</table>";
 
             }
@@ -540,7 +540,7 @@ public class clsMyObj
             {
 
 
-                custFieldSt += "" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -552,7 +552,7 @@ public class clsMyObj
                         {
                             if (!doIt)
                             {
-                                custFieldSt += "";
+                                custFieldSt += "　　";
                             }
                             custFieldSt +=  "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
                             doIt = true;
@@ -564,7 +564,7 @@ public class clsMyObj
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "</b>：</font><br/>";
                 //custFieldSt += "" + "<font color='black'>" + custFieldVO.field_value + "</font>";
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -573,7 +573,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
+                            custFieldSt += "　　" + "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>";
 
                         }
                 }
@@ -887,7 +887,7 @@ public class clsMyObj
         {
             if (custFieldVO.field_control.ToLower() == "textbox")
             {
-                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font>" + custFieldVO.field_value + "<br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font>　　" + custFieldVO.field_value + "<br/>";
             }
             if (custFieldVO.field_control.ToLower() == "textboxlist")
             {
@@ -901,19 +901,19 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "" + custFieldItem.field_item_name + "：$" + custFieldItem.field_item_text + "<br/>";
+                            custFieldSt += "　　" + custFieldItem.field_item_name + "：$" + custFieldItem.field_item_text + "<br/>";
                             ttl += decimal.Parse(custFieldItem.field_item_text);
                         }
                 }
 
-                custFieldSt += "" + "<font color='Red'><b>合計：</b>$ " + ttl.ToString() + "</font><br/>";
+                custFieldSt += "" + "<font color='Red'><b>　　合計：</b>$ " + ttl.ToString() + "</font><br/>";
 
             }
             if (custFieldVO.field_control.ToLower() == "checkboxlist")
             {
 
 
-                custFieldSt += "" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -925,7 +925,7 @@ public class clsMyObj
                         {
                             if (!doIt)
                             {
-                                custFieldSt += "";
+                                custFieldSt += "　";
                             }
 
                             custFieldSt += "<font color='black'>" + custFieldItem.field_item_name + custFieldItem.field_item_text + "</font>、";
@@ -938,7 +938,7 @@ public class clsMyObj
             }
             if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
             {
-                custFieldSt += "" + "<font color='Blue'><b>．</b>" + custFieldVO.field_name + "：</font><br/>";
+                custFieldSt += "" + "<font color='Blue'><b>．" + custFieldVO.field_name + "：</b></font><br/>";
 
                 FieldIDs = custFieldVO.field_value.Split(',');
                 custFieldItemList = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
@@ -947,7 +947,7 @@ public class clsMyObj
                     foreach (CustomFieldItemVO custFieldItem in custFieldItemList)
                         if (int.Parse(fieldID) == custFieldItem.field_item_id)
                         {
-                            custFieldSt += "" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
+                            custFieldSt += "　　" + custFieldItem.field_item_name + custFieldItem.field_item_text + ",";
 
                         }
                 }
@@ -1099,7 +1099,7 @@ public class clsMyObj
 
         //}
 
-        mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td></tr><tr><td style ='padding-right :50px;padding-left :50pxx'><br/><br/>"
+        mail.Body = "<table border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊報名成功通知</b></td></tr><tr><td style ='padding-right :50px;padding-left :50px'><br/><br/>"
                     + "" + "<font color='Blue'><b>．活動名稱：</b></font><font color='black'>" + vo.activity_name + "</font><br/>"
                     + "" + "<font color='Blue'><b>．報名日期：</b></font><font color='black'>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "</font><br/>";
 
@@ -1308,7 +1308,7 @@ public class clsMyObj
         mail.IsBodyHtml = true;
         mail.Body = "<table  border='1' width='400px'><tr><td style='background:#548DD4;Color:White' align='center'  ><b>團隊取消報名通知</b></td> </tr>"
 
-            + "<tr><td style ='padding-right :50px;padding-left :50pxx'><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
+            + "<tr><td style ='padding-right :50px;padding-left :50px'><br/><br/><font color='Blue'><b>．活動名稱：</b></font>" + vo.activity_name + "<br/>"
             + "<font color='Blue'><b>．取消日期：</b></font>" + DateTime.Now.ToString("yyyy/MM/dd hh:mm:ss") + "<br/>"
             + "<font color='Blue'><b>．團隊的隊友：</b></font><font color='black'>" + empList + "</font><br/>";
         //if (cancel_by != emp)
