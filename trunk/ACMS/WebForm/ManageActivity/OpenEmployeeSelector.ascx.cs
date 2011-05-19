@@ -159,6 +159,10 @@ public partial class WebForm_ManageActivity_OpenEmployeeSelector : System.Web.UI
         }
     }
 
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        this.Visible = false;
+    }
 }
 
 public partial class WebForm_ManageActivity_OpenEmployeeSelector

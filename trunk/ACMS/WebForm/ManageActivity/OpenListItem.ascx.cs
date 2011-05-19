@@ -41,6 +41,10 @@ public partial class WebForm_ManageActivity_OpenListItem : System.Web.UI.UserCon
 
         this.mpSearch.Show();
     }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        this.Visible = false;
+    }
 }
 
 public partial class WebForm_ManageActivity_OpenListItem

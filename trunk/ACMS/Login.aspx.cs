@@ -13,11 +13,11 @@ public partial class Login : System.Web.UI.Page
     {
         if (!IsPostBack)
         {
-            //string userName = Context.User.Identity.Name ;
-            //    userName = userName.Substring(userName.IndexOf("\\") + 1); ;
-            //    UserLogin(userName);
-            //    Response.Redirect("Default.aspx");
-            ////if (Page.User.Identity.IsAuthenticated)
+            string userName = Context.User.Identity.Name ;
+                userName = userName.Substring(userName.IndexOf("\\") + 1); ;
+                UserLogin(userName);
+                Response.Redirect("Default.aspx");
+            //if (Page.User.Identity.IsAuthenticated)
             //{
            
             //    //Response.Redirect("NoPermission.aspx");
@@ -48,22 +48,20 @@ public partial class Login : System.Web.UI.Page
     protected void btnLogin_Click(object sender, EventArgs e)
     {
         UserLogin(txtUserName.Text);
-        Response.Redirect("~/Default.aspx");
     }
 
 
     private void UserLogin(string LoginID)
     {
         // 登入時清空所有 Session 資料
-      //  Session.RemoveAll();
-      HttpContext.Current.Session["UID"] = LoginID;
+        Session.RemoveAll();
+
         ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
 
         string UserData;     
 
         if (myLoginDAO.CheckLogin(LoginID, out UserData) == true)
         {
-            Response.Redirect("~/Default.aspx");
             //// 將管理者登入的 Cookie 設定成 Session Cookie
             //bool isPersistent = false;
 

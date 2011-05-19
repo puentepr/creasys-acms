@@ -96,116 +96,91 @@
 
     void Application_AuthorizeRequest(object sender, EventArgs e)
     {
-        return;
-        if (HttpContext.Current.Session != null)
+
+        if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("aspx".ToLower()) ==-1)
         {
-
-            if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("aspx".ToLower()) == -1)
-            {
-                return;
-            }
-
-            //if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("Login.aspx".ToLower()) >=0)
-            //{
-            //    return;
-            //}
-            //if (Session["UID"] == null)
-            //{
-            //    Response.Redirect("~/Login.aspx");
-            //}
+            return;
+        }
+        
+       
+        ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
+        string UserData;
 
 
 
-            ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
-            string UserData;
+        // Construct a GenericIdentity object based on the current Windows
+        // identity name and authentication type.
+        if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("NoPermission.aspx".ToLower()) >= 0)
+        {
+            return;
+        }
+        if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("NoID.aspx".ToLower()) >= 0)
+        {
+            return;
+        }
+        string userName = Context.User.Identity.Name;
+        userName = userName.Substring(userName.IndexOf("\\") + 1);
+        if (myLoginDAO.CheckLogin(userName, out UserData) == false)
+
+        {
+            Response.Redirect("~/NoID.aspx"); 
+        }
 
 
+        
+        if (!(Request.IsAuthenticated))
+        {
+            Response.Redirect("~/NoPermission.aspx");
+        }
+       
 
-            // Construct a GenericIdentity object based on the current Windows
-            // identity name and authentication type.
-            if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("NoPermission.aspx".ToLower()) >= 0)
-            {
-                return;
-            }
-            if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("NoID.aspx".ToLower()) >= 0)
-            {
-                return;
-            }
-            //string userName = Context.User.Identity.Name;
-            //userName = userName.Substring(userName.IndexOf("\\") + 1);
-            string userName = "";
-            try
-            {
-                userName = Session["UID"].ToString();
-            }
-            catch
-            {
-                return;
-            }
-            if (userName == "")
-            {
-                return;
-            }
-            if (myLoginDAO.CheckLogin(userName, out UserData) == false)
-            {
-                Response.Redirect("~/NoID.aspx");
-            }
+        //if (Context.User.IsInRole(""))
+        //{
+        //    Response.Redirect("~/NoPermission.aspx");
+        //}
 
-
-
-            if (!(Request.IsAuthenticated))
+        if ((UserData .IndexOf ( "2" )==-1  && UserData.IndexOf("1" )==-1 )|| UserData=="")//活動管理人及無群組
+        {
+            if (string.Compare(Context.Request.AppRelativeCurrentExecutionFilePath.ToLower(), "~/WebForm/ManageActivity/ActivityEditQuery.aspx".ToLower()) == 0)//新增修改活動
             {
                 Response.Redirect("~/NoPermission.aspx");
             }
-
-
-            //if (Context.User.IsInRole(""))
+            //else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/HistoryActivityQuery.aspx".ToLower()) >= 0)//歷史查詢
             //{
             //    Response.Redirect("~/NoPermission.aspx");
             //}
-
-            if ((UserData.IndexOf("2") == -1 && UserData.IndexOf("1") == -1) || UserData == "")//活動管理人及無群組
-            {
-                if (string.Compare(Context.Request.AppRelativeCurrentExecutionFilePath.ToLower(), "~/WebForm/ManageActivity/ActivityEditQuery.aspx".ToLower()) == 0)//新增修改活動
-                {
-                    Response.Redirect("~/NoPermission.aspx");
-                }
-                //else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/HistoryActivityQuery.aspx".ToLower()) >= 0)//歷史查詢
-                //{
-                //    Response.Redirect("~/NoPermission.aspx");
-                //}
-            }
-
-            if (UserData == "")//無群組
-            {
-
-                if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/ActivityCheck.aspx".ToLower()) >= 0)//活動進度紀錄
-                {
-                    Response.Redirect("~/NoPermission.aspx");
-                }
-                else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/ActivityEditQuery.aspx".ToLower()) >= 0)//新增修改活動
-                {
-                    Response.Redirect("~/NoPermission.aspx");
-                }
-                else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/ActivityQuery.aspx".ToLower()) >= 0)//報名狀況查詢
-                {
-                    Response.Redirect("~/NoPermission.aspx");
-                }
-                else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/HistoryActivityQuery.aspx".ToLower()) >= 0)//歷史查詢
-                {
-                    Response.Redirect("~/NoPermission.aspx");
-                }
-
-            }
-
-            if (UserData.IndexOf("1") == -1)//非權限管理者不可進入權限管理
-            {
-                if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageRole".ToLower()) >= 0)
-                {
-                    Response.Redirect("~/NoPermission.aspx");
-                }
-            }
         }
 
+        if (UserData=="")//無群組
+        {
+
+            if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/ActivityCheck.aspx".ToLower()) >= 0)//活動進度紀錄
+            {
+                Response.Redirect("~/NoPermission.aspx");
+            }
+            else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/ActivityEditQuery.aspx".ToLower()) >= 0)//新增修改活動
+                {
+                    Response.Redirect("~/NoPermission.aspx");
+                }
+            else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/ActivityQuery.aspx".ToLower()) >= 0)//報名狀況查詢
+            {
+                Response.Redirect("~/NoPermission.aspx");
+            }
+            else if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageActivity/HistoryActivityQuery.aspx".ToLower()) >= 0)//歷史查詢
+            {
+                Response.Redirect("~/NoPermission.aspx");
+            }
+            
+        }
+        
+        if (UserData.IndexOf ("1")==-1)//非權限管理者不可進入權限管理
+        {
+            if (Context.Request.AppRelativeCurrentExecutionFilePath.ToLower().IndexOf("WebForm/ManageRole".ToLower()) >= 0)
+                {
+                    Response.Redirect("~/NoPermission.aspx");
+                }
+        }
     }
+       
+       
 </script>

@@ -44,48 +44,48 @@ public partial class MasterPage : System.Web.UI.MasterPage
 
             // Construct a GenericIdentity object based on the current Windows
             // identity name and authentication type.
-            string userName = Session["UID"].ToString();
-
-           
+            string userName = Context.User.Identity.Name;
+            userName = userName.Substring(userName.IndexOf("\\") + 1);
             myLoginDAO.CheckLogin(userName, out UserData);
             if (UserData == "")//無群組
-            {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("");
-                sb.AppendLine("<script>");
-               // sb.AppendLine("document.getElementById('ActivityManagement').style.display  = 'none';");
-                ActivityManagement.Visible = false;
-               // sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+            {   ActivityManagement.Visible = false;
                 RightsManagement.Visible = false;
-                sb.AppendLine("</script>");
-                ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);
+                //StringBuilder sb = new StringBuilder();
+                //sb.AppendLine("");
+                //sb.AppendLine("<script>");
+                ////sb.AppendLine("document.getElementById('ActivityManagement').style.display  = 'none';");
+                ////sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+             
+                //sb.AppendLine("</script>");
+                //ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);
             }
 
             if ((UserData.IndexOf("2") == -1 && UserData.IndexOf("1") == -1) || UserData == "")//活動管理人及無群組
             {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("");
-                sb.AppendLine("<script>");
-              //  sb.AppendLine("document.getElementById('ActivityEditQuery').style.display  = 'none';");
-                //sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+                //StringBuilder sb = new StringBuilder();
+                //sb.AppendLine("");
+                //sb.AppendLine("<script>");
+                ////sb.AppendLine("document.getElementById('ActivityEditQuery').style.display  = 'none';");
+
+                ////sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+
+                //sb.AppendLine("</script>");
+                //ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);
                 ActivityEditQuery.Visible = false;
                 RightsManagement.Visible = false;
-
-                sb.AppendLine("</script>");
-                ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);
-
             }
 
            
             if (UserData.IndexOf("1") == -1)//非權限管理者不可進入權限管理
             {
-                StringBuilder sb = new StringBuilder();
-                sb.AppendLine("");
-                sb.AppendLine("<script>");             
-               // sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
                 RightsManagement.Visible = false;
-                sb.AppendLine("</script>");
-                ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);  
+               // StringBuilder sb = new StringBuilder();
+               // sb.AppendLine("");
+               // sb.AppendLine("<script>");             
+               //// sb.AppendLine("document.getElementById('RightsManagement').style.display  = 'none';");
+               // sb.AppendLine("</script>");
+               
+               // ScriptManager.RegisterStartupScript(Panel2, typeof(BasePage), "aaam", sb.ToString(), false);  
             }
 
         }
