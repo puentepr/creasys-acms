@@ -583,22 +583,22 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
        
         if (MyFormMode == FormViewMode.ReadOnly)
         {
-            ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
-            string UserData;
+            //ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
+            //string UserData;
 
-            string userName = Context.User.Identity.Name;
-            userName = userName.Substring(userName.IndexOf("\\") + 1);
-            myLoginDAO.CheckLogin(userName, out UserData);
-            if (UserData.IndexOf("1") == -1  &&   UserData.IndexOf("2") == -1)//是活動管理者導回報名狀態查詢
-            {
+            //string userName = Context.User.Identity.Name;
+            //userName = userName.Substring(userName.IndexOf("\\") + 1);
+            //myLoginDAO.CheckLogin(userName, out UserData);
+            //if (UserData.IndexOf("1") == -1  &&   UserData.IndexOf("2") == -1)//是活動管理者導回報名狀態查詢
+            //{
 
-                Response.Redirect("ActivityQuery.aspx");
-            }
+            //    Response.Redirect("ActivityQuery.aspx");
+            //}
 
 
             if (Session["History"] == null)
             {
-                Response.Redirect("ActivityEditQuery.aspx");
+                Response.Redirect("ActivityQuery.aspx");
             }
             else
             {
