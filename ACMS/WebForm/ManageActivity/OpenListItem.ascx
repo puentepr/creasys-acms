@@ -83,7 +83,7 @@
         </table>
         <div align="center">
         </div>
-        <asp:Button ID="btnOK" runat="server" Text="確定" />
+        <asp:Button ID="btnOK" runat="server" Text="確定" onclick="btnOK_Click" />
         <asp:Button ID="btnCancel" runat="server" Text="取消" onclick="btnCancel_Click" />
     </div>
 </asp:Panel>

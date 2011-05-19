@@ -45,6 +45,10 @@ public partial class WebForm_ManageActivity_OpenListItem : System.Web.UI.UserCon
     {
         this.Visible = false;
     }
+    protected void btnOK_Click(object sender, EventArgs e)
+    {
+        this.Visible = false;
+    }
 }
 
 public partial class WebForm_ManageActivity_OpenListItem
