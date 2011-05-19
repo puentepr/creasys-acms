@@ -30,6 +30,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             btnExport_GroupLimit.Enabled = true;
             btnUpload_GroupLimit.Enabled = true;
             Panel_GroupLimit.Visible = true;
+            GridView_GroupLimit.Visible = true;
         }
         else
         {
@@ -39,6 +40,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             btnExport_GroupLimit.Enabled = false;
             FileUpload_GroupLimit.Enabled = false;
             Panel_GroupLimit.Visible = false;
+            GridView_GroupLimit.Visible = false;
           
         }
     }
@@ -159,6 +161,12 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 btnExport_GroupLimit.Enabled = true;
                 btnUpload_GroupLimit.Enabled = true;
                 Panel_GroupLimit.Visible = true;
+                GridView_GroupLimit .Visible = true;
+            }
+            else
+            {
+
+                GridView_GroupLimit.Visible = false;
             }
 
           
@@ -575,6 +583,19 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
        
         if (MyFormMode == FormViewMode.ReadOnly)
         {
+            ACMS.DAO.LoginDAO myLoginDAO = new ACMS.DAO.LoginDAO();
+            string UserData;
+
+            string userName = Context.User.Identity.Name;
+            userName = userName.Substring(userName.IndexOf("\\") + 1);
+            myLoginDAO.CheckLogin(userName, out UserData);
+            if (UserData.IndexOf("1") == -1  &&   UserData.IndexOf("2") == -1)//是活動管理者導回報名狀態查詢
+            {
+
+                Response.Redirect("ActivityQuery.aspx");
+            }
+
+
             if (Session["History"] == null)
             {
                 Response.Redirect("ActivityEditQuery.aspx");
@@ -1161,6 +1182,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
     {
         try
         {
+            OpenListItem1.Visible = true;
             OpenListItem1.InitDataAndShow(Convert.ToInt32((sender as LinkButton).CommandArgument), (((sender as LinkButton).NamingContainer as GridViewRow).FindControl("ddlfield_control") as DropDownList).SelectedValue);
         }
         catch (Exception ex)
@@ -1283,6 +1305,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
     {
         try
         {
+            OpenEmployeeSelector1.Visible = true;
             OpenEmployeeSelector1.InitDataAndShow(ActivityID,MyFormMode,ActivityType  );
         }
         catch (Exception ex)

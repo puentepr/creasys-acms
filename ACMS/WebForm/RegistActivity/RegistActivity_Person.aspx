@@ -171,7 +171,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:Button ID="btnAgent" runat="server" OnClick="btnAgent_Click" Text="代理報名" Visible="False" />
-                                                    <uc4:OpenAgentSelector ID="OpenAgentSelector1" runat="server" OnGetSmallEmployeesClick="GetSmallEmployees_Click" />
+                                                    <uc4:OpenAgentSelector ID="OpenAgentSelector1" runat="server" OnGetSmallEmployeesClick="GetSmallEmployees_Click"  Visible =false />
                                                 </td>
                                             </tr>
                                         </table>

@@ -14,7 +14,8 @@
         <asp:TextBox ID="txtUserName" runat="server"></asp:TextBox>
         <br />
        
-        <asp:Button ID="btnLogin" runat="server" Text="登入" onclick="btnLogin_Click"/>    
+        <asp:Button ID="btnLogin" runat="server" Text="登入" onclick="btnLogin_Click" 
+            style="height: 21px"/>    
     </div>
     </form>
 </body>
