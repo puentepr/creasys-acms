@@ -85,7 +85,7 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
         {
             if (vo.is_grouplimit == "Y")
             {
-                clsMyObj.ShowMessage("『此活動有限定參加人員，您查詢的人員未在名單內』");
+                clsMyObj.ShowMessage("『此活動有限定參加人員，您查詢的部門/人員未在名單內』");
             }
         }
 

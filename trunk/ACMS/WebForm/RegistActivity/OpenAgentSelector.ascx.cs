@@ -47,6 +47,7 @@ public partial class WebForm_RegistActivity_OpenAgentSelector : System.Web.UI.Us
 
         if (GetSmallEmployeesClick != null)
         {
+            this.Visible = false;
             GetSmallEmployeesClick(this, new GetEmployeeEventArgs(emp_id));
         }
     }
@@ -76,7 +77,7 @@ public partial class WebForm_RegistActivity_OpenAgentSelector : System.Web.UI.Us
         {
             if (vo.is_grouplimit == "Y")
             {
-                clsMyObj.ShowMessage("『此活動有限定參加人員，您查詢的人員未在名單內』");
+                clsMyObj.ShowMessage("『此活動有限定參加人員，您查詢的部門/人員未在名單內』");
             }
         }
 

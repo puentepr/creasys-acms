@@ -38,7 +38,7 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : BasePage
             userName = userName.Substring(userName.IndexOf("\\") + 1);
             myLoginDAO.CheckLogin(userName, out UserData);
 
-
+            
             if (DataList1.DataKeys[e.Item.ItemIndex].ToString() == clsAuth.ID)
             {
 

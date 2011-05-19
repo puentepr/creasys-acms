@@ -458,7 +458,7 @@
                                     <asp:Parameter DbType="Guid" Name="activity_id" />
                                 </SelectParameters>
                             </asp:ObjectDataSource>
-                            <uc2:OpenListItem ID="OpenListItem1" runat="server" />
+                            <uc2:OpenListItem ID="OpenListItem1" runat="server" Visible ="false" />
                         </asp:Panel>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -482,7 +482,7 @@
                                 Text="系統名單選取" />
                             <asp:Button ID="btnExport_GroupLimit" runat="server" Text="匯出excel名單" OnClick="btnExport_GroupLimit_Click" />
                             <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployeesClick="GetEmployees_Click"
-                                runat="server" />
+                                runat="server" Visible ="false" />
                         </asp:Panel>
                         <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
                             <ContentTemplate>
