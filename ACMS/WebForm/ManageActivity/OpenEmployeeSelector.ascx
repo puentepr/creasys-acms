@@ -170,7 +170,7 @@
                 <asp:Button ID="btnQuery" runat="server" onclick="btnQuery_Click" Text="查詢" 
                     ValidationGroup="Query" />
                 <asp:Button ID="btnOK" runat="server" onclick="btnOK_Click" Text="確定" />
-                <asp:Button ID="btnCancel" runat="server" Text="關閉" />
+                <asp:Button ID="btnCancel" runat="server" Text="關閉" onclick="btnCancel_Click" />
                 <asp:ObjectDataSource ID="ObjectDataSource_JOB_GRADE_GROUP" runat="server" 
                     OldValuesParameterFormatString="original_{0}" 
                     SelectMethod="JOB_GRADE_GROUPSelector" TypeName="ACMS.BO.SelectorBO">
@@ -238,5 +238,5 @@
     </div>
 </asp:Panel>
 <asp:Button ID="btnDummy" runat="server" SkinID="null" Style="display: none" />
-<ajaxToolkit:ModalPopupExtender ID="mpSearch" runat="server" CancelControlID="btnCancel" 
+<ajaxToolkit:ModalPopupExtender ID="mpSearch" runat="server" CancelControlID="btnDummy" 
     PopupControlID="panel1" PopupDragHandleControlID="panel1" TargetControlID="btnDummy"    />

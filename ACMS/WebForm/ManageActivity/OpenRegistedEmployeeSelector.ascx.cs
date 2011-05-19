@@ -14,6 +14,7 @@ public partial class WebForm_OpenRegistedEmployeeSelector : System.Web.UI.UserCo
     {
         this.mpSearch.Show(); 
     }
+   
 }
 
 public partial class WebForm_OpenRegistedEmployeeSelector
