@@ -748,6 +748,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         {
             if (Session["Agent"] != null)
             {
+                OpenAgentSelector1.Visible = true;
                 OpenAgentSelector1.TitleName = "代理報名";
                 //OpenAgentSelector1.OkName = "報名";
                 OpenAgentSelector1.InitDataAndShow(ActivityID.ToString());

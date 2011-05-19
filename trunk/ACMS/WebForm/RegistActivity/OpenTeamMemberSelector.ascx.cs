@@ -125,6 +125,10 @@ public partial class WebForm_RegistActivity_OpenTeamMemberSelector : System.Web.
         }
         this.mpSearch.Show();  
     }
+    protected void btnCancel_Click(object sender, EventArgs e)
+    {
+        this.Visible = false;
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenTeamMemberSelector

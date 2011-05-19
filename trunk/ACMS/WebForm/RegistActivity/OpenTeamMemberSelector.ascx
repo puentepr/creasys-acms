@@ -77,7 +77,7 @@
                             <asp:Button ID="btnQuery" runat="server" OnClick="btnQuery_Click" Text="查詢" />
                             <asp:Button ID="btnOK" runat="server" OnClick="btnOK_Click" Text="確定" 
                                 style="height: 21px" />
-                            <asp:Button ID="btnCancel" runat="server" Text="關閉" />
+                            <asp:Button ID="btnCancel" runat="server" Text="關閉" onclick="btnCancel_Click" />
                         </td>
                     </tr>
                 </table>
@@ -144,5 +144,5 @@
     </div>
 </asp:Panel>
 <asp:Button ID="btnDummy" runat="server" SkinID="null" Style="display: none" />
-<ajaxToolkit:ModalPopupExtender ID="mpSearch" runat="server" CancelControlID="btnCancel"
+<ajaxToolkit:ModalPopupExtender ID="mpSearch" runat="server" CancelControlID="btnDummy"
     PopupControlID="panel1" PopupDragHandleControlID="panel1" TargetControlID="btnDummy" />
