@@ -77,8 +77,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                     //以編輯方式進來時
                     ActivityID = new Guid(Session["activity_id"].ToString());
                     GoThirdStep_Click(null, null);
-                    Wizard1.FindControl("FinishNavigationTemplateContainerID$btnHome").Visible = true;
-                    ((Button)Wizard1.FindControl("FinishNavigationTemplateContainerID$FinishButton")).Text = "儲存並發送確認信";
+                   
                 }
             }
             else
@@ -254,7 +253,11 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
                 PanelTeamMember.Enabled = false;
                 PanelCustomFieldA1.Enabled = false;
             }
-
+            if (MyFormMode == FormViewMode.Edit)
+            {
+                Wizard1.FindControl("FinishNavigationTemplateContainerID$btnHome").Visible = true;
+                ((Button)Wizard1.FindControl("FinishNavigationTemplateContainerID$FinishButton")).Text = "儲存並發送確認信";
+            }
             //活動海報訊息
             Literal1.Text = myActivatyVO.activity_info;
 
