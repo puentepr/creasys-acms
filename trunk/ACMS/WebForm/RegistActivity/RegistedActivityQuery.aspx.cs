@@ -118,10 +118,18 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
 
             }
 
-            if (rblFinish.SelectedValue =="Y")//歷史資料
+            if (rblFinish.SelectedValue == "Y")//歷史資料
             {
                 (e.Row.FindControl("lbtnRegistEdit") as LinkButton).Text = "檢視";
 
+            }
+            else
+            {
+                if (Convert.ToDateTime(drv["regist_deadline"]) < DateTime.Today)
+                {
+                    (e.Row.FindControl("lbtnRegistEdit") as LinkButton).Text = "檢視";
+
+                }
             }
             ((Label)e.Row.FindControl("Label1")).Text = ((Label)e.Row.FindControl("Label1")).Text.Replace("\r\n", "<br/>");
          
