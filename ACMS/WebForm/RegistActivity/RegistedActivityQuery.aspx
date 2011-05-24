@@ -97,7 +97,8 @@
                         </asp:BoundField>
                         <asp:TemplateField>
                             <ItemTemplate>
-                                <asp:LinkButton ID="lbtnRegistEdit" runat="server" OnClick="lbtnRegistEdit_Click">編輯</asp:LinkButton>
+                            
+                                <asp:LinkButton ID="lbtnRegistEdit" runat="server" OnClick="lbtnRegistEdit_Click" >編輯</asp:LinkButton>
                                 <br />
                                 <asp:LinkButton ID="lbtnRegistCancel" runat="server" 
                                     CommandArgument='<%# Eval("regist_deadline","{0:d}")%>' 
