@@ -45,7 +45,7 @@ namespace ACMS.DAO
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//不限族群or我在這個族群
             sb.AppendLine(") A ");
-            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id ");
+            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id and B. check_status>=0");
             sb.AppendLine("WHERE 1=1 ");
 
             if (activity_type == "2")//若是團隊活動並且報過名，則不出現
@@ -130,7 +130,7 @@ namespace ACMS.DAO
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//可報名的活動
             sb.AppendLine(") A ");
-            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id ");
+            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id  and B.check_status>=0 ");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
             sb.AppendLine("and ( ");
@@ -1112,7 +1112,7 @@ namespace ACMS.DAO
             sqlParams[2].Value = org_id;
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist group by activity_id ");
+            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist group by activity_id where check_status>=0 ");
 
             sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline,isnull(AA.RegisterCount,0) as RegisterCount");
             sb.AppendLine("FROM [Activity] A ");
