@@ -45,7 +45,7 @@ namespace ACMS.DAO
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//不限族群or我在這個族群
             sb.AppendLine(") A ");
-            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id and B. check_status>=0");
+            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id ");
             sb.AppendLine("WHERE 1=1 ");
 
             if (activity_type == "2")//若是團隊活動並且報過名，則不出現
@@ -130,7 +130,7 @@ namespace ACMS.DAO
             sb.AppendLine("  and AA.activity_type=@activity_type ");//活動類型
             sb.AppendLine("  and (AA.is_grouplimit='N' or BB.activity_id is not null) ");//可報名的活動
             sb.AppendLine(") A ");
-            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id  and B.check_status>=0 ");
+            sb.AppendLine("left join ActivityRegist B on A.id=B.activity_id   ");
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
             sb.AppendLine("and ( ");
@@ -390,7 +390,7 @@ namespace ACMS.DAO
             sb.AppendLine("( ");
             sb.AppendLine("  SELECT AA.* ");
             sb.AppendLine("  FROM Activity AA  ");
-            sb.AppendLine(string.Format("  inner join {0} BB on AA.id=BB.activity_id and BB.check_status>=0 ", strTableName));//不含已取消的活動
+            sb.AppendLine(string.Format("  inner join {0} BB on AA.id=BB.activity_id ", strTableName));//不含已取消的活動
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and (AA.activity_type=@activity_type) ");
             sb.AppendLine("  and ((AA.activity_enddate>getdate() and @activity_enddate_finish='N') or (AA.activity_enddate<=getdate() and @activity_enddate_finish='Y') ) ");//執行中活動(N) 或 歷史資料查詢(Y)            
@@ -1112,7 +1112,7 @@ namespace ACMS.DAO
             sqlParams[2].Value = org_id;
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist   where check_status>=0 group by activity_id  ");
+            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist    group by activity_id  ");
 
             sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline,isnull(AA.RegisterCount,0) as RegisterCount");
             sb.AppendLine("FROM [Activity] A ");

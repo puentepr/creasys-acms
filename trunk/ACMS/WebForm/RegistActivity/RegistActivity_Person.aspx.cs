@@ -204,7 +204,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
             if (myActivatyVO.regist_deadline < DateTime.Today)
             {
                 MyFormMode = FormViewMode.ReadOnly;
-                GridView_RegisterPeoplinfo.Enabled = false;
+                //GridView_RegisterPeoplinfo.Enabled = false;
                 PanelCustomFieldA1.Enabled = false;
             }
             if (MyFormMode == FormViewMode.Edit)
