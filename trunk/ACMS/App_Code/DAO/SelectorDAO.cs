@@ -1112,7 +1112,7 @@ namespace ACMS.DAO
             sqlParams[2].Value = org_id;
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist group by activity_id where check_status>=0 ");
+            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist   where check_status>=0 group by activity_id  ");
 
             sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline,isnull(AA.RegisterCount,0) as RegisterCount");
             sb.AppendLine("FROM [Activity] A ");
