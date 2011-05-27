@@ -74,7 +74,7 @@
     <TServerControl:TGridView ID="GridView1" runat="server" AllowHoverEffect="True" AllowHoverSelect="True"
         AutoGenerateColumns="False" DataKeyNames="id,activity_type" DataSourceID="ObjectDataSource1"
         EnableModelValidation="True" PageSize="2" ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False"
-        SkinID="pager" TotalRowCount="0" Width="1000px" OnRowDataBound="GridView1_RowDataBound"
+        SkinID="pager" TotalRowCount="0" Width="900px" OnRowDataBound="GridView1_RowDataBound"
         OnDataBound="GridView1_DataBound">
         <Columns>
             <asp:BoundField DataField="activity_name" HeaderText="¬¡°Ê¦WºÙ" SortExpression="activity_name"
