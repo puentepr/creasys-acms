@@ -1263,7 +1263,7 @@ namespace ACMS.DAO
 
             StringBuilder sb = new StringBuilder();
 
-            sb.AppendLine(" Select replace( convert(varchar(20),createat,120),'-','/') as createat,replace(convert(varchar(20),cancel_date,120),'-','/') as cancel_date, A.* from ActivityRegistCancel A left join V_ACSM_USER2 B on A.emp_id =B.ID   left join V_ACSM_USER2 C on A.boss_id =C.ID  where A.activity_id=@activity_id ");
+            sb.AppendLine(" Select case when B.STATUS ='2' then '離職'when B.STATUS ='3' then '留停'else ''end  as STATUS , replace( convert(varchar(20),createat,120),'-','/') as createat,replace(convert(varchar(20),cancel_date,120),'-','/') as cancel_date, A.* from ActivityRegistCancel A left join V_ACSM_USER2 B on A.emp_id =B.ID   left join V_ACSM_USER2 C on A.boss_id =C.ID  where A.activity_id=@activity_id ");
             sb.AppendLine(" and( A.emp_id like '%'+@name+'%' or A.boss_id like '%'+@name +'%'  or B.ENGLISH_NAME like  '%'+@name +'%'  or   C.ENGLISH_NAME like  '%'+@name +'%'   )");
             return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
 
