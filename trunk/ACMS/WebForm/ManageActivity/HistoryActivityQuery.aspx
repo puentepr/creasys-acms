@@ -84,23 +84,23 @@
                     <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
+            <asp:TemplateField HeaderText="活動開始" SortExpression="activity_startdate">
                 <ItemTemplate>
                     <asp:Label ID="lblactivity_startdate" runat="server" Text='<%# Bind("activity_startdate") %>'
                         Width="120px"></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="結束" SortExpression="activity_enddate">
+            <asp:TemplateField HeaderText="活動結束" SortExpression="activity_enddate">
                 <ItemTemplate>
                     <asp:Label ID="lblactivity_enddate" runat="server" Text='<%# Bind("activity_enddate") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="報名截止日" SortExpression="regist_deadline">
+            <asp:TemplateField HeaderText="報名截止日" SortExpression="regist_deadline" Visible ="false">
                 <ItemTemplate>
                     <asp:Label ID="lblregist_deadline" runat="server" Text='<%# Bind("regist_deadline") %>'></asp:Label>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="取消報名截止日" SortExpression="cancelregist_deadline">
+            <asp:TemplateField HeaderText="取消報名截止日" SortExpression="cancelregist_deadline" Visible ="false">
                 <ItemTemplate>
                     <asp:Label ID="lblcancelregist_deadline" runat="server" Text='<%# Bind("cancelregist_deadline") %>'></asp:Label>
                 </ItemTemplate>
