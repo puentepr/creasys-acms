@@ -38,11 +38,10 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : BasePage
             userName = userName.Substring(userName.IndexOf("\\") + 1);
             myLoginDAO.CheckLogin(userName, out UserData);
 
-            check_statusLabel = e.Item.FindControl("check_statusLabel") as Label;
-            if (check_statusLabel.Text.IndexOf("備") > -1)
+            lblSEQNO = e.Item.FindControl("lblSEQNO") as Label;
+            if (lblSEQNO.Text.IndexOf("備") > -1)
             {
-
-                check_statusLabel.Visible = false;
+                e.Item.Visible = false;
             }
             
             if (DataList1.DataKeys[e.Item.ItemIndex].ToString() == clsAuth.ID)
