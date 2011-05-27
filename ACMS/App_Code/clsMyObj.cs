@@ -1279,6 +1279,20 @@ public class clsMyObj
 
         empList = empList.TrimEnd('、');
 
+        string cancelList = "";
+        emps = OrginMembers.Split(',');
+        if (emp_id != "")
+        {
+            foreach (string emp in emps)
+            {
+                if (nowMembers.IndexOf(emp) == -1)
+                {
+                    empVO = empDAO.getEmployee(emp);
+                    cancelList += empVO.NATIVE_NAME + "、";
+                }
+            }
+        }
+        cancelList = cancelList.TrimEnd('、');
         //foreach (string emp in emps)
         //{
 
@@ -1313,6 +1327,12 @@ public class clsMyObj
             + "<font color='Blue'><b>．團隊的隊友：</b></font><font color='black'>" + empList + "</font><br/>";
         //if (cancel_by != emp)
         //{
+        if (cancelList != "")
+        {
+            mail.Body += "<font color='Blue'><b>．取消的隊友：</b></font><font color='black'>" + cancelList + "</font><br/>";
+        
+        }
+
         mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
         //}
 
