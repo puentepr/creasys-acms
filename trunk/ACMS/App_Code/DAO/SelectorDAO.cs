@@ -810,6 +810,12 @@ namespace ACMS.DAO
                     {
                         dr["SEQNO"] = "正取" + seqno.ToString();
                     }
+                    if (dr["SEQNO"].ToString().IndexOf("備") > -1)
+                    {
+
+                        dr.Delete();
+                    }
+
                 }
                 else
                 {
