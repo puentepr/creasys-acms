@@ -263,7 +263,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             if (MyFormMode == FormViewMode.ReadOnly && (myActivatyVO.activity_enddate > DateTime.Now) && myActivatyVO.is_grouplimit == "Y"  )
             {
 
-                GridView_GroupLimit.Enabled = false;
+                //GridView_GroupLimit.Enabled = false;
 
                 rblgrouplimit.Enabled = true;
                 Panel_GroupLimit.Enabled = true;
@@ -274,7 +274,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 
             if (myActivatyVO.regist_deadline < DateTime.Today)
             {
-                GridView_GroupLimit.Enabled = false;
+               // GridView_GroupLimit.Enabled = false;
 
                 rblgrouplimit.Enabled = false ;
                 Panel_GroupLimit.Enabled = false ;
