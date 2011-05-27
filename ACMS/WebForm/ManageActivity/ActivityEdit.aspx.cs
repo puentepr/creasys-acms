@@ -259,7 +259,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             }
 
             //andy 從報名狀況查詢進來的即使已經開始報名也要新增限制人員群組//原來活動是要有限制族群的才需要打開限制人群的管制
-            if (MyFormMode == FormViewMode.ReadOnly &&  (myActivatyVO.activity_enddate >DateTime.Now) && myActivatyVO .is_grouplimit =="Y")
+            if (MyFormMode == FormViewMode.ReadOnly && (myActivatyVO.activity_enddate > DateTime.Now) && myActivatyVO.is_grouplimit == "Y" && myActivatyVO.regist_deadline >DateTime.Today )
             {
 
 
