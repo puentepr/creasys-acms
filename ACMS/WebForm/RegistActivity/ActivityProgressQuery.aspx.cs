@@ -39,10 +39,7 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : BasePage
             myLoginDAO.CheckLogin(userName, out UserData);
 
             lblSEQNO = e.Item.FindControl("lblSEQNO") as Label;
-            if (lblSEQNO.Text.IndexOf("備") > -1)
-            {
-                e.Item.Visible = false;
-            }
+           
             
             if (DataList1.DataKeys[e.Item.ItemIndex].ToString() == clsAuth.ID)
             {
@@ -90,6 +87,19 @@ public partial class WebForm_RegistActivity_ActivityProgressQuery : BasePage
                 e.Item.BackColor = System.Drawing.Color.Yellow;
             }
 
+
+            if (lblSEQNO.Text.IndexOf("備") > -1)
+            {
+                NATIVE_NAMELabel = e.Item.FindControl("NATIVE_NAMELabel") as Label;
+                emp_idLabel = e.Item.FindControl("emp_idLabel") as Label;
+                lblSEQNO = e.Item.FindControl("lblSEQNO") as Label;
+                check_statusLabel = e.Item.FindControl("check_statusLabel") as Label;
+
+                NATIVE_NAMELabel.Visible = false;
+                emp_idLabel.Visible = false;
+                lblSEQNO.Visible = false;
+                check_statusLabel.Visible = false;
+            }
         }
         catch (Exception ex)
         {
