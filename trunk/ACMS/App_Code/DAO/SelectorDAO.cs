@@ -804,6 +804,7 @@ namespace ACMS.DAO
                     if (seqno1 > 0)
                     {
                         dr["SEQNO"] = "備取" + seqno1.ToString();
+                       
                     }
                     else
                     {
@@ -827,6 +828,7 @@ namespace ACMS.DAO
                         if (seqno1 > 0)
                         {
                             dr["SEQNO"] = "備取" + seqno1.ToString();
+                         
                         }
                         else
                         {
@@ -838,6 +840,7 @@ namespace ACMS.DAO
                         if (seqno1 > 0)
                         {
                             dr["SEQNO"] = "備取" + seqno1.ToString();
+                       
                         }
                         else
                         {
@@ -845,6 +848,11 @@ namespace ACMS.DAO
                         }
                     }
                     team_name = dr["createat"].ToString();
+                    if (dr["SEQNO"].ToString().IndexOf("備") > -1)
+                    {
+                        dr.Delete();
+                    }
+
                 }
  
             }

@@ -57,6 +57,7 @@
                         <asp:BoundField DataField="regist_by" HeaderText="報名人" SortExpression="regist_by" />
                         <asp:BoundField DataField="cancel_date" HeaderText="取消時間" SortExpression="cancel_date" />
                         <asp:BoundField DataField="cancel_by" HeaderText="取消人" SortExpression="cancel_by" />
+                        <asp:BoundField DataField="STATUS" HeaderText="在職狀態" SortExpression="STATUS" />
                     </Columns>
                 </TServerControl:TGridView>
                 <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" OldValuesParameterFormatString="original_{0}"
