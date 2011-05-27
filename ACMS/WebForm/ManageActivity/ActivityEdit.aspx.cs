@@ -41,6 +41,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             FileUpload_GroupLimit.Enabled = false;
             Panel_GroupLimit.Visible = false;
             GridView_GroupLimit.Visible = false;
+
           
         }
     }
@@ -259,10 +260,10 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             }
 
             //andy 從報名狀況查詢進來的即使已經開始報名也要新增限制人員群組//原來活動是要有限制族群的才需要打開限制人群的管制
-            if (MyFormMode == FormViewMode.ReadOnly && (myActivatyVO.activity_enddate > DateTime.Now) && myActivatyVO.is_grouplimit == "Y" && myActivatyVO.regist_deadline >DateTime.Today )
+            if (MyFormMode == FormViewMode.ReadOnly && (myActivatyVO.activity_enddate > DateTime.Now) && myActivatyVO.is_grouplimit == "Y"  )
             {
 
-
+                GridView_GroupLimit.Enabled = false;
 
                 rblgrouplimit.Enabled = true;
                 Panel_GroupLimit.Enabled = true;
@@ -270,6 +271,17 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 GridView_GroupLimit.DataBind();
 
             }
+
+            if (myActivatyVO.regist_deadline < DateTime.Today)
+            {
+                GridView_GroupLimit.Enabled = false;
+
+                rblgrouplimit.Enabled = false ;
+                Panel_GroupLimit.Enabled = false ;
+                GridView_GroupLimit.Columns[3].Visible = false;
+                GridView_GroupLimit.DataBind();
+            }
+
         }
     }
    
