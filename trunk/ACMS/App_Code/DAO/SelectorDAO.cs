@@ -850,6 +850,7 @@ namespace ACMS.DAO
                     team_name = dr["createat"].ToString();
                     if (dr["SEQNO"].ToString().IndexOf("備") > -1)
                     {
+                        
                         dr.Delete();
                     }
 
