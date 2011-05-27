@@ -1333,7 +1333,7 @@ public class clsMyObj
         
         }
 
-        mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>代理您完成取消</b></font>";
+        mail.Body += "<font color='Blue'><b>．此活動由</b></font>" + empCancelVO.NATIVE_NAME + "<font color='Blue'><b>完成取消</b></font>";
         //}
 
         mail.Body += "<br/><br/><br/></td></tr>" + "<tr><td align='center'>※報名人數未低於下限，其餘隊友仍具有活動參加資格<br/><a href='" + webPath + "?Type=2&ActID="
