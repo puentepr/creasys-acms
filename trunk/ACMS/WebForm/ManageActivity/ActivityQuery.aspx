@@ -83,11 +83,16 @@
         SkinID="pager" TotalRowCount="0" Width="100%" OnRowDataBound="GridView1_RowDataBound"
         OnDataBound="GridView1_DataBound">
         <Columns>
-            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" SortExpression="activity_name"  ItemStyle-Width ="150px"/>
+            <asp:BoundField DataField="activity_name" HeaderText="活動名稱" 
+                SortExpression="activity_name"  ItemStyle-Width ="150px">
+                <ItemStyle Width="150px" />
+            </asp:BoundField>
             <asp:TemplateField HeaderText="活動對象" SortExpression="people_type" ItemStyle-Width="150px">
                 <ItemTemplate>
-                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>'></asp:Label>
+                    <asp:Label ID="Label1" runat="server" Text='<%# Bind("people_type") %>' 
+                        Width="150px"></asp:Label>
                 </ItemTemplate>
+                <ItemStyle Width="150px" />
             </asp:TemplateField>
             <asp:TemplateField HeaderText="活動日期開始" SortExpression="activity_startdate">
                 <ItemTemplate>

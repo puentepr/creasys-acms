@@ -51,6 +51,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         }
 
         string emp_id1 = "";
+        string emp_id2 = "";
         string path = Server.MapPath("~/UpFiles");
         foreach (GridViewRow gvr in GridView1.Rows)
         {
@@ -58,12 +59,14 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
             {
                 emp_id1 += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
             }
+            emp_id2 += string.Format("{0},", GridView1.DataKeys[gvr.RowIndex].Value.ToString());
         }
 
         if (emp_id1.EndsWith(","))
         {
             emp_id1 = emp_id1.Substring(0, emp_id1.Length - 1);
         }
+
         MySingleton.AlterRegistResult MyResult = MySingleton.AlterRegistResult.CancelRegistSucess;
         if (!string.IsNullOrEmpty(emp_id1))
         {
@@ -82,6 +85,16 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         {
             this.Visible = false;
             CancelTeamRegistClick(this, e);
+        }
+
+        ACMS.DAO.ActivityRegistDAO regDao = new ACMS.DAO.ActivityRegistDAO ();
+        emp_id2 = emp_id2.TrimEnd(',');
+        string members = regDao.AllTeamMemberByMembers(new Guid(activity_id), emp_id2);
+
+        if (members == "")
+        {
+            clsMyObj.ShowMessage("已達人數下限,目前已取消該隊的報名資格");
+            return;
         }
         if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
         {

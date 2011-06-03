@@ -513,10 +513,10 @@ namespace ACMS.DAO
 
             if (type == "insert")
             {
-                sb.AppendLine("INSERT ActivityRegist ");
-                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno_type],[idno],[team_name],[ext_people],[createat],[check_status]) ");//,idno_ext
+                sb.AppendLine("declare @SeqNo int  select @SeqNo=MAX(SeqNo) from ActivityRegist  where activity_id =@activity_id  INSERT ActivityRegist ");
+                sb.AppendLine("([activity_id],[emp_id],[regist_by],[idno_type],[idno],[team_name],[ext_people],[createat],[check_status],[SeqNo]) ");//,idno_ext
                 sb.AppendLine("SELECT ");
-                sb.AppendLine("@activity_id,@emp_id,@regist_by,@idno_type,@idno,@team_name,@ext_people,getdate(),0");//,@idno_ext
+                sb.AppendLine("@activity_id,@emp_id,@regist_by,@idno_type,@idno,@team_name,@ext_people,getdate(),0,isNull(@SeqNo+1,1)");//,@idno_ext
                 sb.AppendLine("where 1=1 ");
 
                 //沒有重複報名

@@ -83,7 +83,7 @@ public partial class WebForm_ActivityCheck : BasePage
             dt.Columns.Add("分機", System.Type.GetType("System.String"));
             dt.Columns.Add("EMAIL", System.Type.GetType("System.String"));
             dt.Columns.Add("進度狀態", System.Type.GetType("System.String"));
-
+          
             string teamName = "";
             int seqno = 0;
             int seqno1 = 0;
@@ -138,6 +138,7 @@ public partial class WebForm_ActivityCheck : BasePage
                 table.Columns[1].ColumnName = "員工姓名";
                 table.Columns[2].ColumnName = "員工部門";
                 table.Columns[3].ColumnName = "登錄狀態";
+                
 
                 // 產生 Excel 資料流。
                 //MemoryStream ms = DataTableRenderToExcel.RenderDataTableToExcel(table) as MemoryStream;

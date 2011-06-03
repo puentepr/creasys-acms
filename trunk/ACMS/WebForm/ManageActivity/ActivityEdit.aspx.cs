@@ -11,6 +11,7 @@ using System.Transactions;
 using System.Data.SqlClient;
 using TServerControl;
 using System.Configuration;
+using System.Data.OleDb;
 
 public partial class WebForm_ManageActivity_ActivityEdit : BasePage
 {
@@ -1214,102 +1215,159 @@ public partial class WebForm_ManageActivity_ActivityEdit
     //上傳族群限定名單
     protected void btnUpload_GroupLimit_Click(object sender, EventArgs e)
     {
-        if (this.FileUpload_GroupLimit.HasFile)
+
+        //Provider=Microsoft.Jet.OLEDB.4.0;Data Source=C:\MyExcel.xls;Extended Properties="Excel 8.0;HDR=Yes;IMEX=1";
+        //Provider=Microsoft.ACE.OLEDB.12.0;Data Source=c:\myFolder\myExcel2007file.xlsx;Extended Properties="Excel 12.0 Xml;HDR=YES";
+        if (FileUpload_GroupLimit.HasFile)
         {
-            try
+            string conStr;
+
+            OleDbConnection cnn;
+            OleDbDataAdapter da;
+            OleDbCommandBuilder cb;
+            OleDbCommand cmd;
+            Directory.CreateDirectory(Server.MapPath("~/upFiles/Temp"));
+            File.Delete (Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
+            FileUpload_GroupLimit.SaveAs(Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
+            FileInfo fInfo = new FileInfo(Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
+            DataSet ds = new DataSet();
+            if (fInfo.Extension.ToUpper() == ".XLS")
             {
-
-                HSSFWorkbook workbook = new HSSFWorkbook(this.FileUpload_GroupLimit.FileContent);
-                HSSFSheet sheet = (HSSFSheet)workbook.GetSheetAt(0);
-                
-                DataTable table = new DataTable();
-                table.TableName = "table";
-
-                HSSFRow headerRow = (HSSFRow)sheet.GetRow(0);
-                int cellCount = headerRow.LastCellNum;
-
-                //for (int i = headerRow.FirstCellNum; i < cellCount; i++)
-                //{
-                //    DataColumn column = new DataColumn(headerRow.GetCell(i).StringCellValue);
-                //    table.Columns.Add(column);
-                //}
-
-                //table.Columns.Add("id");
-                //table.Columns["id"].AutoIncrement = true;
-                table.Columns.Add("activity_id", typeof(System.Guid));
-                table.Columns.Add("emp_id");
-                bool isEmp=false;
-                int rowCount = sheet.LastRowNum;
-                int colii = 0;
-                if (rowCount >= 1)
-                {
-                    HSSFRow row1 = (HSSFRow)sheet.GetRow(0);
-                    for (int ii = 0; ii < row1.Cells.Count; ii++)
-                    {
-                        if (row1.Cells[ii].ToString ()  == "工號")
-                        {
-                            colii = ii;
-                            isEmp = true;
-                        }
-
-                    }
-                    if (isEmp == false)
-                    {
-                        clsMyObj.ShowMessage("沒有工號欄位");
-                        return;
-                
-                    } 
-                }
-
-                for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
-                {
-                    try
-                    {
-                        HSSFRow row = (HSSFRow)sheet.GetRow(i);
-
-                        DataRow dataRow = table.NewRow();
-
-                        //for (int j = row.FirstCellNum; j < cellCount; j++)
-                        //{
-                        //    if (row.GetCell(j) != null)
-                        //    {
-                        //        dataRow[j] = row.GetCell(j).ToString();
-                        //    }
-
-                        //}
-                        //andy 修正為只有工號
-                        if (row == null)
-                            continue;
-
-                        dataRow["activity_id"] = ActivityID;
-                        dataRow["emp_id"] = row.GetCell(colii).ToString();// +row.GetCell(1).ToString();
-
-                        table.Rows.Add(dataRow);
-                    }
-                    catch (Exception ex1)
-                    {
-
-                        WriteErrorLog("UploadGroupLimit", ex1.Message, "0");
-                        ShowMessageForAjax(GridView_CustomField, ex1.Message);
-                    }
-                }
-
-                workbook = null;
-                sheet = null;
-
-                ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
-                myActivityGroupLimitDAO.UpdateDataSet(table, ActivityID);
-
-                GridView_GroupLimit.DataBind();
+                conStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=1\";";
 
             }
-            catch (Exception ex)
+            else
             {
-                WriteErrorLog("UploadGroupLimit", ex.Message, "0");
-                clsMyObj.ShowMessage("無法正常讀取上傳檔資料!");
+                conStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName + ";Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+
             }
+
+            cnn = new OleDbConnection(conStr); 
+            cmd = new OleDbCommand("select * from [工作表1$]",cnn);
+            da = new OleDbDataAdapter(cmd);
+          
+            cnn.Open();
+            da.Fill(ds, "table");
+            cnn.Close();
+            DataTable dt = new DataTable();
+            dt.Columns.Add("activity_id", typeof(System.Guid));
+            dt.Columns.Add("emp_id");
+            DataRow dr2;
+            foreach (DataRow dr in ds.Tables[0].Rows)
+            {
+                if (dr["工號"].ToString() != "")
+                {
+
+                    dr2 = dt.NewRow();
+                    dr2["activity_id"] = ActivityID;
+                    dr2["emp_id"] = dr["工號"].ToString();
+                    dt.Rows.Add(dr2);
+                }
+            }
+            ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
+            myActivityGroupLimitDAO.UpdateDataSet(dt, ActivityID);
+
+            GridView_GroupLimit.DataBind();
 
         }
+
+
+        //if (this.FileUpload_GroupLimit.HasFile)
+        //{
+        //    try
+        //    {
+
+        //        HSSFWorkbook workbook = new HSSFWorkbook(this.FileUpload_GroupLimit.FileContent);
+        //        HSSFSheet sheet = (HSSFSheet)workbook.GetSheetAt(0);
+                
+        //        DataTable table = new DataTable();
+        //        table.TableName = "table";
+
+        //        HSSFRow headerRow = (HSSFRow)sheet.GetRow(0);
+        //        int cellCount = headerRow.LastCellNum;
+
+        //        //for (int i = headerRow.FirstCellNum; i < cellCount; i++)
+        //        //{
+        //        //    DataColumn column = new DataColumn(headerRow.GetCell(i).StringCellValue);
+        //        //    table.Columns.Add(column);
+        //        //}
+
+        //        //table.Columns.Add("id");
+        //        //table.Columns["id"].AutoIncrement = true;
+        //        table.Columns.Add("activity_id", typeof(System.Guid));
+        //        table.Columns.Add("emp_id");
+        //        bool isEmp=false;
+        //        int rowCount = sheet.LastRowNum;
+        //        int colii = 0;
+        //        if (rowCount >= 1)
+        //        {
+        //            HSSFRow row1 = (HSSFRow)sheet.GetRow(0);
+        //            for (int ii = 0; ii < row1.Cells.Count; ii++)
+        //            {
+        //                if (row1.Cells[ii].ToString ()  == "工號")
+        //                {
+        //                    colii = ii;
+        //                    isEmp = true;
+        //                }
+
+        //            }
+        //            if (isEmp == false)
+        //            {
+        //                clsMyObj.ShowMessage("沒有工號欄位");
+        //                return;
+                
+        //            } 
+        //        }
+
+        //        for (int i = (sheet.FirstRowNum + 1); i <= sheet.LastRowNum; i++)
+        //        {
+        //            try
+        //            {
+        //                HSSFRow row = (HSSFRow)sheet.GetRow(i);
+
+        //                DataRow dataRow = table.NewRow();
+
+        //                //for (int j = row.FirstCellNum; j < cellCount; j++)
+        //                //{
+        //                //    if (row.GetCell(j) != null)
+        //                //    {
+        //                //        dataRow[j] = row.GetCell(j).ToString();
+        //                //    }
+
+        //                //}
+        //                //andy 修正為只有工號
+        //                if (row == null)
+        //                    continue;
+
+        //                dataRow["activity_id"] = ActivityID;
+        //                dataRow["emp_id"] = row.GetCell(colii).ToString();// +row.GetCell(1).ToString();
+
+        //                table.Rows.Add(dataRow);
+        //            }
+        //            catch (Exception ex1)
+        //            {
+
+        //                WriteErrorLog("UploadGroupLimit", ex1.Message, "0");
+        //                ShowMessageForAjax(GridView_CustomField, ex1.Message);
+        //            }
+        //        }
+
+        //        workbook = null;
+        //        sheet = null;
+
+        //        ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
+        //        myActivityGroupLimitDAO.UpdateDataSet(table, ActivityID);
+
+        //        GridView_GroupLimit.DataBind();
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        WriteErrorLog("UploadGroupLimit", ex.Message, "0");
+        //        clsMyObj.ShowMessage("無法正常讀取上傳檔資料!");
+        //    }
+
+        //}
     }
 
     //開啟族群限定新增

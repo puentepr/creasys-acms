@@ -111,6 +111,9 @@
                             <asp:BoundField DataField="NATIVE_NAME" HeaderText="員工姓名" SortExpression="NATIVE_NAME" />
                             <asp:BoundField DataField="createat" HeaderText="報名時間" SortExpression="createat" />
                             <asp:BoundField DataField="check_status" HeaderText="登錄狀態" ReadOnly="True" SortExpression="check_status" />
+                                  <asp:BoundField DataField="OFFICE_PHONE" HeaderText="分機" SortExpression="OFFICE_PHONE" />
+                            
+                            
                         </Columns>
                     </TServerControl:TGridView>
                     <asp:ObjectDataSource ID="ObjectDataSource1" runat="server" OldValuesParameterFormatString="original_{0}"
