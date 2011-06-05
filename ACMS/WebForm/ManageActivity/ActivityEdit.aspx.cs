@@ -31,7 +31,9 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             btnExport_GroupLimit.Enabled = true;
             btnUpload_GroupLimit.Enabled = true;
             Panel_GroupLimit.Visible = true;
+            plCoompanyLimit.Visible = true;
             GridView_GroupLimit.Visible = true;
+            plCoompanyLimit.Enabled = true;
         }
         else
         {
@@ -42,6 +44,8 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             FileUpload_GroupLimit.Enabled = false;
             Panel_GroupLimit.Visible = false;
             GridView_GroupLimit.Visible = false;
+            plCoompanyLimit.Visible = false;
+            plCoompanyLimit.Enabled = false;
 
           
         }
@@ -115,6 +119,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                     FormView1.Enabled = false;
                     txtnotice.Enabled = false;
                     PanelCustomFieldC.Enabled = false;
+                    plCoompanyLimit.Enabled  = false;
                 }
                 
 
@@ -164,11 +169,13 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 btnUpload_GroupLimit.Enabled = true;
                 Panel_GroupLimit.Visible = true;
                 GridView_GroupLimit .Visible = true;
+                plCoompanyLimit.Visible = true;
             }
             else
             {
 
                 GridView_GroupLimit.Visible = false;
+                plCoompanyLimit.Visible = false ;
             }
 
           
@@ -181,6 +188,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 PanelCustomFieldC.Enabled = false;
                 rblgrouplimit.Enabled = false;
                 Panel_GroupLimit.Enabled = false;
+                plCoompanyLimit.Enabled  = false;
             }
             else
             {
@@ -192,6 +200,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                     btnExport_GroupLimit.Enabled = true;
                     btnUpload_GroupLimit.Enabled = true;
                     Panel_GroupLimit.Visible = true;
+                    plCoompanyLimit.Enabled  = true;
                 }
                 else
                 {
@@ -201,6 +210,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                     btnExport_GroupLimit.Enabled = false;
                     btnUpload_GroupLimit.Enabled = false;
                     Panel_GroupLimit.Visible = false;
+                    plCoompanyLimit.Enabled  = false;
                 }
 
             }
@@ -270,6 +280,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 Panel_GroupLimit.Enabled = true;
                 GridView_GroupLimit.Columns[3].Visible = false;
                 GridView_GroupLimit.DataBind();
+                plCoompanyLimit.Enabled = true;
 
             }
 
@@ -281,6 +292,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
                 Panel_GroupLimit.Enabled = false ;
                 GridView_GroupLimit.Columns[3].Visible = false;
                 GridView_GroupLimit.DataBind();
+                plCoompanyLimit.Enabled  = false ;
             }
 
         }
@@ -737,7 +749,7 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
         {
  
            if ( rblgrouplimit.SelectedValue =="Y")
-               if (GridView_GroupLimit.Rows.Count == 0)
+               if (GridView_GroupLimit.Rows.Count == 0  && gvLimitCompany .Rows.Count ==0)
                {
                    clsMyObj.ShowMessage("報名名單未建立");
                    e.Cancel = true;
@@ -1133,6 +1145,20 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
             FormView2.FindControl("txtpersonextcount_max").Visible = false;
             FormView2.FindControl("txtpersonextcount_min").Visible = false;
         }
+
+    }
+    protected void btnAddLimitCompany_Click(object sender, EventArgs e)
+    {
+        ACMS.DAO .ActivityGroupLimitDAO dao = new ACMS.DAO.ActivityGroupLimitDAO ();
+        try
+        {
+            dao.InsertLimitCompany(ActivityID, ddlC_NAME.SelectedValue, ddlC_NAME.SelectedItem.Text);
+        }
+        catch 
+        {
+        }
+        gvLimitCompany.DataBind();
+       
 
     }
 }
@@ -1545,6 +1571,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
             if (ViewState["ActivityID"] == null)
             {
                 ViewState["ActivityID"] = Guid.NewGuid();
+              
                 return (Guid)ViewState["ActivityID"];
             }
             else
@@ -1552,7 +1579,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
                 return new Guid(ViewState["ActivityID"].ToString());
             }
         }
-        set { ViewState["ActivityID"] = value; }
+        set { ViewState["ActivityID"] = value; hiActivity_ID.Value = ((Guid)ViewState["ActivityID"]).ToString(); }
     }
 
     public string ActivityType

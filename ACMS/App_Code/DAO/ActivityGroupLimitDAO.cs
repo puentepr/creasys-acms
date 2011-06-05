@@ -29,12 +29,21 @@ namespace ACMS.DAO
             sb.AppendLine("FROM ActivityGroupLimit ");
             sb.AppendLine("WHERE activity_id = @activity_id  and emp_id=@emp_id ");
 
+            sb.AppendLine("SELECT activity_id,B.id ");
+            sb.AppendLine("FROM ActivityLimitCompany  A inner join  V_ACSM_USER2 B on A.COMPANY_CODE =B.COMPANY_CODE   ");
+            sb.AppendLine("WHERE A.activity_id = @activity_id  and B.id=@emp_id ");
+
+
             DataSet DS = SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
             if (DS.Tables[0].Rows.Count > 0)
             {
                 return true;
             }
             if (DS.Tables[1].Rows.Count > 0)
+            {
+                return true;
+            }
+            if (DS.Tables[2].Rows.Count > 0)
             {
                 return true;
             }
@@ -292,6 +301,62 @@ namespace ACMS.DAO
 
             return SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
         }
+        /// <summary>
+        /// 取得公司限制名單
+        /// </summary>
+        /// <param name="activity_id"></param>
+        /// <returns></returns>
+        public DataTable GetLimitCompany(Guid activity_id)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[1];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+           
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("Select * from  ActivityLimitCompany WHERE activity_id=@activity_id   ");
+
+            return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables [0];
+        }
+
+         public void InsertLimitCompany(Guid activity_id,string COMPANY_CODE,string C_NAME)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[3];
+
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+            sqlParams[1] = new SqlParameter("@COMPANY_CODE", SqlDbType.NVarChar, 36);
+            sqlParams[1].Value = COMPANY_CODE;
+            sqlParams[2] = new SqlParameter("@C_NAME", SqlDbType.NVarChar, 200);
+            sqlParams[2].Value = C_NAME;
+           
+
+            StringBuilder sb = new StringBuilder();
+
+            sb.AppendLine("insert into   ActivityLimitCompany(activity_id,COMPANY_CODE,C_NAME) values (@activity_id,@COMPANY_CODE,@C_NAME)   ");
+
+            SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+        }
+
+         public void DeleteLimitCompany(int id )
+         {
+
+             SqlParameter[] sqlParams = new SqlParameter[1];
+
+             sqlParams[0] = new SqlParameter("@id", SqlDbType.Int );
+             sqlParams[0].Value = id;
+           
+
+             StringBuilder sb = new StringBuilder();
+
+             sb.AppendLine("delete from  ActivityLimitCompany where id=@id");
+
+             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
+         }
 
 
         /// <summary>

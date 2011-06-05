@@ -300,11 +300,15 @@ public partial class WebForm_ActivityQuery : BasePage
     //匯出名單
     protected void lbtnExport_Click(object sender, EventArgs e)
     {
+        ACMS.DAO.ActivityRegistDAO regDao = new ACMS.DAO.ActivityRegistDAO();
+       
+        DataTable dtUnReg;
         try
         {
             string activity_id = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[0].ToString();
             string activity_type = GridView1.DataKeys[((sender as LinkButton).NamingContainer as GridViewRow).RowIndex].Values[1].ToString();
-
+            //找出未報名清單
+            dtUnReg = regDao.GetUnRegist(new Guid (activity_id));
             //「匯出名單」的功能需帶出「報名編號（團隊編號）、部門、工號、姓名、分機、e-mail與額外填寫欄位」等欄位資訊
 
             DataTable table = new DataTable();
@@ -453,6 +457,24 @@ public partial class WebForm_ActivityQuery : BasePage
                     GetCustomFieldNew(dr["id"].ToString(), dr["emp_id"].ToString(), ref dtDr);
                 }
                 dt.Rows.Add(dtDr);
+            }
+            //加入未報名
+
+            if (dtUnReg.Rows.Count > 0)
+            {
+                foreach (DataRow dr2 in dtUnReg.Rows)
+                {
+                    dtDr = dt.NewRow();
+                    dtDr["部門代號"] = dr2["DEPT_ID"].ToString();
+                    dtDr["部門"] = dr2["C_DEPT_NAME"].ToString();
+                    dtDr["工號"] = dr2["WORK_ID"].ToString();
+                    dtDr["姓名"] = dr2["NATIVE_NAME"].ToString();
+                    dtDr["分機"] = dr2["OFFICE_PHONE"].ToString();
+                    dtDr["EMAIL"] = dr2["OFFICE_MAIL"].ToString();
+                    dtDr["進度狀態"] = "未報名";
+
+                    dt.Rows.Add(dtDr);
+                }
             }
 
             if (table != null && table.Rows.Count > 0)
