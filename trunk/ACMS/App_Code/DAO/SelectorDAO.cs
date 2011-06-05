@@ -38,7 +38,7 @@ namespace ACMS.DAO
             sb.AppendLine("( ");
             sb.AppendLine("  SELECT *  ");
             sb.AppendLine("  FROM Activity AA  ");
-            sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
+            sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id union select distinct activity_id FROM ActivityLimitCompany  A inner join V_ACSM_USER2 B on A.COMPANY_CODE=B.COMPANY_CODE where B.ID=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and convert(date,AA.regist_startdate)<=getdate() ");//報名已開始
             sb.AppendLine("  and dateadd(day,0,AA.regist_deadline)>=convert(datetime,convert(varchar(10),getdate(),111)) ");//報名尚未截止
@@ -123,7 +123,7 @@ namespace ACMS.DAO
             sb.AppendLine("( ");
             sb.AppendLine("  SELECT *  ");
             sb.AppendLine("  FROM Activity AA  ");
-            sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
+            sb.AppendLine("  left join (SELECT distinct activity_id FROM ActivityGroupLimit WHERE emp_id=@emp_id  union select distinct activity_id FROM ActivityLimitCompany  A inner join V_ACSM_USER2 B on A.COMPANY_CODE=B.COMPANY_CODE where B.ID=@emp_id) BB on AA.id=BB.activity_id "); //我在這個族群
             sb.AppendLine("  WHERE AA.active='Y' ");
             sb.AppendLine("  and convert(date,AA.regist_startdate)<=convert(date,getdate() )");//報名已開始
             sb.AppendLine("  and convert(date,AA.regist_deadline)>=convert(date,getdate()  )");//報名尚未截止
@@ -295,7 +295,7 @@ namespace ACMS.DAO
             sb.AppendLine("( ");
             sb.AppendLine("SELECT CASE WHEN AA.is_grouplimit='Y' THEN BB.emp_id ELSE A.ID END ");
             sb.AppendLine("FROM Activity AA ");
-            sb.AppendLine("left join ActivityGroupLimit BB on AA.id=BB.activity_id ");//區分是否有族群限制
+            sb.AppendLine("left join ( select distinct activity_id,  emp_id   from ActivityGroupLimit  where activity_id =@activity_id union select distinct activity_id, B.id  as emp_id from ActivityLimitCompany A inner join V_ACSM_USER2 B on A.COMPANY_CODE =B.COMPANY_CODE   where A.activity_id=@activity_id) BB  on AA.id=BB.activity_id ");//區分是否有族群限制
             sb.AppendLine("WHERE AA.active='Y' ");
             sb.AppendLine("and AA.id=@activity_id ");
             sb.AppendLine(") ");

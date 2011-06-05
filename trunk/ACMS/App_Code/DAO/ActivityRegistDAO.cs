@@ -1269,7 +1269,25 @@ namespace ACMS.DAO
 
         }
 
-        
+
+        public DataTable GetUnRegist(Guid  activity_id)
+        {
+
+            SqlParameter[] sqlParams = new SqlParameter[1];
+            StringBuilder sb = new StringBuilder();
+            sqlParams[0] = new SqlParameter("@activity_id", SqlDbType.UniqueIdentifier);
+            sqlParams[0].Value = activity_id;
+
+            sb.AppendLine("select emp_id  into #AA from ActivityGroupLimit where activity_id =@activity_id ");
+            sb.AppendLine("union ");
+            sb.AppendLine("select B.ID  from ActivityLimitCompany A inner join V_ACSM_USER2 B on A.COMPANY_CODE =B.COMPANY_CODE  where A.activity_id =@activity_id ");
+
+
+            sb.AppendLine("select A.*,B.* from #AA A left join V_ACSM_USER2  B on A.emp_id =B.ID   WHERE NOT emp_id  IN (SELECT emp_id FROM ActivityRegist  WHERE activity_id =@activity_id UNION SELECT emp_id FROM ActivityTeamMember WHERE activity_id =@activity_id) ");
+            sb.AppendLine("drop table #AA ");
+            return SqlHelper.ExecuteDataset(MyConn(), CommandType.Text, sb.ToString(), sqlParams).Tables[0];
+
+        }
         //public void DelRegistTeamAll(Guid activity_id, string emp_id)
         //{
 
