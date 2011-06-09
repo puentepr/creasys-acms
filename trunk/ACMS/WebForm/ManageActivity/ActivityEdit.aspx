@@ -15,7 +15,6 @@
  <!--
         function CheckAll() {
             //            for (c in document.all.getElementsByTagName("input"))
-            //                if (c.indexOf("chkRJRA") > 0)
             //                document.all[c].checked = event.srcElement.checked;
             alert('add');
         }
