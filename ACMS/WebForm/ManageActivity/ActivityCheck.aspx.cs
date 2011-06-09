@@ -93,7 +93,7 @@ public partial class WebForm_ActivityCheck : BasePage
                 dtDr = dt.NewRow();
                 if (dr["activity_type"].ToString() == "2")
                 {
-                    if (teamName != dr["team_name"].ToString().Trim())
+                    if (teamName != dr["boss_id"].ToString().Trim())
                     {
                         seqno++;
                     }
@@ -101,7 +101,7 @@ public partial class WebForm_ActivityCheck : BasePage
                     {
                         seqno1++;
                     }
-                    teamName = dr["team_name"].ToString().Trim();
+                    teamName = dr["boss_id"].ToString().Trim();
 
                 }
                 else

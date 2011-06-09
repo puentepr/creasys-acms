@@ -1043,14 +1043,14 @@ namespace ACMS.DAO
                             sb.Length = 0;
 
                             //若團隊人數低於門檻則團隊消滅
-                            sb.AppendLine("UPDATE ActivityRegist SET check_status=-1 WHERE activity_id=@activity_id and emp_id in (SELECT distinct boss_id FROM ActivityTeamMember WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,','))) ");
+                            sb.AppendLine("UPDATE ActivityRegist SET check_status=-1 WHERE activity_id=@activity_id and ( emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) or emp_id in (SELECT distinct boss_id FROM ActivityTeamMember WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')))) ");
                             //若低於門檻
                             sb.AppendLine("and  exists( ");
                             sb.AppendLine("select A.team_member_min,COUNT(B.emp_id)");
                             sb.AppendLine("from Activity A");
-                            sb.AppendLine("inner join ActivityTeamMember B on A.id=B.activity_id and A.id=@activity_id and boss_id in (SELECT distinct boss_id FROM ActivityTeamMember WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,','))) and B.check_status>=0");
-                            sb.AppendLine("GROUP BY A.team_member_min");
-                            sb.AppendLine("having  A.team_member_min>COUNT(B.emp_id)");
+                            sb.AppendLine("left  join ActivityTeamMember B on A.id=B.activity_id  and (B.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')) or  boss_id in (SELECT distinct boss_id FROM ActivityTeamMember WHERE emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')))) and B.check_status>=0");
+                            sb.AppendLine("where   A.id=@activity_id GROUP BY A.team_member_min");
+                            sb.AppendLine("having  A.team_member_min>isnull(COUNT(B.emp_id),0)");
                             sb.AppendLine("); ");
 
                             cmd.CommandText = sb.ToString();
@@ -1058,7 +1058,7 @@ namespace ACMS.DAO
                             cmd.Parameters.AddRange(sqlParams);
                             int intCancelAll = cmd.ExecuteNonQuery();
                             NowMembers = AllTeamMemberByMembers(activity_id, OriginMembers, myConn);
-                            if (intCancelAll > 0)
+                            if (NowMembers.Trim ()=="")
                             {
                                 sb.Length = 0;
                                 //ActivityTeamMember的所有成員也要全部取消
@@ -1096,7 +1096,7 @@ namespace ACMS.DAO
 
             }
             if (doJob == "1")
-            { clsMyObj.CancelRegist_Team(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers); }
+            { clsMyObj.CancelRegist_TeamUnderLimit(activity_id.ToString(), OriginMembers, clsAuth.ID, webPath); }
             if (doJob == "2")
             { clsMyObj.CancelRegist_Team(activity_id.ToString(), emp_id, clsAuth.ID, webPath, bossid, OriginMembers, NowMembers); }
             return 1;

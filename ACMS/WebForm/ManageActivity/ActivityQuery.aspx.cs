@@ -315,7 +315,7 @@ public partial class WebForm_ActivityQuery : BasePage
 
             ACMS.DAO.ActivityRegistDAO myActivityRegistDAO = new ACMS.DAO.ActivityRegistDAO();
             table = myActivityRegistDAO.SelectEmployeesByID(new Guid(activity_id), activity_type);
-            if (table.Rows.Count == 0)
+            if (table.Rows.Count == 0 && dtUnReg.Rows.Count ==0)
             {
                 clsMyObj.ShowMessage("沒有資料");
                 return;
@@ -338,57 +338,63 @@ public partial class WebForm_ActivityQuery : BasePage
 
 
             List<ACMS.VO.CustomFieldValueVO> myCustomFieldValueVOList;
-            if (table.Rows[0]["activity_type"].ToString() == "2")
+            try
             {
-                myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(table.Rows[0]["id"].ToString()), table.Rows[0]["boss_id"].ToString());
-                dt.Columns.Add("隊名", System.Type.GetType("System.String")); 
-                dt.Columns.Add("隊長", System.Type.GetType("System.String"));
+                if (table.Rows[0]["activity_type"].ToString() == "2")
+                {
+                    myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(table.Rows[0]["id"].ToString()), table.Rows[0]["boss_id"].ToString());
+                    dt.Columns.Add("隊名", System.Type.GetType("System.String"));
+                    dt.Columns.Add("隊長", System.Type.GetType("System.String"));
+                }
+                else
+                {
+                    myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(table.Rows[0]["id"].ToString()), table.Rows[0]["emp_id"].ToString());
+                }
+
+                dt.Columns.Add("身份證_護照", System.Type.GetType("System.String"));
+                ACMS.BO.CustomFieldItemBO myCustFieldItemBO = new ACMS.BO.CustomFieldItemBO();
+                List<ACMS.VO.CustomFieldItemVO> myFieldVOS;
+                foreach (ACMS.VO.CustomFieldValueVO custFieldVO in myCustomFieldValueVOList)
+                {
+
+                    if (custFieldVO.field_control.ToLower() == "textbox")
+                    {
+                        dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+                    }
+
+                    if (custFieldVO.field_control.ToLower() == "textboxlist")
+                    {
+
+                        myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                        foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                        {
+                            dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.Decimal"));
+                        }
+                        dt.Columns.Add(custFieldVO.field_name + "合計", System.Type.GetType("System.Decimal"));
+                    }
+                    if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
+                    {
+                        // dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+                        myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                        foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                        {
+                            dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
+                        }
+                    }
+                    if (custFieldVO.field_control.ToLower() == "checkboxlist")
+                    {
+                        //dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
+                        myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
+                        foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
+                        {
+                            dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
+                        }
+
+                    }
+                }
             }
-            else
+            catch
             {
-                myCustomFieldValueVOList = myCustFieldValueDAO.SelectCustomFieldValue(new Guid(table.Rows[0]["id"].ToString()), table.Rows[0]["emp_id"].ToString());
-            }
-            dt.Columns.Add("身份證_護照", System.Type.GetType("System.String"));
-            ACMS.BO.CustomFieldItemBO myCustFieldItemBO = new ACMS.BO.CustomFieldItemBO();
-            List<ACMS.VO.CustomFieldItemVO> myFieldVOS;
-            foreach (ACMS.VO.CustomFieldValueVO custFieldVO in myCustomFieldValueVOList)
-            {
-
-                if (custFieldVO.field_control.ToLower() == "textbox")
-                {
-                    dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
-                }
-
-                if (custFieldVO.field_control.ToLower() == "textboxlist")
-                {
-
-                    myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
-                    foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
-                    {
-                        dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.Decimal"));
-                    }
-                    dt.Columns.Add(custFieldVO.field_name + "合計", System.Type.GetType("System.Decimal"));
-                }
-                if (custFieldVO.field_control.ToLower() == "radiobuttonlist")
-                {
-                    // dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
-                    myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
-                    foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
-                    {
-                        dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
-                    }
-                }
-                if (custFieldVO.field_control.ToLower() == "checkboxlist")
-                {
-                    //dt.Columns.Add(custFieldVO.field_name, System.Type.GetType("System.String"));
-                    myFieldVOS = myCustFieldItemBO.SelectByField_id(custFieldVO.field_id);
-                    foreach (ACMS.VO.CustomFieldItemVO myFieldvo in myFieldVOS)
-                    {
-                        dt.Columns.Add(custFieldVO.field_name + '_' + myFieldvo.field_item_name, System.Type.GetType("System.String"));
-                    }
-                }
-
-
             }
 
 
@@ -477,7 +483,7 @@ public partial class WebForm_ActivityQuery : BasePage
                 }
             }
 
-            if (table != null && table.Rows.Count > 0)
+            if ( table.Rows.Count > 0 || dtUnReg.Rows .Count >0)
             {
                 table.Columns[0].ColumnName = "員工編號";
                 table.Columns[1].ColumnName = "員工姓名";
