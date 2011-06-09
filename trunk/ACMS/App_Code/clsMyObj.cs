@@ -8,6 +8,8 @@ using ACMS.VO;
 using System.Net.Mail;
 using System.Transactions;
 using PDFPlatform;
+using System.Text;
+using System.Data.SqlClient;
 /// <summary>
 /// clsMyObj 的摘要描述
 /// </summary>
@@ -389,7 +391,7 @@ public class clsMyObj
             mail.Body += "" + "<font color='Blue'><b>．編號：</b></font><Font color='Red'>" + regBO.getSNByActivity(id, emp_id) + "<br/><br/></font></td></tr>"
                 + "<tr><td align='center'> <a href='" + webPath + "?Type=1&ActID="
                 + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
-            //    + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
+                //    + "'>" + vo.activity_name + "：報名成功連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
               + "'>" + "報名系統連結</a></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >   &nbsp; </td> </tr></table>";
         }
         else
@@ -421,11 +423,43 @@ public class clsMyObj
 
         }
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        string emailAddr="";
+        foreach (MailAddress ma in mail.To)
+        {
+            emailAddr +=ma.Address+ ",";
+        }
+        string ccAddr = "";
+        foreach (MailAddress ma1 in mail.CC )
+        {
+            ccAddr += ma1.Address + ",";
+        }
+        StringBuilder sb = new StringBuilder();
 
+       
+   
+        sb.AppendLine("Insert  into MailItems( MailFrom, MailTo, MailServer, MailCC, MailSubject, MailBody, Status, Description) values( @MailFrom, @MailTo, @MailServer, @MailCC, @MailSubject, @MailBody, 0,'')");
+
+        SqlParameter[] sqlParams = new SqlParameter[6];
+        sqlParams[0] = new SqlParameter("@MailServer", SqlDbType.NVarChar);
+        sqlParams[0].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+        sqlParams[1] = new SqlParameter("@MailTo", SqlDbType.NVarChar);
+        sqlParams[1].Value = emailAddr.TrimEnd (',');
+        sqlParams[2] = new SqlParameter("@MailCC", SqlDbType.NVarChar);
+        sqlParams[2].Value = ccAddr.TrimEnd (',');
+        sqlParams[3] = new SqlParameter("@MailSubject", SqlDbType.NVarChar);
+        sqlParams[3].Value = mail.Subject;
+        sqlParams[4] = new SqlParameter("@MailBody", SqlDbType.NVarChar);
+        sqlParams[4].Value = mail.Body;
+        sqlParams[5] = new SqlParameter("@MailFrom", SqlDbType.NVarChar);
+        sqlParams[5].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"]; 
+
+
+        SqlConnection myConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connStr"].ConnectionString);
+        SqlHelper.ExecuteNonQuery(myConn, CommandType.Text, sb.ToString(), sqlParams);
 
         try
         {
-            smtp.Send(mail);
+            //smtp.Send(mail);
 
         }
         catch (Exception ex)
@@ -433,8 +467,6 @@ public class clsMyObj
             LogMsg.Log(ex.Message, 5, false);
 
         }
-
-
     }
 
     //個人報名成功寄信
@@ -644,9 +676,45 @@ public class clsMyObj
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
 
 
+
+        string emailAddr = "";
+        foreach (MailAddress ma in mail.To)
+        {
+            emailAddr += ma.Address + ",";
+        }
+        string ccAddr = "";
+        foreach (MailAddress ma1 in mail.CC)
+        {
+            ccAddr += ma1.Address + ",";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+
+
+        sb.AppendLine("Insert  into MailItems( MailFrom, MailTo, MailServer, MailCC, MailSubject, MailBody, Status, Description) values( @MailFrom, @MailTo, @MailServer, @MailCC, @MailSubject, @MailBody, 0,'')");
+
+        SqlParameter[] sqlParams = new SqlParameter[6];
+        sqlParams[0] = new SqlParameter("@MailServer", SqlDbType.NVarChar);
+        sqlParams[0].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+        sqlParams[1] = new SqlParameter("@MailTo", SqlDbType.NVarChar);
+        sqlParams[1].Value = emailAddr.TrimEnd(',');
+        sqlParams[2] = new SqlParameter("@MailCC", SqlDbType.NVarChar);
+        sqlParams[2].Value = ccAddr.TrimEnd(',');
+        sqlParams[3] = new SqlParameter("@MailSubject", SqlDbType.NVarChar);
+        sqlParams[3].Value = mail.Subject;
+        sqlParams[4] = new SqlParameter("@MailBody", SqlDbType.NVarChar);
+        sqlParams[4].Value = mail.Body;
+        sqlParams[5] = new SqlParameter("@MailFrom", SqlDbType.NVarChar);
+        sqlParams[5].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"];
+
+        SqlConnection myConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connStr"].ConnectionString);
+        SqlHelper.ExecuteNonQuery(myConn, CommandType.Text, sb.ToString(), sqlParams);
+
         try
         {
-            smtp.Send(mail);
+          //  smtp.Send(mail);
+        
 
         }
         catch (Exception ex)
@@ -658,6 +726,10 @@ public class clsMyObj
 
     }
 
+    public void mySendMail(MailMessage mail)
+    {
+      
+    }
     //個人報名失敗寄信
     public static void RegistFail(string activity_id, string emp_id, string regist_by, string webPath)
     {
@@ -704,6 +776,8 @@ public class clsMyObj
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
 
+
+       
 
         try
         {
@@ -788,10 +862,43 @@ public class clsMyObj
 
 
             SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+            string emailAddr = "";
+            foreach (MailAddress ma in mail.To)
+            {
+                emailAddr += ma.Address + ",";
+            }
+            string ccAddr = "";
+            foreach (MailAddress ma1 in mail.CC)
+            {
+                ccAddr += ma1.Address + ",";
+            }
+
+            StringBuilder sb = new StringBuilder();
+
+
+
+            sb.AppendLine("Insert  into MailItems( MailFrom, MailTo, MailServer, MailCC, MailSubject, MailBody, Status, Description) values( @MailFrom, @MailTo, @MailServer, @MailCC, @MailSubject, @MailBody, 0,'')");
+
+            SqlParameter[] sqlParams = new SqlParameter[6];
+            sqlParams[0] = new SqlParameter("@MailServer", SqlDbType.NVarChar);
+            sqlParams[0].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+            sqlParams[1] = new SqlParameter("@MailTo", SqlDbType.NVarChar);
+            sqlParams[1].Value = emailAddr.TrimEnd(',');
+            sqlParams[2] = new SqlParameter("@MailCC", SqlDbType.NVarChar);
+            sqlParams[2].Value = ccAddr.TrimEnd(',');
+            sqlParams[3] = new SqlParameter("@MailSubject", SqlDbType.NVarChar);
+            sqlParams[3].Value = mail.Subject;
+            sqlParams[4] = new SqlParameter("@MailBody", SqlDbType.NVarChar);
+            sqlParams[4].Value = mail.Body;
+            sqlParams[5] = new SqlParameter("@MailFrom", SqlDbType.NVarChar);
+            sqlParams[5].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"];
+
+            SqlConnection myConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connStr"].ConnectionString);
+            SqlHelper.ExecuteNonQuery(myConn, CommandType.Text, sb.ToString(), sqlParams);
 
             try
             {
-                smtp.Send(mail);
+               // smtp.Send(mail);
 
             }
             catch (Exception ex)
@@ -1115,9 +1222,45 @@ public class clsMyObj
       + "'>"  + "報名系統連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+
+        string emailAddr = "";
+        foreach (MailAddress ma in mail.To)
+        {
+            emailAddr += ma.Address + ",";
+        }
+        string ccAddr = "";
+        foreach (MailAddress ma1 in mail.CC)
+        {
+            ccAddr += ma1.Address + ",";
+        }
+
+      
+        StringBuilder sb = new StringBuilder();
+
+
+
+        sb.AppendLine("Insert  into MailItems( MailFrom, MailTo, MailServer, MailCC, MailSubject, MailBody, Status, Description) values( @MailFrom, @MailTo, @MailServer, @MailCC, @MailSubject, @MailBody, 0,'')");
+
+        SqlParameter[] sqlParams = new SqlParameter[6];
+        sqlParams[0] = new SqlParameter("@MailServer", SqlDbType.NVarChar);
+        sqlParams[0].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+        sqlParams[1] = new SqlParameter("@MailTo", SqlDbType.NVarChar);
+        sqlParams[1].Value = emailAddr.TrimEnd(',');
+        sqlParams[2] = new SqlParameter("@MailCC", SqlDbType.NVarChar);
+        sqlParams[2].Value = ccAddr.TrimEnd(',');
+        sqlParams[3] = new SqlParameter("@MailSubject", SqlDbType.NVarChar);
+        sqlParams[3].Value = mail.Subject;
+        sqlParams[4] = new SqlParameter("@MailBody", SqlDbType.NVarChar);
+        sqlParams[4].Value = mail.Body;
+        sqlParams[5] = new SqlParameter("@MailFrom", SqlDbType.NVarChar);
+        sqlParams[5].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"];
+
+        SqlConnection myConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connStr"].ConnectionString);
+        SqlHelper.ExecuteNonQuery(myConn, CommandType.Text, sb.ToString(), sqlParams);
+
         try
         {
-            smtp.Send(mail);
+         //   smtp.Send(mail);
 
         }
         catch (Exception ex)
@@ -1343,10 +1486,43 @@ public class clsMyObj
 
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        string emailAddr = "";
+        foreach (MailAddress ma in mail.To)
+        {
+            emailAddr += ma.Address + ",";
+        }
+        string ccAddr = "";
+        foreach (MailAddress ma1 in mail.CC)
+        {
+            ccAddr += ma1.Address + ",";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+
+
+        sb.AppendLine("Insert  into MailItems( MailFrom, MailTo, MailServer, MailCC, MailSubject, MailBody, Status, Description) values( @MailFrom, @MailTo, @MailServer, @MailCC, @MailSubject, @MailBody, 0,'')");
+
+        SqlParameter[] sqlParams = new SqlParameter[6];
+        sqlParams[0] = new SqlParameter("@MailServer", SqlDbType.NVarChar);
+        sqlParams[0].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+        sqlParams[1] = new SqlParameter("@MailTo", SqlDbType.NVarChar);
+        sqlParams[1].Value = emailAddr.TrimEnd(',');
+        sqlParams[2] = new SqlParameter("@MailCC", SqlDbType.NVarChar);
+        sqlParams[2].Value = ccAddr.TrimEnd(',');
+        sqlParams[3] = new SqlParameter("@MailSubject", SqlDbType.NVarChar);
+        sqlParams[3].Value = mail.Subject;
+        sqlParams[4] = new SqlParameter("@MailBody", SqlDbType.NVarChar);
+        sqlParams[4].Value = mail.Body;
+        sqlParams[5] = new SqlParameter("@MailFrom", SqlDbType.NVarChar);
+        sqlParams[5].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"];
+
+        SqlConnection myConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connStr"].ConnectionString);
+        SqlHelper.ExecuteNonQuery(myConn, CommandType.Text, sb.ToString(), sqlParams);
 
         try
         {
-            smtp.Send(mail);
+          //  smtp.Send(mail);
 
         }
         catch (Exception ex)
@@ -1467,10 +1643,43 @@ public class clsMyObj
 
 
         SmtpClient smtp = new SmtpClient(System.Configuration.ConfigurationManager.AppSettings["SMTPServer"]);
+        string emailAddr = "";
+        foreach (MailAddress ma in mail.To)
+        {
+            emailAddr += ma.Address + ",";
+        }
+        string ccAddr = "";
+        foreach (MailAddress ma1 in mail.CC)
+        {
+            ccAddr += ma1.Address + ",";
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+
+
+        sb.AppendLine("Insert  into MailItems( MailFrom, MailTo, MailServer, MailCC, MailSubject, MailBody, Status, Description) values( @MailFrom, @MailTo, @MailServer, @MailCC, @MailSubject, @MailBody, 0,'')");
+
+        SqlParameter[] sqlParams = new SqlParameter[6];
+        sqlParams[0] = new SqlParameter("@MailServer", SqlDbType.NVarChar);
+        sqlParams[0].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPServer"];
+        sqlParams[1] = new SqlParameter("@MailTo", SqlDbType.NVarChar);
+        sqlParams[1].Value = emailAddr.TrimEnd(',');
+        sqlParams[2] = new SqlParameter("@MailCC", SqlDbType.NVarChar);
+        sqlParams[2].Value = ccAddr.TrimEnd(',');
+        sqlParams[3] = new SqlParameter("@MailSubject", SqlDbType.NVarChar);
+        sqlParams[3].Value = mail.Subject;
+        sqlParams[4] = new SqlParameter("@MailBody", SqlDbType.NVarChar);
+        sqlParams[4].Value = mail.Body;
+        sqlParams[5] = new SqlParameter("@MailFrom", SqlDbType.NVarChar);
+        sqlParams[5].Value = System.Configuration.ConfigurationManager.AppSettings["SMTPFrom"];
+
+        SqlConnection myConn = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["connStr"].ConnectionString);
+        SqlHelper.ExecuteNonQuery(myConn, CommandType.Text, sb.ToString(), sqlParams);
 
         try
         {
-            smtp.Send(mail);
+          //  smtp.Send(mail);
 
         }
         catch (Exception ex)

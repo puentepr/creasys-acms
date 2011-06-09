@@ -24,7 +24,7 @@ public class BasePage : System.Web.UI.Page
     {
         ACMS.DAO.BaseDAO dao1 = new ACMS.DAO.BaseDAO();
         dao1.ErrorLog(this.Request.Url.AbsolutePath, errMsg, FunctionName, clsAuth.WORK_ID + clsAuth.NATIVE_NAME, errStatus);
-        clsMyObj.ShowMessage(errMsg);
+        clsMyObj.ShowMessage(errMsg.Replace ("'",""));
     }
 
 

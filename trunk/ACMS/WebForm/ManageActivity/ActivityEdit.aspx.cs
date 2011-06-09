@@ -1246,57 +1246,62 @@ public partial class WebForm_ManageActivity_ActivityEdit
         //Provider=Microsoft.ACE.OLEDB.12.0;Data Source=c:\myFolder\myExcel2007file.xlsx;Extended Properties="Excel 12.0 Xml;HDR=YES";
         if (FileUpload_GroupLimit.HasFile)
         {
-            string conStr;
-
-            OleDbConnection cnn;
-            OleDbDataAdapter da;
-            OleDbCommandBuilder cb;
-            OleDbCommand cmd;
-            Directory.CreateDirectory(Server.MapPath("~/upFiles/Temp"));
-            File.Delete (Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
-            FileUpload_GroupLimit.SaveAs(Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
-            FileInfo fInfo = new FileInfo(Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
-            DataSet ds = new DataSet();
-            if (fInfo.Extension.ToUpper() == ".XLS")
+            try
             {
-                conStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=1\";";
+                string conStr;
 
-            }
-            else
-            {
-                conStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName + ";Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
-
-            }
-
-            cnn = new OleDbConnection(conStr); 
-            cmd = new OleDbCommand("select * from [工作表1$]",cnn);
-            da = new OleDbDataAdapter(cmd);
-          
-            cnn.Open();
-            da.Fill(ds, "table");
-            cnn.Close();
-            DataTable dt = new DataTable();
-            dt.Columns.Add("activity_id", typeof(System.Guid));
-            dt.Columns.Add("emp_id");
-            DataRow dr2;
-            foreach (DataRow dr in ds.Tables[0].Rows)
-            {
-                if (dr["工號"].ToString() != "")
+                OleDbConnection cnn;
+                OleDbDataAdapter da;
+                OleDbCommandBuilder cb;
+                OleDbCommand cmd;
+                Directory.CreateDirectory(Server.MapPath("~/upFiles/Temp"));
+                File.Delete(Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
+                FileUpload_GroupLimit.SaveAs(Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
+                FileInfo fInfo = new FileInfo(Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName);
+                DataSet ds = new DataSet();
+                if (fInfo.Extension.ToUpper() == ".XLS")
                 {
+                    conStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName + ";Extended Properties=\"Excel 8.0;HDR=Yes;IMEX=1\";";
 
-                    dr2 = dt.NewRow();
-                    dr2["activity_id"] = ActivityID;
-                    dr2["emp_id"] = dr["工號"].ToString();
-                    dt.Rows.Add(dr2);
                 }
+                else
+                {
+                    conStr = "Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + Server.MapPath("~/upFiles/Temp") + @"\" + clsAuth.ID + FileUpload_GroupLimit.FileName + ";Extended Properties=\"Excel 12.0 Xml;HDR=YES\";";
+
+                }
+
+                cnn = new OleDbConnection(conStr);
+                cmd = new OleDbCommand("select * from [報名名冊$]", cnn);
+                da = new OleDbDataAdapter(cmd);
+
+                cnn.Open();
+                da.Fill(ds, "table");
+                cnn.Close();
+                DataTable dt = new DataTable();
+                dt.Columns.Add("activity_id", typeof(System.Guid));
+                dt.Columns.Add("emp_id");
+                DataRow dr2;
+                foreach (DataRow dr in ds.Tables[0].Rows)
+                {
+                    if (dr["工號"].ToString() != "")
+                    {
+
+                        dr2 = dt.NewRow();
+                        dr2["activity_id"] = ActivityID;
+                        dr2["emp_id"] = dr["工號"].ToString();
+                        dt.Rows.Add(dr2);
+                    }
+                }
+                ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
+                myActivityGroupLimitDAO.UpdateDataSet(dt, ActivityID);
+
+                GridView_GroupLimit.DataBind();
             }
-            ACMS.DAO.ActivityGroupLimitDAO myActivityGroupLimitDAO = new ACMS.DAO.ActivityGroupLimitDAO();
-            myActivityGroupLimitDAO.UpdateDataSet(dt, ActivityID);
 
-            GridView_GroupLimit.DataBind();
-
-        }
-
+            catch (Exception ex)
+            {
+                WriteErrorLog("btnUploadGroupLiminit", "報名名冊工作表不存在,或工號欄位不存在", "0");
+            }
 
         //if (this.FileUpload_GroupLimit.HasFile)
         //{
@@ -1394,8 +1399,8 @@ public partial class WebForm_ManageActivity_ActivityEdit
         //    }
 
         //}
+        }
     }
-
     //開啟族群限定新增
     protected void btnAddGroupLimit_Click(object sender, EventArgs e)
     {
@@ -1571,11 +1576,12 @@ public partial class WebForm_ManageActivity_ActivityEdit
             if (ViewState["ActivityID"] == null)
             {
                 ViewState["ActivityID"] = Guid.NewGuid();
-              
+                hiActivity_ID.Value = ((Guid)ViewState["ActivityID"]).ToString();
                 return (Guid)ViewState["ActivityID"];
             }
             else
             {
+                hiActivity_ID.Value = ((Guid)ViewState["ActivityID"]).ToString();
                 return new Guid(ViewState["ActivityID"].ToString());
             }
         }
