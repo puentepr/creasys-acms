@@ -415,7 +415,10 @@ public partial class WebForm_ActivityQuery : BasePage
                     }
                     if (seqno > int.Parse(dr["team_max"].ToString()))
                     {
-                        seqno1++;
+                        if (teamName != dr["boss_id"].ToString().Trim())
+                        {
+                            seqno1++;
+                        }
                     }
 
 
