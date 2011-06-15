@@ -99,7 +99,10 @@ public partial class WebForm_ActivityCheck : BasePage
                     }
                     if (seqno > int.Parse(dr["team_max"].ToString()))
                     {
-                        seqno1++;
+                        if (teamName != dr["boss_id"].ToString().Trim())
+                        {
+                            seqno1++;
+                        }
                     }
                     teamName = dr["boss_id"].ToString().Trim();
 
