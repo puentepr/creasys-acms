@@ -1218,7 +1218,7 @@ public class clsMyObj
         mail.Body += "<tr><td>" + "<font color='Blue'><b>．團隊隊友：</b></font><font color='black'>" + empList + "</font></td></tr>"
             //  + "" + "<font color='Blue'><b>.攜眷人數:</b></font>" + regVO.ext_people.ToString() + "<br/>"
             // + "" + "<font color='Blue'><b>．報名人姓名：</b></font>" + regByEmpVO.NATIVE_NAME
-             + "<tr><td>" + "<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font><br/><br/><br/></td></tr>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
+             + "<tr><td>" + "<font color='Blue'><b>．報名狀態：</b></font><font color='Red'>" + regBO.getSNByActivity(id, regist_by).Replace(":", "第") + "隊</font><br/><br/><br/></td></tr></table>" + "<tr><td align='center'><a href='" + webPath + "?Type=2&ActID="
       + HttpUtility.UrlEncode(activity_id) + "&RegID=" + HttpUtility.UrlEncode(regist_by)
       + "'>"  + "報名系統連結</a><br/></td></tr>" + "<tr><td style='background:#548DD4' align='center'  >  &nbsp;  </td> </tr></table>";
 
