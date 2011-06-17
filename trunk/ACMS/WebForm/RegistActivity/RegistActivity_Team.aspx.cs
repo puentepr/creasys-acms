@@ -1251,7 +1251,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl.ID = string.Format("cbl{0}", myCustomFieldVO.field_id);
                         (MyControl as TCheckBoxList).ClearSelection();
                         //(MyControl as TCheckBoxList).EnableViewState = false;
-
+                        (MyControl as TCheckBoxList).RepeatColumns = 1;
                         MyControl_chk = new TCheckBoxListRequiredValidator();
                         MyControl_chk.ID = string.Format("chk_cbl{0}", myCustomFieldVO.field_id);
                         (MyControl_chk as TCheckBoxListRequiredValidator).ControlToValidate = MyControl.ID;
@@ -1269,7 +1269,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team
                         MyControl.ID = string.Format("radl{0}", myCustomFieldVO.field_id);
                         (MyControl as TRadioButtonList).ClearSelection();
                         //(MyControl as TRadioButtonList).EnableViewState = false;
-
+                        (MyControl as TRadioButtonList).RepeatColumns = 1;
                         MyControl_chk = new RequiredFieldValidator();
                         MyControl_chk.ID = string.Format("chk_radl{0}", myCustomFieldVO.field_id);
                         (MyControl_chk as RequiredFieldValidator).ControlToValidate = MyControl.ID;
