@@ -870,6 +870,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                     {
                         MyControl = new TCheckBoxList();
                         (MyControl as TCheckBoxList).RepeatDirection = RepeatDirection.Horizontal;
+                        (MyControl as TCheckBoxList).RepeatColumns = 1;
                         (MyControl as TCheckBoxList).RepeatLayout = RepeatLayout.Flow;
                         //(MyControl as TCheckBoxList).RepeatColumns = 3;
                         MyControl.ID = string.Format("cbl{0}", myCustomFieldVO.field_id);
@@ -889,6 +890,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person
                         MyControl = new TRadioButtonList();
                         (MyControl as TRadioButtonList).RepeatDirection = RepeatDirection.Horizontal;
                         (MyControl as TRadioButtonList).RepeatLayout = RepeatLayout.Flow;
+                        (MyControl as TRadioButtonList).RepeatColumns = 1;
                         //(MyControl as TRadioButtonList).RepeatColumns = 3;
                         MyControl.ID = string.Format("radl{0}", myCustomFieldVO.field_id);
                         (MyControl as TRadioButtonList).ClearSelection();

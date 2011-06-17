@@ -300,6 +300,7 @@ public partial class WebForm_ActivityQuery : BasePage
     //匯出名單
     protected void lbtnExport_Click(object sender, EventArgs e)
     {
+       
         ACMS.DAO.ActivityRegistDAO regDao = new ACMS.DAO.ActivityRegistDAO();
        
         DataTable dtUnReg;
@@ -628,6 +629,7 @@ public partial class WebForm_ActivityQuery : BasePage
             OpenCancelRegistedList1.activity_id = activity_id;
             OpenCancelRegistedList1.activity_type = activity_type;
             OpenCancelRegistedList1.InitDataAndShow();
+           
         }
         catch (Exception ex)
         {
