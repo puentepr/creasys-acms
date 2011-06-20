@@ -53,6 +53,35 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         string emp_id1 = "";
         string emp_id2 = "";
         string path = Server.MapPath("~/UpFiles");
+
+      //  先檢查是否低於下限
+
+        int membersInt = 0;
+
+        foreach (GridViewRow gvr in GridView1.Rows)
+        {
+            if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == false )
+            {
+                membersInt += 1;
+            }
+            
+        }
+
+        ACMS.BO .ActivatyBO  aBO= new ACMS.BO.ActivatyBO ();
+        ACMS.VO.ActivatyVO aVO = aBO.SelectActivatyByActivatyID(new Guid(activity_id));
+
+        if (membersInt < aVO.team_member_min)
+        {
+            clsMyObj.ShowMessage("你的取消報名已達下限如要取消名請按[確定取消報名]功能鍵!");
+            btnOK.Visible = false;
+            btnCancelAll.Visible = false;
+            btnOK0.Visible = true;
+            mpSearch.Show();
+            return;
+        
+        }
+
+
         foreach (GridViewRow gvr in GridView1.Rows)
         {
             if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == true)
@@ -268,6 +297,10 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
     {
         this.mpSearch.Show(); 
     }
+    protected void btnOK0_Click(object sender, EventArgs e)
+    {
+        btnCancelAll_Click(sender, e);
+    }
 }
 
 public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
@@ -339,7 +372,10 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
             btnCancelAll.Visible = false;
         }
         GridView1.DataBind();
-        this.mpSearch.Show();    
+        this.mpSearch.Show();
+        btnOK.Visible = true;
+        btnOK0.Visible = false;
+        btnCancelAll.Visible = true;
     }
 
 }
