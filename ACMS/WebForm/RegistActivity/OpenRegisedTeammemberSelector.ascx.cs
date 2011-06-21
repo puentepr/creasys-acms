@@ -367,15 +367,20 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
         {
             IsTeamBoss = "0";
         }
-        if (IsTeamBoss == "0" && myADAO.chkAdmin (new Guid (activity_id ) ,emp_id)== false)
+        if (IsTeamBoss == "0" && myADAO.chkAdmin(new Guid(activity_id), emp_id) == false)
         {
             btnCancelAll.Visible = false;
+        }
+        else
+        {
+            btnCancelAll.Visible = true;
+        
         }
         GridView1.DataBind();
         this.mpSearch.Show();
         btnOK.Visible = true;
         btnOK0.Visible = false;
-        btnCancelAll.Visible = true;
+       // btnCancelAll.Visible = true;
     }
 
 }
