@@ -72,7 +72,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
         if (membersInt < aVO.team_member_min)
         {
-            clsMyObj.ShowMessage("你的取消報名已達下限如要取消名請按[確定取消報名]功能鍵!");
+            clsMyObj.ShowMessage("若您取消報名則團隊人數將低於下限，因此系統將取消整個團隊的報名資格，若確定要取消報名，請點選「確定」按鈕後於下個視窗點選「確定取消報名」按鈕!");
             btnOK.Visible = false;
             btnCancelAll.Visible = false;
             btnOK0.Visible = true;
