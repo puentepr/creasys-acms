@@ -231,7 +231,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Team : BasePage
         }
         catch (Exception ex)
         {
-            //WriteErrorLog("ThirdStep", ex.Message, "0");
+            WriteErrorLog("ThirdStep", ex.Message, "0");
 
         }
 

@@ -4,7 +4,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System.Web.UI.UserControl
+public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelectorX : System.Web.UI.UserControl
 {
     public delegate void CancelPersonRegistDelegate(object sender, EventArgs e);
     public event CancelPersonRegistDelegate CancelPersonRegistClick;
@@ -79,7 +79,7 @@ public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System
     }
 }
 
-public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector 
+public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelectorX
 {
     public string activity_id
     {

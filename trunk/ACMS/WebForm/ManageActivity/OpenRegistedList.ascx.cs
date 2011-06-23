@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 public partial class WebForm_RegistActivity_OpenRegistedByMeEmpSelector : System.Web.UI.UserControl
 {
     public delegate void CancelPersonRegistDelegate(object sender, EventArgs e);
-    public event CancelPersonRegistDelegate CancelPersonRegistClick;
+//    public event CancelPersonRegistDelegate CancelPersonRegistClick;
 
     protected void Page_Load(object sender, EventArgs e)
     {

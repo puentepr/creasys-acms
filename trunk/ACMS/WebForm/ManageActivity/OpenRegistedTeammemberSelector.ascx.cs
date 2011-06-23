@@ -8,7 +8,7 @@ using System.Data;
 public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : System.Web.UI.UserControl
 {
     public delegate void CancelTeamRegistDelegate(object sender, EventArgs e);
-    public event CancelTeamRegistDelegate CancelTeamRegistClick;
+  //  public event CancelTeamRegistDelegate CancelTeamRegistClick;
 
     protected void Page_Load(object sender, EventArgs e)
     {

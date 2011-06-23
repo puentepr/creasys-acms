@@ -34,7 +34,7 @@
                 </StepNavigationTemplate>
                 <WizardSteps>
                     <asp:WizardStep runat="server" Title="Step 1" StepType="Start">
-                        <div align="center">
+                        <div  align="left">
                             <asp:Literal ID="Literal1" runat="server"></asp:Literal></div>
                     </asp:WizardStep>
                     <asp:WizardStep runat="server" Title="Step 2">

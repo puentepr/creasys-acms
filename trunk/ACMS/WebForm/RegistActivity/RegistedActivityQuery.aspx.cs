@@ -241,7 +241,7 @@ public partial class WebForm_RegistActivity_RegistedActivityQuery : BasePage
         }
         catch (Exception ex)
         {
-           // WriteErrorLog("CancelPersonRegist", ex.Message, "0");
+            WriteErrorLog("CancelPersonRegist", ex.Message, "0");
 
         }
     }
