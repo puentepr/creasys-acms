@@ -1,5 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="OpenRegistedByMeEmpSelector.ascx.cs"
-    Inherits="WebForm_RegistActivity_OpenRegistedByMeEmpSelector" %>
+    Inherits="WebForm_RegistActivity_OpenRegistedByMeEmpSelectorX" %>
 <asp:Panel ID="panel1" runat="server" BackColor="white" BorderWidth="1"
     Width="800" Height="500">
     <!---->

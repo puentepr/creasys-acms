@@ -11,11 +11,11 @@
     <asp:HiddenField ID="hiMode1" runat="server" />
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server"  >
-    <asp:UpdatePanel ID="UpdatePanel2" runat="server" >
+      <asp:UpdatePanel ID="UpdatePanel2" runat="server">
         <ContentTemplate>
             <uc1:RegistActivity_Query ID="RegistActivity_Query1" runat="server" OnGoSecondStep_Click="GoSecondStep_Click"
                 ActivityType="1" />
-            <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="3"
+            <asp:Wizard ID="Wizard1" runat="server" DisplaySideBar="False" ActiveStepIndex="0"
                 FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
                 StepPreviousButtonText="上一步" OnNextButtonClick="Wizard1_NextButtonClick" 
                 OnActiveStepChanged="Wizard1_ActiveStepChanged">
@@ -31,7 +31,7 @@
                 </StepNavigationTemplate>
                 <WizardSteps>
                     <asp:WizardStep runat="server" Title="Step 1" StepType="Start">
-                        <div align="center">
+                       <div >
                             <asp:Literal ID="Literal1" runat="server"></asp:Literal></div>
                     </asp:WizardStep>
                     <asp:WizardStep runat="server" Title="Step 2">
@@ -311,8 +311,8 @@
             </asp:Wizard>
             <asp:ValidationSummary ID="sum_WizardNext" runat="server" ShowMessageBox="True" ShowSummary="False"
                 ValidationGroup="WizardNext" />
-                
+       </ContentTemplate>
+    </asp:UpdatePanel>           
                
-        </ContentTemplate>
-    </asp:UpdatePanel>
+       
 </asp:Content>

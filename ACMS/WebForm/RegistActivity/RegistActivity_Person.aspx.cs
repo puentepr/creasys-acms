@@ -186,7 +186,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         }
         catch (Exception ex)
         {
-           // WriteErrorLog("ThirdStep", ex.Message, "0");
+            WriteErrorLog("ThirdStep", ex.Message, "0");
 
         }
     }
@@ -287,7 +287,7 @@ public partial class WebForm_RegistActivity_RegistActivity_Person : BasePage
         }
         catch (Exception ex)
         {
-          //  WriteErrorLog("ActivityDetailDataBind", ex.Message, "0");
+            WriteErrorLog("ActivityDetailDataBind", ex.Message, "0");
 
         }
     }

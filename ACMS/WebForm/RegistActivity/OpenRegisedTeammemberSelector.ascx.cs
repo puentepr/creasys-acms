@@ -5,7 +5,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Data;
 
-public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : System.Web.UI.UserControl
+public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelectorX : System.Web.UI.UserControl
 {
     public delegate void CancelTeamRegistDelegate(object sender, EventArgs e);
     public event CancelTeamRegistDelegate CancelTeamRegistClick;
@@ -17,6 +17,43 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
 
     protected void btnOK_Click(object sender, EventArgs e)
     {
+
+
+
+        string emp_id1 = "";
+        string emp_id2 = "";
+        string path = Server.MapPath("~/UpFiles");
+
+        //  先檢查是否低於下限
+
+        int membersInt = 0;
+
+        foreach (GridViewRow gvr in GridView1.Rows)
+        {
+            if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == false)
+            {
+                membersInt += 1;
+            }
+
+        }
+
+        ACMS.BO.ActivatyBO aBO = new ACMS.BO.ActivatyBO();
+        ACMS.VO.ActivatyVO aVO = aBO.SelectActivatyByActivatyID(new Guid(activity_id));
+
+        if (membersInt < aVO.team_member_min)
+        {
+            clsMyObj.ShowMessage("若您取消報名則團隊人數將低於下限，因此系統將取消整個團隊的報名資格，若確定要取消報名，請點選「確定」按鈕後於下個視窗點選「確定取消報名」按鈕!");
+            btnOK.Visible = false;
+            btnCancelAll.Visible = false;
+            btnOK0.Visible = true;
+            mpSearch.Show();
+            return;
+
+        }
+        
+        
+        
+        
         //已換隊長
 
         if (newBoss != "")
@@ -50,36 +87,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
             }
         }
 
-        string emp_id1 = "";
-        string emp_id2 = "";
-        string path = Server.MapPath("~/UpFiles");
-
-      //  先檢查是否低於下限
-
-        int membersInt = 0;
-
-        foreach (GridViewRow gvr in GridView1.Rows)
-        {
-            if ((gvr.FindControl("CheckBox1") as CheckBox).Checked == false )
-            {
-                membersInt += 1;
-            }
-            
-        }
-
-        ACMS.BO .ActivatyBO  aBO= new ACMS.BO.ActivatyBO ();
-        ACMS.VO.ActivatyVO aVO = aBO.SelectActivatyByActivatyID(new Guid(activity_id));
-
-        if (membersInt < aVO.team_member_min)
-        {
-            clsMyObj.ShowMessage("若您取消報名則團隊人數將低於下限，因此系統將取消整個團隊的報名資格，若確定要取消報名，請點選「確定」按鈕後於下個視窗點選「確定取消報名」按鈕!");
-            btnOK.Visible = false;
-            btnCancelAll.Visible = false;
-            btnOK0.Visible = true;
-            mpSearch.Show();
-            return;
-        
-        }
+       
 
 
         foreach (GridViewRow gvr in GridView1.Rows)
@@ -94,6 +102,13 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         if (emp_id1.EndsWith(","))
         {
             emp_id1 = emp_id1.Substring(0, emp_id1.Length - 1);
+        }
+
+        if (emp_id1 == "" && newBoss == "")
+        {
+            clsMyObj.ShowMessage("您未取消報名也未更換隊,程式沒有修改任資料!");
+
+            return;
         }
 
         MySingleton.AlterRegistResult MyResult = MySingleton.AlterRegistResult.CancelRegistSucess;
@@ -127,7 +142,21 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
         }
         if (MyResult == MySingleton.AlterRegistResult.CancelRegistSucess)
         {
-            clsMyObj.ShowMessage("取消報名完成。");
+            if (newBoss == "" && emp_id1 != "")
+            {
+                clsMyObj.ShowMessage("取消報名完成。");
+
+            }
+            if (newBoss != "" && emp_id1 != "")
+            {
+                clsMyObj.ShowMessage("更換隊長及取消報名完成。");
+
+            }
+            if (newBoss != "" && emp_id1== "")
+            {
+                clsMyObj.ShowMessage("更換隊長完成。");
+
+            }
         }
         else if (MyResult == MySingleton.AlterRegistResult.CancelRegistFail_DayOver)
         {
@@ -303,7 +332,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector : Syst
     }
 }
 
-public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelector
+public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelectorX
 {
     public string activity_id
     {

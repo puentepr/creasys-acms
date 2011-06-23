@@ -77,7 +77,7 @@ namespace ACMS.DAO
 
                     SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
                 }
-                catch (Exception ex)
+                catch 
                 {
 
                 }

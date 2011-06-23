@@ -1248,7 +1248,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
         {
             OleDbConnection cnn;
             OleDbDataAdapter da;
-            OleDbCommandBuilder cb;
+           // OleDbCommandBuilder cb;
             OleDbCommand cmd;
 
             string conStr;
@@ -1302,7 +1302,7 @@ public partial class WebForm_ManageActivity_ActivityEdit
                 GridView_GroupLimit.DataBind();
             }
 
-            catch (Exception ex)
+            catch
             {
                 WriteErrorLog("btnUploadGroupLiminit", "報名名冊工作表不存在,或工號欄位不存在", "0");
             }

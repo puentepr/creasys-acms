@@ -45,7 +45,7 @@ public partial class _Default : BasePage
 
     protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
     {
-        string activityid, empid;
+        string activityid;
         if (e.Row.RowType == DataControlRowType.DataRow)
         {
             DataRowView drv = (DataRowView)(e.Row.DataItem);

@@ -752,7 +752,7 @@ namespace ACMS.DAO
                     }
 
                 }
-                catch (Exception ex)
+                catch 
                 {
                     return 0;
                 }
@@ -932,7 +932,7 @@ namespace ACMS.DAO
                     }
 
                 }
-                catch (Exception ex)
+                catch 
                 {
                     return 0;
                 }
@@ -1085,7 +1085,7 @@ namespace ACMS.DAO
                         }
 
                     }
-                    catch (Exception ex)
+                    catch 
                     {
                         return 0;
                     }
