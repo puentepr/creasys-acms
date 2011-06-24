@@ -7,6 +7,8 @@
     <!---->
     <br />
     <br />
+    
+   
     <asp:UpdateProgress ID="Updateprogress1" runat="server" DisplayAfter="0">
         <ProgressTemplate>
             <My:UpdateProgress ID="myprogress1" runat="server" />
@@ -49,6 +51,9 @@
                         <asp:Parameter Name="emp_id" Type="String" ConvertEmptyStringToNull="false" />
                     </SelectParameters>
                 </asp:ObjectDataSource>
+                <asp:Label ID="lblMessage" runat="server" Font-Bold="True" ForeColor="Red" 
+                    Text="若您取消報名則團隊人數將低於下限，因此系統將取消整個團隊的報名資格，若確定要取消報名，請點選「確定取消報名」按鈕!" 
+                    Visible="False"></asp:Label>
             </td>
         </tr>
     </table>
@@ -58,6 +63,7 @@
         <asp:Button ID="btnOK0" runat="server" OnClick="btnOK0_Click" Text="確定取消報名" 
             Visible="False" />
         <asp:Button ID="btnCancel" runat="server" Text="關閉" />
+      
     </div>
 </asp:Panel>
 <asp:Button ID="btnDummy" runat="server" SkinID="null" Style="display: none" />

@@ -16,8 +16,29 @@ using System.Threading;
 using System.Globalization;
 using System.Resources;
 using System.Web.UI;
+using Microsoft.VisualBasic;
 public class BasePage : System.Web.UI.Page
 {
+
+    public static string GetNewKey(string Kind)
+    {
+        VBMath.Randomize();
+        int intRandomNumber = (int) VBMath.Rnd() * 100000;
+        return Kind + DateTime.Now.ToString("yyyyMMddHHmmss") + DateTime.Now.Millisecond.ToString("000") + intRandomNumber.ToString();
+    }
+    public static void RunClientScript(object obj, string Script)
+    {
+        ClientScriptManager cMsgr = ((Page)obj).ClientScript;
+        string strKey = GetNewKey("RCS");
+        cMsgr.RegisterStartupScript(obj.GetType(), strKey, Script, true);
+    }
+
+    public static void RunClientScriptForAjax(Page obj, string Script)
+    {
+        string strKey = GetNewKey("RSCA");
+        ScriptManager.RegisterStartupScript(obj, obj.GetType(), strKey, Script, true);
+    }
+
 
 
     public  void WriteErrorLog(string FunctionName, string errMsg, string errStatus)
