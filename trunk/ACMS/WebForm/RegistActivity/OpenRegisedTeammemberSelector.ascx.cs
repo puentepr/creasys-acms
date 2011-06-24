@@ -42,10 +42,19 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelectorX : Sys
 
         if (membersInt < aVO.team_member_min)
         {
-            clsMyObj.ShowMessage("若您取消報名則團隊人數將低於下限，因此系統將取消整個團隊的報名資格，若確定要取消報名，請點選「確定」按鈕後於下個視窗點選「確定取消報名」按鈕!");
+
+           // string sdoPostScript = "  __doPostBack('" + btnCancelAll1.ClientID + "','1');   ";
+           // string ScriptAll = " if (confirm('取消報名則團隊人數將低於下限,是否要全隊取消報名?')==true) { alert ('1232456'); window.open('http://www.google.com.tw');" + sdoPostScript + "} ";
+          //  string ScriptAll = " if (confirm('取消報名則團隊人數將低於下限,是否要全隊取消報名?')==true) { alert ('1232456')} ";
+
+            //BasePage.RunClientScript (this.Page , ScriptAll);
+
+            //clsMyObj.ShowMessage("若您取消報名則團隊人數將低於下限，因此系統將取消整個團隊的報名資格，若確定要取消報名，請點選「確定」按鈕後於下個視窗點選「確定取消報名」按鈕!");
             btnOK.Visible = false;
             btnCancelAll.Visible = false;
             btnOK0.Visible = true;
+            lblMessage.Visible = true;
+            GridView1.Visible = false;
             mpSearch.Show();
             return;
 
@@ -106,7 +115,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelectorX : Sys
 
         if (emp_id1 == "" && newBoss == "")
         {
-            clsMyObj.ShowMessage("您未取消報名也未更換隊,程式沒有修改任資料!");
+            clsMyObj.ShowMessage("您未取消報名也未更換隊長,程式沒有修改任資料!");
 
             return;
         }
@@ -330,6 +339,7 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelectorX : Sys
     {
         btnCancelAll_Click(sender, e);
     }
+  
 }
 
 public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelectorX
@@ -405,11 +415,13 @@ public partial class WebForm_RegistActivity_OpenRegisedTeammemberSelectorX
             btnCancelAll.Visible = true;
         
         }
+        GridView1.Visible = true;
         GridView1.DataBind();
         this.mpSearch.Show();
         btnOK.Visible = true;
         btnOK0.Visible = false;
-       // btnCancelAll.Visible = true;
+        lblMessage.Visible = false;
+       
     }
 
 }

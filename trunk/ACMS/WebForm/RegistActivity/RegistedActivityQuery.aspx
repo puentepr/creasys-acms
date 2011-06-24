@@ -1,5 +1,5 @@
 ﻿<%@ Page Title="已報名查詢" Language="C#" MasterPageFile="~/MyMasterPage.master" AutoEventWireup="true"
-    CodeFile="RegistedActivityQuery.aspx.cs" Inherits="WebForm_RegistActivity_RegistedActivityQuery" %>
+    CodeFile="RegistedActivityQuery.aspx.cs" Inherits="WebForm_RegistActivity_RegistedActivityQuery" EnableEventValidation="false"    %>
 
 <%@ Register Assembly="System.Web.Extensions, Version=1.0.61025.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35"
     Namespace="System.Web.UI" TagPrefix="asp" %>
@@ -11,8 +11,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="SpaceDiv">
-        <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
-            <ContentTemplate>
+        
                 <table align="center">
                     <tr>
                         <td>
@@ -33,8 +32,7 @@
                             <ajaxToolkit:CalendarExtender ID="CalendarExtender1" runat="server" TargetControlID="txtactivity_startdate"
                                 Format="yyyy/MM/dd">
                             </ajaxToolkit:CalendarExtender>
-                            ~<asp:TextBox ID="txtactivity_enddate" runat="server"></asp:TextBox>
-                            <ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="txtactivity_enddate"
+                            ~<asp:TextBox ID="txtactivity_enddate" runat="server"></asp:TextBox><ajaxToolkit:CalendarExtender ID="CalendarExtender2" runat="server" TargetControlID="txtactivity_enddate"
                                 Format="yyyy/MM/dd">
                             </ajaxToolkit:CalendarExtender>
                         </td>
@@ -127,7 +125,6 @@
                 <uc1:OpenRegistedByMeEmpSelector ID="OpenRegistedByMeEmpSelector1" runat="server"
                     OnCancelPersonRegistClick="CancelPersonRegist_Click" Visible="false" />
                 <uc2:OpenRegisedTeammemberSelector ID="OpenRegisedTeammemberSelector1" runat="server" OnCancelTeamRegistClick="CancelTeamRegist_Click"  Visible="false"  />
-            </ContentTemplate>
-        </asp:UpdatePanel>
+            
     </div>
 </asp:Content>
