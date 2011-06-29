@@ -407,7 +407,7 @@ namespace ACMS.DAO
           
             sb.AppendLine(") A ");
             sb.AppendLine(string.Format("left join {0} B on A.id=B.activity_id ", strTableName));
-            sb.AppendLine("WHERE 1=1 ");
+            sb.AppendLine("WHERE 1=1  and B.check_status>=0 ");
             sb.AppendLine("and (A.activity_name like '%'+@activity_name+'%' or @activity_name='') ");
             sb.AppendLine("and ( ");
             sb.AppendLine("      (@activity_startdate='' and @activity_enddate='') ");
@@ -1127,7 +1127,7 @@ namespace ACMS.DAO
             sqlParams[2].Value = org_id;
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist    group by activity_id  ");
+            sb.AppendLine("select activity_id, count (activity_id) as RegisterCount into #AA  from ActivityRegist   where check_status>=0   group by activity_id  ");
 
             sb.AppendLine("SELECT id,activity_type,activity_name,people_type,activity_startdate,activity_enddate,regist_deadline,cancelregist_deadline,isnull(AA.RegisterCount,0) as RegisterCount");
             sb.AppendLine("FROM [Activity] A ");

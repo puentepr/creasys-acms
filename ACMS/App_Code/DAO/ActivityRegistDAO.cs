@@ -39,7 +39,7 @@ namespace ACMS.DAO
                 {
                     sb.AppendLine(" insert into ActivityRegistCancel(activity_id,emp_id,boss_id,team_name,regist_by,createat,cancel_by,cancel_date)  select @activity_id,@emp_id,A.boss_id ,B.team_name ,B.regist_by,B.createat,@cancel_by,getDate()  from ActivityTeamMember A");
                     sb.AppendLine(" left join ActivityRegist B on A.activity_id =B.activity_id and A.boss_id=B.emp_id ");
-                    sb.AppendLine("  where A.activity_id=@activity_id and  A.emp_id=@emp_id");
+                    sb.AppendLine("  where A.activity_id=@activity_id and  A.emp_id=@emp_id  and A.check_status>=0");
                 }
 
                 SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -71,7 +71,7 @@ namespace ACMS.DAO
                 {
                     sb.AppendLine(" insert into ActivityRegistCancel(activity_id,emp_id,boss_id,team_name,regist_by,createat,cancel_by,cancel_date)  select @activity_id,@emp_id,A.boss_id ,B.team_name ,B.regist_by,B.createat,@cancel_by,getDate()  from ActivityTeamMember A");
                     sb.AppendLine(" left join ActivityRegist B on A.activity_id =B.activity_id and A.boss_id=B.emp_id ");
-                    sb.AppendLine("  where A.activity_id=@activity_id and  A.emp_id=@emp_id");
+                    sb.AppendLine("  where A.activity_id=@activity_id and  A.emp_id=@emp_id  and A.check_status>=0 ");
                 }
                 cmd = new SqlCommand(sb.ToString(), conn);
                 cmd.Parameters.Clear();
@@ -101,7 +101,7 @@ namespace ACMS.DAO
             StringBuilder sb = new StringBuilder();
             sb.AppendLine(" insert into ActivityRegistCancel(activity_id,emp_id,boss_id,team_name,regist_by,createat,cancel_by,cancel_date)  select @activity_id,A.emp_id,A.boss_id ,B.team_name ,B.regist_by,B.createat,@cancel_by,getDate()  from ActivityTeamMember A");
             sb.AppendLine(" left join ActivityRegist B on A.activity_id =B.activity_id and A.boss_id=B.emp_id ");
-            sb.AppendLine("  where A.activity_id=@activity_id and  not (A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')))");
+            sb.AppendLine("  where A.activity_id=@activity_id and  not (A.emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')))  and A.check_status>=0");
 
 
             SqlHelper.ExecuteNonQuery(MyConn(), CommandType.Text, sb.ToString(), sqlParams);
@@ -1001,7 +1001,9 @@ namespace ACMS.DAO
                             sb.AppendLine("UPDATE ActivityRegist SET check_status=-1 WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
                         }
                         else
-                        {
+                        {  
+                            //2011/3/28日要先加到取消報名人員
+                            InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID);
                             sb.AppendLine("UPDATE ActivityTeamMember SET check_status=-1 WHERE activity_id=@activity_id and emp_id in (SELECT * FROM dbo.UTILfn_Split(@emp_id,',')); ");
                         }
 
@@ -1014,8 +1016,7 @@ namespace ACMS.DAO
 
                         if (activity_type == "2")
                         {
-                            //2011/3/28日要先加到取消報名人員
-                            InsertActivityRegistCancel(activity_id, emp_id, "2", clsAuth.ID, myConn);
+                          
 
                             //============================2011/3/28 add 
                             sb.Length = 0;
@@ -1197,7 +1198,7 @@ namespace ACMS.DAO
 
             sb.AppendLine("SELECT emp_id ");
             sb.AppendLine("FROM ActivityTeamMember ");
-            sb.AppendLine("where activity_id=@activity_id and boss_id =@boss_id ");
+            sb.AppendLine("where activity_id=@activity_id and boss_id =@boss_id  ");
             SqlConnection aconn = MyConn();
             SqlDataReader MyDataReader = SqlHelper.ExecuteReader(aconn, CommandType.Text, sb.ToString(), sqlParams);
 
