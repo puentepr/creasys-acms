@@ -126,6 +126,34 @@ namespace ACMS.DAO
                 myActivatyVO.teamextcount_min = (int?)(MyDataReader["teamextcount_min"] == DBNull.Value ? null : MyDataReader["teamextcount_min"]);
                 myActivatyVO.is_grouplimit = (string)MyDataReader["is_grouplimit"];
                 myActivatyVO.notice = (string)MyDataReader["notice"];
+                try
+                {  
+                    myActivatyVO.Send1DayMail = (bool)MyDataReader["Send1DayMail"];
+                }
+                catch
+                {
+                    myActivatyVO.Send1DayMail = false;
+                }
+                try
+                {
+                    myActivatyVO.Send3DayMail = (bool)MyDataReader["Send3DayMail"];
+                }
+                catch
+                {                 
+                    myActivatyVO.Send3DayMail = false ;
+                
+                }
+
+                 try
+                {
+                    myActivatyVO.SendUnregist = (bool)MyDataReader["SendUnregist"];
+                }
+                catch
+                {
+                    myActivatyVO.SendUnregist = false;
+                
+                }
+                
              
             }
             
@@ -144,7 +172,7 @@ namespace ACMS.DAO
         /// <returns>修改一筆活動資料</returns>
         public int UpdateActivaty(VO.ActivatyVO myActivatyVO)
         {
-            SqlParameter[] sqlParams = new SqlParameter[31];
+            SqlParameter[] sqlParams = new SqlParameter[34];
 
             sqlParams[0] = new SqlParameter("@id", SqlDbType.UniqueIdentifier);
             sqlParams[0].Value = myActivatyVO.id;
@@ -273,7 +301,34 @@ namespace ACMS.DAO
             {
                 sqlParams[30].Value = DBNull.Value;
             }
-          
+            if (myActivatyVO.Send3DayMail)
+            {
+                sqlParams[31] = new SqlParameter("@Send3DayMail", true);
+            }
+            else
+            {
+                sqlParams[31] = new SqlParameter("@Send3DayMail",false );
+            }
+
+            if (myActivatyVO.Send1DayMail)
+            {
+                sqlParams[32] = new SqlParameter("@Send1DayMail",true);
+            }
+            else
+            {
+                sqlParams[32] = new SqlParameter("@Send1DayMail",false);
+            }
+
+            if (myActivatyVO.SendUnregist)
+            {
+                sqlParams[33] = new SqlParameter("@SendUnregist", true);
+            }
+            else
+            {
+                sqlParams[33] = new SqlParameter("@SendUnregist", false);
+            }
+
+        
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("UPDATE Activity ");
@@ -308,7 +363,9 @@ namespace ACMS.DAO
             sb.AppendLine(",is_grouplimit=@is_grouplimit ");
             sb.AppendLine(",notice=@notice ");
             sb.AppendLine(",active=@active ");
-
+            sb.AppendLine(",Send3DayMail=@Send3DayMail ");
+            sb.AppendLine(",Send1DayMail=@Send1DayMail ");
+            sb.AppendLine(",SendUnregist=@SendUnregist ");            
             sb.AppendLine("WHERE 1=1 ");
             sb.AppendLine("AND id=@id ");
 

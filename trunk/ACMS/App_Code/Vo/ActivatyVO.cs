@@ -48,7 +48,9 @@ namespace ACMS.VO
         private string _notice;
         private string _active;
         private string _emp_id;
-
+        private bool _Send1DayMail = true ;
+        private bool _Send3DayMail = true ;
+        private bool _SendUnregist = true;
 
         public string emp_id { get { return _emp_id; } set { _emp_id = value; } }
         public Guid id { get { return _id; } set { _id = value; } }
@@ -82,6 +84,11 @@ namespace ACMS.VO
         public string is_grouplimit { get { return _is_grouplimit; } set { _is_grouplimit = value; } }
         public string notice { get { return _notice; } set { _notice = value; } }
         public string active { get { return _active; } set { _active = value; } }
+        public bool Send1DayMail { get { return _Send1DayMail; } set { _Send1DayMail = value; } }
+        public bool Send3DayMail { get { return _Send3DayMail; } set { _Send3DayMail = value; } }
+        public bool SendUnregist { get { return _SendUnregist; } set { _SendUnregist = value; } }
+
+        
 
     }
 
