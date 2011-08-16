@@ -32,11 +32,10 @@
             <My:UpdateProgress ID="myprogress1" runat="server" />
         </ProgressTemplate>
     </asp:UpdateProgress>
-    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="3" DisplaySideBar="False"
+    <asp:Wizard ID="Wizard1" runat="server" ActiveStepIndex="1" DisplaySideBar="False"
         FinishPreviousButtonText="上一步" StartNextButtonText="下一步" StepNextButtonText="下一步"
         StepPreviousButtonText="上一步" OnFinishButtonClick="Wizard1_FinishButtonClick"
-        OnNextButtonClick="Wizard1_NextButtonClick" 
-        OnActiveStepChanged="Wizard1_ActiveStepChanged">
+        OnNextButtonClick="Wizard1_NextButtonClick" OnActiveStepChanged="Wizard1_ActiveStepChanged">
         <WizardSteps>
             <asp:WizardStep runat="server" Title="Step 1">
                 <asp:UpdatePanel ID="UpdatePanel4" runat="server">
@@ -56,7 +55,7 @@
                     <ContentTemplate>
                         <font color="blue">請填寫本次活動的基本資訊，同時亦可上傳活動相關檔案 </font></font><br />
                         <asp:FormView ID="FormView1" runat="server" DataKeyNames="id" DataSourceID="ObjectDataSource_Activaty"
-                            EnableModelValidation="True" OnPreRender="FormView1_PreRender">
+                            EnableModelValidation="True" OnPreRender="FormView1_PreRender" OnPageIndexChanging="FormView1_PageIndexChanging">
                             <ItemTemplate>
                                 <asp:UpdatePanel ID="UpdatePanel1" runat="server">
                                     <ContentTemplate>
@@ -81,7 +80,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="txtactivity_name" runat="server" Text='<%# Bind("activity_name") %>'
-                                                        Width="350px" MaxLength ="50"></asp:TextBox>
+                                                        Width="350px" MaxLength="50"></asp:TextBox>
                                                     <asp:RequiredFieldValidator ID="chk_txtactivity_name" runat="server" ControlToValidate="txtactivity_name"
                                                         Display="Dynamic" ErrorMessage="活動名稱必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                                 </td>
@@ -92,7 +91,7 @@
                                                 </td>
                                                 <td>
                                                     <asp:TextBox ID="txtpeople_type" runat="server" Text='<%# Bind("people_type") %>'
-                                                        Height="47px" TextMode="MultiLine" Width="350px" MaxLength ="50"></asp:TextBox>
+                                                        Height="47px" TextMode="MultiLine" Width="350px" MaxLength="50"></asp:TextBox>
                                                     <asp:RequiredFieldValidator ID="chk_txtpeople_type" runat="server" ControlToValidate="txtpeople_type"
                                                         Display="Dynamic" ErrorMessage="活動對象必填" ValidationGroup="WizardNext"></asp:RequiredFieldValidator>
                                                 </td>
@@ -231,6 +230,24 @@
                                                     <asp:FileUpload ID="FileUpload1" runat="server" />
                                                     <asp:Button ID="btnUpload" runat="server" Text="上傳" OnClick="btnUpload_Click" OnInit="btnUpload_Init" />
                                                     <asp:Image ID="Image1" runat="server" ImageUrl="~/images/loading.gif" CssClass="pldisVisible" />
+                                                </td>
+                                            </tr>
+                                            <tr> 
+                                            <tr>
+                                                <td colspan="2">
+                                                 <asp:CheckBox ID="cbSend3DayMail" runat="server" 
+                                                        Checked="<%# Bind('Send3DayMail') %>"   Text ="發送活動前三天提醒通知信件"/>
+                                                </td>
+                                            </tr>
+                                                <td colspan="2">
+                                                    <asp:CheckBox ID="cbSend1DayMail" runat="server" 
+                                                        Checked="<%# Bind('Send1DayMail') %>"   Text ="發送活動前一天提醒通知信件"/>
+                                                </td>
+                                            </tr>
+                                           </tr>
+                                                <td colspan="2">
+                                                    <asp:CheckBox ID="cbSendUnregist" runat="server" 
+                                                        Checked="<%# Bind('SendUnregist') %>"   Text ="發送未報名前一天提醒通知信件"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -457,7 +474,7 @@
                                     <asp:Parameter DbType="Guid" Name="activity_id" />
                                 </SelectParameters>
                             </asp:ObjectDataSource>
-                            <uc2:OpenListItem ID="OpenListItem1" runat="server" Visible ="false" />
+                            <uc2:OpenListItem ID="OpenListItem1" runat="server" Visible="false" />
                         </asp:Panel>
                     </ContentTemplate>
                 </asp:UpdatePanel>
@@ -480,35 +497,28 @@
                             <asp:ObjectDataSource ID="ObjectDataSource_CNAME" runat="server" OldValuesParameterFormatString="original_{0}"
                                 SelectMethod="CNAMESelector" TypeName="ACMS.BO.SelectorBO"></asp:ObjectDataSource>
                             <asp:HiddenField ID="hiActivity_ID" runat="server" />
-                            <TServerControl:TGridView ID="gvLimitCompany" runat="server" 
-                                AllowHoverEffect="True" AllowHoverSelect="True"
-                                AutoGenerateColumns="False" EnableModelValidation="True"
+                            <TServerControl:TGridView ID="gvLimitCompany" runat="server" AllowHoverEffect="True"
+                                AllowHoverSelect="True" AutoGenerateColumns="False" EnableModelValidation="True"
                                 ShowFooterWhenEmpty="False" ShowHeaderWhenEmpty="False" SkinID="pager" TotalRowCount="0"
-                                AllowSorting="True" AutoGenerateDeleteButton="True" DataKeyNames="id" 
-                                DataSourceID="dbLimintCompany">
-                               
+                                AllowSorting="True" AutoGenerateDeleteButton="True" DataKeyNames="id" DataSourceID="dbLimintCompany">
                                 <EmptyDataTemplate>
                                     <font color='Red'>查無資料</font>
                                 </EmptyDataTemplate>
                                 <Columns>
                                     <asp:BoundField DataField="COMPANY_CODE" HeaderText="公司代號" SortExpression="COMPANY_CODE" />
-                                     <asp:BoundField DataField="C_NAME" HeaderText="公司名稱" SortExpression="C_NAME" />
-                                   
+                                    <asp:BoundField DataField="C_NAME" HeaderText="公司名稱" SortExpression="C_NAME" />
                                 </Columns>
                             </TServerControl:TGridView>
-                            <asp:ObjectDataSource ID="dbLimintCompany" runat="server" 
-                                DeleteMethod="DeleteLimitCompany" SelectMethod="GetLimitCompany" 
-                                TypeName="ACMS.DAO.ActivityGroupLimitDAO">
+                            <asp:ObjectDataSource ID="dbLimintCompany" runat="server" DeleteMethod="DeleteLimitCompany"
+                                SelectMethod="GetLimitCompany" TypeName="ACMS.DAO.ActivityGroupLimitDAO">
                                 <DeleteParameters>
                                     <asp:Parameter Name="id" Type="Int32" />
                                 </DeleteParameters>
                                 <SelectParameters>
-                                    <asp:ControlParameter ControlID="hiActivity_ID" DbType="Guid" 
-                                        Name="activity_id" PropertyName="Value" />
+                                    <asp:ControlParameter ControlID="hiActivity_ID" DbType="Guid" Name="activity_id"
+                                        PropertyName="Value" />
                                 </SelectParameters>
                             </asp:ObjectDataSource>
-                            
-                            
                         </asp:Panel>
                         <asp:Panel ID="Panel_GroupLimit" runat="server" GroupingText="名單設定" Visible="False">
                             檔案上傳<asp:FileUpload ID="FileUpload_GroupLimit" runat="server" />
@@ -520,7 +530,7 @@
                                 Text="系統名單選取" />
                             <asp:Button ID="btnExport_GroupLimit" runat="server" Text="匯出excel名單" OnClick="btnExport_GroupLimit_Click" />
                             <uc1:OpenEmployeeSelector ID="OpenEmployeeSelector1" OnGetEmployeesClick="GetEmployees_Click"
-                                runat="server" Visible ="false" />
+                                runat="server" Visible="false" />
                         </asp:Panel>
                         <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
                             <ContentTemplate>

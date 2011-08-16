@@ -585,6 +585,10 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
         myActivatyVO.is_grouplimit = rblgrouplimit.SelectedValue;
         myActivatyVO.notice = txtnotice.Text;
         myActivatyVO.active = "";
+        myActivatyVO.Send1DayMail = ((CheckBox)FormView1.FindControl("cbSend1DayMail")).Checked;
+        myActivatyVO.Send3DayMail = ((CheckBox)FormView1.FindControl("cbSend3DayMail")).Checked;
+        myActivatyVO.SendUnregist = ((CheckBox)FormView1.FindControl("cbSendUnregist")).Checked;
+
 
         try
         {
@@ -725,7 +729,9 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
         myActivatyVO.is_grouplimit = rblgrouplimit.SelectedValue;
         myActivatyVO.notice = txtnotice.Text;
         myActivatyVO.active = "Y";
-
+        myActivatyVO.Send1DayMail = ((CheckBox)FormView1.FindControl("cbSend1DayMail")).Checked;
+        myActivatyVO.Send3DayMail = ((CheckBox)FormView1.FindControl("cbSend3DayMail")).Checked;
+        myActivatyVO.SendUnregist = ((CheckBox)FormView1.FindControl("cbSendUnregist")).Checked;
         try
         {
             ACMS.DAO.ActivatyDAO myActivatyDAO = new ACMS.DAO.ActivatyDAO();
@@ -1161,6 +1167,10 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
        
 
     }
+    protected void FormView1_PageIndexChanging(object sender, FormViewPageEventArgs e)
+    {
+
+    }
 }
 
 
@@ -1302,9 +1312,9 @@ public partial class WebForm_ManageActivity_ActivityEdit
                 GridView_GroupLimit.DataBind();
             }
 
-            catch
+            catch(Exception ex)
             {
-                WriteErrorLog("btnUploadGroupLiminit", "報名名冊工作表不存在,或工號欄位不存在", "0");
+                WriteErrorLog("btnUploadGroupLiminit", "報名名冊工作表不存在,或工號欄位不存在,原始錯誤內容:"+ex.Message, "0");
             }
             finally
             {
