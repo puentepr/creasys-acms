@@ -585,9 +585,15 @@ public partial class WebForm_ManageActivity_ActivityEdit : BasePage
         myActivatyVO.is_grouplimit = rblgrouplimit.SelectedValue;
         myActivatyVO.notice = txtnotice.Text;
         myActivatyVO.active = "";
-        myActivatyVO.Send1DayMail = ((CheckBox)FormView1.FindControl("cbSend1DayMail")).Checked;
-        myActivatyVO.Send3DayMail = ((CheckBox)FormView1.FindControl("cbSend3DayMail")).Checked;
-        myActivatyVO.SendUnregist = ((CheckBox)FormView1.FindControl("cbSendUnregist")).Checked;
+        try
+        {
+            myActivatyVO.Send1DayMail = ((CheckBox)FormView1.FindControl("cbSend1DayMail")).Checked;
+            myActivatyVO.Send3DayMail = ((CheckBox)FormView1.FindControl("cbSend3DayMail")).Checked;
+            myActivatyVO.SendUnregist = ((CheckBox)FormView1.FindControl("cbSendUnregist")).Checked;
+        }
+        catch
+        { }
+        
 
 
         try
