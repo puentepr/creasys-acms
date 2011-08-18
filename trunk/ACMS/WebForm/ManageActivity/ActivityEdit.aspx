@@ -247,7 +247,7 @@
                                            </tr>
                                                 <td colspan="2">
                                                     <asp:CheckBox ID="cbSendUnregist" runat="server" 
-                                                        Checked="<%# Bind('SendUnregist') %>"   Text ="於前一個工作天發送未報名提醒通知信件"/>
+                                                        Checked="<%# Bind('SendUnregist') %>"   Text ="於報名截止日的前一個工作天發送未報名提醒通知信件"/>
                                                 </td>
                                             </tr>
                                             <tr>
