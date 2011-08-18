@@ -222,6 +222,24 @@
                                                     <TServerControl:TCheckBoxYN ID="chkis_showprogres" runat="server" YesNo='<%# Eval("is_showprogress") %>' />
                                                 </td>
                                             </tr>
+                                           <tr> 
+                                                <td colspan="2">
+                                                    <asp:CheckBox ID="cbSend3DayMail" runat="server" 
+                                                        Checked="<%# Bind('Send3DayMail') %>" Text="於活動起始日的前三個工作天發送提醒通知信件" />
+                                                </td>
+                                            </tr>
+                                           <tr>
+                                                <td colspan="2">
+                                                    <asp:CheckBox ID="cbSend1DayMail" runat="server" 
+                                                        Checked="<%# Bind('Send1DayMail') %>"   Text ="於活動起始日的前一個工作天發送提醒通知信件"/>
+                                                </td>
+                                            </tr>
+                                           <tr>
+                                                <td colspan="2">
+                                                    <asp:CheckBox ID="cbSendUnregist" runat="server" 
+                                                        Checked="<%# Bind('SendUnregist') %>"   Text ="於報名截止日的前一個工作天發送未報名提醒通知信件"/>
+                                                </td>
+                                            </tr>
                                             <tr>
                                                 <td>
                                                     附加檔案
@@ -230,24 +248,6 @@
                                                     <asp:FileUpload ID="FileUpload1" runat="server" />
                                                     <asp:Button ID="btnUpload" runat="server" Text="上傳" OnClick="btnUpload_Click" OnInit="btnUpload_Init" />
                                                     <asp:Image ID="Image1" runat="server" ImageUrl="~/images/loading.gif" CssClass="pldisVisible" />
-                                                </td>
-                                            </tr>
-                                            <tr> 
-                                                <td colspan="2">
-                                                    <asp:CheckBox ID="cbSend3DayMail" runat="server" 
-                                                        Checked="<%# Bind('Send3DayMail') %>" Text="於活動起始日的前三個工作天發送提醒通知信件" />
-                                                </td>
-                                            </tr>
-                                           </tr>
-                                                <td colspan="2">
-                                                    <asp:CheckBox ID="cbSend1DayMail" runat="server" 
-                                                        Checked="<%# Bind('Send1DayMail') %>"   Text ="於活動起始日的前一個工作天發送提醒通知信件"/>
-                                                </td>
-                                            </tr>
-                                           </tr>
-                                                <td colspan="2">
-                                                    <asp:CheckBox ID="cbSendUnregist" runat="server" 
-                                                        Checked="<%# Bind('SendUnregist') %>"   Text ="於報名截止日的前一個工作天發送未報名提醒通知信件"/>
                                                 </td>
                                             </tr>
                                             <tr>
