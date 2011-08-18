@@ -235,13 +235,13 @@
                                             <tr> 
                                                 <td colspan="2">
                                                     <asp:CheckBox ID="cbSend3DayMail" runat="server" 
-                                                        Checked="<%# Bind('Send3DayMail') %>" Text="發送活動前三天提醒通知信件" />
+                                                        Checked="<%# Bind('Send3DayMail') %>" Text="於活動起始日的前三個工作天發送提醒通知信件" />
                                                 </td>
                                             </tr>
                                            </tr>
                                                 <td colspan="2">
                                                     <asp:CheckBox ID="cbSend1DayMail" runat="server" 
-                                                        Checked="<%# Bind('Send1DayMail') %>"   Text ="發送活動前一天提醒通知信件"/>
+                                                        Checked="<%# Bind('Send1DayMail') %>"   Text ="於活動起始日的前一個工作天發送提醒通知信件"/>
                                                 </td>
                                             </tr>
                                            </tr>
